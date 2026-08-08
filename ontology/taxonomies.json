@@ -1,0 +1,37 @@
+{
+  "lifecycles": [
+    { "id": "S2P", "name": "Source to Pay", "domain": "Procurement & Finance" },
+    { "id": "O2C", "name": "Order to Cash", "domain": "Sales & Revenue Operations" },
+    { "id": "H2R", "name": "Hire to Retire", "domain": "Human Resources & Payroll" },
+    { "id": "R2R", "name": "Record to Report", "domain": "General Ledger & Accounting" },
+    { "id": "P2P", "name": "Plan to Produce", "domain": "Supply Chain & Manufacturing" }
+  ],
+  "element_types": [
+    "process_step",
+    "value_stream",
+    "control_policy",
+    "kpi_metric",
+    "data_entity"
+  ],
+  "relation_types": [
+    "triggers",
+    "produces_artifact",
+    "executed_by",
+    "requires_approval_from",
+    "runs_on_asset",
+    "governed_by",
+    "feeds_into",
+    "impacted_by"
+  ],
+  "raci_definitions": {
+    "R": "Responsible - The operational role executing the step.",
+    "A": "Accountable - The single role with ultimate approval and signoff authority.",
+    "C": "Consulted - Roles providing required inputs, reviews, or subject matter expertise.",
+    "I": "Informed - Roles notified of milestone completion or status changes."
+  },
+  "lod_tiers": [
+    { "id": "tier_1", "target": "Executive / C-Suite", "focus": "Strategic intent, business outcome, capability alignment, high-level risk" },
+    { "id": "tier_2", "target": "Process Architect", "focus": "Workflows, RACI matrix, inputs/outputs, SLAs, business rules, exceptions" },
+    { "id": "tier_3", "target": "Systems & Simulation Engineer", "focus": "Asset dependencies, state math, queueing latency, error rate differential equations" }
+  ]
+}

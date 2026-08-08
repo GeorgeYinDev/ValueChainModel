@@ -1,0 +1,26 @@
+{
+  "scenario_id": "scenario_erp_outage",
+  "name": "Core ERP System Outage",
+  "target_lifecycle": "S2P",
+  "description": "Simulates a 12-hour primary ERP database outage forcing manual workaround procedures across purchasing and AP settlement.",
+  "shocks": [
+    {
+      "target_element_id": "s2p_005_purchase_requisition_po",
+      "attribute_modifier": "automation_rate",
+      "multiplier": 0.2,
+      "additive_delta": 0.0
+    },
+    {
+      "target_element_id": "s2p_005_purchase_requisition_po",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 4.0,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "s2p_008_payment_settlement_disbursement",
+      "attribute_modifier": "automation_rate",
+      "multiplier": 0.1,
+      "additive_delta": 0.0
+    }
+  ]
+}

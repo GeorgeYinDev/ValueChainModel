@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://valuechainmodel.schema/scenario_simulation.json",
+  "title": "ScenarioSimulationPayload",
+  "type": "object",
+  "required": [
+    "scenario_id",
+    "name",
+    "target_lifecycle",
+    "shocks"
+  ],
+  "properties": {
+    "scenario_id": { "type": "string" },
+    "name": { "type": "string" },
+    "target_lifecycle": { "type": "string" },
+    "description": { "type": "string" },
+    "shocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_element_id", "attribute_modifier"],
+        "properties": {
+          "target_element_id": { "type": "string" },
+          "attribute_modifier": { "type": "string" },
+          "multiplier": { "type": "number" },
+          "additive_delta": { "type": "number" }
+        }
+      }
+    }
+  }
+}

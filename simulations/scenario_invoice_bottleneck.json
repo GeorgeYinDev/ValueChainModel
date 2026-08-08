@@ -1,0 +1,26 @@
+{
+  "scenario_id": "scenario_invoice_bottleneck",
+  "name": "Invoice Exception & Approval Bottleneck",
+  "target_lifecycle": "S2P",
+  "description": "Simulates a fiscal year-end invoice surge causing matching exception backlog and AP manual intervention delays.",
+  "shocks": [
+    {
+      "target_element_id": "s2p_007_invoice_verification_matching",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.0,
+      "additive_delta": 32.0
+    },
+    {
+      "target_element_id": "s2p_007_invoice_verification_matching",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.5,
+      "additive_delta": 0.08
+    },
+    {
+      "target_element_id": "s2p_008_payment_settlement_disbursement",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.0,
+      "additive_delta": 12.0
+    }
+  ]
+}

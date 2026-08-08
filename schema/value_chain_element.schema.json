@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://valuechainmodel.schema/value_chain_element.json",
+  "title": "ValueChainElementBase",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "name",
+    "version",
+    "lifecycles",
+    "lod_support",
+    "tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "process_step",
+        "value_stream",
+        "control_policy",
+        "kpi_metric",
+        "data_entity"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "lifecycles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "lod_support": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["tier_1", "tier_2", "tier_3"]
+      },
+      "minItems": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "raci": {
+      "type": "object",
+      "properties": {
+        "responsible": { "type": "array", "items": { "type": "string" } },
+        "accountable": { "type": "array", "items": { "type": "string" } },
+        "consulted": { "type": "array", "items": { "type": "string" } },
+        "informed": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "baseline_cycle_time_hours": { "type": "number" },
+        "baseline_cost_per_unit": { "type": "number" },
+        "automation_rate": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "error_rate": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "sla_hours": { "type": "number" }
+      }
+    },
+    "asset_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "graph_relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["relation", "target"],
+        "properties": {
+          "relation": {
+            "type": "string",
+            "enum": [
+              "triggers",
+              "produces_artifact",
+              "executed_by",
+              "requires_approval_from",
+              "runs_on_asset",
+              "governed_by",
+              "feeds_into",
+              "impacted_by"
+            ]
+          },
+          "target": { "type": "string" },
+          "weight": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "scenario_id": "scenario_supplier_disruption",
+  "name": "Supplier Disruption & Sourcing Shock",
+  "target_lifecycle": "S2P",
+  "description": "Simulates a primary supplier insolvency/geopolitical disruption forcing emergency vendor requalification and expedited sourcing.",
+  "shocks": [
+    {
+      "target_element_id": "s2p_002_supplier_discovery_qualification",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 48.0
+    },
+    {
+      "target_element_id": "s2p_003_sourcing_rfx_auction",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.8,
+      "additive_delta": 150.0
+    },
+    {
+      "target_element_id": "s2p_006_goods_services_receipt",
+      "attribute_modifier": "error_rate",
+      "multiplier": 3.0,
+      "additive_delta": 0.05
+    }
+  ]
+}
