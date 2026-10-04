@@ -1,0 +1,22 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_Other ["<b>Process Steps</b>"]
+    p2m_001_demand_sensing_forecasting["<b>Statistical Demand Sensing &amp; Forecasting</b><br/><small>ID: p2m_001_demand_sensing_forecasting</small><br/>⏱ 168.0h | 💰 $50.0"]:::processStep
+    p2m_002_mrp_production_planning["<b>Material Requirements Planning (MRP)</b><br/><small>ID: p2m_002_mrp_production_planning</small><br/>⏱ 24.0h | 💰 $15.0"]:::processStep
+    p2m_003_production_order_release["<b>Production Order Sequencing &amp; Release</b><br/><small>ID: p2m_003_production_order_release</small><br/>⏱ 8.0h | 💰 $10.0"]:::processStep
+    p2m_004_manufacturing_execution["<b>Manufacturing Execution &amp; Yield Tracking</b><br/><small>ID: p2m_004_manufacturing_execution</small><br/>⏱ 48.0h | 💰 $1500.0"]:::processStep
+    p2m_005_quality_inspection_release["<b>Quality Inspection &amp; Batch Release</b><br/><small>ID: p2m_005_quality_inspection_release</small><br/>⏱ 24.0h | 💰 $50.0"]:::processStep
+    p2m_006_finished_goods_putaway["<b>Finished Goods Put-Away &amp; ATP Update</b><br/><small>ID: p2m_006_finished_goods_putaway</small><br/>⏱ 4.0h | 💰 $10.0"]:::processStep
+  end
+
+  %% Process Flows & Policy Linkages
+  p2m_001_demand_sensing_forecasting --> p2m_002_mrp_production_planning
+  p2m_005_quality_inspection_release --> p2m_006_finished_goods_putaway
+  p2m_005_quality_inspection_release -. exception_to .-> p2m_004_manufacturing_execution
+  p2m_002_mrp_production_planning --> p2m_003_production_order_release
+  p2m_004_manufacturing_execution --> p2m_005_quality_inspection_release
+  p2m_003_production_order_release --> p2m_004_manufacturing_execution

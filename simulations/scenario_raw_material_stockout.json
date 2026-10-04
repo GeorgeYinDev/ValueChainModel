@@ -1,0 +1,29 @@
+{
+  "scenario_id": "scenario_raw_material_stockout",
+  "name": "Raw Material Stockout due to Supplier Failure",
+  "description": "Simulates a complete disruption in raw material deliveries from a tier-1 supplier, stopping the manufacturing line entirely.",
+  "target_lifecycle": "P2M",
+  "shocks": [
+    {
+      "target_element_id": "p2m_004_manufacturing_execution",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 10.0,
+      "additive_delta": 0.0,
+      "rationale": "Line starved of materials, halting production for a 10x cycle time wait."
+    },
+    {
+      "target_element_id": "p2m_004_manufacturing_execution",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.5,
+      "additive_delta": 0.0,
+      "rationale": "Labor overhead continues to burn, driving up unit costs despite zero output."
+    },
+    {
+      "target_element_id": "p2m_003_production_order_release",
+      "attribute_modifier": "error_rate",
+      "multiplier": 3.0,
+      "additive_delta": 0.0,
+      "rationale": "Constant rescheduling causes sequencing errors on the shop floor."
+    }
+  ]
+}

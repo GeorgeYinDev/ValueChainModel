@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_elements": 33,
-    "total_roles": 18,
-    "total_assets": 8,
-    "validated_links": 50
+    "total_elements": 40,
+    "total_roles": 23,
+    "total_assets": 10,
+    "validated_links": 60
   },
   "elements": {
     "s2p_008_payment_settlement_disbursement": {
@@ -144,6 +144,157 @@
         ],
         "informed": [
           "role_supplier"
+        ]
+      }
+    },
+    "p2m_001_demand_sensing_forecasting": {
+      "id": "p2m_001_demand_sensing_forecasting",
+      "type": "process_step",
+      "name": "Statistical Demand Sensing & Forecasting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "supply_chain",
+        "planning",
+        "forecasting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_demand_planner"
+        ],
+        "accountable": [
+          "role_demand_planner"
+        ],
+        "consulted": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_production_scheduler"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 168.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.15,
+        "sla_hours": 336.0,
+        "volume_per_period": 10,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_aps_planner"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2m_002_mrp_production_planning",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "S&OP executive committee formally signs off on the consensus demand plan.",
+      "daci": {
+        "driver": [
+          "role_demand_planner"
+        ],
+        "approver": [
+          "role_demand_planner"
+        ],
+        "contributor": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_production_scheduler"
+        ]
+      }
+    },
+    "test_invalid_schema": {
+      "id": "test_invalid_schema",
+      "name": "Test Invalid Schema",
+      "version": "1.0.0",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "p2m_005_quality_inspection_release": {
+      "id": "p2m_005_quality_inspection_release",
+      "type": "process_step",
+      "name": "Quality Inspection & Batch Release",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "manufacturing",
+        "quality"
+      ],
+      "raci": {
+        "responsible": [
+          "role_quality_assurance_engineer"
+        ],
+        "accountable": [
+          "role_quality_assurance_engineer"
+        ],
+        "consulted": [
+          "role_manufacturing_supervisor"
+        ],
+        "informed": [
+          "role_inventory_manager"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.3,
+        "error_rate": 0.01,
+        "sla_hours": 48.0,
+        "volume_per_period": 500,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_mes_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2m_006_finished_goods_putaway",
+          "weight": 0.95
+        },
+        {
+          "relation": "exception_to",
+          "target": "p2m_004_manufacturing_execution",
+          "weight": 1.0,
+          "probability": 0.05
+        }
+      ],
+      "compensating_control": "QA Director signs off on any out-of-spec batches released under a deviation allowance.",
+      "daci": {
+        "driver": [
+          "role_quality_assurance_engineer"
+        ],
+        "approver": [
+          "role_quality_assurance_engineer"
+        ],
+        "contributor": [
+          "role_manufacturing_supervisor"
+        ],
+        "informed": [
+          "role_inventory_manager"
         ]
       }
     },
@@ -581,6 +732,79 @@
         ],
         "informed": [
           "role_payroll_specialist"
+        ]
+      }
+    },
+    "p2m_002_mrp_production_planning": {
+      "id": "p2m_002_mrp_production_planning",
+      "type": "process_step",
+      "name": "Material Requirements Planning (MRP)",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "supply_chain",
+        "planning",
+        "mrp"
+      ],
+      "raci": {
+        "responsible": [
+          "role_production_scheduler"
+        ],
+        "accountable": [
+          "role_production_scheduler"
+        ],
+        "consulted": [
+          "role_inventory_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 15.0,
+        "automation_rate": 0.95,
+        "error_rate": 0.02,
+        "sla_hours": 48.0,
+        "volume_per_period": 100,
+        "capacity_fte": 1.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_aps_planner"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2m_003_production_order_release",
+          "weight": 1.0
+        },
+        {
+          "relation": "triggers",
+          "target": "s2p_001_spend_analysis_need_id",
+          "weight": 0.3
+        }
+      ],
+      "compensating_control": "Plant Manager reviews finite capacity constraints before confirming the Master Production Schedule (MPS).",
+      "daci": {
+        "driver": [
+          "role_production_scheduler"
+        ],
+        "approver": [
+          "role_production_scheduler"
+        ],
+        "contributor": [
+          "role_inventory_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist"
         ]
       }
     },
@@ -1137,6 +1361,139 @@
         ]
       }
     },
+    "p2m_004_manufacturing_execution": {
+      "id": "p2m_004_manufacturing_execution",
+      "type": "process_step",
+      "name": "Manufacturing Execution & Yield Tracking",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "manufacturing",
+        "shop_floor"
+      ],
+      "raci": {
+        "responsible": [
+          "role_manufacturing_supervisor"
+        ],
+        "accountable": [
+          "role_manufacturing_supervisor"
+        ],
+        "consulted": [
+          "role_quality_assurance_engineer"
+        ],
+        "informed": [
+          "role_production_scheduler"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 1500.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.08,
+        "sla_hours": 96.0,
+        "volume_per_period": 500,
+        "capacity_fte": 50.0
+      },
+      "asset_dependencies": [
+        "asset_mes_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2m_005_quality_inspection_release",
+          "weight": 1.0
+        },
+        {
+          "relation": "impacted_by",
+          "target": "s2p_006_goods_services_receipt",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Automated IIoT sensors halt the line if critical parameters deviate, overriding supervisor input.",
+      "daci": {
+        "driver": [
+          "role_manufacturing_supervisor"
+        ],
+        "approver": [
+          "role_manufacturing_supervisor"
+        ],
+        "contributor": [
+          "role_quality_assurance_engineer"
+        ],
+        "informed": [
+          "role_production_scheduler"
+        ]
+      }
+    },
+    "p2m_003_production_order_release": {
+      "id": "p2m_003_production_order_release",
+      "type": "process_step",
+      "name": "Production Order Sequencing & Release",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "manufacturing",
+        "scheduling"
+      ],
+      "raci": {
+        "responsible": [
+          "role_production_scheduler"
+        ],
+        "accountable": [
+          "role_manufacturing_supervisor"
+        ],
+        "consulted": [
+          "role_inventory_manager"
+        ],
+        "informed": []
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 10.0,
+        "automation_rate": 0.6,
+        "error_rate": 0.05,
+        "sla_hours": 24.0,
+        "volume_per_period": 500,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_mes_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2m_004_manufacturing_execution",
+          "weight": 1.0
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_production_scheduler"
+        ],
+        "approver": [
+          "role_manufacturing_supervisor"
+        ],
+        "contributor": [
+          "role_inventory_manager"
+        ],
+        "informed": []
+      }
+    },
     "s2p_007_invoice_verification_matching": {
       "id": "s2p_007_invoice_verification_matching",
       "type": "process_step",
@@ -1281,6 +1638,70 @@
           "weight": 1.0
         }
       ]
+    },
+    "p2m_006_finished_goods_putaway": {
+      "id": "p2m_006_finished_goods_putaway",
+      "type": "process_step",
+      "name": "Finished Goods Put-Away & ATP Update",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2M"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "warehouse",
+        "inventory",
+        "atp"
+      ],
+      "raci": {
+        "responsible": [
+          "role_inventory_manager"
+        ],
+        "accountable": [
+          "role_inventory_manager"
+        ],
+        "consulted": [],
+        "informed": [
+          "role_sales_ops_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 10.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.02,
+        "sla_hours": 12.0,
+        "volume_per_period": 475,
+        "capacity_fte": 3.0
+      },
+      "asset_dependencies": [
+        "asset_wms_system",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "o2c_003_inventory_allocation_fulfillment",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Automated WMS directed put-away enforces barcode scanning, overriding manual bin placement.",
+      "daci": {
+        "driver": [
+          "role_inventory_manager"
+        ],
+        "approver": [
+          "role_inventory_manager"
+        ],
+        "contributor": [],
+        "informed": [
+          "role_sales_ops_specialist"
+        ]
+      }
     },
     "h2r_004_payroll_benefits_enrollment": {
       "id": "h2r_004_payroll_benefits_enrollment",
@@ -1543,6 +1964,11 @@
         {
           "relation": "feeds_into",
           "target": "s2p_007_invoice_verification_matching",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "p2m_004_manufacturing_execution",
           "weight": 1.0
         }
       ],
@@ -2239,6 +2665,17 @@
     }
   },
   "assets": {
+    "asset_aps_planner": {
+      "id": "asset_aps_planner",
+      "asset_type": "it_application",
+      "name": "Advanced Planning & Scheduling (APS)",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "SupplyChainPro",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.9,
+      "recovery_time_objective_hours": 4.0
+    },
     "asset_payment_gateway": {
       "id": "asset_payment_gateway",
       "name": "Corporate Banking Payment Gateway & ISO 20022 Router",
@@ -2248,6 +2685,17 @@
       "status": "operational",
       "sla_uptime_percent": 99.99,
       "capacity_max_tps": 1500
+    },
+    "asset_mes_system": {
+      "id": "asset_mes_system",
+      "asset_type": "it_application",
+      "name": "Manufacturing Execution System (MES)",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "FactoryLogic",
+      "hosting": "On-Premises",
+      "sla_uptime_percent": 99.99,
+      "recovery_time_objective_hours": 1.0
     },
     "asset_hcm_platform": {
       "id": "asset_hcm_platform",
@@ -2323,6 +2771,13 @@
     }
   },
   "roles": {
+    "role_manufacturing_supervisor": {
+      "id": "role_manufacturing_supervisor",
+      "type": "role",
+      "name": "Manufacturing Supervisor",
+      "department": "Manufacturing",
+      "approval_limit_usd": 10000.0
+    },
     "role_hr_business_partner": {
       "id": "role_hr_business_partner",
       "type": "role",
@@ -2351,6 +2806,20 @@
       "department": "Commercial Operations & Revenue Ops",
       "approval_limit_usd": 250000.0
     },
+    "role_inventory_manager": {
+      "id": "role_inventory_manager",
+      "type": "role",
+      "name": "Inventory Manager",
+      "department": "Supply Chain",
+      "approval_limit_usd": 50000.0
+    },
+    "role_demand_planner": {
+      "id": "role_demand_planner",
+      "type": "role",
+      "name": "Demand Planner",
+      "department": "Supply Chain",
+      "approval_limit_usd": 0.0
+    },
     "role_compensation_analyst": {
       "id": "role_compensation_analyst",
       "type": "role",
@@ -2364,6 +2833,13 @@
       "name": "Billing & Accounts Receivable Specialist",
       "department": "Finance & Revenue Accounting",
       "approval_limit_usd": 5000.0
+    },
+    "role_production_scheduler": {
+      "id": "role_production_scheduler",
+      "type": "role",
+      "name": "Production Scheduler",
+      "department": "Manufacturing",
+      "approval_limit_usd": 50000.0
     },
     "role_finance_controller": {
       "id": "role_finance_controller",
@@ -2447,6 +2923,13 @@
       "type": "role",
       "name": "Internal Auditor",
       "department": "Internal Audit & Corporate Governance",
+      "approval_limit_usd": 0.0
+    },
+    "role_quality_assurance_engineer": {
+      "id": "role_quality_assurance_engineer",
+      "type": "role",
+      "name": "Quality Assurance Engineer",
+      "department": "Quality Control",
       "approval_limit_usd": 0.0
     }
   },
@@ -2625,6 +3108,50 @@
         "cost_per_hire",
         "first_year_attrition_rate",
         "payroll_accuracy_percentage"
+      ]
+    },
+    "P2M": {
+      "lifecycle_id": "P2M",
+      "name": "Plan to Make Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end manufacturing process from demand forecasting to production execution, quality release, and final inventory availability.",
+      "milestones": [
+        {
+          "step_id": "p2m_001_demand_sensing_forecasting",
+          "name": "Statistical Demand Sensing & Forecasting",
+          "order": 1
+        },
+        {
+          "step_id": "p2m_002_mrp_production_planning",
+          "name": "Material Requirements Planning (MRP)",
+          "order": 2
+        },
+        {
+          "step_id": "p2m_003_production_order_release",
+          "name": "Production Order Sequencing & Release",
+          "order": 3
+        },
+        {
+          "step_id": "p2m_004_manufacturing_execution",
+          "name": "Manufacturing Execution & Yield Tracking",
+          "order": 4
+        },
+        {
+          "step_id": "p2m_005_quality_inspection_release",
+          "name": "Quality Inspection & Batch Release",
+          "order": 5
+        },
+        {
+          "step_id": "p2m_006_finished_goods_putaway",
+          "name": "Finished Goods Put-Away & ATP Update",
+          "order": 6
+        }
+      ],
+      "key_performance_indicators": [
+        "forecast_accuracy",
+        "overall_equipment_effectiveness_oee",
+        "first_pass_yield",
+        "on_time_in_full_otif"
       ]
     }
   }

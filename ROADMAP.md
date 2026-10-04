@@ -122,7 +122,7 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - **Scenario**: `scenario_payroll_outage_surge.json`, an outage at payroll cutoff with a spike in manual adjustments.
 
 ### Phase 8: Manufacturing & Supply Chain — Plan-to-Make (P2M)
-**Status**: 🔮 **Planned** (Target Release: **v1.7.0**)
+**Status**: ✅ **Completed** (Release: **v1.7.0**)
 - **Prerequisite**: ADR-0006 (P2M taxonomy) approved, and the 6.1 rename completed.
 - **Milestones**: `p2m_001_demand_sensing_forecasting`, `p2m_002_mrp_production_planning`, `p2m_003_production_order_release`, `p2m_004_manufacturing_execution`, `p2m_005_quality_inspection_release`, `p2m_006_finished_goods_putaway`.
 - **Integration**: Ingests raw materials from S2P [`s2p_006`](elements/process_steps/s2p_006_goods_services_receipt.md). Supplies ATP inventory to O2C [`o2c_003`](elements/process_steps/o2c_003_inventory_allocation_fulfillment.md).

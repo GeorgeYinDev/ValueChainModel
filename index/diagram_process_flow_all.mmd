@@ -43,11 +43,18 @@ flowchart TD
 
   subgraph Subgraph_Other ["<b>Process Steps</b>"]
     h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
+    p2m_001_demand_sensing_forecasting["<b>Statistical Demand Sensing &amp; Forecasting</b><br/><small>ID: p2m_001_demand_sensing_forecasting</small><br/>⏱ 168.0h | 💰 $50.0"]:::processStep
     h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0"]:::processStep
+    p2m_002_mrp_production_planning["<b>Material Requirements Planning (MRP)</b><br/><small>ID: p2m_002_mrp_production_planning</small><br/>⏱ 24.0h | 💰 $15.0"]:::processStep
     h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0"]:::processStep
+    p2m_003_production_order_release["<b>Production Order Sequencing &amp; Release</b><br/><small>ID: p2m_003_production_order_release</small><br/>⏱ 8.0h | 💰 $10.0"]:::processStep
     h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0"]:::processStep
+    p2m_004_manufacturing_execution["<b>Manufacturing Execution &amp; Yield Tracking</b><br/><small>ID: p2m_004_manufacturing_execution</small><br/>⏱ 48.0h | 💰 $1500.0"]:::processStep
     h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0"]:::processStep
+    p2m_005_quality_inspection_release["<b>Quality Inspection &amp; Batch Release</b><br/><small>ID: p2m_005_quality_inspection_release</small><br/>⏱ 24.0h | 💰 $50.0"]:::processStep
     h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0"]:::processStep
+    p2m_006_finished_goods_putaway["<b>Finished Goods Put-Away &amp; ATP Update</b><br/><small>ID: p2m_006_finished_goods_putaway</small><br/>⏱ 4.0h | 💰 $10.0"]:::processStep
+    test_invalid_schema["<b>Test Invalid Schema</b><br/><small>ID: test_invalid_schema</small><br/>⏱ 0.0h | 💰 $0.0"]:::processStep
   end
 
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
@@ -61,6 +68,9 @@ flowchart TD
   s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy
   s2p_001_spend_analysis_need_id --> s2p_002_supplier_discovery_qualification
   s2p_001_spend_analysis_need_id -. governed by .-> sod_spending_limits_policy
+  p2m_001_demand_sensing_forecasting --> p2m_002_mrp_production_planning
+  p2m_005_quality_inspection_release --> p2m_006_finished_goods_putaway
+  p2m_005_quality_inspection_release -. exception_to .-> p2m_004_manufacturing_execution
   s2p_005_purchase_requisition_po --> s2p_006_goods_services_receipt
   s2p_005_purchase_requisition_po -. governed by .-> sod_spending_limits_policy
   o2c_001_customer_quote_order_entry --> o2c_002_credit_check_approval
@@ -73,6 +83,8 @@ flowchart TD
   s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
   s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
   h2r_005_performance_compensation_review --> h2r_006_separation_offboarding_settlement
+  p2m_002_mrp_production_planning --> p2m_003_production_order_release
+  p2m_002_mrp_production_planning -. triggers .-> s2p_001_spend_analysis_need_id
   h2r_006_separation_offboarding_settlement --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy
@@ -85,10 +97,14 @@ flowchart TD
   r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
   h2r_001_job_requisition_posting --> h2r_002_candidate_screening_interview
+  p2m_004_manufacturing_execution --> p2m_005_quality_inspection_release
+  p2m_004_manufacturing_execution -. impacted_by .-> s2p_006_goods_services_receipt
+  p2m_003_production_order_release --> p2m_004_manufacturing_execution
   s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
   s2p_007_invoice_verification_matching -. exception_to .-> s2p_006_goods_services_receipt
   s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
   o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation
+  p2m_006_finished_goods_putaway --> o2c_003_inventory_allocation_fulfillment
   h2r_004_payroll_benefits_enrollment --> h2r_005_performance_compensation_review
   h2r_004_payroll_benefits_enrollment --> r2r_001_journal_entry_recording
   h2r_002_candidate_screening_interview --> h2r_003_offer_letter_onboarding
@@ -96,6 +112,7 @@ flowchart TD
   r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
   r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching
+  s2p_006_goods_services_receipt --> p2m_004_manufacturing_execution
   o2c_002_credit_check_approval --> o2c_003_inventory_allocation_fulfillment
   o2c_002_credit_check_approval -. governed by .-> credit_limit_risk_policy
   o2c_004_billing_invoice_generation --> o2c_005_cash_collection_reconciliation

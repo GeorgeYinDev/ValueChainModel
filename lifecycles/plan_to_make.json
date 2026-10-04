@@ -1,0 +1,20 @@
+{
+  "lifecycle_id": "P2M",
+  "name": "Plan to Make Lifecycle",
+  "version": "1.0.0",
+  "description": "End-to-end manufacturing process from demand forecasting to production execution, quality release, and final inventory availability.",
+  "milestones": [
+    { "step_id": "p2m_001_demand_sensing_forecasting", "name": "Statistical Demand Sensing & Forecasting", "order": 1 },
+    { "step_id": "p2m_002_mrp_production_planning", "name": "Material Requirements Planning (MRP)", "order": 2 },
+    { "step_id": "p2m_003_production_order_release", "name": "Production Order Sequencing & Release", "order": 3 },
+    { "step_id": "p2m_004_manufacturing_execution", "name": "Manufacturing Execution & Yield Tracking", "order": 4 },
+    { "step_id": "p2m_005_quality_inspection_release", "name": "Quality Inspection & Batch Release", "order": 5 },
+    { "step_id": "p2m_006_finished_goods_putaway", "name": "Finished Goods Put-Away & ATP Update", "order": 6 }
+  ],
+  "key_performance_indicators": [
+    "forecast_accuracy",
+    "overall_equipment_effectiveness_oee",
+    "first_pass_yield",
+    "on_time_in_full_otif"
+  ]
+}

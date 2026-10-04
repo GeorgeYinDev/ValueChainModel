@@ -5,6 +5,8 @@ flowchart TD
   classDef stepDep fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0,rx:4,ry:4;
 
   subgraph Subgraph_EnterpriseSystems ["<b>Enterprise Core IT Systems & Assets</b>"]
+    asset_aps_planner["<b>Advanced Planning &amp; Scheduling (APS)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 0</small>"]:::coreAsset
+    asset_mes_system["<b>Manufacturing Execution System (MES)</b><br/><small>Type: it_application | SLA: 99.99% | Max TPS: 0</small>"]:::coreAsset
     asset_hcm_platform["<b>Human Capital Management (HCM) Platform</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 0</small>"]:::coreAsset
     asset_erp_system["<b>Enterprise Core ERP (SAP S/4HANA)</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 2500</small>"]:::coreAsset
     asset_payroll_engine["<b>Enterprise Payroll &amp; Tax Engine</b><br/><small>Type: it_application | SLA: 99.99% | Max TPS: 0</small>"]:::coreAsset
@@ -21,10 +23,20 @@ flowchart TD
   end
 
   subgraph Subgraph_ProcessBindings ["<b>Value Chain Process Workloads</b>"]
+    proc_p2m_001_demand_sensing_forecasting_asset_aps_planner["Statistical Demand Sensing &amp; Forecasting"]:::stepDep
+    proc_p2m_001_demand_sensing_forecasting_asset_aps_planner -. runs on .-> asset_aps_planner
+    proc_p2m_002_mrp_production_planning_asset_aps_planner["Material Requirements Planning (MRP)"]:::stepDep
+    proc_p2m_002_mrp_production_planning_asset_aps_planner -. runs on .-> asset_aps_planner
     proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway["Payment Settlement &amp; Disbursement"]:::stepDep
     proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway -. runs on .-> asset_payment_gateway
     proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway["Cash Collection &amp; Accounts Receivable Reconciliation"]:::stepDep
     proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway -. runs on .-> asset_payment_gateway
+    proc_p2m_005_quality_inspection_release_asset_mes_system["Quality Inspection &amp; Batch Release"]:::stepDep
+    proc_p2m_005_quality_inspection_release_asset_mes_system -. runs on .-> asset_mes_system
+    proc_p2m_004_manufacturing_execution_asset_mes_system["Manufacturing Execution &amp; Yield Tracking"]:::stepDep
+    proc_p2m_004_manufacturing_execution_asset_mes_system -. runs on .-> asset_mes_system
+    proc_p2m_003_production_order_release_asset_mes_system["Production Order Sequencing &amp; Release"]:::stepDep
+    proc_p2m_003_production_order_release_asset_mes_system -. runs on .-> asset_mes_system
     proc_h2r_005_performance_compensation_review_asset_hcm_platform["Performance &amp; Compensation Review"]:::stepDep
     proc_h2r_005_performance_compensation_review_asset_hcm_platform -. runs on .-> asset_hcm_platform
     proc_h2r_006_separation_offboarding_settlement_asset_hcm_platform["Separation, Offboarding &amp; Final Settlement"]:::stepDep
@@ -57,10 +69,14 @@ flowchart TD
     proc_s2p_007_invoice_verification_matching_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
     proc_o2c_003_inventory_allocation_fulfillment_asset_wms_system["Inventory Allocation &amp; Warehouse Fulfillment"]:::stepDep
     proc_o2c_003_inventory_allocation_fulfillment_asset_wms_system -. runs on .-> asset_wms_system
+    proc_p2m_006_finished_goods_putaway_asset_wms_system["Finished Goods Put-Away &amp; ATP Update"]:::stepDep
+    proc_p2m_006_finished_goods_putaway_asset_wms_system -. runs on .-> asset_wms_system
     proc_s2p_008_payment_settlement_disbursement_asset_erp_system["Payment Settlement &amp; Disbursement"]:::stepDep
     proc_s2p_008_payment_settlement_disbursement_asset_erp_system -. runs on .-> asset_erp_system
     proc_s2p_001_spend_analysis_need_id_asset_erp_system["Spend Analysis &amp; Need Identification"]:::stepDep
     proc_s2p_001_spend_analysis_need_id_asset_erp_system -. runs on .-> asset_erp_system
+    proc_p2m_005_quality_inspection_release_asset_erp_system["Quality Inspection &amp; Batch Release"]:::stepDep
+    proc_p2m_005_quality_inspection_release_asset_erp_system -. runs on .-> asset_erp_system
     proc_s2p_005_purchase_requisition_po_asset_erp_system["Purchase Requisition &amp; PO Issuance"]:::stepDep
     proc_s2p_005_purchase_requisition_po_asset_erp_system -. runs on .-> asset_erp_system
     proc_o2c_001_customer_quote_order_entry_asset_erp_system["Quote Generation &amp; Order Capture"]:::stepDep
@@ -71,14 +87,20 @@ flowchart TD
     proc_r2r_001_journal_entry_recording_asset_erp_system -. runs on .-> asset_erp_system
     proc_s2p_004_contracting_sla_negotiation_asset_erp_system["Contracting &amp; SLA Negotiation"]:::stepDep
     proc_s2p_004_contracting_sla_negotiation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_p2m_002_mrp_production_planning_asset_erp_system["Material Requirements Planning (MRP)"]:::stepDep
+    proc_p2m_002_mrp_production_planning_asset_erp_system -. runs on .-> asset_erp_system
     proc_o2c_005_cash_collection_reconciliation_asset_erp_system["Cash Collection &amp; Accounts Receivable Reconciliation"]:::stepDep
     proc_o2c_005_cash_collection_reconciliation_asset_erp_system -. runs on .-> asset_erp_system
     proc_r2r_004_financial_close_consolidation_asset_erp_system["Financial Close Orchestration &amp; Group Consolidation"]:::stepDep
     proc_r2r_004_financial_close_consolidation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_p2m_003_production_order_release_asset_erp_system["Production Order Sequencing &amp; Release"]:::stepDep
+    proc_p2m_003_production_order_release_asset_erp_system -. runs on .-> asset_erp_system
     proc_s2p_007_invoice_verification_matching_asset_erp_system["Invoice 3-Way Matching &amp; Exception Handling"]:::stepDep
     proc_s2p_007_invoice_verification_matching_asset_erp_system -. runs on .-> asset_erp_system
     proc_o2c_003_inventory_allocation_fulfillment_asset_erp_system["Inventory Allocation &amp; Warehouse Fulfillment"]:::stepDep
     proc_o2c_003_inventory_allocation_fulfillment_asset_erp_system -. runs on .-> asset_erp_system
+    proc_p2m_006_finished_goods_putaway_asset_erp_system["Finished Goods Put-Away &amp; ATP Update"]:::stepDep
+    proc_p2m_006_finished_goods_putaway_asset_erp_system -. runs on .-> asset_erp_system
     proc_r2r_002_intercompany_reconciliation_asset_erp_system["Intercompany Transaction Matching &amp; Elimination"]:::stepDep
     proc_r2r_002_intercompany_reconciliation_asset_erp_system -. runs on .-> asset_erp_system
     proc_s2p_006_goods_services_receipt_asset_erp_system["Goods &amp; Services Receipt Verification"]:::stepDep

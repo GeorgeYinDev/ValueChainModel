@@ -27,6 +27,9 @@ graph_relations:
   - relation: feeds_into
     target: s2p_007_invoice_verification_matching
     weight: 1.0
+  - relation: feeds_into
+    target: p2m_004_manufacturing_execution
+    weight: 1.0
 ---
 
 # Process Step: Goods & Services Receipt Verification
