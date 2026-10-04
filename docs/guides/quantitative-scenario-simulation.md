@@ -98,6 +98,13 @@ Scenario files are stored as JSON payloads conforming to [`schema/scenario_simul
 }
 ```
 
+### Available Built-in Scenarios
+The repository ships with several pre-calibrated baseline scenarios modeling real-world systemic risks:
+- `scenario_controller_absence_surge.json`: Models key-person risk (Controller absence) during month-end close (R2R).
+- `scenario_payroll_outage_surge.json`: Simulates an IT outage in the `asset_payroll_engine` right before cutoff (H2R).
+- `scenario_raw_material_stockout.json`: A Tier-1 supplier failure cascading into a factory line stoppage (P2M).
+- `scenario_credit_hold_surge.json`: A macroeconomic shock triggering a massive spike in customer credit holds (O2C).
+
 ---
 
 ## 6. Execution & Report Interpretation

@@ -62,6 +62,11 @@ attributes:
   automation_rate: 0.70
   error_rate: 0.02
   sla_hours: 48.0
+  volume_per_period: 150
+  capacity_fte: 3.5
+  approval_threshold_usd: 50000.0
+
+apqc_pcf_id: "7.3.1.1"
 
 asset_dependencies:
   - asset_erp_system
@@ -71,9 +76,15 @@ graph_relations:
   - relation: feeds_into
     target: h2r_002_candidate_screening_interview
     weight: 1.0
+  - relation: exception_to
+    target: h2r_000_previous_step
+    weight: 1.0
+    probability: 0.15
   - relation: governed_by
     target: headcount_compensation_policy
     weight: 0.95
+
+compensating_control: "HRBP formally approves the headcount budget prior to posting."
 ---
 ```
 
@@ -90,6 +101,14 @@ Every role referenced in an element's `raci:` or `daci:` block **must exist** in
 
 ### File Template: `roles/role_<role_id>.md`
 ```markdown
+---
+id: role_talent_acquisition_specialist
+type: role
+name: "Talent Acquisition Specialist"
+department: "Human Resources & Talent Sourcing"
+approval_limit_usd: 5000.0
+---
+
 # Role Definition: Talent Acquisition Specialist
 
 - **Role ID**: `role_talent_acquisition_specialist`
@@ -190,3 +209,5 @@ python3 tools/validate_and_build.py
 | `references non-existent target 'step_xyz'` | `graph_relations` target does not exist as an element or asset. | Verify the target ID spelling and verify the file exists. |
 | `Missing 'id' in frontmatter` | The Markdown file lacks valid YAML frontmatter delimiter (`---`). | Add valid YAML frontmatter blocks at line 1. |
 | `Split Approver Authority Detected` | Multiple roles listed in `daci.approver`. | Reduce to exactly one primary Approver role. |
+| `Approval Threshold Exceeds Role Limit` | A step's `approval_threshold_usd` exceeds the Accountable role's `approval_limit_usd`. | Increase the role limit in its frontmatter, or assign a more senior role. |
+| `SoD Conflict: Role cannot be both Responsible and Accountable` | The same role is assigned to `responsible` and `accountable` in the RACI matrix. | Separate execution and sign-off, or add a `compensating_control` string to the frontmatter. |

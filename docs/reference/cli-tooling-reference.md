@@ -15,14 +15,16 @@ python3 tools/validate_and_build.py
 The primary validation and build orchestrator for the repository. It ingests all Markdown elements, roles, assets, and lifecycle manifests, performs schema and relational integrity checks (verifying all targets exist), compiles the unified graph database, generates LLM context prompt packs, and triggers diagram exports.
 
 ### Execution Sequence & Checks
-1. **Role Ingestion**: Scans `roles/*.md` and compiles the enterprise role registry.
+1. **Role Ingestion**: Scans `roles/*.md`, parses `approval_limit_usd` frontmatter, and compiles the enterprise role registry.
 2. **Asset Ingestion**: Scans `assets/*.md` and verifies parent-child hierarchy linkages.
-3. **Element Ingestion**: Parses YAML frontmatter across `elements/**/*.md`.
+3. **Element Ingestion**: Parses YAML frontmatter across `elements/**/*.md` (including Process Steps, KPIs, Data Entities).
 4. **Relational & Integrity Validation**:
    - Verifies that every role in `raci:` and `daci:` exists in `roles/`.
-   - Auto-derives DACI roles if omitted from frontmatter.
+   - Validates Segregation of Duties (SoD): Accountable and Responsible roles cannot be identical unless `compensating_control` is declared.
+   - Enforces Approval Limits: Verifies `approval_threshold_usd` does not exceed the Accountable role's limit.
    - Verifies that all `asset_dependencies:` exist in `assets/`.
    - Validates that `graph_relations:` targets exist and are reachable.
+   - Maps lifecycle milestones based on their explicit `order` index for sequential sorting.
 5. **Knowledge Graph Compilation**: Writes consolidated JSON database to `index/knowledge_graph.json`.
 6. **LLM Prompt Pack Generation**: Compiles standalone context packs per lifecycle into `index/llm_context_<lifecycle_id>.md`.
 7. **Downstream Pipeline Trigger**: Automatically invokes `tools/export_diagram.py --lifecycle ALL --format all`.
