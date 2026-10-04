@@ -22,11 +22,7 @@ attributes:
 
 asset_dependencies:
   - asset_erp_system
-
-graph_relations:
-  - relation: governed_by
-    target: sod_spending_limits_policy
-    weight: 1.0
+compensating_control: "Policy configuration changes require dual authorization in GRC tool."
 ---
 
 # Control Policy: Segregation of Duties (SoD) & Spending Limits

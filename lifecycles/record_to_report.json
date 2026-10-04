@@ -1,0 +1,20 @@
+{
+  "lifecycle_id": "R2R",
+  "name": "Record to Report Lifecycle",
+  "version": "1.0.0",
+  "description": "End-to-end financial accounting and reporting lifecycle from subledger transaction ingestion and intercompany eliminations to balance sheet account reconciliation, financial close orchestration, group consolidation, and regulatory/statutory disclosures.",
+  "milestones": [
+    { "step_id": "r2r_001_journal_entry_recording", "name": "General Ledger Journal Recording & Subledger Ingestion", "order": 1 },
+    { "step_id": "r2r_002_intercompany_reconciliation", "name": "Intercompany Transaction Matching & Elimination", "order": 2 },
+    { "step_id": "r2r_003_balance_sheet_substantiation", "name": "Balance Sheet Account Substantiation & Reconciliation", "order": 3 },
+    { "step_id": "r2r_004_financial_close_consolidation", "name": "Financial Close Orchestration & Group Consolidation", "order": 4 },
+    { "step_id": "r2r_005_statutory_financial_reporting", "name": "Statutory, Tax & Management Financial Reporting", "order": 5 }
+  ],
+  "key_performance_indicators": [
+    "days_to_close_financial_books",
+    "manual_journal_entry_ratio",
+    "intercompany_out_of_balance_amount",
+    "first_time_right_reconciliation_rate",
+    "sox_internal_control_deficiencies"
+  ]
+}

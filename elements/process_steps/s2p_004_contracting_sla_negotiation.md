@@ -23,6 +23,7 @@ attributes:
 asset_dependencies:
   - asset_eprocurement_portal
   - asset_erp_system
+compensating_control: "Legal department reviews all non-standard clauses. Standard templates locked in CLM."
 
 graph_relations:
   - relation: feeds_into

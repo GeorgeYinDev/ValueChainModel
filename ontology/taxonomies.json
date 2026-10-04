@@ -29,6 +29,12 @@
     "C": "Consulted - Roles providing required inputs, reviews, or subject matter expertise.",
     "I": "Informed - Roles notified of milestone completion or status changes."
   },
+  "daci_definitions": {
+    "D": "Driver - The lead role driving the decision, facilitating consensus, and managing momentum.",
+    "A": "Approver - The single role with explicit decision authority to approve or veto.",
+    "C": "Contributor - Roles with knowledge, voice, or deliverables consulted to form the recommendation.",
+    "I": "Informed - Roles notified after the decision or milestone is finalized."
+  },
   "lod_tiers": [
     { "id": "tier_1", "target": "Executive / C-Suite", "focus": "Strategic intent, business outcome, capability alignment, high-level risk" },
     { "id": "tier_2", "target": "Process Architect", "focus": "Workflows, RACI matrix, inputs/outputs, SLAs, business rules, exceptions" },

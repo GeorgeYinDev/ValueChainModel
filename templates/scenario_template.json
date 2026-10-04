@@ -1,0 +1,32 @@
+{
+  "scenario_id": "scenario_template_id",
+  "name": "Scenario Formal Descriptive Name",
+  "target_lifecycle": "TARGET_LIFECYCLE_ID",
+  "description": "Comprehensive narrative explaining the operational shock, macroeconomic trigger, IT dependency failure, or volume surge being modeled.",
+  "shocks": [
+    {
+      "target_element_id": "element_id_001",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 12.0
+    },
+    {
+      "target_element_id": "element_id_001",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.5,
+      "additive_delta": 25.0
+    },
+    {
+      "target_element_id": "element_id_002",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.0,
+      "additive_delta": 0.05
+    },
+    {
+      "target_element_id": "element_id_003",
+      "attribute_modifier": "automation_rate",
+      "multiplier": 0.5,
+      "additive_delta": -0.20
+    }
+  ]
+}

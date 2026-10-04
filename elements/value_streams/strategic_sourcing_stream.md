@@ -23,6 +23,7 @@ attributes:
 asset_dependencies:
   - asset_eprocurement_portal
   - asset_erp_system
+compensating_control: "Strategic sourcing stream performance is reviewed quarterly by the Procurement Steering Committee."
 
 graph_relations:
   - relation: feeds_into

@@ -19,6 +19,7 @@ The primary system of record for financial ledgers, purchase order execution, in
 - **Child Sub-Assets**:
   - `asset_eprocurement_portal` (Cloud Integration Interface)
   - `asset_payment_gateway` (Banking Disbursement Interface)
+  - `asset_financial_consolidation_system` (Corporate Consolidation & Reporting Interface)
 
 ## Operational SLAs & Capacity Limits
 - **Uptime SLA**: 99.95%

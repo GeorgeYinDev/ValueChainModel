@@ -23,7 +23,7 @@
 
 ### [Payment Settlement & Disbursement] (`s2p_008_payment_settlement_disbursement`)
 - **Type**: `process_step` | **Tags**: `payment, treasury, disbursement, banking`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_erp_system, asset_payment_gateway`
 
 
@@ -61,7 +61,7 @@ Executes final treasury disbursement runs, transmits ISO 20022 XML files via ban
 
 ### [Spend Analysis & Need Identification] (`s2p_001_spend_analysis_need_id`)
 - **Type**: `process_step` | **Tags**: `procurement, analytics, requisition`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal, asset_erp_system`
 
 
@@ -99,7 +99,7 @@ Initiates the Source-to-Pay lifecycle by aggregating historical spend data, iden
 
 ### [Purchase Requisition & PO Issuance] (`s2p_005_purchase_requisition_po`)
 - **Type**: `process_step` | **Tags**: `purchasing, po, requisition, approval`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal, asset_erp_system`
 
 
@@ -137,7 +137,7 @@ Validates financial budget availability, routes Purchase Requisitions (PR) throu
 
 ### [Contracting & SLA Negotiation] (`s2p_004_contracting_sla_negotiation`)
 - **Type**: `process_step` | **Tags**: `contracting, legal, slas`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_category_manager"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal, asset_erp_system`
 
 
@@ -175,7 +175,7 @@ Drafts, negotiates, and executes legally binding commercial contracts, Master Se
 
 ### [Supplier Discovery & Qualification] (`s2p_002_supplier_discovery_qualification`)
 - **Type**: `process_step` | **Tags**: `vendor_management, compliance, risk`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal`
 
 
@@ -213,7 +213,7 @@ Evaluates potential suppliers for financial stability, ESG compliance, regulator
 
 ### [Strategic Sourcing & RFx Execution] (`s2p_003_sourcing_rfx_auction`)
 - **Type**: `process_step` | **Tags**: `sourcing, rfp, rfq, negotiation`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal`
 
 
@@ -251,7 +251,7 @@ Executes competitive bidding events (RFP, RFQ, e-Auctions) to negotiate optimal 
 
 ### [Invoice 3-Way Matching & Exception Handling] (`s2p_007_invoice_verification_matching`)
 - **Type**: `process_step` | **Tags**: `invoicing, ap, matching, finance`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_procurement_specialist"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_erp_system, asset_eprocurement_portal`
 
 
@@ -289,7 +289,7 @@ Ingests vendor invoices, executes automated 3-way matching (PO, GRN, Invoice lin
 
 ### [Goods & Services Receipt Verification] (`s2p_006_goods_services_receipt`)
 - **Type**: `process_step` | **Tags**: `receiving, inventory, quality, grn`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_accounts_payable_clerk"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_erp_system`
 
 
@@ -327,7 +327,7 @@ Verifies physical delivery of goods or completion of service deliverables, logs 
 
 ### [Strategic Sourcing & Contracting Value Stream] (`strategic_sourcing_stream`)
 - **Type**: `value_stream` | **Tags**: `value_stream, strategic_sourcing`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_category_manager"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_eprocurement_portal, asset_erp_system`
 
 
@@ -352,7 +352,7 @@ Encompasses the upstream strategic procurement lifecycle from initial demand ide
 
 ### [Procure to Pay (P2P) Operational Value Stream] (`procure_to_pay_stream`)
 - **Type**: `value_stream` | **Tags**: `value_stream, procure_to_pay, p2p`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_procurement_specialist", "role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_supplier"]}`
 - **Assets**: `asset_erp_system, asset_eprocurement_portal, asset_payment_gateway`
 
 
@@ -377,7 +377,7 @@ Encompasses the transactional execution lifecycle from purchase requisition appr
 
 ### [Segregation of Duties & Financial Authority Policy] (`sod_spending_limits_policy`)
 - **Type**: `control_policy` | **Tags**: `policy, governance, sod, compliance`
-- **RACI**: `{}`
+- **RACI**: `{"responsible": ["role_finance_controller"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_procurement_specialist", "role_accounts_payable_clerk"]}`
 - **Assets**: `asset_erp_system`
 
 

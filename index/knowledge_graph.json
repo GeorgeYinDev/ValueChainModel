@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_elements": 11,
-    "total_roles": 5,
-    "total_assets": 3,
-    "validated_links": 16
+    "total_elements": 26,
+    "total_roles": 13,
+    "total_assets": 6,
+    "validated_links": 37
   },
   "elements": {
     "s2p_008_payment_settlement_disbursement": {
@@ -25,36 +25,57 @@
         "disbursement",
         "banking"
       ],
-      "raci": {},
-      "responsible": [
-        "role_accounts_payable_clerk"
-      ],
-      "accountable": [
-        "role_finance_controller"
-      ],
-      "consulted": [
-        "role_category_manager"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 4.0,
-      "baseline_cost_per_unit": 8.5,
-      "automation_rate": 0.95,
-      "error_rate": 0.005,
-      "sla_hours": 8.0,
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 8.5,
+        "automation_rate": 0.95,
+        "error_rate": 0.005,
+        "sla_hours": 8.0
+      },
       "asset_dependencies": [
         "asset_erp_system",
         "asset_payment_gateway"
       ],
       "graph_relations": [
         {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 0.9
+        },
+        {
           "relation": "governed_by",
           "target": "sod_spending_limits_policy",
           "weight": 1.0
         }
-      ]
+      ],
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
     },
     "s2p_001_spend_analysis_need_id": {
       "id": "s2p_001_spend_analysis_need_id",
@@ -74,25 +95,27 @@
         "analytics",
         "requisition"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 12.0,
-      "baseline_cost_per_unit": 45.0,
-      "automation_rate": 0.7,
-      "error_rate": 0.03,
-      "sla_hours": 24.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.03,
+        "sla_hours": 24.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal",
         "asset_erp_system"
@@ -108,7 +131,32 @@
           "target": "sod_spending_limits_policy",
           "weight": 0.85
         }
-      ]
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "test_invalid_schema": {
+      "id": "test_invalid_schema",
+      "name": "Test Invalid Schema",
+      "version": "1.0.0",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
     },
     "s2p_005_purchase_requisition_po": {
       "id": "s2p_005_purchase_requisition_po",
@@ -129,25 +177,27 @@
         "requisition",
         "approval"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 8.0,
-      "baseline_cost_per_unit": 18.0,
-      "automation_rate": 0.9,
-      "error_rate": 0.01,
-      "sla_hours": 12.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.9,
+        "error_rate": 0.01,
+        "sla_hours": 12.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal",
         "asset_erp_system"
@@ -162,6 +212,237 @@
           "relation": "governed_by",
           "target": "sod_spending_limits_policy",
           "weight": 1.0
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "o2c_001_customer_quote_order_entry": {
+      "id": "o2c_001_customer_quote_order_entry",
+      "type": "process_step",
+      "name": "Quote Generation & Order Capture",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "order_management",
+        "sales",
+        "quoting",
+        "cpq"
+      ],
+      "raci": {
+        "responsible": [
+          "role_sales_ops_specialist"
+        ],
+        "accountable": [
+          "role_sales_ops_specialist"
+        ],
+        "consulted": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_credit_manager"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_sales_ops_specialist"
+        ],
+        "approver": [
+          "role_sales_ops_specialist"
+        ],
+        "contributor": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_credit_manager"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 25.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.02,
+        "sla_hours": 12.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_erp_system"
+      ],
+      "compensating_control": "CPQ system automatically enforces price floors and prevents margin erosion. Deviations route to Sales VP.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "o2c_002_credit_check_approval",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "credit_limit_risk_policy",
+          "weight": 0.85
+        }
+      ]
+    },
+    "r2r_003_balance_sheet_substantiation": {
+      "id": "r2r_003_balance_sheet_substantiation",
+      "type": "process_step",
+      "name": "Balance Sheet Account Substantiation & Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "reconciliation",
+        "balance_sheet",
+        "substantiation",
+        "blackline",
+        "audit"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.02,
+        "sla_hours": 36.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_004_financial_close_consolidation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ]
+    },
+    "r2r_001_journal_entry_recording": {
+      "id": "r2r_001_journal_entry_recording",
+      "type": "process_step",
+      "name": "General Ledger Journal Recording & Subledger Ingestion",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "journal_entry",
+        "general_ledger",
+        "subledger",
+        "ingestion",
+        "accounting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.82,
+        "error_rate": 0.015,
+        "sla_hours": 16.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_002_intercompany_reconciliation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
         }
       ]
     },
@@ -183,29 +464,32 @@
         "legal",
         "slas"
       ],
-      "raci": {},
-      "responsible": [
-        "role_category_manager"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 72.0,
-      "baseline_cost_per_unit": 300.0,
-      "automation_rate": 0.4,
-      "error_rate": 0.04,
-      "sla_hours": 96.0,
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 72.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.04,
+        "sla_hours": 96.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal",
         "asset_erp_system"
       ],
+      "compensating_control": "Legal department reviews all non-standard clauses. Standard templates locked in CLM.",
       "graph_relations": [
         {
           "relation": "feeds_into",
@@ -216,6 +500,158 @@
           "relation": "governed_by",
           "target": "sod_spending_limits_policy",
           "weight": 0.95
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "o2c_005_cash_collection_reconciliation": {
+      "id": "o2c_005_cash_collection_reconciliation",
+      "type": "process_step",
+      "name": "Cash Collection & Accounts Receivable Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "treasury",
+        "cash_application",
+        "ar",
+        "reconciliation",
+        "banking"
+      ],
+      "raci": {
+        "responsible": [
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_sales_ops_specialist"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_sales_ops_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 12.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.01,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 0.9
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.95
+        }
+      ]
+    },
+    "r2r_005_statutory_financial_reporting": {
+      "id": "r2r_005_statutory_financial_reporting",
+      "type": "process_step",
+      "name": "Statutory, Tax & Management Financial Reporting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "statutory_reporting",
+        "sec_filing",
+        "10k",
+        "management_reporting",
+        "disclosure"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 14.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.008,
+        "sla_hours": 32.0
+      },
+      "asset_dependencies": [
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
         }
       ]
     },
@@ -237,25 +673,27 @@
         "compliance",
         "risk"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 48.0,
-      "baseline_cost_per_unit": 120.0,
-      "automation_rate": 0.5,
-      "error_rate": 0.05,
-      "sla_hours": 72.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.05,
+        "sla_hours": 72.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal"
       ],
@@ -269,6 +707,92 @@
           "relation": "governed_by",
           "target": "sod_spending_limits_policy",
           "weight": 0.9
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "r2r_004_financial_close_consolidation": {
+      "id": "r2r_004_financial_close_consolidation",
+      "type": "process_step",
+      "name": "Financial Close Orchestration & Group Consolidation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "financial_close",
+        "consolidation",
+        "currency_translation",
+        "trial_balance",
+        "group_reporting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 20.0,
+        "baseline_cost_per_unit": 65.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.01,
+        "sla_hours": 48.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_005_statutory_financial_reporting",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
         }
       ]
     },
@@ -291,25 +815,27 @@
         "rfq",
         "negotiation"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 96.0,
-      "baseline_cost_per_unit": 250.0,
-      "automation_rate": 0.65,
-      "error_rate": 0.02,
-      "sla_hours": 120.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 96.0,
+        "baseline_cost_per_unit": 250.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.02,
+        "sla_hours": 120.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal"
       ],
@@ -319,7 +845,21 @@
           "target": "s2p_004_contracting_sla_negotiation",
           "weight": 1.0
         }
-      ]
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
     },
     "s2p_007_invoice_verification_matching": {
       "id": "s2p_007_invoice_verification_matching",
@@ -340,25 +880,27 @@
         "matching",
         "finance"
       ],
-      "raci": {},
-      "responsible": [
-        "role_accounts_payable_clerk"
-      ],
-      "accountable": [
-        "role_finance_controller"
-      ],
-      "consulted": [
-        "role_procurement_specialist"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 16.0,
-      "baseline_cost_per_unit": 22.0,
-      "automation_rate": 0.75,
-      "error_rate": 0.04,
-      "sla_hours": 24.0,
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 22.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.04,
+        "sla_hours": 24.0
+      },
       "asset_dependencies": [
         "asset_erp_system",
         "asset_eprocurement_portal"
@@ -372,6 +914,160 @@
         {
           "relation": "governed_by",
           "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "o2c_003_inventory_allocation_fulfillment": {
+      "id": "o2c_003_inventory_allocation_fulfillment",
+      "type": "process_step",
+      "name": "Inventory Allocation & Warehouse Fulfillment",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "warehouse",
+        "logistics",
+        "inventory",
+        "shipping",
+        "fulfillment"
+      ],
+      "raci": {
+        "responsible": [
+          "role_warehouse_supervisor"
+        ],
+        "accountable": [
+          "role_warehouse_supervisor"
+        ],
+        "consulted": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_warehouse_supervisor"
+        ],
+        "approver": [
+          "role_warehouse_supervisor"
+        ],
+        "contributor": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 65.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.015,
+        "sla_hours": 48.0
+      },
+      "asset_dependencies": [
+        "asset_wms_system",
+        "asset_erp_system"
+      ],
+      "compensating_control": "WMS requires physical barcode scan and matches to ERP pick ticket before dispatch.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "o2c_004_billing_invoice_generation",
+          "weight": 1.0
+        }
+      ]
+    },
+    "r2r_002_intercompany_reconciliation": {
+      "id": "r2r_002_intercompany_reconciliation",
+      "type": "process_step",
+      "name": "Intercompany Transaction Matching & Elimination",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "intercompany",
+        "elimination",
+        "matching",
+        "netting",
+        "consolidation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 35.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.025,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_003_balance_sheet_substantiation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
           "weight": 0.9
         }
       ]
@@ -395,25 +1091,27 @@
         "quality",
         "grn"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_accounts_payable_clerk"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 6.0,
-      "baseline_cost_per_unit": 12.5,
-      "automation_rate": 0.8,
-      "error_rate": 0.02,
-      "sla_hours": 12.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 12.5,
+        "automation_rate": 0.8,
+        "error_rate": 0.02,
+        "sla_hours": 12.0
+      },
       "asset_dependencies": [
         "asset_erp_system"
       ],
@@ -421,6 +1119,231 @@
         {
           "relation": "feeds_into",
           "target": "s2p_007_invoice_verification_matching",
+          "weight": 1.0
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "o2c_002_credit_check_approval": {
+      "id": "o2c_002_credit_check_approval",
+      "type": "process_step",
+      "name": "Customer Credit Assessment & Exposure Check",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "credit",
+        "risk",
+        "underwriting",
+        "compliance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_credit_manager"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_credit_manager"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 15.0,
+        "automation_rate": 0.9,
+        "error_rate": 0.01,
+        "sla_hours": 8.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_crm_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "o2c_003_inventory_allocation_fulfillment",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "credit_limit_risk_policy",
+          "weight": 1.0
+        }
+      ]
+    },
+    "o2c_004_billing_invoice_generation": {
+      "id": "o2c_004_billing_invoice_generation",
+      "type": "process_step",
+      "name": "Customer Billing & Electronic Invoicing",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "billing",
+        "invoicing",
+        "revenue",
+        "accounting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 2.0,
+        "baseline_cost_per_unit": 6.5,
+        "automation_rate": 0.95,
+        "error_rate": 0.005,
+        "sla_hours": 4.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_crm_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "o2c_005_cash_collection_reconciliation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ]
+    },
+    "financial_close_reporting_stream": {
+      "id": "financial_close_reporting_stream",
+      "type": "value_stream",
+      "name": "Financial Close, Consolidation & Regulatory Reporting Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "record_to_report",
+        "financial_close",
+        "consolidation",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant",
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 70.0,
+        "baseline_cost_per_unit": 213.0,
+        "automation_rate": 0.76,
+        "error_rate": 0.013,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
           "weight": 1.0
         }
       ]
@@ -442,36 +1365,53 @@
         "value_stream",
         "strategic_sourcing"
       ],
-      "raci": {},
-      "responsible": [
-        "role_category_manager"
-      ],
-      "accountable": [
-        "role_category_manager"
-      ],
-      "consulted": [
-        "role_finance_controller"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 228.0,
-      "baseline_cost_per_unit": 715.0,
-      "automation_rate": 0.55,
-      "error_rate": 0.035,
-      "sla_hours": 312.0,
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 228.0,
+        "baseline_cost_per_unit": 715.0,
+        "automation_rate": 0.55,
+        "error_rate": 0.035,
+        "sla_hours": 312.0
+      },
       "asset_dependencies": [
         "asset_eprocurement_portal",
         "asset_erp_system"
       ],
+      "compensating_control": "Strategic sourcing stream performance is reviewed quarterly by the Procurement Steering Committee.",
       "graph_relations": [
         {
           "relation": "feeds_into",
           "target": "procure_to_pay_stream",
           "weight": 1.0
         }
-      ]
+      ],
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
     },
     "procure_to_pay_stream": {
       "id": "procure_to_pay_stream",
@@ -491,26 +1431,28 @@
         "procure_to_pay",
         "p2p"
       ],
-      "raci": {},
-      "responsible": [
-        "role_procurement_specialist",
-        "role_accounts_payable_clerk"
-      ],
-      "accountable": [
-        "role_finance_controller"
-      ],
-      "consulted": [
-        "role_category_manager"
-      ],
-      "informed": [
-        "role_supplier"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 34.0,
-      "baseline_cost_per_unit": 60.5,
-      "automation_rate": 0.85,
-      "error_rate": 0.018,
-      "sla_hours": 56.0,
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 34.0,
+        "baseline_cost_per_unit": 60.5,
+        "automation_rate": 0.85,
+        "error_rate": 0.018,
+        "sla_hours": 56.0
+      },
       "asset_dependencies": [
         "asset_erp_system",
         "asset_eprocurement_portal",
@@ -522,6 +1464,159 @@
           "target": "sod_spending_limits_policy",
           "weight": 1.0
         }
+      ],
+      "daci": {
+        "driver": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "order_fulfillment_stream": {
+      "id": "order_fulfillment_stream",
+      "type": "value_stream",
+      "name": "Order-to-Fulfillment & Cash Revenue Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "order_to_cash",
+        "fulfillment",
+        "o2c"
+      ],
+      "raci": {
+        "responsible": [
+          "role_sales_ops_specialist",
+          "role_warehouse_supervisor",
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_credit_manager"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_sales_ops_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_credit_manager"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 44.0,
+        "baseline_cost_per_unit": 123.5,
+        "automation_rate": 0.83,
+        "error_rate": 0.012,
+        "sla_hours": 96.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_crm_system",
+        "asset_wms_system",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "credit_limit_risk_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.95
+        }
+      ]
+    },
+    "sox_financial_reporting_controls_policy": {
+      "id": "sox_financial_reporting_controls_policy",
+      "type": "control_policy",
+      "name": "SOX 404 Financial Reporting Internal Controls & Materiality Thresholds Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "sox",
+        "compliance",
+        "internal_controls",
+        "financial_reporting",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
       ]
     },
     "sod_spending_limits_policy": {
@@ -544,35 +1639,105 @@
         "sod",
         "compliance"
       ],
-      "raci": {},
-      "responsible": [
-        "role_finance_controller"
-      ],
-      "accountable": [
-        "role_finance_controller"
-      ],
-      "consulted": [
-        "role_category_manager"
-      ],
-      "informed": [
-        "role_procurement_specialist",
-        "role_accounts_payable_clerk"
-      ],
-      "attributes": {},
-      "baseline_cycle_time_hours": 0.0,
-      "baseline_cost_per_unit": 0.0,
-      "automation_rate": 1.0,
-      "error_rate": 0.0,
-      "sla_hours": 0.0,
+      "raci": {
+        "responsible": [
+          "role_finance_controller"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0
+      },
       "asset_dependencies": [
         "asset_erp_system"
       ],
-      "graph_relations": [
-        {
-          "relation": "governed_by",
-          "target": "sod_spending_limits_policy",
-          "weight": 1.0
-        }
+      "compensating_control": "Policy configuration changes require dual authorization in GRC tool.",
+      "daci": {
+        "driver": [
+          "role_finance_controller"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      }
+    },
+    "credit_limit_risk_policy": {
+      "id": "credit_limit_risk_policy",
+      "type": "control_policy",
+      "name": "Commercial Credit Limit & Customer Risk Exposure Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "O2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "credit",
+        "risk",
+        "compliance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_credit_manager"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_credit_manager"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_sales_ops_specialist"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_crm_system"
       ]
     }
   },
@@ -587,6 +1752,16 @@
       "sla_uptime_percent": 99.99,
       "capacity_max_tps": 1500
     },
+    "asset_crm_system": {
+      "id": "asset_crm_system",
+      "name": "Enterprise Cloud CRM & CPQ Platform (Salesforce)",
+      "asset_type": "it_application",
+      "version": "2.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 1200
+    },
     "asset_eprocurement_portal": {
       "id": "asset_eprocurement_portal",
       "name": "Cloud e-Procurement & Supplier Network Portal",
@@ -597,6 +1772,16 @@
       "sla_uptime_percent": 99.9,
       "capacity_max_tps": 800
     },
+    "asset_wms_system": {
+      "id": "asset_wms_system",
+      "name": "Automated Warehouse Management & Dispatch System (SAP EWM)",
+      "asset_type": "it_application",
+      "version": "3.1.2",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.95,
+      "capacity_max_tps": 600
+    },
     "asset_erp_system": {
       "id": "asset_erp_system",
       "name": "Enterprise Core ERP (SAP S/4HANA)",
@@ -606,13 +1791,31 @@
       "status": "operational",
       "sla_uptime_percent": 99.95,
       "capacity_max_tps": 2500
+    },
+    "asset_financial_consolidation_system": {
+      "id": "asset_financial_consolidation_system",
+      "name": "Enterprise Financial Consolidation & Reporting System (SAP Group Reporting / OneStream)",
+      "asset_type": "it_application",
+      "version": "3.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 500
     }
   },
   "roles": [
-    "role_finance_controller",
-    "role_supplier",
+    "role_internal_auditor",
+    "role_warehouse_supervisor",
     "role_accounts_payable_clerk",
+    "role_finance_controller",
+    "role_procurement_specialist",
+    "role_general_ledger_accountant",
+    "role_consolidation_specialist",
     "role_category_manager",
-    "role_procurement_specialist"
+    "role_supplier",
+    "role_credit_manager",
+    "role_customer",
+    "role_sales_ops_specialist",
+    "role_billing_specialist"
   ]
 }

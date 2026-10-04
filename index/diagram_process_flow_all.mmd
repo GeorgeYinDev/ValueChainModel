@@ -1,0 +1,91 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    financial_close_reporting_stream[["<b>Stream: Financial Close, Consolidation &amp; Regulatory Reporting Stream</b><br/><small>financial_close_reporting_stream</small>"]]:::valueStream
+    order_fulfillment_stream[["<b>Stream: Order-to-Fulfillment &amp; Cash Revenue Stream</b><br/><small>order_fulfillment_stream</small>"]]:::valueStream
+    procure_to_pay_stream[["<b>Stream: Procure to Pay (P2P) Operational Value Stream</b><br/><small>procure_to_pay_stream</small>"]]:::valueStream
+    strategic_sourcing_stream[["<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_Sourcing ["<b>Strategic Sourcing & Contracting Phase</b>"]
+    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 50% auto"]:::processStep
+    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0 | ⚡ 65% auto"]:::processStep
+    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0 | ⚡ 40% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2P ["<b>Procure-to-Pay (P2P) Operational Phase</b>"]
+    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 90% auto"]:::processStep
+    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5 | ⚡ 80% auto"]:::processStep
+    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0 | ⚡ 75% auto"]:::processStep
+    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5 | ⚡ 95% auto"]:::processStep
+  end
+
+  subgraph Subgraph_O2C ["<b>Order-to-Cash Commercial & Fulfillment Phase</b>"]
+    o2c_001_customer_quote_order_entry["<b>Quote Generation &amp; Order Capture</b><br/><small>ID: o2c_001_customer_quote_order_entry</small><br/>⏱ 6.0h | 💰 $25.0 | ⚡ 80% auto"]:::processStep
+    o2c_002_credit_check_approval["<b>Customer Credit Assessment &amp; Exposure Check</b><br/><small>ID: o2c_002_credit_check_approval</small><br/>⏱ 4.0h | 💰 $15.0 | ⚡ 90% auto"]:::processStep
+    o2c_003_inventory_allocation_fulfillment["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/><small>ID: o2c_003_inventory_allocation_fulfillment</small><br/>⏱ 24.0h | 💰 $65.0 | ⚡ 65% auto"]:::processStep
+    o2c_004_billing_invoice_generation["<b>Customer Billing &amp; Electronic Invoicing</b><br/><small>ID: o2c_004_billing_invoice_generation</small><br/>⏱ 2.0h | 💰 $6.5 | ⚡ 95% auto"]:::processStep
+    o2c_005_cash_collection_reconciliation["<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/><small>ID: o2c_005_cash_collection_reconciliation</small><br/>⏱ 8.0h | 💰 $12.0 | ⚡ 85% auto"]:::processStep
+  end
+
+  subgraph Subgraph_R2R ["<b>Record-to-Report Financial Accounting Phase</b>"]
+    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 82% auto"]:::processStep
+    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0 | ⚡ 80% auto"]:::processStep
+    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Other ["<b>Process Steps</b>"]
+    test_invalid_schema["<b>Test Invalid Schema</b><br/><small>ID: test_invalid_schema</small><br/>⏱ 0.0h | 💰 $0.0"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    credit_limit_risk_policy(["<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>"]):::controlPolicy
+    sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
+    sox_financial_reporting_controls_policy(["<b>Policy: SOX 404 Financial Reporting Internal Controls &amp; Materiality Thresholds Policy</b><br/><small>sox_financial_reporting_controls_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  s2p_008_payment_settlement_disbursement --> r2r_001_journal_entry_recording
+  s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy
+  s2p_001_spend_analysis_need_id --> s2p_002_supplier_discovery_qualification
+  s2p_001_spend_analysis_need_id -. governed by .-> sod_spending_limits_policy
+  s2p_005_purchase_requisition_po --> s2p_006_goods_services_receipt
+  s2p_005_purchase_requisition_po -. governed by .-> sod_spending_limits_policy
+  o2c_001_customer_quote_order_entry --> o2c_002_credit_check_approval
+  o2c_001_customer_quote_order_entry -. governed by .-> credit_limit_risk_policy
+  r2r_003_balance_sheet_substantiation --> r2r_004_financial_close_consolidation
+  r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation
+  r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy
+  s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
+  s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
+  o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording
+  o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy
+  r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy
+  s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction
+  s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy
+  r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting
+  r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
+  s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
+  s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
+  s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
+  o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation
+  r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
+  r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
+  s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching
+  o2c_002_credit_check_approval --> o2c_003_inventory_allocation_fulfillment
+  o2c_002_credit_check_approval -. governed by .-> credit_limit_risk_policy
+  o2c_004_billing_invoice_generation --> o2c_005_cash_collection_reconciliation
+  o2c_004_billing_invoice_generation -. governed by .-> sod_spending_limits_policy
+  financial_close_reporting_stream -. governed by .-> sox_financial_reporting_controls_policy
+  strategic_sourcing_stream --> procure_to_pay_stream
+  procure_to_pay_stream -. governed by .-> sod_spending_limits_policy
+  order_fulfillment_stream -. governed by .-> credit_limit_risk_policy
+  order_fulfillment_stream -. governed by .-> sod_spending_limits_policy

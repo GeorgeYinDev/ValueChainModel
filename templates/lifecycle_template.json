@@ -1,0 +1,28 @@
+{
+  "lifecycle_id": "LIFECYCLE_ID",
+  "name": "Lifecycle Formal Name",
+  "version": "1.0.0",
+  "description": "Executive description of the end-to-end business lifecycle, key stakeholder domains, and core strategic outcomes.",
+  "milestones": [
+    {
+      "step_id": "lifecycle_001_step_name",
+      "name": "Milestone 1 Display Name",
+      "order": 1
+    },
+    {
+      "step_id": "lifecycle_002_step_name",
+      "name": "Milestone 2 Display Name",
+      "order": 2
+    },
+    {
+      "step_id": "lifecycle_003_step_name",
+      "name": "Milestone 3 Display Name",
+      "order": 3
+    }
+  ],
+  "key_performance_indicators": [
+    "primary_cycle_time_metric",
+    "automation_percentage_kpi",
+    "first_time_right_quality_rate"
+  ]
+}

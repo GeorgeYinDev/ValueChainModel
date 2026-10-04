@@ -1,0 +1,32 @@
+{
+  "scenario_id": "scenario_credit_hold_surge",
+  "name": "Market Credit Liquidity Crunch & Hold Surge",
+  "target_lifecycle": "O2C",
+  "description": "Simulates a macroeconomic credit contraction where heightened customer insolvency risks trigger a 400% surge in manual credit reviews and order fulfillment holds.",
+  "shocks": [
+    {
+      "target_element_id": "o2c_002_credit_check_approval",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.5,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "o2c_002_credit_check_approval",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 2.2,
+      "additive_delta": 35.0
+    },
+    {
+      "target_element_id": "o2c_003_inventory_allocation_fulfillment",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.5,
+      "additive_delta": 12.0
+    },
+    {
+      "target_element_id": "o2c_005_cash_collection_reconciliation",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.5,
+      "additive_delta": 0.04
+    }
+  ]
+}

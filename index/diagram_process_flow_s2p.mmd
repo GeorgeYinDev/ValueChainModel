@@ -1,0 +1,45 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    procure_to_pay_stream[["<b>Stream: Procure to Pay (P2P) Operational Value Stream</b><br/><small>procure_to_pay_stream</small>"]]:::valueStream
+    strategic_sourcing_stream[["<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_Sourcing ["<b>Strategic Sourcing & Contracting Phase</b>"]
+    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 50% auto"]:::processStep
+    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0 | ⚡ 65% auto"]:::processStep
+    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0 | ⚡ 40% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2P ["<b>Procure-to-Pay (P2P) Operational Phase</b>"]
+    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 90% auto"]:::processStep
+    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5 | ⚡ 80% auto"]:::processStep
+    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0 | ⚡ 75% auto"]:::processStep
+    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5 | ⚡ 95% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy
+  s2p_001_spend_analysis_need_id --> s2p_002_supplier_discovery_qualification
+  s2p_001_spend_analysis_need_id -. governed by .-> sod_spending_limits_policy
+  s2p_005_purchase_requisition_po --> s2p_006_goods_services_receipt
+  s2p_005_purchase_requisition_po -. governed by .-> sod_spending_limits_policy
+  s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
+  s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
+  s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction
+  s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy
+  s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
+  s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
+  s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
+  s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching
+  strategic_sourcing_stream --> procure_to_pay_stream
+  procure_to_pay_stream -. governed by .-> sod_spending_limits_policy

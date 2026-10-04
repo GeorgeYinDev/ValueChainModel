@@ -1,0 +1,44 @@
+{
+  "scenario_id": "scenario_close_period_crunch",
+  "name": "Fiscal Year-End Financial Close Crunch & Manual Adjustment Surge",
+  "target_lifecycle": "R2R",
+  "description": "Simulates a compressed year-end financial reporting schedule combined with a 300% surge in late manual adjustment journals, cross-border FX volatility, and out-of-balance intercompany trade disputes.",
+  "shocks": [
+    {
+      "target_element_id": "r2r_001_journal_entry_recording",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 12.0
+    },
+    {
+      "target_element_id": "r2r_001_journal_entry_recording",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.0,
+      "additive_delta": 0.02
+    },
+    {
+      "target_element_id": "r2r_002_intercompany_reconciliation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.8,
+      "additive_delta": 18.0
+    },
+    {
+      "target_element_id": "r2r_002_intercompany_reconciliation",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.8,
+      "additive_delta": 25.0
+    },
+    {
+      "target_element_id": "r2r_003_balance_sheet_substantiation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.2,
+      "additive_delta": 14.0
+    },
+    {
+      "target_element_id": "r2r_004_financial_close_consolidation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.8,
+      "additive_delta": 16.0
+    }
+  ]
+}

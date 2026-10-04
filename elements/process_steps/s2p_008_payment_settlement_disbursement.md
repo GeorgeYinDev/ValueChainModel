@@ -25,6 +25,9 @@ asset_dependencies:
   - asset_payment_gateway
 
 graph_relations:
+  - relation: feeds_into
+    target: r2r_001_journal_entry_recording
+    weight: 0.90
   - relation: governed_by
     target: sod_spending_limits_policy
     weight: 1.0

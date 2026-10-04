@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Value Chain Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+    window.mermaid = mermaid;
+    if (window.onMermaidReady) window.onMermaidReady();
+  </script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-red: #f87171;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+    header {
+      background: linear-gradient(180deg, #111827 0%, rgba(17,24,39,0.8) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 24px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+    .brand h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .kpi-pills {
+      display: flex;
+      gap: 12px;
+    }
+    .kpi-pill {
+      background: rgba(31, 41, 55, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .kpi-pill .val {
+      font-weight: 700;
+      color: var(--accent-blue);
+      font-size: 15px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    nav.tabs {
+      display: flex;
+      gap: 8px;
+      padding: 16px 36px 0 36px;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.03);
+    }
+    .tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom: 2px solid var(--accent-blue);
+      background: rgba(56, 189, 248, 0.05);
+    }
+    main.container {
+      max-width: 1440px;
+      margin: 28px auto;
+      padding: 0 36px;
+    }
+    .section-content {
+      display: none;
+    }
+    .section-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 20px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    select, input {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #f3f4f6;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+    }
+    .step-card.shocked {
+      border-color: var(--accent-red);
+      background: linear-gradient(180deg, #1f1d24 0%, #17131b 100%);
+      box-shadow: 0 0 16px rgba(248, 113, 113, 0.2);
+    }
+    .step-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .step-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 12px;
+    }
+    .metric-item {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .metric-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e5e7eb;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .shock-badge {
+      display: inline-block;
+      margin-top: 10px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--accent-red);
+      color: #fca5a5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    table.raci-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    table.raci-table th, table.raci-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    table.raci-table th {
+      background: #1f2937;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    .raci-badge {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 12px;
+      margin: 2px;
+    }
+    .badge-r { background: rgba(59, 130, 246, 0.25); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-d { background: rgba(14, 165, 233, 0.25); color: #7dd3fc; border: 1px solid #0ea5e9; }
+    .badge-a { background: rgba(168, 85, 247, 0.25); color: #d8b4fe; border: 1px solid #a855f7; }
+    .badge-c { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
+    .badge-i { background: rgba(107, 114, 128, 0.3); color: #d1d5db; border: 1px solid #6b7280; }
+
+    .mermaid-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      overflow: auto;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1f2937;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    .modal-tier {
+      margin-top: 20px;
+      background: rgba(31, 41, 55, 0.4);
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 3px solid var(--accent-blue);
+    }
+    .modal-tier h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-badge">⚡</div>
+    <div>
+      <h1>Enterprise Value Chain Visualizer</h1>
+      <p>Multi-Tier Architecture & Simulation Engine (TOGAF / SCOR Alignment)</p>
+    </div>
+  </div>
+  <div class="kpi-pills">
+    <div class="kpi-pill">
+      <span>Lifecycle</span>
+      <span class="val" id="headerLifecycle">S2P</span>
+    </div>
+    <div class="kpi-pill">
+      <span>Total Elements</span>
+      <span class="val" id="headerElements">0</span>
+    </div>
+    <div class="kpi-pill">
+      <span>Active Roles</span>
+      <span class="val" id="headerRoles">0</span>
+    </div>
+    <div class="kpi-pill">
+      <span>System Assets</span>
+      <span class="val" id="headerAssets">0</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="switchTab('tab-pipeline')">🔀 Process Flow</button>
+  <button class="tab-btn" onclick="switchTab('tab-raci')">👥 Governance (RACI / DACI)</button>
+  <button class="tab-btn" onclick="switchTab('tab-assets')">💻 System Assets</button>
+  <button class="tab-btn" onclick="switchTab('tab-simulation')">⚡ Scenario Stress-Test</button>
+  <button class="tab-btn" onclick="switchTab('tab-mermaid')">📐 Live Mermaid Graph</button>
+</nav>
+
+<main class="container">
+
+  <!-- 1. Pipeline Tab -->
+  <section id="tab-pipeline" class="section-content active">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="filterLifecycle" style="font-size: 13px; color: var(--text-muted);">Lifecycle:</label>
+        <select id="filterLifecycle" onchange="onFilterLifecycleChange(this.value)">
+          <option value="S2P">Source to Pay (S2P)</option>
+          <option value="ALL">All Lifecycles</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <input type="text" id="searchSteps" placeholder="Search steps, tags, roles..." oninput="renderPipeline()">
+      </div>
+    </div>
+    <div id="pipelineGrid" class="pipeline-grid"></div>
+  </section>
+
+  <!-- 2. RACI / DACI Governance Matrix Tab -->
+  <section id="tab-raci" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label style="font-size: 13px; font-weight: 600; color: var(--accent-blue);">Governance Model:</label>
+        <button id="btnModelRaci" class="tab-btn active" style="padding: 6px 14px; border-radius: 6px;" onclick="setMatrixModel('RACI')">RACI (Operational Execution)</button>
+        <button id="btnModelDaci" class="tab-btn" style="padding: 6px 14px; border-radius: 6px;" onclick="setMatrixModel('DACI')">DACI (Decision Authority)</button>
+      </div>
+      <div id="matrixModelDescription" style="font-size: 13px; color: var(--text-muted);">
+        <b>RACI Model:</b> Responsible (R) executes | Accountable (A) signs off | Consulted (C) inputs | Informed (I) notified
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="raci-table" id="raciTable">
+        <thead><tr id="raciHeaderRow"></tr></thead>
+        <tbody id="raciBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. System Assets Tab -->
+  <section id="tab-assets" class="section-content">
+    <div class="pipeline-grid" id="assetsGrid"></div>
+  </section>
+
+  <!-- 4. Scenario Stress-Test Tab -->
+  <section id="tab-simulation" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="selectScenario" style="font-size: 13px; font-weight: 600; color: var(--accent-amber);">Select Operational Scenario:</label>
+        <select id="selectScenario" onchange="applyScenario()">
+          <option value="baseline">Baseline (Normal Operations)</option>
+        </select>
+      </div>
+      <div id="scenarioDescription" style="font-size: 13px; color: var(--text-muted); max-width: 600px;"></div>
+    </div>
+    <div class="controls-bar" style="background: rgba(31, 41, 55, 0.4); justify-content: space-around;">
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Total Cycle Lead Time</span>
+        <div id="simCycleTime" style="font-size: 20px; font-weight: 700; color: var(--accent-blue); font-family: 'JetBrains Mono';">--</div>
+      </div>
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Total Unit Execution Cost</span>
+        <div id="simCost" style="font-size: 20px; font-weight: 700; color: var(--accent-green); font-family: 'JetBrains Mono';">--</div>
+      </div>
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Primary Bottleneck Step</span>
+        <div id="simBottleneck" style="font-size: 16px; font-weight: 700; color: var(--accent-amber); font-family: 'JetBrains Mono';">--</div>
+      </div>
+    </div>
+    <div id="simPipelineGrid" class="pipeline-grid" style="margin-top: 20px;"></div>
+  </section>
+
+  <!-- 5. Live Mermaid Tab -->
+  <section id="tab-mermaid" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="mermaidLifecycleFilter" style="font-size: 13px; font-weight: 600; color: var(--accent-blue);">Lifecycle Scope:</label>
+        <select id="mermaidLifecycleFilter" onchange="onMermaidLifecycleChange(this.value)">
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="mermaidDiagramSelector" style="font-size: 13px; font-weight: 600; color: var(--accent-purple);">Diagram View:</label>
+        <select id="mermaidDiagramSelector" onchange="renderMermaidTab()">
+          <option value="both">All Architecture Views</option>
+          <option value="flow">Process Flow &amp; Governance Linkages</option>
+          <option value="raci">RACI Role Swimlanes &amp; Handoffs</option>
+          <option value="assets">Enterprise IT Assets &amp; System Topology</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidFlowBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-blue);">Process Flow &amp; Milestone Sequence</h3>
+        <span id="mermaidFlowBadge" style="font-size: 12px; color: var(--text-muted); font-family: monospace;"></span>
+      </div>
+      <div id="mermaidFlowContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidRaciBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-purple);">RACI Role Swimlanes &amp; Cross-Functional Sequence</h3>
+        <span id="mermaidRaciBadge" style="font-size: 12px; color: var(--text-muted); font-family: monospace;"></span>
+      </div>
+      <div id="mermaidRaciContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidAssetsBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-green);">Enterprise IT Asset &amp; Dependency Map</h3>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: monospace;">Topology</span>
+      </div>
+      <div id="mermaidAssetsContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+  /*__DATA_PAYLOAD__*/
+
+  let activeShockMap = {};
+  let currentMatrixModel = 'RACI';
+
+  let mermaidRenderCounter = 0;
+
+  window.onMermaidReady = function() {
+    const mermaidTab = document.getElementById("tab-mermaid");
+    if (mermaidTab && mermaidTab.classList.contains("active")) {
+      renderMermaidTab();
+    }
+  };
+
+  async function renderMermaidDiagram(containerId, code) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    if (!code || !code.trim()) {
+      container.innerHTML = `<div style="color: var(--text-muted); padding: 20px;">No diagram definition available for this selection.</div>`;
+      return;
+    }
+    if (!window.mermaid) {
+      container.innerHTML = `<div style="color: var(--text-muted); padding: 20px;">Loading diagram rendering engine...</div>`;
+      return;
+    }
+    try {
+      mermaidRenderCounter++;
+      const uniqueId = `mermaid-svg-${containerId}-${mermaidRenderCounter}`;
+      const { svg } = await window.mermaid.render(uniqueId, code);
+      container.innerHTML = svg;
+    } catch (err) {
+      console.error("Mermaid render error:", err);
+      container.innerHTML = `
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); border-radius: 8px; padding: 16px; color: #fca5a5; text-align: left; max-width: 800px; margin: 0 auto; font-family: monospace; font-size: 12px;">
+          <div style="font-weight: bold; margin-bottom: 6px;">Diagram Render Error:</div>
+          <div>${err.message || err}</div>
+        </div>
+      `;
+    }
+  }
+
+  function onFilterLifecycleChange(val) {
+    const mlfFilter = document.getElementById("mermaidLifecycleFilter");
+    if (mlfFilter) mlfFilter.value = val;
+    const headerLf = document.getElementById("headerLifecycle");
+    if (headerLf) headerLf.innerText = val;
+    renderPipeline();
+    renderRaciTable();
+  }
+
+  function onMermaidLifecycleChange(val) {
+    const lfFilter = document.getElementById("filterLifecycle");
+    if (lfFilter) {
+      lfFilter.value = val;
+      const headerLf = document.getElementById("headerLifecycle");
+      if (headerLf) headerLf.innerText = val;
+      renderPipeline();
+      renderRaciTable();
+    }
+    renderMermaidTab();
+  }
+
+  async function renderMermaidTab() {
+    const activeLf = document.getElementById("mermaidLifecycleFilter")?.value || document.getElementById("filterLifecycle")?.value || "ALL";
+    const viewSelector = document.getElementById("mermaidDiagramSelector")?.value || "both";
+
+    const flowBox = document.getElementById("mermaidFlowBox");
+    const raciBox = document.getElementById("mermaidRaciBox");
+    const assetsBox = document.getElementById("mermaidAssetsBox");
+
+    const flowCode = (typeof mermaidFlows !== 'undefined' && (mermaidFlows[activeLf] || mermaidFlows["ALL"])) || "";
+    const raciCode = (typeof mermaidRaci !== 'undefined' && (mermaidRaci[activeLf] || mermaidRaci["ALL"])) || "";
+    const assetCode = typeof mermaidAssets !== 'undefined' ? mermaidAssets : "";
+
+    if (viewSelector === "flow") {
+      flowBox.style.display = "block";
+      raciBox.style.display = "none";
+      assetsBox.style.display = "none";
+      document.getElementById("mermaidFlowBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidFlowContainer", flowCode);
+    } else if (viewSelector === "raci") {
+      flowBox.style.display = "none";
+      raciBox.style.display = "block";
+      assetsBox.style.display = "none";
+      document.getElementById("mermaidRaciBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidRaciContainer", raciCode);
+    } else if (viewSelector === "assets") {
+      flowBox.style.display = "none";
+      raciBox.style.display = "none";
+      assetsBox.style.display = "block";
+      await renderMermaidDiagram("mermaidAssetsContainer", assetCode);
+    } else {
+      flowBox.style.display = "block";
+      raciBox.style.display = "block";
+      assetsBox.style.display = "block";
+      document.getElementById("mermaidFlowBadge").innerText = `Scope: ${activeLf}`;
+      document.getElementById("mermaidRaciBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidFlowContainer", flowCode);
+      await renderMermaidDiagram("mermaidRaciContainer", raciCode);
+      await renderMermaidDiagram("mermaidAssetsContainer", assetCode);
+    }
+  }
+
+  function init() {
+    document.getElementById("headerElements").innerText = Object.keys(elements).length;
+    document.getElementById("headerRoles").innerText = roles.length;
+    document.getElementById("headerAssets").innerText = Object.keys(assets).length;
+
+    // Dynamically populate lifecycle filter dropdown
+    const lfFilter = document.getElementById("filterLifecycle");
+    const mlfFilter = document.getElementById("mermaidLifecycleFilter");
+    if (lfFilter) {
+      lfFilter.innerHTML = "";
+      Object.keys(lifecycles).sort().forEach(lid => {
+        const lf = lifecycles[lid];
+        const opt = document.createElement("option");
+        opt.value = lid;
+        opt.innerText = `${lf.name || lid} (${lid})`;
+        lfFilter.appendChild(opt);
+      });
+      const allOpt = document.createElement("option");
+      allOpt.value = "ALL";
+      allOpt.innerText = "All Enterprise Lifecycles";
+      lfFilter.appendChild(allOpt);
+
+      if (mlfFilter) {
+        mlfFilter.innerHTML = lfFilter.innerHTML;
+        mlfFilter.value = lfFilter.value;
+      }
+    }
+
+    // Populate scenario dropdown
+    const scSelect = document.getElementById("selectScenario");
+    scSelect.innerHTML = '<option value="baseline">Baseline (Normal Operations)</option>';
+    scenarios.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.scenario_id;
+      opt.innerText = `[${s.target_lifecycle}] ${s.name}`;
+      scSelect.appendChild(opt);
+    });
+
+    renderPipeline();
+    renderRaciTable();
+    renderAssets();
+    applyScenario();
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".section-content").forEach(s => s.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+    document.getElementById(tabId).classList.add("active");
+    if (tabId === 'tab-mermaid') {
+      renderMermaidTab();
+    }
+  }
+
+  function setMatrixModel(model) {
+    currentMatrixModel = model;
+    const btnRaci = document.getElementById("btnModelRaci");
+    const btnDaci = document.getElementById("btnModelDaci");
+    const desc = document.getElementById("matrixModelDescription");
+
+    if (model === 'RACI') {
+      btnRaci.classList.add("active");
+      btnDaci.classList.remove("active");
+      desc.innerHTML = "<b>RACI Model:</b> Responsible (R) executes | Accountable (A) signs off | Consulted (C) inputs | Informed (I) notified";
+    } else {
+      btnDaci.classList.add("active");
+      btnRaci.classList.remove("active");
+      desc.innerHTML = "<b>DACI Model:</b> Driver (D) orchestrates | Approver (A) sole veto/approval | Contributor (C) advises | Informed (I) notified";
+    }
+    renderRaciTable();
+  }
+
+  function getRaci(elem) {
+    const r = elem.raci || {};
+    return {
+      responsible: elem.responsible || r.responsible || [],
+      accountable: elem.accountable || r.accountable || [],
+      consulted: elem.consulted || r.consulted || [],
+      informed: elem.informed || r.informed || []
+    };
+  }
+
+  function getDaci(elem) {
+    const d = elem.daci || {};
+    const r = elem.raci || {};
+    return {
+      driver: elem.driver || d.driver || elem.responsible || r.responsible || [],
+      approver: elem.approver || d.approver || elem.accountable || r.accountable || [],
+      contributor: elem.contributor || d.contributor || elem.consulted || r.consulted || [],
+      informed: elem.informed || d.informed || r.informed || []
+    };
+  }
+
+  function getAttrs(elem) {
+    const a = elem.attributes || {};
+    return {
+      cycle_time: elem.baseline_cycle_time_hours || a.baseline_cycle_time_hours || 0.0,
+      cost: elem.baseline_cost_per_unit || a.baseline_cost_per_unit || 0.0,
+      automation: elem.automation_rate !== undefined ? elem.automation_rate : (a.automation_rate !== undefined ? a.automation_rate : 1.0),
+      error_rate: elem.error_rate !== undefined ? elem.error_rate : (a.error_rate !== undefined ? a.error_rate : 0.0),
+      sla: elem.sla_hours || a.sla_hours || 0.0
+    };
+  }
+
+  function renderPipeline() {
+    const grid = document.getElementById("pipelineGrid");
+    grid.innerHTML = "";
+    const filterLf = document.getElementById("filterLifecycle").value;
+    const query = document.getElementById("searchSteps").value.toLowerCase();
+
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (filterLf !== "ALL" && !((elem.lifecycles || []).includes(filterLf))) return;
+      if (elem.type !== "process_step") return;
+
+      const name = elem.name || eid;
+      const raci = getRaci(elem);
+      const attrs = getAttrs(elem);
+
+      if (query && !name.toLowerCase().includes(query) && !eid.toLowerCase().includes(query)) return;
+
+      const card = document.createElement("div");
+      card.className = "step-card";
+      card.onclick = () => openModal(eid);
+
+      card.innerHTML = `
+        <div class="step-num"><span>Step Milestone</span><span>SLA: ${attrs.sla}h</span></div>
+        <div class="step-name">${name}</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${eid}</div>
+        <div class="metric-row">
+          <div class="metric-item">Lead Time<div class="metric-val">⏱ ${attrs.cycle_time}h</div></div>
+          <div class="metric-item">Unit Cost<div class="metric-val">💰 $${attrs.cost.toFixed(2)}</div></div>
+          <div class="metric-item">Automation<div class="metric-val">⚡ ${Math.round(attrs.automation * 100)}%</div></div>
+          <div class="metric-item">Error Rate<div class="metric-val">⚠️ ${(attrs.error_rate * 100).toFixed(1)}%</div></div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderRaciTable() {
+    const headerRow = document.getElementById("raciHeaderRow");
+    headerRow.innerHTML = "<th>Step ID</th><th>Process Step Name</th>";
+    roles.forEach(r => {
+      const th = document.createElement("th");
+      th.innerText = roleTitles[r] || r;
+      headerRow.appendChild(th);
+    });
+
+    const tbody = document.getElementById("raciBody");
+    tbody.innerHTML = "";
+    const filterLf = document.getElementById("filterLifecycle")?.value || "ALL";
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (elem.type !== "process_step") return;
+      if (filterLf !== "ALL" && !((elem.lifecycles || []).includes(filterLf))) return;
+      const tr = document.createElement("tr");
+      let html = `<td style="font-family: monospace; color: var(--accent-blue);">${eid}</td><td style="font-weight: 600;">${elem.name}</td>`;
+
+      if (currentMatrixModel === 'RACI') {
+        const raci = getRaci(elem);
+        roles.forEach(r => {
+          let badges = "";
+          if (raci.responsible.includes(r)) badges += `<span class="raci-badge badge-r" title="Responsible (Executes)">R</span>`;
+          if (raci.accountable.includes(r)) badges += `<span class="raci-badge badge-a" title="Accountable (Sign-off)">A</span>`;
+          if (raci.consulted.includes(r)) badges += `<span class="raci-badge badge-c" title="Consulted (Inputs)">C</span>`;
+          if (raci.informed.includes(r)) badges += `<span class="raci-badge badge-i" title="Informed (Notified)">I</span>`;
+          html += `<td style="text-align: center;">${badges || "-"}</td>`;
+        });
+      } else {
+        const daci = getDaci(elem);
+        roles.forEach(r => {
+          let badges = "";
+          if (daci.driver.includes(r)) badges += `<span class="raci-badge badge-d" title="Driver (Orchestrates)">D</span>`;
+          if (daci.approver.includes(r)) badges += `<span class="raci-badge badge-a" title="Approver (Veto/Sign-off)">A</span>`;
+          if (daci.contributor.includes(r)) badges += `<span class="raci-badge badge-c" title="Contributor (Advises)">C</span>`;
+          if (daci.informed.includes(r)) badges += `<span class="raci-badge badge-i" title="Informed (Notified)">I</span>`;
+          html += `<td style="text-align: center;">${badges || "-"}</td>`;
+        });
+      }
+
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderAssets() {
+    const grid = document.getElementById("assetsGrid");
+    grid.innerHTML = "";
+
+    Object.keys(assets).forEach(aid => {
+      const a = assets[aid];
+      const card = document.createElement("div");
+      card.className = "step-card";
+
+      // Find dependent process steps
+      const boundSteps = [];
+      Object.keys(elements).forEach(eid => {
+        if ((elements[eid].asset_dependencies || []).includes(aid)) {
+          boundSteps.push(elements[eid].name || eid);
+        }
+      });
+
+      card.innerHTML = `
+        <div class="step-num"><span>${a.asset_type.toUpperCase()}</span><span style="color: var(--accent-green);">${a.status}</span></div>
+        <div class="step-name">${a.name}</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${aid}</div>
+        <div class="metric-row">
+          <div class="metric-item">SLA Uptime<div class="metric-val" style="color: var(--accent-green);">${a.sla_uptime_percent}%</div></div>
+          <div class="metric-item">Max Throughput<div class="metric-val">${a.capacity_max_tps} TPS</div></div>
+        </div>
+        <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          <b>Bound Process Workloads:</b>
+          <ul style="margin-top: 6px; padding-left: 18px; color: #cbd5e1;">
+            ${boundSteps.map(s => `<li>${s}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function applyScenario() {
+    const scId = document.getElementById("selectScenario").value;
+    const descEl = document.getElementById("scenarioDescription");
+    const grid = document.getElementById("simPipelineGrid");
+    grid.innerHTML = "";
+
+    activeShockMap = {};
+    let sc = null;
+    if (scId !== "baseline") {
+      sc = scenarios.find(s => s.scenario_id === scId);
+      if (sc) {
+        descEl.innerText = sc.description;
+        (sc.shocks || []).forEach(sh => {
+          if (!activeShockMap[sh.target_element_id]) {
+            activeShockMap[sh.target_element_id] = [];
+          }
+          activeShockMap[sh.target_element_id].push(sh);
+        });
+      }
+    } else {
+      descEl.innerText = "Normal nominal operating baseline with no disruptions, outages, or exception spikes.";
+    }
+
+    let baseTime = 0.0, shockedTime = 0.0;
+    let baseCost = 0.0, shockedCost = 0.0;
+    let maxStepId = "", maxStepTime = 0.0;
+
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (elem.type !== "process_step") return;
+
+      if (sc && sc.target_lifecycle && sc.target_lifecycle !== "ALL" && sc.target_lifecycle !== "Global") {
+        if (!(elem.lifecycles || []).includes(sc.target_lifecycle)) {
+          return;
+        }
+      }
+
+      const attrs = getAttrs(elem);
+      let sTime = attrs.cycle_time;
+      let sCost = attrs.cost;
+      let sAuto = attrs.automation;
+      let sErr = attrs.error_rate;
+      let isShocked = false;
+      let shockMsg = "";
+
+      if (activeShockMap[eid]) {
+        isShocked = true;
+        const msgs = [];
+        activeShockMap[eid].forEach(sh => {
+          const mod = sh.attribute_modifier;
+          const mult = sh.multiplier || 1.0;
+          const delta = sh.additive_delta || 0.0;
+
+          if (mod === "baseline_cycle_time_hours") {
+            sTime = (sTime * mult) + delta;
+            msgs.push(`⏱ Lead Time: ${sTime.toFixed(1)}h`);
+          } else if (mod === "baseline_cost_per_unit") {
+            sCost = (sCost * mult) + delta;
+            msgs.push(`💰 Cost: $${sCost.toFixed(2)}`);
+          } else if (mod === "error_rate") {
+            sErr = (sErr * mult) + delta;
+            msgs.push(`⚠️ Error: ${(sErr * 100).toFixed(1)}%`);
+          } else if (mod === "automation_rate") {
+            sAuto = Math.max(0, (sAuto * mult) + delta);
+            msgs.push(`⚡ Auto: ${Math.round(sAuto * 100)}%`);
+          }
+        });
+        shockMsg = msgs.join(" | ");
+      }
+
+      const effBaseTime = attrs.cycle_time * (1 + attrs.error_rate);
+      const effBaseCost = attrs.cost * (1 + attrs.error_rate);
+
+      const effSTime = sTime * (1 + sErr);
+      const effSCost = sCost * (1 + sErr);
+
+      baseTime += effBaseTime;
+      shockedTime += effSTime;
+      baseCost += effBaseCost;
+      shockedCost += effSCost;
+
+      if (effSTime > maxStepTime) {
+        maxStepTime = effSTime;
+        maxStepId = elem.name;
+      }
+
+      const card = document.createElement("div");
+      card.className = "step-card" + (isShocked ? " shocked" : "");
+      card.innerHTML = `
+        <div class="step-num"><span>Step Milestone</span><span>SLA: ${attrs.sla}h</span></div>
+        <div class="step-name">${elem.name}</div>
+        <div class="metric-row">
+          <div class="metric-item">Lead Time<div class="metric-val" style="color: ${effSTime > effBaseTime ? 'var(--accent-red)' : '#e5e7eb'};">⏱ ${effSTime.toFixed(1)}h</div></div>
+          <div class="metric-item">Unit Cost<div class="metric-val" style="color: ${effSCost > effBaseCost ? 'var(--accent-red)' : '#e5e7eb'};">💰 $${effSCost.toFixed(2)}</div></div>
+        </div>
+        ${isShocked ? `<div class="shock-badge">${shockMsg}</div>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+
+    const timeDeltaPct = (((shockedTime - baseTime) / baseTime) * 100).toFixed(1);
+    const costDeltaPct = (((shockedCost - baseCost) / baseCost) * 100).toFixed(1);
+
+    document.getElementById("simCycleTime").innerHTML = `${shockedTime.toFixed(1)}h <small style="font-size: 13px; color: ${shockedTime > baseTime ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${timeDeltaPct}%)</small>`;
+    document.getElementById("simCost").innerHTML = `$${shockedCost.toFixed(2)} <small style="font-size: 13px; color: ${shockedCost > baseCost ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${costDeltaPct}%)</small>`;
+    document.getElementById("simBottleneck").innerText = `${maxStepId} (${maxStepTime.toFixed(1)}h)`;
+  }
+
+  function openModal(eid) {
+    const elem = elements[eid];
+    if (!elem) return;
+    const raci = getRaci(elem);
+    const daci = getDaci(elem);
+    const attrs = getAttrs(elem);
+
+    const content = document.getElementById("modalContent");
+    content.innerHTML = `
+      <div style="font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">Process Step Detail Inspector</div>
+      <h2 style="font-size: 22px; font-weight: 700; margin: 6px 0 16px 0;">${elem.name}</h2>
+      <div style="font-family: monospace; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Element ID: ${eid} | Lifecycles: [${(elem.lifecycles || []).join(", ")}]</div>
+
+      <div class="modal-tier">
+        <h4>Tier 1: Strategic Intent & Outcomes</h4>
+        <p style="font-size: 14px; color: #e2e8f0;">${elem.description || "Critical enterprise milestone aligned with operational excellence and financial governance."}</p>
+      </div>
+
+      <div class="modal-tier" style="border-left-color: var(--accent-purple);">
+        <h4>Tier 2: Operational RACI & Decision DACI</h4>
+        <div style="margin-bottom: 12px;">
+          <div style="font-weight: 700; color: var(--accent-blue); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">RACI (Operational Execution)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+            <div><b>Responsible (R):</b> ${raci.responsible.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Accountable (A):</b> ${raci.accountable.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Consulted (C):</b> ${raci.consulted.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Informed (I):</b> ${raci.informed.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+          <div style="font-weight: 700; color: var(--accent-purple); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">DACI (Decision Authority)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+            <div><b>Driver (D):</b> ${daci.driver.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Approver (A):</b> ${daci.approver.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Contributor (C):</b> ${daci.contributor.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Informed (I):</b> ${daci.informed.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-tier" style="border-left-color: var(--accent-green);">
+        <h4>Tier 3: Systems Math & Infrastructure</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+          <div>Baseline Cycle Time: <b>${attrs.cycle_time} hours</b></div>
+          <div>Baseline Cost/Unit: <b>$${attrs.cost.toFixed(2)}</b></div>
+          <div>Automation Rate: <b>${Math.round(attrs.automation * 100)}%</b></div>
+          <div>Target SLA: <b>${attrs.sla} hours</b></div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px;">
+          <b>System Asset Dependencies:</b>
+          <div style="margin-top: 4px;">
+            ${(elem.asset_dependencies || []).map(a => `<span style="background: rgba(52, 211, 153, 0.15); border: 1px solid var(--accent-green); color: #6ee7b7; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-right: 6px;">${assets[a] ? assets[a].name : a}</span>`).join("") || "None"}
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("detailModal").classList.add("active");
+  }
+
+  function closeModal() {
+    document.getElementById("detailModal").classList.remove("active");
+  }
+
+  window.onclick = function(e) {
+    const m = document.getElementById("detailModal");
+    if (e.target === m) closeModal();
+  };
+
+  init();
+</script>
+
+</body>
+</html>

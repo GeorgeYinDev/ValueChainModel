@@ -1,0 +1,33 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    financial_close_reporting_stream[["<b>Stream: Financial Close, Consolidation &amp; Regulatory Reporting Stream</b><br/><small>financial_close_reporting_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_R2R ["<b>Record-to-Report Financial Accounting Phase</b>"]
+    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 82% auto"]:::processStep
+    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0 | ⚡ 80% auto"]:::processStep
+    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    sox_financial_reporting_controls_policy(["<b>Policy: SOX 404 Financial Reporting Internal Controls &amp; Materiality Thresholds Policy</b><br/><small>sox_financial_reporting_controls_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  r2r_003_balance_sheet_substantiation --> r2r_004_financial_close_consolidation
+  r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation
+  r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting
+  r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
+  r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
+  financial_close_reporting_stream -. governed by .-> sox_financial_reporting_controls_policy

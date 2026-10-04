@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Value Chain Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+    window.mermaid = mermaid;
+    if (window.onMermaidReady) window.onMermaidReady();
+  </script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --accent-blue: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-red: #f87171;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+    header {
+      background: linear-gradient(180deg, #111827 0%, rgba(17,24,39,0.8) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 24px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+    .brand h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .kpi-pills {
+      display: flex;
+      gap: 12px;
+    }
+    .kpi-pill {
+      background: rgba(31, 41, 55, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .kpi-pill .val {
+      font-weight: 700;
+      color: var(--accent-blue);
+      font-size: 15px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    nav.tabs {
+      display: flex;
+      gap: 8px;
+      padding: 16px 36px 0 36px;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.03);
+    }
+    .tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom: 2px solid var(--accent-blue);
+      background: rgba(56, 189, 248, 0.05);
+    }
+    main.container {
+      max-width: 1440px;
+      margin: 28px auto;
+      padding: 0 36px;
+    }
+    .section-content {
+      display: none;
+    }
+    .section-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 20px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    select, input {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #f3f4f6;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+    }
+    .step-card.shocked {
+      border-color: var(--accent-red);
+      background: linear-gradient(180deg, #1f1d24 0%, #17131b 100%);
+      box-shadow: 0 0 16px rgba(248, 113, 113, 0.2);
+    }
+    .step-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .step-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 12px;
+    }
+    .metric-item {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .metric-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e5e7eb;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .shock-badge {
+      display: inline-block;
+      margin-top: 10px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--accent-red);
+      color: #fca5a5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    table.raci-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    table.raci-table th, table.raci-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    table.raci-table th {
+      background: #1f2937;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    .raci-badge {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 12px;
+      margin: 2px;
+    }
+    .badge-r { background: rgba(59, 130, 246, 0.25); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-d { background: rgba(14, 165, 233, 0.25); color: #7dd3fc; border: 1px solid #0ea5e9; }
+    .badge-a { background: rgba(168, 85, 247, 0.25); color: #d8b4fe; border: 1px solid #a855f7; }
+    .badge-c { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
+    .badge-i { background: rgba(107, 114, 128, 0.3); color: #d1d5db; border: 1px solid #6b7280; }
+
+    .mermaid-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      overflow: auto;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1f2937;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    .modal-tier {
+      margin-top: 20px;
+      background: rgba(31, 41, 55, 0.4);
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 3px solid var(--accent-blue);
+    }
+    .modal-tier h4 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-badge">⚡</div>
+    <div>
+      <h1>Enterprise Value Chain Visualizer</h1>
+      <p>Multi-Tier Architecture & Simulation Engine (TOGAF / SCOR Alignment)</p>
+    </div>
+  </div>
+  <div class="kpi-pills">
+    <div class="kpi-pill">
+      <span>Lifecycle</span>
+      <span class="val" id="headerLifecycle">S2P</span>
+    </div>
+    <div class="kpi-pill">
+      <span>Total Elements</span>
+      <span class="val" id="headerElements">0</span>
+    </div>
+    <div class="kpi-pill">
+      <span>Active Roles</span>
+      <span class="val" id="headerRoles">0</span>
+    </div>
+    <div class="kpi-pill">
+      <span>System Assets</span>
+      <span class="val" id="headerAssets">0</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="switchTab('tab-pipeline')">🔀 Process Flow</button>
+  <button class="tab-btn" onclick="switchTab('tab-raci')">👥 Governance (RACI / DACI)</button>
+  <button class="tab-btn" onclick="switchTab('tab-assets')">💻 System Assets</button>
+  <button class="tab-btn" onclick="switchTab('tab-simulation')">⚡ Scenario Stress-Test</button>
+  <button class="tab-btn" onclick="switchTab('tab-mermaid')">📐 Live Mermaid Graph</button>
+</nav>
+
+<main class="container">
+
+  <!-- 1. Pipeline Tab -->
+  <section id="tab-pipeline" class="section-content active">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="filterLifecycle" style="font-size: 13px; color: var(--text-muted);">Lifecycle:</label>
+        <select id="filterLifecycle" onchange="onFilterLifecycleChange(this.value)">
+          <option value="S2P">Source to Pay (S2P)</option>
+          <option value="ALL">All Lifecycles</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <input type="text" id="searchSteps" placeholder="Search steps, tags, roles..." oninput="renderPipeline()">
+      </div>
+    </div>
+    <div id="pipelineGrid" class="pipeline-grid"></div>
+  </section>
+
+  <!-- 2. RACI / DACI Governance Matrix Tab -->
+  <section id="tab-raci" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label style="font-size: 13px; font-weight: 600; color: var(--accent-blue);">Governance Model:</label>
+        <button id="btnModelRaci" class="tab-btn active" style="padding: 6px 14px; border-radius: 6px;" onclick="setMatrixModel('RACI')">RACI (Operational Execution)</button>
+        <button id="btnModelDaci" class="tab-btn" style="padding: 6px 14px; border-radius: 6px;" onclick="setMatrixModel('DACI')">DACI (Decision Authority)</button>
+      </div>
+      <div id="matrixModelDescription" style="font-size: 13px; color: var(--text-muted);">
+        <b>RACI Model:</b> Responsible (R) executes | Accountable (A) signs off | Consulted (C) inputs | Informed (I) notified
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="raci-table" id="raciTable">
+        <thead><tr id="raciHeaderRow"></tr></thead>
+        <tbody id="raciBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. System Assets Tab -->
+  <section id="tab-assets" class="section-content">
+    <div class="pipeline-grid" id="assetsGrid"></div>
+  </section>
+
+  <!-- 4. Scenario Stress-Test Tab -->
+  <section id="tab-simulation" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="selectScenario" style="font-size: 13px; font-weight: 600; color: var(--accent-amber);">Select Operational Scenario:</label>
+        <select id="selectScenario" onchange="applyScenario()">
+          <option value="baseline">Baseline (Normal Operations)</option>
+        </select>
+      </div>
+      <div id="scenarioDescription" style="font-size: 13px; color: var(--text-muted); max-width: 600px;"></div>
+    </div>
+    <div class="controls-bar" style="background: rgba(31, 41, 55, 0.4); justify-content: space-around;">
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Total Cycle Lead Time</span>
+        <div id="simCycleTime" style="font-size: 20px; font-weight: 700; color: var(--accent-blue); font-family: 'JetBrains Mono';">--</div>
+      </div>
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Total Unit Execution Cost</span>
+        <div id="simCost" style="font-size: 20px; font-weight: 700; color: var(--accent-green); font-family: 'JetBrains Mono';">--</div>
+      </div>
+      <div style="text-align: center;">
+        <span style="font-size: 12px; color: var(--text-muted);">Primary Bottleneck Step</span>
+        <div id="simBottleneck" style="font-size: 16px; font-weight: 700; color: var(--accent-amber); font-family: 'JetBrains Mono';">--</div>
+      </div>
+    </div>
+    <div id="simPipelineGrid" class="pipeline-grid" style="margin-top: 20px;"></div>
+  </section>
+
+  <!-- 5. Live Mermaid Tab -->
+  <section id="tab-mermaid" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <label for="mermaidLifecycleFilter" style="font-size: 13px; font-weight: 600; color: var(--accent-blue);">Lifecycle Scope:</label>
+        <select id="mermaidLifecycleFilter" onchange="onMermaidLifecycleChange(this.value)">
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="mermaidDiagramSelector" style="font-size: 13px; font-weight: 600; color: var(--accent-purple);">Diagram View:</label>
+        <select id="mermaidDiagramSelector" onchange="renderMermaidTab()">
+          <option value="both">All Architecture Views</option>
+          <option value="flow">Process Flow &amp; Governance Linkages</option>
+          <option value="raci">RACI Role Swimlanes &amp; Handoffs</option>
+          <option value="assets">Enterprise IT Assets &amp; System Topology</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidFlowBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-blue);">Process Flow &amp; Milestone Sequence</h3>
+        <span id="mermaidFlowBadge" style="font-size: 12px; color: var(--text-muted); font-family: monospace;"></span>
+      </div>
+      <div id="mermaidFlowContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidRaciBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-purple);">RACI Role Swimlanes &amp; Cross-Functional Sequence</h3>
+        <span id="mermaidRaciBadge" style="font-size: 12px; color: var(--text-muted); font-family: monospace;"></span>
+      </div>
+      <div id="mermaidRaciContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+
+    <div class="mermaid-box" id="mermaidAssetsBox">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="color: var(--accent-green);">Enterprise IT Asset &amp; Dependency Map</h3>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: monospace;">Topology</span>
+      </div>
+      <div id="mermaidAssetsContainer" style="min-height: 180px; overflow-x: auto;"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+  const elements = {"s2p_008_payment_settlement_disbursement": {"id": "s2p_008_payment_settlement_disbursement", "type": "process_step", "name": "Payment Settlement & Disbursement", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["payment", "treasury", "disbursement", "banking"], "raci": {"responsible": ["role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 4.0, "baseline_cost_per_unit": 8.5, "automation_rate": 0.95, "error_rate": 0.005, "sla_hours": 8.0}, "asset_dependencies": ["asset_erp_system", "asset_payment_gateway"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_001_journal_entry_recording", "weight": 0.9}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 1.0}], "daci": {"driver": ["role_accounts_payable_clerk"], "approver": ["role_finance_controller"], "contributor": ["role_category_manager"], "informed": ["role_supplier"]}}, "s2p_001_spend_analysis_need_id": {"id": "s2p_001_spend_analysis_need_id", "type": "process_step", "name": "Spend Analysis & Need Identification", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["procurement", "analytics", "requisition"], "raci": {"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 12.0, "baseline_cost_per_unit": 45.0, "automation_rate": 0.7, "error_rate": 0.03, "sla_hours": 24.0}, "asset_dependencies": ["asset_eprocurement_portal", "asset_erp_system"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_002_supplier_discovery_qualification", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.85}], "daci": {"driver": ["role_procurement_specialist"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "test_invalid_schema": {"id": "test_invalid_schema", "name": "Test Invalid Schema", "version": "1.0.0", "daci": {"driver": [], "approver": [], "contributor": [], "informed": []}}, "s2p_005_purchase_requisition_po": {"id": "s2p_005_purchase_requisition_po", "type": "process_step", "name": "Purchase Requisition & PO Issuance", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["purchasing", "po", "requisition", "approval"], "raci": {"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 8.0, "baseline_cost_per_unit": 18.0, "automation_rate": 0.9, "error_rate": 0.01, "sla_hours": 12.0}, "asset_dependencies": ["asset_eprocurement_portal", "asset_erp_system"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_006_goods_services_receipt", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 1.0}], "daci": {"driver": ["role_procurement_specialist"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "o2c_001_customer_quote_order_entry": {"id": "o2c_001_customer_quote_order_entry", "type": "process_step", "name": "Quote Generation & Order Capture", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["order_management", "sales", "quoting", "cpq"], "raci": {"responsible": ["role_sales_ops_specialist"], "accountable": ["role_sales_ops_specialist"], "consulted": ["role_customer"], "informed": ["role_credit_manager"]}, "daci": {"driver": ["role_sales_ops_specialist"], "approver": ["role_sales_ops_specialist"], "contributor": ["role_customer"], "informed": ["role_credit_manager"]}, "attributes": {"baseline_cycle_time_hours": 6.0, "baseline_cost_per_unit": 25.0, "automation_rate": 0.8, "error_rate": 0.02, "sla_hours": 12.0}, "asset_dependencies": ["asset_crm_system", "asset_erp_system"], "compensating_control": "CPQ system automatically enforces price floors and prevents margin erosion. Deviations route to Sales VP.", "graph_relations": [{"relation": "feeds_into", "target": "o2c_002_credit_check_approval", "weight": 1.0}, {"relation": "governed_by", "target": "credit_limit_risk_policy", "weight": 0.85}]}, "r2r_003_balance_sheet_substantiation": {"id": "r2r_003_balance_sheet_substantiation", "type": "process_step", "name": "Balance Sheet Account Substantiation & Reconciliation", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["reconciliation", "balance_sheet", "substantiation", "blackline", "audit"], "raci": {"responsible": ["role_general_ledger_accountant"], "accountable": ["role_finance_controller"], "consulted": ["role_consolidation_specialist"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_general_ledger_accountant"], "approver": ["role_finance_controller"], "contributor": ["role_consolidation_specialist"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 16.0, "baseline_cost_per_unit": 45.0, "automation_rate": 0.7, "error_rate": 0.02, "sla_hours": 36.0}, "asset_dependencies": ["asset_erp_system", "asset_financial_consolidation_system"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_004_financial_close_consolidation", "weight": 1.0}, {"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 1.0}]}, "r2r_001_journal_entry_recording": {"id": "r2r_001_journal_entry_recording", "type": "process_step", "name": "General Ledger Journal Recording & Subledger Ingestion", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["journal_entry", "general_ledger", "subledger", "ingestion", "accounting"], "raci": {"responsible": ["role_general_ledger_accountant"], "accountable": ["role_finance_controller"], "consulted": ["role_accounts_payable_clerk", "role_billing_specialist"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_general_ledger_accountant"], "approver": ["role_finance_controller"], "contributor": ["role_accounts_payable_clerk", "role_billing_specialist"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 8.0, "baseline_cost_per_unit": 18.0, "automation_rate": 0.82, "error_rate": 0.015, "sla_hours": 16.0}, "asset_dependencies": ["asset_erp_system"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_002_intercompany_reconciliation", "weight": 1.0}, {"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 0.95}]}, "s2p_004_contracting_sla_negotiation": {"id": "s2p_004_contracting_sla_negotiation", "type": "process_step", "name": "Contracting & SLA Negotiation", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["contracting", "legal", "slas"], "raci": {"responsible": ["role_category_manager"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 72.0, "baseline_cost_per_unit": 300.0, "automation_rate": 0.4, "error_rate": 0.04, "sla_hours": 96.0}, "asset_dependencies": ["asset_eprocurement_portal", "asset_erp_system"], "compensating_control": "Legal department reviews all non-standard clauses. Standard templates locked in CLM.", "graph_relations": [{"relation": "feeds_into", "target": "s2p_005_purchase_requisition_po", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.95}], "daci": {"driver": ["role_category_manager"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "o2c_005_cash_collection_reconciliation": {"id": "o2c_005_cash_collection_reconciliation", "type": "process_step", "name": "Cash Collection & Accounts Receivable Reconciliation", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["treasury", "cash_application", "ar", "reconciliation", "banking"], "raci": {"responsible": ["role_billing_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_customer"], "informed": ["role_sales_ops_specialist"]}, "daci": {"driver": ["role_billing_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_customer"], "informed": ["role_sales_ops_specialist"]}, "attributes": {"baseline_cycle_time_hours": 8.0, "baseline_cost_per_unit": 12.0, "automation_rate": 0.85, "error_rate": 0.01, "sla_hours": 24.0}, "asset_dependencies": ["asset_erp_system", "asset_payment_gateway"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_001_journal_entry_recording", "weight": 0.9}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.95}]}, "r2r_005_statutory_financial_reporting": {"id": "r2r_005_statutory_financial_reporting", "type": "process_step", "name": "Statutory, Tax & Management Financial Reporting", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["statutory_reporting", "sec_filing", "10k", "management_reporting", "disclosure"], "raci": {"responsible": ["role_consolidation_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_internal_auditor"], "informed": ["role_general_ledger_accountant"]}, "daci": {"driver": ["role_consolidation_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_internal_auditor"], "informed": ["role_general_ledger_accountant"]}, "attributes": {"baseline_cycle_time_hours": 14.0, "baseline_cost_per_unit": 50.0, "automation_rate": 0.65, "error_rate": 0.008, "sla_hours": 32.0}, "asset_dependencies": ["asset_financial_consolidation_system"], "graph_relations": [{"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 1.0}]}, "s2p_002_supplier_discovery_qualification": {"id": "s2p_002_supplier_discovery_qualification", "type": "process_step", "name": "Supplier Discovery & Qualification", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["vendor_management", "compliance", "risk"], "raci": {"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 48.0, "baseline_cost_per_unit": 120.0, "automation_rate": 0.5, "error_rate": 0.05, "sla_hours": 72.0}, "asset_dependencies": ["asset_eprocurement_portal"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_003_sourcing_rfx_auction", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.9}], "daci": {"driver": ["role_procurement_specialist"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "r2r_004_financial_close_consolidation": {"id": "r2r_004_financial_close_consolidation", "type": "process_step", "name": "Financial Close Orchestration & Group Consolidation", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["financial_close", "consolidation", "currency_translation", "trial_balance", "group_reporting"], "raci": {"responsible": ["role_consolidation_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_general_ledger_accountant"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_consolidation_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_general_ledger_accountant"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 20.0, "baseline_cost_per_unit": 65.0, "automation_rate": 0.8, "error_rate": 0.01, "sla_hours": 48.0}, "asset_dependencies": ["asset_erp_system", "asset_financial_consolidation_system"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_005_statutory_financial_reporting", "weight": 1.0}, {"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 0.95}]}, "s2p_003_sourcing_rfx_auction": {"id": "s2p_003_sourcing_rfx_auction", "type": "process_step", "name": "Strategic Sourcing & RFx Execution", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["sourcing", "rfp", "rfq", "negotiation"], "raci": {"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 96.0, "baseline_cost_per_unit": 250.0, "automation_rate": 0.65, "error_rate": 0.02, "sla_hours": 120.0}, "asset_dependencies": ["asset_eprocurement_portal"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_004_contracting_sla_negotiation", "weight": 1.0}], "daci": {"driver": ["role_procurement_specialist"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "s2p_007_invoice_verification_matching": {"id": "s2p_007_invoice_verification_matching", "type": "process_step", "name": "Invoice 3-Way Matching & Exception Handling", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["invoicing", "ap", "matching", "finance"], "raci": {"responsible": ["role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_procurement_specialist"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 16.0, "baseline_cost_per_unit": 22.0, "automation_rate": 0.75, "error_rate": 0.04, "sla_hours": 24.0}, "asset_dependencies": ["asset_erp_system", "asset_eprocurement_portal"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_008_payment_settlement_disbursement", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.9}], "daci": {"driver": ["role_accounts_payable_clerk"], "approver": ["role_finance_controller"], "contributor": ["role_procurement_specialist"], "informed": ["role_supplier"]}}, "o2c_003_inventory_allocation_fulfillment": {"id": "o2c_003_inventory_allocation_fulfillment", "type": "process_step", "name": "Inventory Allocation & Warehouse Fulfillment", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["warehouse", "logistics", "inventory", "shipping", "fulfillment"], "raci": {"responsible": ["role_warehouse_supervisor"], "accountable": ["role_warehouse_supervisor"], "consulted": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "daci": {"driver": ["role_warehouse_supervisor"], "approver": ["role_warehouse_supervisor"], "contributor": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "attributes": {"baseline_cycle_time_hours": 24.0, "baseline_cost_per_unit": 65.0, "automation_rate": 0.65, "error_rate": 0.015, "sla_hours": 48.0}, "asset_dependencies": ["asset_wms_system", "asset_erp_system"], "compensating_control": "WMS requires physical barcode scan and matches to ERP pick ticket before dispatch.", "graph_relations": [{"relation": "feeds_into", "target": "o2c_004_billing_invoice_generation", "weight": 1.0}]}, "r2r_002_intercompany_reconciliation": {"id": "r2r_002_intercompany_reconciliation", "type": "process_step", "name": "Intercompany Transaction Matching & Elimination", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["intercompany", "elimination", "matching", "netting", "consolidation"], "raci": {"responsible": ["role_consolidation_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_general_ledger_accountant"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_consolidation_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_general_ledger_accountant"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 12.0, "baseline_cost_per_unit": 35.0, "automation_rate": 0.75, "error_rate": 0.025, "sla_hours": 24.0}, "asset_dependencies": ["asset_erp_system", "asset_financial_consolidation_system"], "graph_relations": [{"relation": "feeds_into", "target": "r2r_003_balance_sheet_substantiation", "weight": 1.0}, {"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 0.9}]}, "s2p_006_goods_services_receipt": {"id": "s2p_006_goods_services_receipt", "type": "process_step", "name": "Goods & Services Receipt Verification", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["receiving", "inventory", "quality", "grn"], "raci": {"responsible": ["role_procurement_specialist"], "accountable": ["role_category_manager"], "consulted": ["role_accounts_payable_clerk"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 6.0, "baseline_cost_per_unit": 12.5, "automation_rate": 0.8, "error_rate": 0.02, "sla_hours": 12.0}, "asset_dependencies": ["asset_erp_system"], "graph_relations": [{"relation": "feeds_into", "target": "s2p_007_invoice_verification_matching", "weight": 1.0}], "daci": {"driver": ["role_procurement_specialist"], "approver": ["role_category_manager"], "contributor": ["role_accounts_payable_clerk"], "informed": ["role_supplier"]}}, "o2c_002_credit_check_approval": {"id": "o2c_002_credit_check_approval", "type": "process_step", "name": "Customer Credit Assessment & Exposure Check", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["credit", "risk", "underwriting", "compliance"], "raci": {"responsible": ["role_credit_manager"], "accountable": ["role_finance_controller"], "consulted": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "daci": {"driver": ["role_credit_manager"], "approver": ["role_finance_controller"], "contributor": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "attributes": {"baseline_cycle_time_hours": 4.0, "baseline_cost_per_unit": 15.0, "automation_rate": 0.9, "error_rate": 0.01, "sla_hours": 8.0}, "asset_dependencies": ["asset_erp_system", "asset_crm_system"], "graph_relations": [{"relation": "feeds_into", "target": "o2c_003_inventory_allocation_fulfillment", "weight": 1.0}, {"relation": "governed_by", "target": "credit_limit_risk_policy", "weight": 1.0}]}, "o2c_004_billing_invoice_generation": {"id": "o2c_004_billing_invoice_generation", "type": "process_step", "name": "Customer Billing & Electronic Invoicing", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["billing", "invoicing", "revenue", "accounting"], "raci": {"responsible": ["role_billing_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "daci": {"driver": ["role_billing_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "attributes": {"baseline_cycle_time_hours": 2.0, "baseline_cost_per_unit": 6.5, "automation_rate": 0.95, "error_rate": 0.005, "sla_hours": 4.0}, "asset_dependencies": ["asset_erp_system", "asset_crm_system"], "graph_relations": [{"relation": "feeds_into", "target": "o2c_005_cash_collection_reconciliation", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.9}]}, "financial_close_reporting_stream": {"id": "financial_close_reporting_stream", "type": "value_stream", "name": "Financial Close, Consolidation & Regulatory Reporting Stream", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["value_stream", "record_to_report", "financial_close", "consolidation", "r2r"], "raci": {"responsible": ["role_general_ledger_accountant", "role_consolidation_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_internal_auditor"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_consolidation_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_general_ledger_accountant", "role_internal_auditor"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 70.0, "baseline_cost_per_unit": 213.0, "automation_rate": 0.76, "error_rate": 0.013, "sla_hours": 120.0}, "asset_dependencies": ["asset_erp_system", "asset_financial_consolidation_system"], "graph_relations": [{"relation": "governed_by", "target": "sox_financial_reporting_controls_policy", "weight": 1.0}]}, "strategic_sourcing_stream": {"id": "strategic_sourcing_stream", "type": "value_stream", "name": "Strategic Sourcing & Contracting Value Stream", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["value_stream", "strategic_sourcing"], "raci": {"responsible": ["role_category_manager"], "accountable": ["role_category_manager"], "consulted": ["role_finance_controller"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 228.0, "baseline_cost_per_unit": 715.0, "automation_rate": 0.55, "error_rate": 0.035, "sla_hours": 312.0}, "asset_dependencies": ["asset_eprocurement_portal", "asset_erp_system"], "compensating_control": "Strategic sourcing stream performance is reviewed quarterly by the Procurement Steering Committee.", "graph_relations": [{"relation": "feeds_into", "target": "procure_to_pay_stream", "weight": 1.0}], "daci": {"driver": ["role_category_manager"], "approver": ["role_category_manager"], "contributor": ["role_finance_controller"], "informed": ["role_supplier"]}}, "procure_to_pay_stream": {"id": "procure_to_pay_stream", "type": "value_stream", "name": "Procure to Pay (P2P) Operational Value Stream", "version": "1.0.0", "lifecycles": ["S2P"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["value_stream", "procure_to_pay", "p2p"], "raci": {"responsible": ["role_procurement_specialist", "role_accounts_payable_clerk"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_supplier"]}, "attributes": {"baseline_cycle_time_hours": 34.0, "baseline_cost_per_unit": 60.5, "automation_rate": 0.85, "error_rate": 0.018, "sla_hours": 56.0}, "asset_dependencies": ["asset_erp_system", "asset_eprocurement_portal", "asset_payment_gateway"], "graph_relations": [{"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 1.0}], "daci": {"driver": ["role_procurement_specialist", "role_accounts_payable_clerk"], "approver": ["role_finance_controller"], "contributor": ["role_category_manager"], "informed": ["role_supplier"]}}, "order_fulfillment_stream": {"id": "order_fulfillment_stream", "type": "value_stream", "name": "Order-to-Fulfillment & Cash Revenue Stream", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["value_stream", "order_to_cash", "fulfillment", "o2c"], "raci": {"responsible": ["role_sales_ops_specialist", "role_warehouse_supervisor", "role_billing_specialist"], "accountable": ["role_finance_controller"], "consulted": ["role_credit_manager"], "informed": ["role_customer"]}, "daci": {"driver": ["role_sales_ops_specialist"], "approver": ["role_finance_controller"], "contributor": ["role_credit_manager"], "informed": ["role_customer"]}, "attributes": {"baseline_cycle_time_hours": 44.0, "baseline_cost_per_unit": 123.5, "automation_rate": 0.83, "error_rate": 0.012, "sla_hours": 96.0}, "asset_dependencies": ["asset_erp_system", "asset_crm_system", "asset_wms_system", "asset_payment_gateway"], "graph_relations": [{"relation": "governed_by", "target": "credit_limit_risk_policy", "weight": 1.0}, {"relation": "governed_by", "target": "sod_spending_limits_policy", "weight": 0.95}]}, "sox_financial_reporting_controls_policy": {"id": "sox_financial_reporting_controls_policy", "type": "control_policy", "name": "SOX 404 Financial Reporting Internal Controls & Materiality Thresholds Policy", "version": "1.0.0", "lifecycles": ["R2R"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["policy", "sox", "compliance", "internal_controls", "financial_reporting", "r2r"], "raci": {"responsible": ["role_general_ledger_accountant"], "accountable": ["role_finance_controller"], "consulted": ["role_consolidation_specialist", "role_internal_auditor"], "informed": ["role_internal_auditor"]}, "daci": {"driver": ["role_general_ledger_accountant"], "approver": ["role_finance_controller"], "contributor": ["role_consolidation_specialist", "role_internal_auditor"], "informed": ["role_internal_auditor"]}, "attributes": {"baseline_cycle_time_hours": 0.0, "baseline_cost_per_unit": 0.0, "automation_rate": 1.0, "error_rate": 0.0, "sla_hours": 0.0}, "asset_dependencies": ["asset_erp_system", "asset_financial_consolidation_system"]}, "sod_spending_limits_policy": {"id": "sod_spending_limits_policy", "type": "control_policy", "name": "Segregation of Duties & Financial Authority Policy", "version": "1.0.0", "lifecycles": ["S2P", "O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["policy", "governance", "sod", "compliance"], "raci": {"responsible": ["role_finance_controller"], "accountable": ["role_finance_controller"], "consulted": ["role_category_manager"], "informed": ["role_procurement_specialist", "role_accounts_payable_clerk"]}, "attributes": {"baseline_cycle_time_hours": 0.0, "baseline_cost_per_unit": 0.0, "automation_rate": 1.0, "error_rate": 0.0, "sla_hours": 0.0}, "asset_dependencies": ["asset_erp_system"], "compensating_control": "Policy configuration changes require dual authorization in GRC tool.", "daci": {"driver": ["role_finance_controller"], "approver": ["role_finance_controller"], "contributor": ["role_category_manager"], "informed": ["role_procurement_specialist", "role_accounts_payable_clerk"]}}, "credit_limit_risk_policy": {"id": "credit_limit_risk_policy", "type": "control_policy", "name": "Commercial Credit Limit & Customer Risk Exposure Policy", "version": "1.0.0", "lifecycles": ["O2C"], "lod_support": ["tier_1", "tier_2", "tier_3"], "tags": ["policy", "credit", "risk", "compliance"], "raci": {"responsible": ["role_credit_manager"], "accountable": ["role_finance_controller"], "consulted": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "daci": {"driver": ["role_credit_manager"], "approver": ["role_finance_controller"], "contributor": ["role_sales_ops_specialist"], "informed": ["role_customer"]}, "attributes": {"baseline_cycle_time_hours": 0.0, "baseline_cost_per_unit": 0.0, "automation_rate": 1.0, "error_rate": 0.0, "sla_hours": 0.0}, "asset_dependencies": ["asset_erp_system", "asset_crm_system"]}};
+  const assets = {"asset_payment_gateway": {"id": "asset_payment_gateway", "name": "Corporate Banking Payment Gateway & ISO 20022 Router", "asset_type": "api_gateway", "version": "3.0.1", "parent_asset_id": "asset_erp_system", "status": "operational", "sla_uptime_percent": 99.99, "capacity_max_tps": 1500}, "asset_crm_system": {"id": "asset_crm_system", "name": "Enterprise Cloud CRM & CPQ Platform (Salesforce)", "asset_type": "it_application", "version": "2.4.0", "parent_asset_id": "asset_erp_system", "status": "operational", "sla_uptime_percent": 99.9, "capacity_max_tps": 1200}, "asset_eprocurement_portal": {"id": "asset_eprocurement_portal", "name": "Cloud e-Procurement & Supplier Network Portal", "asset_type": "it_application", "version": "1.8.4", "parent_asset_id": "asset_erp_system", "status": "operational", "sla_uptime_percent": 99.9, "capacity_max_tps": 800}, "asset_wms_system": {"id": "asset_wms_system", "name": "Automated Warehouse Management & Dispatch System (SAP EWM)", "asset_type": "it_application", "version": "3.1.2", "parent_asset_id": "asset_erp_system", "status": "operational", "sla_uptime_percent": 99.95, "capacity_max_tps": 600}, "asset_erp_system": {"id": "asset_erp_system", "name": "Enterprise Core ERP (SAP S/4HANA)", "asset_type": "it_application", "version": "2.1.0", "parent_asset_id": null, "status": "operational", "sla_uptime_percent": 99.95, "capacity_max_tps": 2500}, "asset_financial_consolidation_system": {"id": "asset_financial_consolidation_system", "name": "Enterprise Financial Consolidation & Reporting System (SAP Group Reporting / OneStream)", "asset_type": "it_application", "version": "3.4.0", "parent_asset_id": "asset_erp_system", "status": "operational", "sla_uptime_percent": 99.9, "capacity_max_tps": 500}};
+  const roles = ["role_internal_auditor", "role_warehouse_supervisor", "role_accounts_payable_clerk", "role_finance_controller", "role_procurement_specialist", "role_general_ledger_accountant", "role_consolidation_specialist", "role_category_manager", "role_supplier", "role_credit_manager", "role_customer", "role_sales_ops_specialist", "role_billing_specialist"];
+  const roleTitles = {"role_warehouse_supervisor": "Warehouse & Fulfillment Supervisor", "role_sales_ops_specialist": "Sales Operations Specialist", "role_billing_specialist": "Billing & Accounts Receivable Specialist", "role_finance_controller": "Finance Controller", "role_supplier": "Supplier / Vendor", "role_category_manager": "Category Manager", "role_general_ledger_accountant": "General Ledger Accountant", "role_credit_manager": "Credit & Risk Manager", "role_procurement_specialist": "Procurement Specialist", "role_consolidation_specialist": "Financial Consolidation Specialist", "role_customer": "Enterprise Customer", "role_accounts_payable_clerk": "Accounts Payable Clerk", "role_internal_auditor": "Internal Auditor"};
+  const scenarios = [{"scenario_id": "scenario_close_period_crunch", "name": "Fiscal Year-End Financial Close Crunch & Manual Adjustment Surge", "target_lifecycle": "R2R", "description": "Simulates a compressed year-end financial reporting schedule combined with a 300% surge in late manual adjustment journals, cross-border FX volatility, and out-of-balance intercompany trade disputes.", "shocks": [{"target_element_id": "r2r_001_journal_entry_recording", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 2.5, "additive_delta": 12.0}, {"target_element_id": "r2r_001_journal_entry_recording", "attribute_modifier": "error_rate", "multiplier": 2.0, "additive_delta": 0.02}, {"target_element_id": "r2r_002_intercompany_reconciliation", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 2.8, "additive_delta": 18.0}, {"target_element_id": "r2r_002_intercompany_reconciliation", "attribute_modifier": "baseline_cost_per_unit", "multiplier": 1.8, "additive_delta": 25.0}, {"target_element_id": "r2r_003_balance_sheet_substantiation", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 2.2, "additive_delta": 14.0}, {"target_element_id": "r2r_004_financial_close_consolidation", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 1.8, "additive_delta": 16.0}]}, {"scenario_id": "scenario_credit_hold_surge", "name": "Market Credit Liquidity Crunch & Hold Surge", "target_lifecycle": "O2C", "description": "Simulates a macroeconomic credit contraction where heightened customer insolvency risks trigger a 400% surge in manual credit reviews and order fulfillment holds.", "shocks": [{"target_element_id": "o2c_002_credit_check_approval", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 3.5, "additive_delta": 24.0}, {"target_element_id": "o2c_002_credit_check_approval", "attribute_modifier": "baseline_cost_per_unit", "multiplier": 2.2, "additive_delta": 35.0}, {"target_element_id": "o2c_003_inventory_allocation_fulfillment", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 1.5, "additive_delta": 12.0}, {"target_element_id": "o2c_005_cash_collection_reconciliation", "attribute_modifier": "error_rate", "multiplier": 2.5, "additive_delta": 0.04}]}, {"scenario_id": "scenario_erp_outage", "name": "Core ERP System Outage", "target_lifecycle": "S2P", "description": "Simulates a 12-hour primary ERP database outage forcing manual workaround procedures across purchasing and AP settlement.", "shocks": [{"target_element_id": "s2p_005_purchase_requisition_po", "attribute_modifier": "automation_rate", "multiplier": 0.2, "additive_delta": 0.0}, {"target_element_id": "s2p_005_purchase_requisition_po", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 4.0, "additive_delta": 24.0}, {"target_element_id": "s2p_008_payment_settlement_disbursement", "attribute_modifier": "automation_rate", "multiplier": 0.1, "additive_delta": 0.0}]}, {"scenario_id": "scenario_invoice_bottleneck", "name": "Invoice Exception & Approval Bottleneck", "target_lifecycle": "S2P", "description": "Simulates a fiscal year-end invoice surge causing matching exception backlog and AP manual intervention delays.", "shocks": [{"target_element_id": "s2p_007_invoice_verification_matching", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 3.0, "additive_delta": 32.0}, {"target_element_id": "s2p_007_invoice_verification_matching", "attribute_modifier": "error_rate", "multiplier": 2.5, "additive_delta": 0.08}, {"target_element_id": "s2p_008_payment_settlement_disbursement", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 2.0, "additive_delta": 12.0}]}, {"scenario_id": "scenario_supplier_disruption", "name": "Supplier Disruption & Sourcing Shock", "target_lifecycle": "S2P", "description": "Simulates a primary supplier insolvency/geopolitical disruption forcing emergency vendor requalification and expedited sourcing.", "shocks": [{"target_element_id": "s2p_002_supplier_discovery_qualification", "attribute_modifier": "baseline_cycle_time_hours", "multiplier": 2.5, "additive_delta": 48.0}, {"target_element_id": "s2p_003_sourcing_rfx_auction", "attribute_modifier": "baseline_cost_per_unit", "multiplier": 1.8, "additive_delta": 150.0}, {"target_element_id": "s2p_006_goods_services_receipt", "attribute_modifier": "error_rate", "multiplier": 3.0, "additive_delta": 0.05}]}];
+  const lifecycles = {"S2P": {"lifecycle_id": "S2P", "name": "Source to Pay Lifecycle", "version": "1.0.0", "description": "End-to-end procurement lifecycle from spend identification and vendor sourcing through contract execution, PO issuance, invoice processing, and financial settlement.", "milestones": [{"step_id": "s2p_001_spend_analysis_need_id", "name": "Spend Analysis & Need Identification", "order": 1}, {"step_id": "s2p_002_supplier_discovery_qualification", "name": "Supplier Discovery & Qualification", "order": 2}, {"step_id": "s2p_003_sourcing_rfx_auction", "name": "Strategic Sourcing & RFx Execution", "order": 3}, {"step_id": "s2p_004_contracting_sla_negotiation", "name": "Contracting & SLA Negotiation", "order": 4}, {"step_id": "s2p_005_purchase_requisition_po", "name": "Purchase Requisition & PO Issuance", "order": 5}, {"step_id": "s2p_006_goods_services_receipt", "name": "Goods & Services Receipt Verification", "order": 6}, {"step_id": "s2p_007_invoice_verification_matching", "name": "Invoice 3-Way Matching & Exception Handling", "order": 7}, {"step_id": "s2p_008_payment_settlement_disbursement", "name": "Payment Settlement & Disbursement", "order": 8}], "key_performance_indicators": ["s2p_cycle_time_days", "po_automation_percentage", "first_pass_match_rate", "early_payment_discount_capture"]}, "O2C": {"lifecycle_id": "O2C", "name": "Order to Cash Lifecycle", "version": "1.0.0", "description": "End-to-end sales lifecycle from customer quote and order entry through order fulfillment, billing, credit management, and cash collection.", "milestones": [{"step_id": "o2c_001_customer_quote_order_entry", "name": "Quote Generation & Order Capture", "order": 1}, {"step_id": "o2c_002_credit_check_approval", "name": "Customer Credit Assessment", "order": 2}, {"step_id": "o2c_003_inventory_allocation_fulfillment", "name": "Inventory Allocation & Warehousing", "order": 3}, {"step_id": "o2c_004_billing_invoice_generation", "name": "Customer Billing & Invoicing", "order": 4}, {"step_id": "o2c_005_cash_collection_reconciliation", "name": "Cash Collection & Accounts Receivable Match", "order": 5}], "key_performance_indicators": ["days_sales_outstanding_dso", "order_fulfillment_lead_time", "perfect_order_rate"]}, "R2R": {"lifecycle_id": "R2R", "name": "Record to Report Lifecycle", "version": "1.0.0", "description": "End-to-end financial accounting and reporting lifecycle from subledger transaction ingestion and intercompany eliminations to balance sheet account reconciliation, financial close orchestration, group consolidation, and regulatory/statutory disclosures.", "milestones": [{"step_id": "r2r_001_journal_entry_recording", "name": "General Ledger Journal Recording & Subledger Ingestion", "order": 1}, {"step_id": "r2r_002_intercompany_reconciliation", "name": "Intercompany Transaction Matching & Elimination", "order": 2}, {"step_id": "r2r_003_balance_sheet_substantiation", "name": "Balance Sheet Account Substantiation & Reconciliation", "order": 3}, {"step_id": "r2r_004_financial_close_consolidation", "name": "Financial Close Orchestration & Group Consolidation", "order": 4}, {"step_id": "r2r_005_statutory_financial_reporting", "name": "Statutory, Tax & Management Financial Reporting", "order": 5}], "key_performance_indicators": ["days_to_close_financial_books", "manual_journal_entry_ratio", "intercompany_out_of_balance_amount", "first_time_right_reconciliation_rate", "sox_internal_control_deficiencies"]}};
+  const mermaidFlows = {"O2C": "flowchart TD\n  %% Style Classes\n  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;\n  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;\n  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;\n\n  subgraph Subgraph_ValueStreams [\"<b>Enterprise Value Streams</b>\"]\n    order_fulfillment_stream[[\"<b>Stream: Order-to-Fulfillment &amp; Cash Revenue Stream</b><br/><small>order_fulfillment_stream</small>\"]]:::valueStream\n  end\n\n  subgraph Subgraph_O2C [\"<b>Order-to-Cash Commercial & Fulfillment Phase</b>\"]\n    o2c_001_customer_quote_order_entry[\"<b>Quote Generation &amp; Order Capture</b><br/><small>ID: o2c_001_customer_quote_order_entry</small><br/>\u23f1 6.0h | \ud83d\udcb0 $25.0 | \u26a1 80% auto\"]:::processStep\n    o2c_002_credit_check_approval[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/><small>ID: o2c_002_credit_check_approval</small><br/>\u23f1 4.0h | \ud83d\udcb0 $15.0 | \u26a1 90% auto\"]:::processStep\n    o2c_003_inventory_allocation_fulfillment[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/><small>ID: o2c_003_inventory_allocation_fulfillment</small><br/>\u23f1 24.0h | \ud83d\udcb0 $65.0 | \u26a1 65% auto\"]:::processStep\n    o2c_004_billing_invoice_generation[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/><small>ID: o2c_004_billing_invoice_generation</small><br/>\u23f1 2.0h | \ud83d\udcb0 $6.5 | \u26a1 95% auto\"]:::processStep\n    o2c_005_cash_collection_reconciliation[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/><small>ID: o2c_005_cash_collection_reconciliation</small><br/>\u23f1 8.0h | \ud83d\udcb0 $12.0 | \u26a1 85% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_Governance [\"<b>Governance & Control Policies</b>\"]\n    credit_limit_risk_policy([\"<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>\"]):::controlPolicy\n    sod_spending_limits_policy([\"<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>\"]):::controlPolicy\n  end\n\n  %% Process Flows & Policy Linkages\n  o2c_001_customer_quote_order_entry --> o2c_002_credit_check_approval\n  o2c_001_customer_quote_order_entry -. governed by .-> credit_limit_risk_policy\n  o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy\n  o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation\n  o2c_002_credit_check_approval --> o2c_003_inventory_allocation_fulfillment\n  o2c_002_credit_check_approval -. governed by .-> credit_limit_risk_policy\n  o2c_004_billing_invoice_generation --> o2c_005_cash_collection_reconciliation\n  o2c_004_billing_invoice_generation -. governed by .-> sod_spending_limits_policy\n  order_fulfillment_stream -. governed by .-> credit_limit_risk_policy\n  order_fulfillment_stream -. governed by .-> sod_spending_limits_policy", "R2R": "flowchart TD\n  %% Style Classes\n  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;\n  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;\n  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;\n\n  subgraph Subgraph_ValueStreams [\"<b>Enterprise Value Streams</b>\"]\n    financial_close_reporting_stream[[\"<b>Stream: Financial Close, Consolidation &amp; Regulatory Reporting Stream</b><br/><small>financial_close_reporting_stream</small>\"]]:::valueStream\n  end\n\n  subgraph Subgraph_R2R [\"<b>Record-to-Report Financial Accounting Phase</b>\"]\n    r2r_001_journal_entry_recording[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>\u23f1 8.0h | \ud83d\udcb0 $18.0 | \u26a1 82% auto\"]:::processStep\n    r2r_002_intercompany_reconciliation[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>\u23f1 12.0h | \ud83d\udcb0 $35.0 | \u26a1 75% auto\"]:::processStep\n    r2r_003_balance_sheet_substantiation[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>\u23f1 16.0h | \ud83d\udcb0 $45.0 | \u26a1 70% auto\"]:::processStep\n    r2r_004_financial_close_consolidation[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>\u23f1 20.0h | \ud83d\udcb0 $65.0 | \u26a1 80% auto\"]:::processStep\n    r2r_005_statutory_financial_reporting[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>\u23f1 14.0h | \ud83d\udcb0 $50.0 | \u26a1 65% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_Governance [\"<b>Governance & Control Policies</b>\"]\n    sox_financial_reporting_controls_policy([\"<b>Policy: SOX 404 Financial Reporting Internal Controls &amp; Materiality Thresholds Policy</b><br/><small>sox_financial_reporting_controls_policy</small>\"]):::controlPolicy\n  end\n\n  %% Process Flows & Policy Linkages\n  r2r_003_balance_sheet_substantiation --> r2r_004_financial_close_consolidation\n  r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy\n  r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation\n  r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy\n  r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy\n  r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting\n  r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy\n  r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation\n  r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy\n  financial_close_reporting_stream -. governed by .-> sox_financial_reporting_controls_policy", "S2P": "flowchart TD\n  %% Style Classes\n  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;\n  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;\n  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;\n\n  subgraph Subgraph_ValueStreams [\"<b>Enterprise Value Streams</b>\"]\n    procure_to_pay_stream[[\"<b>Stream: Procure to Pay (P2P) Operational Value Stream</b><br/><small>procure_to_pay_stream</small>\"]]:::valueStream\n    strategic_sourcing_stream[[\"<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>\"]]:::valueStream\n  end\n\n  subgraph Subgraph_Sourcing [\"<b>Strategic Sourcing & Contracting Phase</b>\"]\n    s2p_001_spend_analysis_need_id[\"<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>\u23f1 12.0h | \ud83d\udcb0 $45.0 | \u26a1 70% auto\"]:::processStep\n    s2p_002_supplier_discovery_qualification[\"<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>\u23f1 48.0h | \ud83d\udcb0 $120.0 | \u26a1 50% auto\"]:::processStep\n    s2p_003_sourcing_rfx_auction[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>\u23f1 96.0h | \ud83d\udcb0 $250.0 | \u26a1 65% auto\"]:::processStep\n    s2p_004_contracting_sla_negotiation[\"<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>\u23f1 72.0h | \ud83d\udcb0 $300.0 | \u26a1 40% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_P2P [\"<b>Procure-to-Pay (P2P) Operational Phase</b>\"]\n    s2p_005_purchase_requisition_po[\"<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>\u23f1 8.0h | \ud83d\udcb0 $18.0 | \u26a1 90% auto\"]:::processStep\n    s2p_006_goods_services_receipt[\"<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>\u23f1 6.0h | \ud83d\udcb0 $12.5 | \u26a1 80% auto\"]:::processStep\n    s2p_007_invoice_verification_matching[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>\u23f1 16.0h | \ud83d\udcb0 $22.0 | \u26a1 75% auto\"]:::processStep\n    s2p_008_payment_settlement_disbursement[\"<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>\u23f1 4.0h | \ud83d\udcb0 $8.5 | \u26a1 95% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_Governance [\"<b>Governance & Control Policies</b>\"]\n    sod_spending_limits_policy([\"<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>\"]):::controlPolicy\n  end\n\n  %% Process Flows & Policy Linkages\n  s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy\n  s2p_001_spend_analysis_need_id --> s2p_002_supplier_discovery_qualification\n  s2p_001_spend_analysis_need_id -. governed by .-> sod_spending_limits_policy\n  s2p_005_purchase_requisition_po --> s2p_006_goods_services_receipt\n  s2p_005_purchase_requisition_po -. governed by .-> sod_spending_limits_policy\n  s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po\n  s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy\n  s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction\n  s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy\n  s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation\n  s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement\n  s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy\n  s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching\n  strategic_sourcing_stream --> procure_to_pay_stream\n  procure_to_pay_stream -. governed by .-> sod_spending_limits_policy", "ALL": "flowchart TD\n  %% Style Classes\n  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;\n  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;\n  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;\n\n  subgraph Subgraph_ValueStreams [\"<b>Enterprise Value Streams</b>\"]\n    financial_close_reporting_stream[[\"<b>Stream: Financial Close, Consolidation &amp; Regulatory Reporting Stream</b><br/><small>financial_close_reporting_stream</small>\"]]:::valueStream\n    order_fulfillment_stream[[\"<b>Stream: Order-to-Fulfillment &amp; Cash Revenue Stream</b><br/><small>order_fulfillment_stream</small>\"]]:::valueStream\n    procure_to_pay_stream[[\"<b>Stream: Procure to Pay (P2P) Operational Value Stream</b><br/><small>procure_to_pay_stream</small>\"]]:::valueStream\n    strategic_sourcing_stream[[\"<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>\"]]:::valueStream\n  end\n\n  subgraph Subgraph_Sourcing [\"<b>Strategic Sourcing & Contracting Phase</b>\"]\n    s2p_001_spend_analysis_need_id[\"<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>\u23f1 12.0h | \ud83d\udcb0 $45.0 | \u26a1 70% auto\"]:::processStep\n    s2p_002_supplier_discovery_qualification[\"<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>\u23f1 48.0h | \ud83d\udcb0 $120.0 | \u26a1 50% auto\"]:::processStep\n    s2p_003_sourcing_rfx_auction[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>\u23f1 96.0h | \ud83d\udcb0 $250.0 | \u26a1 65% auto\"]:::processStep\n    s2p_004_contracting_sla_negotiation[\"<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>\u23f1 72.0h | \ud83d\udcb0 $300.0 | \u26a1 40% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_P2P [\"<b>Procure-to-Pay (P2P) Operational Phase</b>\"]\n    s2p_005_purchase_requisition_po[\"<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>\u23f1 8.0h | \ud83d\udcb0 $18.0 | \u26a1 90% auto\"]:::processStep\n    s2p_006_goods_services_receipt[\"<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>\u23f1 6.0h | \ud83d\udcb0 $12.5 | \u26a1 80% auto\"]:::processStep\n    s2p_007_invoice_verification_matching[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>\u23f1 16.0h | \ud83d\udcb0 $22.0 | \u26a1 75% auto\"]:::processStep\n    s2p_008_payment_settlement_disbursement[\"<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>\u23f1 4.0h | \ud83d\udcb0 $8.5 | \u26a1 95% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_O2C [\"<b>Order-to-Cash Commercial & Fulfillment Phase</b>\"]\n    o2c_001_customer_quote_order_entry[\"<b>Quote Generation &amp; Order Capture</b><br/><small>ID: o2c_001_customer_quote_order_entry</small><br/>\u23f1 6.0h | \ud83d\udcb0 $25.0 | \u26a1 80% auto\"]:::processStep\n    o2c_002_credit_check_approval[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/><small>ID: o2c_002_credit_check_approval</small><br/>\u23f1 4.0h | \ud83d\udcb0 $15.0 | \u26a1 90% auto\"]:::processStep\n    o2c_003_inventory_allocation_fulfillment[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/><small>ID: o2c_003_inventory_allocation_fulfillment</small><br/>\u23f1 24.0h | \ud83d\udcb0 $65.0 | \u26a1 65% auto\"]:::processStep\n    o2c_004_billing_invoice_generation[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/><small>ID: o2c_004_billing_invoice_generation</small><br/>\u23f1 2.0h | \ud83d\udcb0 $6.5 | \u26a1 95% auto\"]:::processStep\n    o2c_005_cash_collection_reconciliation[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/><small>ID: o2c_005_cash_collection_reconciliation</small><br/>\u23f1 8.0h | \ud83d\udcb0 $12.0 | \u26a1 85% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_R2R [\"<b>Record-to-Report Financial Accounting Phase</b>\"]\n    r2r_001_journal_entry_recording[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>\u23f1 8.0h | \ud83d\udcb0 $18.0 | \u26a1 82% auto\"]:::processStep\n    r2r_002_intercompany_reconciliation[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>\u23f1 12.0h | \ud83d\udcb0 $35.0 | \u26a1 75% auto\"]:::processStep\n    r2r_003_balance_sheet_substantiation[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>\u23f1 16.0h | \ud83d\udcb0 $45.0 | \u26a1 70% auto\"]:::processStep\n    r2r_004_financial_close_consolidation[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>\u23f1 20.0h | \ud83d\udcb0 $65.0 | \u26a1 80% auto\"]:::processStep\n    r2r_005_statutory_financial_reporting[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>\u23f1 14.0h | \ud83d\udcb0 $50.0 | \u26a1 65% auto\"]:::processStep\n  end\n\n  subgraph Subgraph_Other [\"<b>Process Steps</b>\"]\n    test_invalid_schema[\"<b>Test Invalid Schema</b><br/><small>ID: test_invalid_schema</small><br/>\u23f1 0.0h | \ud83d\udcb0 $0.0\"]:::processStep\n  end\n\n  subgraph Subgraph_Governance [\"<b>Governance & Control Policies</b>\"]\n    credit_limit_risk_policy([\"<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>\"]):::controlPolicy\n    sod_spending_limits_policy([\"<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>\"]):::controlPolicy\n    sox_financial_reporting_controls_policy([\"<b>Policy: SOX 404 Financial Reporting Internal Controls &amp; Materiality Thresholds Policy</b><br/><small>sox_financial_reporting_controls_policy</small>\"]):::controlPolicy\n  end\n\n  %% Process Flows & Policy Linkages\n  s2p_008_payment_settlement_disbursement --> r2r_001_journal_entry_recording\n  s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy\n  s2p_001_spend_analysis_need_id --> s2p_002_supplier_discovery_qualification\n  s2p_001_spend_analysis_need_id -. governed by .-> sod_spending_limits_policy\n  s2p_005_purchase_requisition_po --> s2p_006_goods_services_receipt\n  s2p_005_purchase_requisition_po -. governed by .-> sod_spending_limits_policy\n  o2c_001_customer_quote_order_entry --> o2c_002_credit_check_approval\n  o2c_001_customer_quote_order_entry -. governed by .-> credit_limit_risk_policy\n  r2r_003_balance_sheet_substantiation --> r2r_004_financial_close_consolidation\n  r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy\n  r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation\n  r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy\n  s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po\n  s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy\n  o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording\n  o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy\n  r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy\n  s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction\n  s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy\n  r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting\n  r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy\n  s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation\n  s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement\n  s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy\n  o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation\n  r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation\n  r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy\n  s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching\n  o2c_002_credit_check_approval --> o2c_003_inventory_allocation_fulfillment\n  o2c_002_credit_check_approval -. governed by .-> credit_limit_risk_policy\n  o2c_004_billing_invoice_generation --> o2c_005_cash_collection_reconciliation\n  o2c_004_billing_invoice_generation -. governed by .-> sod_spending_limits_policy\n  financial_close_reporting_stream -. governed by .-> sox_financial_reporting_controls_policy\n  strategic_sourcing_stream --> procure_to_pay_stream\n  procure_to_pay_stream -. governed by .-> sod_spending_limits_policy\n  order_fulfillment_stream -. governed by .-> credit_limit_risk_policy\n  order_fulfillment_stream -. governed by .-> sod_spending_limits_policy"};
+  const mermaidRaci = {"O2C": "flowchart LR\n  %% RACI Swimlanes Styling\n  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;\n  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;\n  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;\n\n  subgraph Sub_role_warehouse_supervisor [\"<b>Warehouse &amp; Fulfillment Supervisor</b>\"]\n    o2c_003_inventory_allocation_fulfillment__R[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_003_inventory_allocation_fulfillment__A[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_finance_controller [\"<b>Finance Controller</b>\"]\n    o2c_002_credit_check_approval__A[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    o2c_004_billing_invoice_generation__A[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    o2c_005_cash_collection_reconciliation__A[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_credit_manager [\"<b>Credit &amp; Risk Manager</b>\"]\n    o2c_002_credit_check_approval__R[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_sales_ops_specialist [\"<b>Sales Operations Specialist</b>\"]\n    o2c_001_customer_quote_order_entry__R[\"<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_001_customer_quote_order_entry__A[\"<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_billing_specialist [\"<b>Billing &amp; Accounts Receivable Specialist</b>\"]\n    o2c_004_billing_invoice_generation__R[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_005_cash_collection_reconciliation__R[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  o2c_001_customer_quote_order_entry__R --> o2c_002_credit_check_approval__R\n  o2c_003_inventory_allocation_fulfillment__R --> o2c_004_billing_invoice_generation__R\n  o2c_002_credit_check_approval__R --> o2c_003_inventory_allocation_fulfillment__R\n  o2c_004_billing_invoice_generation__R --> o2c_005_cash_collection_reconciliation__R", "R2R": "flowchart LR\n  %% RACI Swimlanes Styling\n  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;\n  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;\n  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;\n\n  subgraph Sub_role_finance_controller [\"<b>Finance Controller</b>\"]\n    r2r_001_journal_entry_recording__A[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_002_intercompany_reconciliation__A[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_003_balance_sheet_substantiation__A[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_004_financial_close_consolidation__A[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_005_statutory_financial_reporting__A[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_general_ledger_accountant [\"<b>General Ledger Accountant</b>\"]\n    r2r_001_journal_entry_recording__R[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_003_balance_sheet_substantiation__R[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_consolidation_specialist [\"<b>Financial Consolidation Specialist</b>\"]\n    r2r_002_intercompany_reconciliation__R[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_004_financial_close_consolidation__R[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_005_statutory_financial_reporting__R[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  r2r_003_balance_sheet_substantiation__R --> r2r_004_financial_close_consolidation__R\n  r2r_001_journal_entry_recording__R --> r2r_002_intercompany_reconciliation__R\n  r2r_004_financial_close_consolidation__R --> r2r_005_statutory_financial_reporting__R\n  r2r_002_intercompany_reconciliation__R --> r2r_003_balance_sheet_substantiation__R", "S2P": "flowchart LR\n  %% RACI Swimlanes Styling\n  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;\n  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;\n  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;\n\n  subgraph Sub_role_accounts_payable_clerk [\"<b>Accounts Payable Clerk</b>\"]\n    s2p_007_invoice_verification_matching__R[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_008_payment_settlement_disbursement__R[\"<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_finance_controller [\"<b>Finance Controller</b>\"]\n    s2p_007_invoice_verification_matching__A[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_008_payment_settlement_disbursement__A[\"<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_procurement_specialist [\"<b>Procurement Specialist</b>\"]\n    s2p_001_spend_analysis_need_id__R[\"<b>Spend Analysis &amp; Need Identification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_002_supplier_discovery_qualification__R[\"<b>Supplier Discovery &amp; Qualification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_003_sourcing_rfx_auction__R[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_005_purchase_requisition_po__R[\"<b>Purchase Requisition &amp; PO Issuance</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_006_goods_services_receipt__R[\"<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_category_manager [\"<b>Category Manager</b>\"]\n    s2p_004_contracting_sla_negotiation__R[\"<b>Contracting &amp; SLA Negotiation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_001_spend_analysis_need_id__A[\"<b>Spend Analysis &amp; Need Identification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_002_supplier_discovery_qualification__A[\"<b>Supplier Discovery &amp; Qualification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_003_sourcing_rfx_auction__A[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_004_contracting_sla_negotiation__A[\"<b>Contracting &amp; SLA Negotiation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_005_purchase_requisition_po__A[\"<b>Purchase Requisition &amp; PO Issuance</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_006_goods_services_receipt__A[\"<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  s2p_001_spend_analysis_need_id__R --> s2p_002_supplier_discovery_qualification__R\n  s2p_005_purchase_requisition_po__R --> s2p_006_goods_services_receipt__R\n  s2p_004_contracting_sla_negotiation__R --> s2p_005_purchase_requisition_po__R\n  s2p_002_supplier_discovery_qualification__R --> s2p_003_sourcing_rfx_auction__R\n  s2p_003_sourcing_rfx_auction__R --> s2p_004_contracting_sla_negotiation__R\n  s2p_007_invoice_verification_matching__R --> s2p_008_payment_settlement_disbursement__R\n  s2p_006_goods_services_receipt__R --> s2p_007_invoice_verification_matching__R", "ALL": "flowchart LR\n  %% RACI Swimlanes Styling\n  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;\n  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;\n  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;\n\n  subgraph Sub_role_warehouse_supervisor [\"<b>Warehouse &amp; Fulfillment Supervisor</b>\"]\n    o2c_003_inventory_allocation_fulfillment__R[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_003_inventory_allocation_fulfillment__A[\"<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_accounts_payable_clerk [\"<b>Accounts Payable Clerk</b>\"]\n    s2p_007_invoice_verification_matching__R[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_008_payment_settlement_disbursement__R[\"<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_finance_controller [\"<b>Finance Controller</b>\"]\n    o2c_002_credit_check_approval__A[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    o2c_004_billing_invoice_generation__A[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    o2c_005_cash_collection_reconciliation__A[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_001_journal_entry_recording__A[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_002_intercompany_reconciliation__A[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_003_balance_sheet_substantiation__A[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_004_financial_close_consolidation__A[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    r2r_005_statutory_financial_reporting__A[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_007_invoice_verification_matching__A[\"<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_008_payment_settlement_disbursement__A[\"<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_procurement_specialist [\"<b>Procurement Specialist</b>\"]\n    s2p_001_spend_analysis_need_id__R[\"<b>Spend Analysis &amp; Need Identification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_002_supplier_discovery_qualification__R[\"<b>Supplier Discovery &amp; Qualification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_003_sourcing_rfx_auction__R[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_005_purchase_requisition_po__R[\"<b>Purchase Requisition &amp; PO Issuance</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_006_goods_services_receipt__R[\"<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_general_ledger_accountant [\"<b>General Ledger Accountant</b>\"]\n    r2r_001_journal_entry_recording__R[\"<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_003_balance_sheet_substantiation__R[\"<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_consolidation_specialist [\"<b>Financial Consolidation Specialist</b>\"]\n    r2r_002_intercompany_reconciliation__R[\"<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_004_financial_close_consolidation__R[\"<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    r2r_005_statutory_financial_reporting__R[\"<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_category_manager [\"<b>Category Manager</b>\"]\n    s2p_004_contracting_sla_negotiation__R[\"<b>Contracting &amp; SLA Negotiation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    s2p_001_spend_analysis_need_id__A[\"<b>Spend Analysis &amp; Need Identification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_002_supplier_discovery_qualification__A[\"<b>Supplier Discovery &amp; Qualification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_003_sourcing_rfx_auction__A[\"<b>Strategic Sourcing &amp; RFx Execution</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_004_contracting_sla_negotiation__A[\"<b>Contracting &amp; SLA Negotiation</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_005_purchase_requisition_po__A[\"<b>Purchase Requisition &amp; PO Issuance</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n    s2p_006_goods_services_receipt__A[\"<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_credit_manager [\"<b>Credit &amp; Risk Manager</b>\"]\n    o2c_002_credit_check_approval__R[\"<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  subgraph Sub_role_sales_ops_specialist [\"<b>Sales Operations Specialist</b>\"]\n    o2c_001_customer_quote_order_entry__R[\"<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_001_customer_quote_order_entry__A[\"<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Accountable (A)</b>\"]:::aNode\n  end\n\n  subgraph Sub_role_billing_specialist [\"<b>Billing &amp; Accounts Receivable Specialist</b>\"]\n    o2c_004_billing_invoice_generation__R[\"<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n    o2c_005_cash_collection_reconciliation__R[\"<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Responsible (R)</b>\"]:::rNode\n  end\n\n  s2p_008_payment_settlement_disbursement__R --> r2r_001_journal_entry_recording__R\n  s2p_001_spend_analysis_need_id__R --> s2p_002_supplier_discovery_qualification__R\n  s2p_005_purchase_requisition_po__R --> s2p_006_goods_services_receipt__R\n  o2c_001_customer_quote_order_entry__R --> o2c_002_credit_check_approval__R\n  r2r_003_balance_sheet_substantiation__R --> r2r_004_financial_close_consolidation__R\n  r2r_001_journal_entry_recording__R --> r2r_002_intercompany_reconciliation__R\n  s2p_004_contracting_sla_negotiation__R --> s2p_005_purchase_requisition_po__R\n  o2c_005_cash_collection_reconciliation__R --> r2r_001_journal_entry_recording__R\n  s2p_002_supplier_discovery_qualification__R --> s2p_003_sourcing_rfx_auction__R\n  r2r_004_financial_close_consolidation__R --> r2r_005_statutory_financial_reporting__R\n  s2p_003_sourcing_rfx_auction__R --> s2p_004_contracting_sla_negotiation__R\n  s2p_007_invoice_verification_matching__R --> s2p_008_payment_settlement_disbursement__R\n  o2c_003_inventory_allocation_fulfillment__R --> o2c_004_billing_invoice_generation__R\n  r2r_002_intercompany_reconciliation__R --> r2r_003_balance_sheet_substantiation__R\n  s2p_006_goods_services_receipt__R --> s2p_007_invoice_verification_matching__R\n  o2c_002_credit_check_approval__R --> o2c_003_inventory_allocation_fulfillment__R\n  o2c_004_billing_invoice_generation__R --> o2c_005_cash_collection_reconciliation__R"};
+  const mermaidAssets = "flowchart TD\n  %% Systems & Assets Styling\n  classDef coreAsset fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#f0fdf4,rx:8,ry:8;\n  classDef subAsset fill:#064e3b,stroke:#2dd4bf,stroke-width:2px,color:#f0fdfa,rx:6,ry:6;\n  classDef stepDep fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0,rx:4,ry:4;\n\n  subgraph Subgraph_EnterpriseSystems [\"<b>Enterprise Core IT Systems & Assets</b>\"]\n    asset_erp_system[\"<b>Enterprise Core ERP (SAP S/4HANA)</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 2500</small>\"]:::coreAsset\n    asset_payment_gateway[\"<b>Corporate Banking Payment Gateway &amp; ISO 20022 Router</b><br/><small>Type: api_gateway | SLA: 99.99% | Max TPS: 1500</small>\"]:::subAsset\n    asset_erp_system ==>|integrates with| asset_payment_gateway\n    asset_crm_system[\"<b>Enterprise Cloud CRM &amp; CPQ Platform (Salesforce)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 1200</small>\"]:::subAsset\n    asset_erp_system ==>|integrates with| asset_crm_system\n    asset_eprocurement_portal[\"<b>Cloud e-Procurement &amp; Supplier Network Portal</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 800</small>\"]:::subAsset\n    asset_erp_system ==>|integrates with| asset_eprocurement_portal\n    asset_wms_system[\"<b>Automated Warehouse Management &amp; Dispatch System (SAP EWM)</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 600</small>\"]:::subAsset\n    asset_erp_system ==>|integrates with| asset_wms_system\n    asset_financial_consolidation_system[\"<b>Enterprise Financial Consolidation &amp; Reporting System (SAP Group Reporting / OneStream)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 500</small>\"]:::subAsset\n    asset_erp_system ==>|integrates with| asset_financial_consolidation_system\n  end\n\n  subgraph Subgraph_ProcessBindings [\"<b>Value Chain Process Workloads</b>\"]\n    proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway[\"Payment Settlement &amp; Disbursement\"]:::stepDep\n    proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway -. runs on .-> asset_payment_gateway\n    proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway[\"Cash Collection &amp; Accounts Receivable Reconciliation\"]:::stepDep\n    proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway -. runs on .-> asset_payment_gateway\n    proc_o2c_001_customer_quote_order_entry_asset_crm_system[\"Quote Generation &amp; Order Capture\"]:::stepDep\n    proc_o2c_001_customer_quote_order_entry_asset_crm_system -. runs on .-> asset_crm_system\n    proc_o2c_002_credit_check_approval_asset_crm_system[\"Customer Credit Assessment &amp; Exposure Check\"]:::stepDep\n    proc_o2c_002_credit_check_approval_asset_crm_system -. runs on .-> asset_crm_system\n    proc_o2c_004_billing_invoice_generation_asset_crm_system[\"Customer Billing &amp; Electronic Invoicing\"]:::stepDep\n    proc_o2c_004_billing_invoice_generation_asset_crm_system -. runs on .-> asset_crm_system\n    proc_s2p_001_spend_analysis_need_id_asset_eprocurement_portal[\"Spend Analysis &amp; Need Identification\"]:::stepDep\n    proc_s2p_001_spend_analysis_need_id_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_s2p_005_purchase_requisition_po_asset_eprocurement_portal[\"Purchase Requisition &amp; PO Issuance\"]:::stepDep\n    proc_s2p_005_purchase_requisition_po_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_s2p_004_contracting_sla_negotiation_asset_eprocurement_portal[\"Contracting &amp; SLA Negotiation\"]:::stepDep\n    proc_s2p_004_contracting_sla_negotiation_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_s2p_002_supplier_discovery_qualification_asset_eprocurement_portal[\"Supplier Discovery &amp; Qualification\"]:::stepDep\n    proc_s2p_002_supplier_discovery_qualification_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_s2p_003_sourcing_rfx_auction_asset_eprocurement_portal[\"Strategic Sourcing &amp; RFx Execution\"]:::stepDep\n    proc_s2p_003_sourcing_rfx_auction_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_s2p_007_invoice_verification_matching_asset_eprocurement_portal[\"Invoice 3-Way Matching &amp; Exception Handling\"]:::stepDep\n    proc_s2p_007_invoice_verification_matching_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal\n    proc_o2c_003_inventory_allocation_fulfillment_asset_wms_system[\"Inventory Allocation &amp; Warehouse Fulfillment\"]:::stepDep\n    proc_o2c_003_inventory_allocation_fulfillment_asset_wms_system -. runs on .-> asset_wms_system\n    proc_s2p_008_payment_settlement_disbursement_asset_erp_system[\"Payment Settlement &amp; Disbursement\"]:::stepDep\n    proc_s2p_008_payment_settlement_disbursement_asset_erp_system -. runs on .-> asset_erp_system\n    proc_s2p_001_spend_analysis_need_id_asset_erp_system[\"Spend Analysis &amp; Need Identification\"]:::stepDep\n    proc_s2p_001_spend_analysis_need_id_asset_erp_system -. runs on .-> asset_erp_system\n    proc_s2p_005_purchase_requisition_po_asset_erp_system[\"Purchase Requisition &amp; PO Issuance\"]:::stepDep\n    proc_s2p_005_purchase_requisition_po_asset_erp_system -. runs on .-> asset_erp_system\n    proc_o2c_001_customer_quote_order_entry_asset_erp_system[\"Quote Generation &amp; Order Capture\"]:::stepDep\n    proc_o2c_001_customer_quote_order_entry_asset_erp_system -. runs on .-> asset_erp_system\n    proc_r2r_003_balance_sheet_substantiation_asset_erp_system[\"Balance Sheet Account Substantiation &amp; Reconciliation\"]:::stepDep\n    proc_r2r_003_balance_sheet_substantiation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_r2r_001_journal_entry_recording_asset_erp_system[\"General Ledger Journal Recording &amp; Subledger Ingestion\"]:::stepDep\n    proc_r2r_001_journal_entry_recording_asset_erp_system -. runs on .-> asset_erp_system\n    proc_s2p_004_contracting_sla_negotiation_asset_erp_system[\"Contracting &amp; SLA Negotiation\"]:::stepDep\n    proc_s2p_004_contracting_sla_negotiation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_o2c_005_cash_collection_reconciliation_asset_erp_system[\"Cash Collection &amp; Accounts Receivable Reconciliation\"]:::stepDep\n    proc_o2c_005_cash_collection_reconciliation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_r2r_004_financial_close_consolidation_asset_erp_system[\"Financial Close Orchestration &amp; Group Consolidation\"]:::stepDep\n    proc_r2r_004_financial_close_consolidation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_s2p_007_invoice_verification_matching_asset_erp_system[\"Invoice 3-Way Matching &amp; Exception Handling\"]:::stepDep\n    proc_s2p_007_invoice_verification_matching_asset_erp_system -. runs on .-> asset_erp_system\n    proc_o2c_003_inventory_allocation_fulfillment_asset_erp_system[\"Inventory Allocation &amp; Warehouse Fulfillment\"]:::stepDep\n    proc_o2c_003_inventory_allocation_fulfillment_asset_erp_system -. runs on .-> asset_erp_system\n    proc_r2r_002_intercompany_reconciliation_asset_erp_system[\"Intercompany Transaction Matching &amp; Elimination\"]:::stepDep\n    proc_r2r_002_intercompany_reconciliation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_s2p_006_goods_services_receipt_asset_erp_system[\"Goods &amp; Services Receipt Verification\"]:::stepDep\n    proc_s2p_006_goods_services_receipt_asset_erp_system -. runs on .-> asset_erp_system\n    proc_o2c_002_credit_check_approval_asset_erp_system[\"Customer Credit Assessment &amp; Exposure Check\"]:::stepDep\n    proc_o2c_002_credit_check_approval_asset_erp_system -. runs on .-> asset_erp_system\n    proc_o2c_004_billing_invoice_generation_asset_erp_system[\"Customer Billing &amp; Electronic Invoicing\"]:::stepDep\n    proc_o2c_004_billing_invoice_generation_asset_erp_system -. runs on .-> asset_erp_system\n    proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system[\"Balance Sheet Account Substantiation &amp; Reconciliation\"]:::stepDep\n    proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system\n    proc_r2r_005_statutory_financial_reporting_asset_financial_consolidation_system[\"Statutory, Tax &amp; Management Financial Reporting\"]:::stepDep\n    proc_r2r_005_statutory_financial_reporting_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system\n    proc_r2r_004_financial_close_consolidation_asset_financial_consolidation_system[\"Financial Close Orchestration &amp; Group Consolidation\"]:::stepDep\n    proc_r2r_004_financial_close_consolidation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system\n    proc_r2r_002_intercompany_reconciliation_asset_financial_consolidation_system[\"Intercompany Transaction Matching &amp; Elimination\"]:::stepDep\n    proc_r2r_002_intercompany_reconciliation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system\n  end\n";
+
+
+  let activeShockMap = {};
+  let currentMatrixModel = 'RACI';
+
+  let mermaidRenderCounter = 0;
+
+  window.onMermaidReady = function() {
+    const mermaidTab = document.getElementById("tab-mermaid");
+    if (mermaidTab && mermaidTab.classList.contains("active")) {
+      renderMermaidTab();
+    }
+  };
+
+  async function renderMermaidDiagram(containerId, code) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    if (!code || !code.trim()) {
+      container.innerHTML = `<div style="color: var(--text-muted); padding: 20px;">No diagram definition available for this selection.</div>`;
+      return;
+    }
+    if (!window.mermaid) {
+      container.innerHTML = `<div style="color: var(--text-muted); padding: 20px;">Loading diagram rendering engine...</div>`;
+      return;
+    }
+    try {
+      mermaidRenderCounter++;
+      const uniqueId = `mermaid-svg-${containerId}-${mermaidRenderCounter}`;
+      const { svg } = await window.mermaid.render(uniqueId, code);
+      container.innerHTML = svg;
+    } catch (err) {
+      console.error("Mermaid render error:", err);
+      container.innerHTML = `
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); border-radius: 8px; padding: 16px; color: #fca5a5; text-align: left; max-width: 800px; margin: 0 auto; font-family: monospace; font-size: 12px;">
+          <div style="font-weight: bold; margin-bottom: 6px;">Diagram Render Error:</div>
+          <div>${err.message || err}</div>
+        </div>
+      `;
+    }
+  }
+
+  function onFilterLifecycleChange(val) {
+    const mlfFilter = document.getElementById("mermaidLifecycleFilter");
+    if (mlfFilter) mlfFilter.value = val;
+    const headerLf = document.getElementById("headerLifecycle");
+    if (headerLf) headerLf.innerText = val;
+    renderPipeline();
+    renderRaciTable();
+  }
+
+  function onMermaidLifecycleChange(val) {
+    const lfFilter = document.getElementById("filterLifecycle");
+    if (lfFilter) {
+      lfFilter.value = val;
+      const headerLf = document.getElementById("headerLifecycle");
+      if (headerLf) headerLf.innerText = val;
+      renderPipeline();
+      renderRaciTable();
+    }
+    renderMermaidTab();
+  }
+
+  async function renderMermaidTab() {
+    const activeLf = document.getElementById("mermaidLifecycleFilter")?.value || document.getElementById("filterLifecycle")?.value || "ALL";
+    const viewSelector = document.getElementById("mermaidDiagramSelector")?.value || "both";
+
+    const flowBox = document.getElementById("mermaidFlowBox");
+    const raciBox = document.getElementById("mermaidRaciBox");
+    const assetsBox = document.getElementById("mermaidAssetsBox");
+
+    const flowCode = (typeof mermaidFlows !== 'undefined' && (mermaidFlows[activeLf] || mermaidFlows["ALL"])) || "";
+    const raciCode = (typeof mermaidRaci !== 'undefined' && (mermaidRaci[activeLf] || mermaidRaci["ALL"])) || "";
+    const assetCode = typeof mermaidAssets !== 'undefined' ? mermaidAssets : "";
+
+    if (viewSelector === "flow") {
+      flowBox.style.display = "block";
+      raciBox.style.display = "none";
+      assetsBox.style.display = "none";
+      document.getElementById("mermaidFlowBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidFlowContainer", flowCode);
+    } else if (viewSelector === "raci") {
+      flowBox.style.display = "none";
+      raciBox.style.display = "block";
+      assetsBox.style.display = "none";
+      document.getElementById("mermaidRaciBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidRaciContainer", raciCode);
+    } else if (viewSelector === "assets") {
+      flowBox.style.display = "none";
+      raciBox.style.display = "none";
+      assetsBox.style.display = "block";
+      await renderMermaidDiagram("mermaidAssetsContainer", assetCode);
+    } else {
+      flowBox.style.display = "block";
+      raciBox.style.display = "block";
+      assetsBox.style.display = "block";
+      document.getElementById("mermaidFlowBadge").innerText = `Scope: ${activeLf}`;
+      document.getElementById("mermaidRaciBadge").innerText = `Scope: ${activeLf}`;
+      await renderMermaidDiagram("mermaidFlowContainer", flowCode);
+      await renderMermaidDiagram("mermaidRaciContainer", raciCode);
+      await renderMermaidDiagram("mermaidAssetsContainer", assetCode);
+    }
+  }
+
+  function init() {
+    document.getElementById("headerElements").innerText = Object.keys(elements).length;
+    document.getElementById("headerRoles").innerText = roles.length;
+    document.getElementById("headerAssets").innerText = Object.keys(assets).length;
+
+    // Dynamically populate lifecycle filter dropdown
+    const lfFilter = document.getElementById("filterLifecycle");
+    const mlfFilter = document.getElementById("mermaidLifecycleFilter");
+    if (lfFilter) {
+      lfFilter.innerHTML = "";
+      Object.keys(lifecycles).sort().forEach(lid => {
+        const lf = lifecycles[lid];
+        const opt = document.createElement("option");
+        opt.value = lid;
+        opt.innerText = `${lf.name || lid} (${lid})`;
+        lfFilter.appendChild(opt);
+      });
+      const allOpt = document.createElement("option");
+      allOpt.value = "ALL";
+      allOpt.innerText = "All Enterprise Lifecycles";
+      lfFilter.appendChild(allOpt);
+
+      if (mlfFilter) {
+        mlfFilter.innerHTML = lfFilter.innerHTML;
+        mlfFilter.value = lfFilter.value;
+      }
+    }
+
+    // Populate scenario dropdown
+    const scSelect = document.getElementById("selectScenario");
+    scSelect.innerHTML = '<option value="baseline">Baseline (Normal Operations)</option>';
+    scenarios.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.scenario_id;
+      opt.innerText = `[${s.target_lifecycle}] ${s.name}`;
+      scSelect.appendChild(opt);
+    });
+
+    renderPipeline();
+    renderRaciTable();
+    renderAssets();
+    applyScenario();
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".section-content").forEach(s => s.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+    document.getElementById(tabId).classList.add("active");
+    if (tabId === 'tab-mermaid') {
+      renderMermaidTab();
+    }
+  }
+
+  function setMatrixModel(model) {
+    currentMatrixModel = model;
+    const btnRaci = document.getElementById("btnModelRaci");
+    const btnDaci = document.getElementById("btnModelDaci");
+    const desc = document.getElementById("matrixModelDescription");
+
+    if (model === 'RACI') {
+      btnRaci.classList.add("active");
+      btnDaci.classList.remove("active");
+      desc.innerHTML = "<b>RACI Model:</b> Responsible (R) executes | Accountable (A) signs off | Consulted (C) inputs | Informed (I) notified";
+    } else {
+      btnDaci.classList.add("active");
+      btnRaci.classList.remove("active");
+      desc.innerHTML = "<b>DACI Model:</b> Driver (D) orchestrates | Approver (A) sole veto/approval | Contributor (C) advises | Informed (I) notified";
+    }
+    renderRaciTable();
+  }
+
+  function getRaci(elem) {
+    const r = elem.raci || {};
+    return {
+      responsible: elem.responsible || r.responsible || [],
+      accountable: elem.accountable || r.accountable || [],
+      consulted: elem.consulted || r.consulted || [],
+      informed: elem.informed || r.informed || []
+    };
+  }
+
+  function getDaci(elem) {
+    const d = elem.daci || {};
+    const r = elem.raci || {};
+    return {
+      driver: elem.driver || d.driver || elem.responsible || r.responsible || [],
+      approver: elem.approver || d.approver || elem.accountable || r.accountable || [],
+      contributor: elem.contributor || d.contributor || elem.consulted || r.consulted || [],
+      informed: elem.informed || d.informed || r.informed || []
+    };
+  }
+
+  function getAttrs(elem) {
+    const a = elem.attributes || {};
+    return {
+      cycle_time: elem.baseline_cycle_time_hours || a.baseline_cycle_time_hours || 0.0,
+      cost: elem.baseline_cost_per_unit || a.baseline_cost_per_unit || 0.0,
+      automation: elem.automation_rate !== undefined ? elem.automation_rate : (a.automation_rate !== undefined ? a.automation_rate : 1.0),
+      error_rate: elem.error_rate !== undefined ? elem.error_rate : (a.error_rate !== undefined ? a.error_rate : 0.0),
+      sla: elem.sla_hours || a.sla_hours || 0.0
+    };
+  }
+
+  function renderPipeline() {
+    const grid = document.getElementById("pipelineGrid");
+    grid.innerHTML = "";
+    const filterLf = document.getElementById("filterLifecycle").value;
+    const query = document.getElementById("searchSteps").value.toLowerCase();
+
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (filterLf !== "ALL" && !((elem.lifecycles || []).includes(filterLf))) return;
+      if (elem.type !== "process_step") return;
+
+      const name = elem.name || eid;
+      const raci = getRaci(elem);
+      const attrs = getAttrs(elem);
+
+      if (query && !name.toLowerCase().includes(query) && !eid.toLowerCase().includes(query)) return;
+
+      const card = document.createElement("div");
+      card.className = "step-card";
+      card.onclick = () => openModal(eid);
+
+      card.innerHTML = `
+        <div class="step-num"><span>Step Milestone</span><span>SLA: ${attrs.sla}h</span></div>
+        <div class="step-name">${name}</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${eid}</div>
+        <div class="metric-row">
+          <div class="metric-item">Lead Time<div class="metric-val">⏱ ${attrs.cycle_time}h</div></div>
+          <div class="metric-item">Unit Cost<div class="metric-val">💰 $${attrs.cost.toFixed(2)}</div></div>
+          <div class="metric-item">Automation<div class="metric-val">⚡ ${Math.round(attrs.automation * 100)}%</div></div>
+          <div class="metric-item">Error Rate<div class="metric-val">⚠️ ${(attrs.error_rate * 100).toFixed(1)}%</div></div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderRaciTable() {
+    const headerRow = document.getElementById("raciHeaderRow");
+    headerRow.innerHTML = "<th>Step ID</th><th>Process Step Name</th>";
+    roles.forEach(r => {
+      const th = document.createElement("th");
+      th.innerText = roleTitles[r] || r;
+      headerRow.appendChild(th);
+    });
+
+    const tbody = document.getElementById("raciBody");
+    tbody.innerHTML = "";
+    const filterLf = document.getElementById("filterLifecycle")?.value || "ALL";
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (elem.type !== "process_step") return;
+      if (filterLf !== "ALL" && !((elem.lifecycles || []).includes(filterLf))) return;
+      const tr = document.createElement("tr");
+      let html = `<td style="font-family: monospace; color: var(--accent-blue);">${eid}</td><td style="font-weight: 600;">${elem.name}</td>`;
+
+      if (currentMatrixModel === 'RACI') {
+        const raci = getRaci(elem);
+        roles.forEach(r => {
+          let badges = "";
+          if (raci.responsible.includes(r)) badges += `<span class="raci-badge badge-r" title="Responsible (Executes)">R</span>`;
+          if (raci.accountable.includes(r)) badges += `<span class="raci-badge badge-a" title="Accountable (Sign-off)">A</span>`;
+          if (raci.consulted.includes(r)) badges += `<span class="raci-badge badge-c" title="Consulted (Inputs)">C</span>`;
+          if (raci.informed.includes(r)) badges += `<span class="raci-badge badge-i" title="Informed (Notified)">I</span>`;
+          html += `<td style="text-align: center;">${badges || "-"}</td>`;
+        });
+      } else {
+        const daci = getDaci(elem);
+        roles.forEach(r => {
+          let badges = "";
+          if (daci.driver.includes(r)) badges += `<span class="raci-badge badge-d" title="Driver (Orchestrates)">D</span>`;
+          if (daci.approver.includes(r)) badges += `<span class="raci-badge badge-a" title="Approver (Veto/Sign-off)">A</span>`;
+          if (daci.contributor.includes(r)) badges += `<span class="raci-badge badge-c" title="Contributor (Advises)">C</span>`;
+          if (daci.informed.includes(r)) badges += `<span class="raci-badge badge-i" title="Informed (Notified)">I</span>`;
+          html += `<td style="text-align: center;">${badges || "-"}</td>`;
+        });
+      }
+
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderAssets() {
+    const grid = document.getElementById("assetsGrid");
+    grid.innerHTML = "";
+
+    Object.keys(assets).forEach(aid => {
+      const a = assets[aid];
+      const card = document.createElement("div");
+      card.className = "step-card";
+
+      // Find dependent process steps
+      const boundSteps = [];
+      Object.keys(elements).forEach(eid => {
+        if ((elements[eid].asset_dependencies || []).includes(aid)) {
+          boundSteps.push(elements[eid].name || eid);
+        }
+      });
+
+      card.innerHTML = `
+        <div class="step-num"><span>${a.asset_type.toUpperCase()}</span><span style="color: var(--accent-green);">${a.status}</span></div>
+        <div class="step-name">${a.name}</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${aid}</div>
+        <div class="metric-row">
+          <div class="metric-item">SLA Uptime<div class="metric-val" style="color: var(--accent-green);">${a.sla_uptime_percent}%</div></div>
+          <div class="metric-item">Max Throughput<div class="metric-val">${a.capacity_max_tps} TPS</div></div>
+        </div>
+        <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          <b>Bound Process Workloads:</b>
+          <ul style="margin-top: 6px; padding-left: 18px; color: #cbd5e1;">
+            ${boundSteps.map(s => `<li>${s}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function applyScenario() {
+    const scId = document.getElementById("selectScenario").value;
+    const descEl = document.getElementById("scenarioDescription");
+    const grid = document.getElementById("simPipelineGrid");
+    grid.innerHTML = "";
+
+    activeShockMap = {};
+    let sc = null;
+    if (scId !== "baseline") {
+      sc = scenarios.find(s => s.scenario_id === scId);
+      if (sc) {
+        descEl.innerText = sc.description;
+        (sc.shocks || []).forEach(sh => {
+          if (!activeShockMap[sh.target_element_id]) {
+            activeShockMap[sh.target_element_id] = [];
+          }
+          activeShockMap[sh.target_element_id].push(sh);
+        });
+      }
+    } else {
+      descEl.innerText = "Normal nominal operating baseline with no disruptions, outages, or exception spikes.";
+    }
+
+    let baseTime = 0.0, shockedTime = 0.0;
+    let baseCost = 0.0, shockedCost = 0.0;
+    let maxStepId = "", maxStepTime = 0.0;
+
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      if (elem.type !== "process_step") return;
+
+      if (sc && sc.target_lifecycle && sc.target_lifecycle !== "ALL" && sc.target_lifecycle !== "Global") {
+        if (!(elem.lifecycles || []).includes(sc.target_lifecycle)) {
+          return;
+        }
+      }
+
+      const attrs = getAttrs(elem);
+      let sTime = attrs.cycle_time;
+      let sCost = attrs.cost;
+      let sAuto = attrs.automation;
+      let sErr = attrs.error_rate;
+      let isShocked = false;
+      let shockMsg = "";
+
+      if (activeShockMap[eid]) {
+        isShocked = true;
+        const msgs = [];
+        activeShockMap[eid].forEach(sh => {
+          const mod = sh.attribute_modifier;
+          const mult = sh.multiplier || 1.0;
+          const delta = sh.additive_delta || 0.0;
+
+          if (mod === "baseline_cycle_time_hours") {
+            sTime = (sTime * mult) + delta;
+            msgs.push(`⏱ Lead Time: ${sTime.toFixed(1)}h`);
+          } else if (mod === "baseline_cost_per_unit") {
+            sCost = (sCost * mult) + delta;
+            msgs.push(`💰 Cost: $${sCost.toFixed(2)}`);
+          } else if (mod === "error_rate") {
+            sErr = (sErr * mult) + delta;
+            msgs.push(`⚠️ Error: ${(sErr * 100).toFixed(1)}%`);
+          } else if (mod === "automation_rate") {
+            sAuto = Math.max(0, (sAuto * mult) + delta);
+            msgs.push(`⚡ Auto: ${Math.round(sAuto * 100)}%`);
+          }
+        });
+        shockMsg = msgs.join(" | ");
+      }
+
+      const effBaseTime = attrs.cycle_time * (1 + attrs.error_rate);
+      const effBaseCost = attrs.cost * (1 + attrs.error_rate);
+
+      const effSTime = sTime * (1 + sErr);
+      const effSCost = sCost * (1 + sErr);
+
+      baseTime += effBaseTime;
+      shockedTime += effSTime;
+      baseCost += effBaseCost;
+      shockedCost += effSCost;
+
+      if (effSTime > maxStepTime) {
+        maxStepTime = effSTime;
+        maxStepId = elem.name;
+      }
+
+      const card = document.createElement("div");
+      card.className = "step-card" + (isShocked ? " shocked" : "");
+      card.innerHTML = `
+        <div class="step-num"><span>Step Milestone</span><span>SLA: ${attrs.sla}h</span></div>
+        <div class="step-name">${elem.name}</div>
+        <div class="metric-row">
+          <div class="metric-item">Lead Time<div class="metric-val" style="color: ${effSTime > effBaseTime ? 'var(--accent-red)' : '#e5e7eb'};">⏱ ${effSTime.toFixed(1)}h</div></div>
+          <div class="metric-item">Unit Cost<div class="metric-val" style="color: ${effSCost > effBaseCost ? 'var(--accent-red)' : '#e5e7eb'};">💰 $${effSCost.toFixed(2)}</div></div>
+        </div>
+        ${isShocked ? `<div class="shock-badge">${shockMsg}</div>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+
+    const timeDeltaPct = (((shockedTime - baseTime) / baseTime) * 100).toFixed(1);
+    const costDeltaPct = (((shockedCost - baseCost) / baseCost) * 100).toFixed(1);
+
+    document.getElementById("simCycleTime").innerHTML = `${shockedTime.toFixed(1)}h <small style="font-size: 13px; color: ${shockedTime > baseTime ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${timeDeltaPct}%)</small>`;
+    document.getElementById("simCost").innerHTML = `$${shockedCost.toFixed(2)} <small style="font-size: 13px; color: ${shockedCost > baseCost ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${costDeltaPct}%)</small>`;
+    document.getElementById("simBottleneck").innerText = `${maxStepId} (${maxStepTime.toFixed(1)}h)`;
+  }
+
+  function openModal(eid) {
+    const elem = elements[eid];
+    if (!elem) return;
+    const raci = getRaci(elem);
+    const daci = getDaci(elem);
+    const attrs = getAttrs(elem);
+
+    const content = document.getElementById("modalContent");
+    content.innerHTML = `
+      <div style="font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">Process Step Detail Inspector</div>
+      <h2 style="font-size: 22px; font-weight: 700; margin: 6px 0 16px 0;">${elem.name}</h2>
+      <div style="font-family: monospace; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Element ID: ${eid} | Lifecycles: [${(elem.lifecycles || []).join(", ")}]</div>
+
+      <div class="modal-tier">
+        <h4>Tier 1: Strategic Intent & Outcomes</h4>
+        <p style="font-size: 14px; color: #e2e8f0;">${elem.description || "Critical enterprise milestone aligned with operational excellence and financial governance."}</p>
+      </div>
+
+      <div class="modal-tier" style="border-left-color: var(--accent-purple);">
+        <h4>Tier 2: Operational RACI & Decision DACI</h4>
+        <div style="margin-bottom: 12px;">
+          <div style="font-weight: 700; color: var(--accent-blue); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">RACI (Operational Execution)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+            <div><b>Responsible (R):</b> ${raci.responsible.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Accountable (A):</b> ${raci.accountable.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Consulted (C):</b> ${raci.consulted.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Informed (I):</b> ${raci.informed.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+          <div style="font-weight: 700; color: var(--accent-purple); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">DACI (Decision Authority)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+            <div><b>Driver (D):</b> ${daci.driver.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Approver (A):</b> ${daci.approver.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Contributor (C):</b> ${daci.contributor.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+            <div><b>Informed (I):</b> ${daci.informed.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-tier" style="border-left-color: var(--accent-green);">
+        <h4>Tier 3: Systems Math & Infrastructure</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+          <div>Baseline Cycle Time: <b>${attrs.cycle_time} hours</b></div>
+          <div>Baseline Cost/Unit: <b>$${attrs.cost.toFixed(2)}</b></div>
+          <div>Automation Rate: <b>${Math.round(attrs.automation * 100)}%</b></div>
+          <div>Target SLA: <b>${attrs.sla} hours</b></div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px;">
+          <b>System Asset Dependencies:</b>
+          <div style="margin-top: 4px;">
+            ${(elem.asset_dependencies || []).map(a => `<span style="background: rgba(52, 211, 153, 0.15); border: 1px solid var(--accent-green); color: #6ee7b7; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-right: 6px;">${assets[a] ? assets[a].name : a}</span>`).join("") || "None"}
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("detailModal").classList.add("active");
+  }
+
+  function closeModal() {
+    document.getElementById("detailModal").classList.remove("active");
+  }
+
+  window.onclick = function(e) {
+    const m = document.getElementById("detailModal");
+    if (e.target === m) closeModal();
+  };
+
+  init();
+</script>
+
+</body>
+</html>

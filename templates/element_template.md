@@ -13,6 +13,12 @@ raci:
   consulted: [role_finance_controller]
   informed: [role_supplier]
 
+daci:
+  driver: [role_procurement_specialist]
+  approver: [role_category_manager]
+  contributor: [role_finance_controller]
+  informed: [role_supplier]
+
 attributes:
   baseline_cycle_time_hours: 24.0
   baseline_cost_per_unit: 15.50
