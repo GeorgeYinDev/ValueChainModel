@@ -59,8 +59,17 @@
       "type": "object",
       "properties": {
         "responsible": { "type": "array", "items": { "type": "string" } },
-        "accountable": { "type": "array", "items": { "type": "string" } },
+        "accountable": { "type": "array", "items": { "type": "string" }, "maxItems": 1 },
         "consulted": { "type": "array", "items": { "type": "string" } },
+        "informed": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "daci": {
+      "type": "object",
+      "properties": {
+        "driver": { "type": "array", "items": { "type": "string" } },
+        "approver": { "type": "array", "items": { "type": "string" }, "maxItems": 1 },
+        "contributor": { "type": "array", "items": { "type": "string" } },
         "informed": { "type": "array", "items": { "type": "string" } }
       }
     },

@@ -9,6 +9,7 @@ Enterprise Value Chain Scenario Simulation Engine
 5. Generates a markdown simulation report (index/simulation_report_<scenario_id>.md).
 """
 
+import os
 import sys
 import json
 import pathlib
@@ -40,7 +41,12 @@ def main():
     print(f"Description     : {scenario.get('description')}\n")
 
     shocks = scenario.get("shocks", [])
-    shock_map = {s["target_element_id"]: s for s in shocks}
+    shock_map = {}
+    for s in shocks:
+        tid = s.get("target_element_id")
+        if tid not in shock_map:
+            shock_map[tid] = []
+        shock_map[tid].append(s)
 
     baseline_total_time = 0.0
     shocked_total_time = 0.0
@@ -56,6 +62,8 @@ def main():
     for eid in sorted_elem_ids:
         elem = elements[eid]
         if scenario.get("target_lifecycle") not in elem.get("lifecycles", []):
+            continue
+        if elem.get("type") != "process_step":
             continue
 
         # Extract attributes from nested dict or root level
@@ -74,37 +82,43 @@ def main():
         s_err = base_err
 
         if eid in shock_map:
-            s_spec = shock_map[eid]
-            mod = s_spec.get("attribute_modifier")
-            mult = s_spec.get("multiplier", 1.0)
-            delta = s_spec.get("additive_delta", 0.0)
+            for s_spec in shock_map[eid]:
+                mod = s_spec.get("attribute_modifier")
+                mult = s_spec.get("multiplier", 1.0)
+                delta = s_spec.get("additive_delta", 0.0)
 
-            if mod == "baseline_cycle_time_hours":
-                s_time = (base_time * mult) + delta
-            elif mod == "baseline_cost_per_unit":
-                s_cost = (base_cost * mult) + delta
-            elif mod == "automation_rate":
-                s_auto = max(0.0, min(1.0, (base_auto * mult) + delta))
-            elif mod == "error_rate":
-                s_err = max(0.0, min(1.0, (base_err * mult) + delta))
+                if mod == "baseline_cycle_time_hours":
+                    s_time = (s_time * mult) + delta
+                elif mod == "baseline_cost_per_unit":
+                    s_cost = (s_cost * mult) + delta
+                elif mod == "automation_rate":
+                    s_auto = max(0.0, min(1.0, (s_auto * mult) + delta))
+                elif mod == "error_rate":
+                    s_err = max(0.0, min(1.0, (s_err * mult) + delta))
 
-        baseline_total_time += base_time
-        shocked_total_time += s_time
+        eff_base_time = base_time * (1 + base_err)
+        eff_base_cost = base_cost * (1 + base_err)
 
-        baseline_total_cost += base_cost
-        shocked_total_cost += s_cost
+        eff_s_time = s_time * (1 + s_err)
+        eff_s_cost = s_cost * (1 + s_err)
 
-        time_delta_pct = ((s_time - base_time) / base_time * 100) if base_time > 0 else 0.0
-        cost_delta_pct = ((s_cost - base_cost) / base_cost * 100) if base_cost > 0 else 0.0
+        baseline_total_time += eff_base_time
+        shocked_total_time += eff_s_time
+
+        baseline_total_cost += eff_base_cost
+        shocked_total_cost += eff_s_cost
+
+        time_delta_pct = ((eff_s_time - eff_base_time) / eff_base_time * 100) if eff_base_time > 0 else 0.0
+        cost_delta_pct = ((eff_s_cost - eff_base_cost) / eff_base_cost * 100) if eff_base_cost > 0 else 0.0
 
         report_rows.append({
             "id": eid,
             "name": elem.get("name"),
-            "base_time": base_time,
-            "shock_time": s_time,
+            "base_time": eff_base_time,
+            "shock_time": eff_s_time,
             "time_delta_pct": time_delta_pct,
-            "base_cost": base_cost,
-            "shock_cost": s_cost,
+            "base_cost": eff_base_cost,
+            "shock_cost": eff_s_cost,
             "cost_delta_pct": cost_delta_pct
         })
 

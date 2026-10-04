@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "jsonschema",
+#     "pyyaml",
+# ]
+# ///
 """
 Enterprise Value Chain Engine Validator & LLM Context Indexer
 -------------------------------------------------------------
@@ -15,6 +22,8 @@ import os
 import sys
 import json
 import pathlib
+import yaml
+import jsonschema
 from typing import Dict, Any, List, Tuple
 
 def parse_frontmatter(file_path: pathlib.Path) -> Tuple[Dict[str, Any], str]:
@@ -28,91 +37,13 @@ def parse_frontmatter(file_path: pathlib.Path) -> Tuple[Dict[str, Any], str]:
         if len(parts) >= 3:
             raw_yaml = parts[1]
             body = parts[2]
-            frontmatter = simple_yaml_parse(raw_yaml)
+            try:
+                frontmatter = yaml.safe_load(raw_yaml) or {}
+            except yaml.YAMLError as e:
+                print(f"YAML Parse Error in {file_path}: {e}")
+                sys.exit(1)
             
     return frontmatter, body
-
-def simple_yaml_parse(yaml_str: str) -> Dict[str, Any]:
-    """Lightweight YAML parser capable of reading nested dicts and lists."""
-    result = {}
-    current_key = None
-    lines = yaml_str.splitlines()
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        line_strip = line.strip()
-        if not line_strip or line_strip.startswith("#"):
-            i += 1
-            continue
-
-        # Check list item with dict structure
-        if line_strip.startswith("- ") and current_key:
-            item_dict = {}
-            kv_line = line_strip[2:].strip()
-            if ":" in kv_line:
-                k, v = kv_line.split(":", 1)
-                item_dict[k.strip()] = parse_val(v.strip())
-            
-            i += 1
-            while i < len(lines):
-                next_line = lines[i]
-                next_strip = next_line.strip()
-                if next_line.startswith("    ") and ":" in next_strip and not next_strip.startswith("- "):
-                    k, v = next_strip.split(":", 1)
-                    item_dict[k.strip()] = parse_val(v.strip())
-                    i += 1
-                else:
-                    break
-            
-            if not isinstance(result.get(current_key), list):
-                result[current_key] = []
-            result[current_key].append(item_dict if item_dict else parse_val(kv_line))
-            continue
-
-        # Simple list element (e.g.   responsible: [role_1, role_2])
-        if ":" in line:
-            key, val = line.split(":", 1)
-            key = key.strip()
-            val = val.strip()
-            current_key = key
-            
-            if not val:
-                result[key] = {}
-            elif val.startswith("[") and val.endswith("]"):
-                items = [x.strip(" '\"") for x in val[1:-1].split(",") if x.strip()]
-                result[key] = items
-            else:
-                result[key] = parse_val(val)
-        elif line.startswith("  ") and ":" in line_strip and current_key:
-            # Sub-key under dict
-            k, v = line_strip.split(":", 1)
-            k = k.strip()
-            v = v.strip()
-            if not isinstance(result.get(current_key), dict):
-                result[current_key] = {}
-            if v.startswith("[") and v.endswith("]"):
-                items = [x.strip(" '\"") for x in v[1:-1].split(",") if x.strip()]
-                result[current_key][k] = items
-            else:
-                result[current_key][k] = parse_val(v)
-        i += 1
-                        
-    return result
-
-def parse_val(val_clean: str) -> Any:
-    val_clean = val_clean.strip("'\"")
-    if val_clean.lower() == "true":
-        return True
-    if val_clean.lower() == "false":
-        return False
-    if val_clean.lower() == "null":
-        return None
-    try:
-        if "." in val_clean:
-            return float(val_clean)
-        return int(val_clean)
-    except ValueError:
-        return val_clean
 
 def main():
     root = pathlib.Path(__file__).parent.parent.resolve()
@@ -130,6 +61,23 @@ def main():
 
     errors = []
 
+    # 0. Load Schemas
+    try:
+        element_schema = json.loads((schema_dir / "value_chain_element.schema.json").read_text(encoding="utf-8"))
+        asset_schema = json.loads((schema_dir / "asset_hierarchy.schema.json").read_text(encoding="utf-8"))
+        lifecycle_schema = json.loads((schema_dir / "lifecycle_manifest.schema.json").read_text(encoding="utf-8"))
+        scenario_schema = json.loads((schema_dir / "scenario_simulation.schema.json").read_text(encoding="utf-8"))
+        print("[+] Loaded JSON Schemas")
+    except Exception as e:
+        print(f"❌ Failed to load JSON schemas: {e}")
+        sys.exit(1)
+
+    def validate_schema(instance, schema, label):
+        try:
+            jsonschema.validate(instance=instance, schema=schema)
+        except jsonschema.exceptions.ValidationError as e:
+            errors.append(f"Schema Validation Error in {label}: {e.message}")
+
     # 1. Ingest Roles
     roles = set()
     for role_file in roles_dir.glob("*.md"):
@@ -142,6 +90,7 @@ def main():
     for asset_file in assets_dir.glob("*.md"):
         fm, body = parse_frontmatter(asset_file)
         asset_id = fm.get("id", asset_file.stem)
+        validate_schema(fm, asset_schema, f"Asset '{asset_id}'")
         assets[asset_id] = fm
         print(f"  - Ingested Enterprise Asset: {asset_id}")
 
@@ -154,6 +103,7 @@ def main():
             errors.append(f"Missing 'id' in frontmatter: {md_file}")
             continue
             
+        validate_schema(fm, element_schema, f"Element '{elem_id}'")
         elements[elem_id] = {
             "frontmatter": fm,
             "body": body,
@@ -175,6 +125,31 @@ def main():
                     for r in role_list:
                         if r not in roles:
                             errors.append(f"Element '{elem_id}' references undefined role '{r}' in RACI.{role_type}")
+            
+            # Validate Segregation of Duties (SoD)
+            resp = set(raci.get("responsible", []))
+            acc = set(raci.get("accountable", []))
+            overlap = resp.intersection(acc)
+            if overlap:
+                if not fm.get("compensating_control"):
+                    errors.append(f"SoD Conflict in '{elem_id}': Role(s) {list(overlap)} cannot be both Responsible and Accountable without a 'compensating_control' declared.")
+
+        # Validate or auto-derive DACI roles
+        daci = fm.get("daci", {})
+        if isinstance(daci, dict) and daci:
+            for role_type, role_list in daci.items():
+                if isinstance(role_list, list):
+                    for r in role_list:
+                        if r not in roles:
+                            errors.append(f"Element '{elem_id}' references undefined role '{r}' in DACI.{role_type}")
+        else:
+            # Auto-derive DACI from RACI if not explicitly specified
+            fm["daci"] = {
+                "driver": fm.get("responsible") or (raci.get("responsible", []) if isinstance(raci, dict) else []),
+                "approver": fm.get("accountable") or (raci.get("accountable", []) if isinstance(raci, dict) else []),
+                "contributor": fm.get("consulted") or (raci.get("consulted", []) if isinstance(raci, dict) else []),
+                "informed": fm.get("informed") or (raci.get("informed", []) if isinstance(raci, dict) else [])
+            }
 
         # Validate asset dependencies
         deps = fm.get("asset_dependencies", [])
@@ -189,7 +164,9 @@ def main():
             for rel in relations:
                 if isinstance(rel, dict):
                     target = rel.get("target")
-                    if target and target not in elements and target not in assets:
+                    if target == elem_id:
+                        errors.append(f"Element '{elem_id}' has a self-referencing relation '{rel.get('relation')}' to itself.")
+                    elif target and target not in elements and target not in assets:
                         errors.append(f"Element '{elem_id}' references non-existent target '{target}'")
                     else:
                         valid_links += 1
@@ -211,14 +188,22 @@ def main():
     kg_file.write_text(json.dumps(graph_index, indent=2), encoding="utf-8")
     print(f"\n[+] Compiled Knowledge Graph Index: {kg_file.relative_to(root)}")
 
-    # 6. Build Lifecycle Prompt Context Packs
-    print("\n[+] Generating LLM Context Packs per Business Lifecycle...")
+    # 6. Build Lifecycle Prompt Context Packs & Validate
+    print("\n[+] Generating LLM Context Packs & Validating Lifecycles...")
     lifecycle_files = list(lifecycles_dir.glob("*.json"))
     
     for lf_file in lifecycle_files:
         lf_manifest = json.loads(lf_file.read_text(encoding="utf-8"))
+        validate_schema(lf_manifest, lifecycle_schema, f"Lifecycle '{lf_file.name}'")
+        
         lf_id = lf_manifest.get("lifecycle_id")
         lf_name = lf_manifest.get("name")
+        
+        # Cross-file reference checks for milestones
+        for m in lf_manifest.get("milestones", []):
+            step_id = m.get("step_id")
+            if step_id and step_id not in elements:
+                errors.append(f"Lifecycle '{lf_id}' references non-existent step_id '{step_id}'")
         
         # Match elements tagging this lifecycle
         matched_elements = [
@@ -249,6 +234,25 @@ def main():
         out_prompt.write_text(prompt_content, encoding="utf-8")
         print(f"  - Generated context pack: {out_prompt.relative_to(root)} ({len(matched_elements)} elements)")
 
+    # 6.5 Validate Scenarios
+    print("\n[+] Validating Scenario files...")
+    simulations_dir = root / "simulations"
+    for sim_file in simulations_dir.glob("*.json"):
+        sim_data = json.loads(sim_file.read_text(encoding="utf-8"))
+        validate_schema(sim_data, scenario_schema, f"Scenario '{sim_file.name}'")
+        
+        # Cross-file reference checks for shocks
+        for shock in sim_data.get("shocks", []):
+            target_id = shock.get("target_element_id")
+            if target_id and target_id not in elements and target_id not in assets:
+                errors.append(f"Scenario '{sim_file.name}' references non-existent target_element_id '{target_id}'")
+
+    # 7. Auto-compile Diagrams and Visualizer
+    diagram_script = root / "tools" / "export_diagram.py"
+    if diagram_script.exists():
+        print("\n[+] Compiling Mermaid Diagrams & Interactive Visualizer...")
+        os.system(f"python3 {diagram_script} --lifecycle ALL --format all")
+
     print("\n==================================================")
     if errors:
         print(f"❌ Completed with {len(errors)} errors:")
@@ -256,7 +260,7 @@ def main():
             print(f"  - {err}")
         sys.exit(1)
     else:
-        print("✅ Validation & Build Successful! All enterprise models in sync.")
+        print("✅ Validation & Build Successful! All enterprise models and visualizers in sync.")
         print("==================================================")
 
 if __name__ == "__main__":
