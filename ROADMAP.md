@@ -68,7 +68,7 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 ---
 
 ### Phase 5: Integrity Release — Make the Documented Claims True
-**Status**: ⏳ **Next Target Milestone** (Target Release: **v1.4.0**)
+**Status**: ✅ **Completed** (Target Release: **v1.4.0**)
 
 **Goal**: Every capability described in the README and `docs/` is actually enforced by the tooling, covered by tests, and committed to version control.
 
@@ -86,8 +86,8 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 | 5.10 | ✅ **Bug fixes** | Add missing `import os` in `simulate_scenario.py`. Fix the CHANGELOG link typo (`https.keepachangelog.com`). |
 | 5.11 | ✅ **Offline visualizer** | Mermaid is vendored or inlined so the HTML works with no network, or documentation is corrected to state it needs internet access. |
 | 5.12 | ✅ **Correct the documentation** | Simulation guide labels the queueing theory section as future work (until Phase 6). "Bi-directional validation" wording changed to match actual behavior. |
-| 5.13 | **Test suite** | `tests/` with pytest covering validator negative cases, simulation math, and exporter output snapshots. |
-| 5.14 | **Version control** | All O2C, DACI, R2R, docs, and roadmap work committed as logical commits. Optional CI workflow runs the validator and tests on every push. |
+| 5.13 | ✅ **Test suite** | `tests/` with pytest covering validator negative cases, simulation math, and exporter output snapshots. |
+| 5.14 | ✅ **Version control** | All O2C, DACI, R2R, docs, and roadmap work committed as logical commits. Optional CI workflow runs the validator and tests on every push. |
 
 ---
 
