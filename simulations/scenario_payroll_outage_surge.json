@@ -1,0 +1,29 @@
+{
+  "scenario_id": "scenario_payroll_outage_surge",
+  "name": "Payroll System Outage at Cutoff",
+  "description": "Simulates the impact of asset_payroll_engine experiencing an unexpected 12-hour outage precisely during the bi-weekly payroll cutoff window. Drives manual fallback interventions and delays general ledger close.",
+  "target_lifecycle": "H2R",
+  "shocks": [
+    {
+      "target_element_id": "h2r_004_payroll_benefits_enrollment",
+      "attribute_modifier": "automation_rate",
+      "multiplier": 0.0,
+      "additive_delta": 0.0,
+      "rationale": "System down forces 100% manual check calculations."
+    },
+    {
+      "target_element_id": "h2r_004_payroll_benefits_enrollment",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.0,
+      "additive_delta": 12.0,
+      "rationale": "Flat 12-hour wait delay inserted into the process due to system downtime."
+    },
+    {
+      "target_element_id": "h2r_004_payroll_benefits_enrollment",
+      "attribute_modifier": "error_rate",
+      "multiplier": 5.0,
+      "additive_delta": 0.0,
+      "rationale": "Manual calculations cause a 5x spike in payroll defects requiring later correction."
+    }
+  ]
+}

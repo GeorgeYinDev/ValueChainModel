@@ -49,6 +49,15 @@ flowchart TD
     r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
   end
 
+  subgraph Subgraph_Other ["<b>Process Steps</b>"]
+    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
+    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0"]:::processStep
+    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0"]:::processStep
+    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0"]:::processStep
+    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0"]:::processStep
+    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0"]:::processStep
+  end
+
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
     credit_limit_risk_policy(["<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>"]):::controlPolicy
     sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
@@ -71,18 +80,27 @@ flowchart TD
   r2r_001_journal_entry_recording -. produces_artifact .-> data_journal_entry
   s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
   s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
+  h2r_005_performance_compensation_review --> h2r_006_separation_offboarding_settlement
+  h2r_006_separation_offboarding_settlement --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy
+  h2r_003_offer_letter_onboarding --> h2r_004_payroll_benefits_enrollment
+  h2r_003_offer_letter_onboarding -. exception_to .-> h2r_002_candidate_screening_interview
   r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy
   s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction
   s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy
   r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting
   r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
+  h2r_001_job_requisition_posting --> h2r_002_candidate_screening_interview
   s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
   s2p_007_invoice_verification_matching -. exception_to .-> s2p_006_goods_services_receipt
   s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
   o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation
+  h2r_004_payroll_benefits_enrollment --> h2r_005_performance_compensation_review
+  h2r_004_payroll_benefits_enrollment --> r2r_001_journal_entry_recording
+  h2r_002_candidate_screening_interview --> h2r_003_offer_letter_onboarding
+  h2r_002_candidate_screening_interview -. exception_to .-> h2r_001_job_requisition_posting
   r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
   r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching
@@ -109,9 +127,19 @@ flowchart LR
   classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;
   classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;
 
+  subgraph Sub_role_hr_business_partner ["<b>HR Business Partner (HRBP)</b>"]
+    h2r_006_separation_offboarding_settlement__R["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_006_separation_offboarding_settlement__A["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
   subgraph Sub_role_warehouse_supervisor ["<b>Warehouse &amp; Fulfillment Supervisor</b>"]
     o2c_003_inventory_allocation_fulfillment__R["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     o2c_003_inventory_allocation_fulfillment__A["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
+    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
   subgraph Sub_role_sales_ops_specialist ["<b>Sales Operations Specialist</b>"]
@@ -152,6 +180,15 @@ flowchart LR
     r2r_003_balance_sheet_substantiation__R["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
+  subgraph Sub_role_hiring_manager ["<b>Hiring Manager</b>"]
+    h2r_001_job_requisition_posting__R["<b>Job Requisition Definition &amp; Posting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_005_performance_compensation_review__R["<b>Performance &amp; Compensation Review</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_001_job_requisition_posting__A["<b>Job Requisition Definition &amp; Posting</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    h2r_002_candidate_screening_interview__A["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    h2r_003_offer_letter_onboarding__A["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    h2r_005_performance_compensation_review__A["<b>Performance &amp; Compensation Review</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
   subgraph Sub_role_credit_manager ["<b>Credit &amp; Risk Manager</b>"]
     o2c_002_credit_check_approval__R["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
@@ -175,6 +212,11 @@ flowchart LR
     s2p_008_payment_settlement_disbursement__R["<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
+  subgraph Sub_role_payroll_specialist ["<b>Payroll Specialist</b>"]
+    h2r_004_payroll_benefits_enrollment__R["<b>Payroll &amp; Benefits Enrollment Processing</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_004_payroll_benefits_enrollment__A["<b>Payroll &amp; Benefits Enrollment Processing</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
   s2p_008_payment_settlement_disbursement__R --> r2r_001_journal_entry_recording__R
   s2p_001_spend_analysis_need_id__R --> s2p_002_supplier_discovery_qualification__R
   s2p_005_purchase_requisition_po__R --> s2p_006_goods_services_receipt__R
@@ -182,12 +224,19 @@ flowchart LR
   r2r_003_balance_sheet_substantiation__R --> r2r_004_financial_close_consolidation__R
   r2r_001_journal_entry_recording__R --> r2r_002_intercompany_reconciliation__R
   s2p_004_contracting_sla_negotiation__R --> s2p_005_purchase_requisition_po__R
+  h2r_005_performance_compensation_review__R --> h2r_006_separation_offboarding_settlement__R
+  h2r_006_separation_offboarding_settlement__R --> r2r_001_journal_entry_recording__R
   o2c_005_cash_collection_reconciliation__R --> r2r_001_journal_entry_recording__R
+  h2r_003_offer_letter_onboarding__R --> h2r_004_payroll_benefits_enrollment__R
   s2p_002_supplier_discovery_qualification__R --> s2p_003_sourcing_rfx_auction__R
   r2r_004_financial_close_consolidation__R --> r2r_005_statutory_financial_reporting__R
   s2p_003_sourcing_rfx_auction__R --> s2p_004_contracting_sla_negotiation__R
+  h2r_001_job_requisition_posting__R --> h2r_002_candidate_screening_interview__R
   s2p_007_invoice_verification_matching__R --> s2p_008_payment_settlement_disbursement__R
   o2c_003_inventory_allocation_fulfillment__R --> o2c_004_billing_invoice_generation__R
+  h2r_004_payroll_benefits_enrollment__R --> h2r_005_performance_compensation_review__R
+  h2r_004_payroll_benefits_enrollment__R --> r2r_001_journal_entry_recording__R
+  h2r_002_candidate_screening_interview__R --> h2r_003_offer_letter_onboarding__R
   r2r_002_intercompany_reconciliation__R --> r2r_003_balance_sheet_substantiation__R
   s2p_006_goods_services_receipt__R --> s2p_007_invoice_verification_matching__R
   o2c_002_credit_check_approval__R --> o2c_003_inventory_allocation_fulfillment__R
@@ -205,7 +254,9 @@ flowchart TD
   classDef stepDep fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0,rx:4,ry:4;
 
   subgraph Subgraph_EnterpriseSystems ["<b>Enterprise Core IT Systems & Assets</b>"]
+    asset_hcm_platform["<b>Human Capital Management (HCM) Platform</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 0</small>"]:::coreAsset
     asset_erp_system["<b>Enterprise Core ERP (SAP S/4HANA)</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 2500</small>"]:::coreAsset
+    asset_payroll_engine["<b>Enterprise Payroll &amp; Tax Engine</b><br/><small>Type: it_application | SLA: 99.99% | Max TPS: 0</small>"]:::coreAsset
     asset_payment_gateway["<b>Corporate Banking Payment Gateway &amp; ISO 20022 Router</b><br/><small>Type: api_gateway | SLA: 99.99% | Max TPS: 1500</small>"]:::subAsset
     asset_erp_system ==>|integrates with| asset_payment_gateway
     asset_crm_system["<b>Enterprise Cloud CRM &amp; CPQ Platform (Salesforce)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 1200</small>"]:::subAsset
@@ -223,6 +274,18 @@ flowchart TD
     proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway -. runs on .-> asset_payment_gateway
     proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway["Cash Collection &amp; Accounts Receivable Reconciliation"]:::stepDep
     proc_o2c_005_cash_collection_reconciliation_asset_payment_gateway -. runs on .-> asset_payment_gateway
+    proc_h2r_005_performance_compensation_review_asset_hcm_platform["Performance &amp; Compensation Review"]:::stepDep
+    proc_h2r_005_performance_compensation_review_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_006_separation_offboarding_settlement_asset_hcm_platform["Separation, Offboarding &amp; Final Settlement"]:::stepDep
+    proc_h2r_006_separation_offboarding_settlement_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_003_offer_letter_onboarding_asset_hcm_platform["Offer Letter Generation &amp; Employee Onboarding"]:::stepDep
+    proc_h2r_003_offer_letter_onboarding_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_001_job_requisition_posting_asset_hcm_platform["Job Requisition Definition &amp; Posting"]:::stepDep
+    proc_h2r_001_job_requisition_posting_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_004_payroll_benefits_enrollment_asset_hcm_platform["Payroll &amp; Benefits Enrollment Processing"]:::stepDep
+    proc_h2r_004_payroll_benefits_enrollment_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_002_candidate_screening_interview_asset_hcm_platform["Candidate Screening &amp; Interview Execution"]:::stepDep
+    proc_h2r_002_candidate_screening_interview_asset_hcm_platform -. runs on .-> asset_hcm_platform
     proc_o2c_001_customer_quote_order_entry_asset_crm_system["Quote Generation &amp; Order Capture"]:::stepDep
     proc_o2c_001_customer_quote_order_entry_asset_crm_system -. runs on .-> asset_crm_system
     proc_o2c_002_credit_check_approval_asset_crm_system["Customer Credit Assessment &amp; Exposure Check"]:::stepDep
@@ -273,6 +336,10 @@ flowchart TD
     proc_o2c_002_credit_check_approval_asset_erp_system -. runs on .-> asset_erp_system
     proc_o2c_004_billing_invoice_generation_asset_erp_system["Customer Billing &amp; Electronic Invoicing"]:::stepDep
     proc_o2c_004_billing_invoice_generation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_h2r_006_separation_offboarding_settlement_asset_payroll_engine["Separation, Offboarding &amp; Final Settlement"]:::stepDep
+    proc_h2r_006_separation_offboarding_settlement_asset_payroll_engine -. runs on .-> asset_payroll_engine
+    proc_h2r_004_payroll_benefits_enrollment_asset_payroll_engine["Payroll &amp; Benefits Enrollment Processing"]:::stepDep
+    proc_h2r_004_payroll_benefits_enrollment_asset_payroll_engine -. runs on .-> asset_payroll_engine
     proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system["Balance Sheet Account Substantiation &amp; Reconciliation"]:::stepDep
     proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system
     proc_r2r_005_statutory_financial_reporting_asset_financial_consolidation_system["Statutory, Tax &amp; Management Financial Reporting"]:::stepDep
@@ -294,26 +361,32 @@ flowchart TD
 
 ## 1. Value Chain Process RACI Grid
 
-| Step ID | Process Step Name | Warehouse & Fulfillment Supervisor | Sales Operations Specialist | Billing & Accounts Receivable Specialist | Finance Controller | Supplier / Vendor | Category Manager | General Ledger Accountant | Credit & Risk Manager | Procurement Specialist | Financial Consolidation Specialist | Enterprise Customer | Accounts Payable Clerk | Internal Auditor |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `o2c_001_customer_quote_order_entry` | **Quote Generation & Order Capture** | - | **R**, **A** | - | - | - | - | - | I | - | - | C | - | - |
-| `o2c_002_credit_check_approval` | **Customer Credit Assessment & Exposure Check** | - | C | - | **A** | - | - | - | **R** | - | - | I | - | - |
-| `o2c_003_inventory_allocation_fulfillment` | **Inventory Allocation & Warehouse Fulfillment** | **R**, **A** | C | - | - | - | - | - | - | - | - | I | - | - |
-| `o2c_004_billing_invoice_generation` | **Customer Billing & Electronic Invoicing** | - | C | **R** | **A** | - | - | - | - | - | - | I | - | - |
-| `o2c_005_cash_collection_reconciliation` | **Cash Collection & Accounts Receivable Reconciliation** | - | I | **R** | **A** | - | - | - | - | - | - | C | - | - |
-| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | - | - | C | **A** | - | - | **R** | - | - | - | - | C | I |
-| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | **A** | - | - | C | - | - | **R** | - | - | I |
-| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | **A** | - | - | **R** | - | - | C | - | - | I |
-| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | **A** | - | - | C | - | - | **R** | - | - | I |
-| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | **A** | - | - | I | - | - | **R** | - | - | C |
-| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | C | I | **A** | - | - | **R** | - | - | - | - |
-| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | C | I | **A** | - | - | **R** | - | - | - | - |
-| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | C | I | **A** | - | - | **R** | - | - | - | - |
-| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | C | I | **R**, **A** | - | - | - | - | - | - | - |
-| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | C | I | **A** | - | - | **R** | - | - | - | - |
-| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | - | - | - | - | I | **A** | - | - | **R** | - | - | C | - |
-| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | - | - | - | **A** | I | - | - | - | C | - | - | **R** | - |
-| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | - | - | - | **A** | I | C | - | - | - | - | - | **R** | - |
+| Step ID | Process Step Name | HR Business Partner (HRBP) | Warehouse & Fulfillment Supervisor | Talent Acquisition Specialist | Sales Operations Specialist | Compensation Analyst | Billing & Accounts Receivable Specialist | Finance Controller | Supplier / Vendor | Category Manager | General Ledger Accountant | Hiring Manager | Credit & Risk Manager | Procurement Specialist | Financial Consolidation Specialist | Enterprise Customer | Accounts Payable Clerk | Payroll Specialist | Internal Auditor |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | C | - | I | - | C | - | - | - | - | - | **R**, **A** | - | - | - | - | - | - | - |
+| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | C | - | **R** | - | - | - | - | - | - | - | **A** | - | - | - | - | - | - | - |
+| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | **R** | - | C | - | - | - | - | - | **A** | - | - | - | - | - | I | - |
+| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | C | - | - | - | - | - | I | - | - | - | - | - | - | - | - | - | **R**, **A** | - |
+| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | C | - | - | - | C | - | - | - | - | - | **R**, **A** | - | - | - | - | - | I | - |
+| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | **R**, **A** | - | - | - | - | - | - | - | - | - | C | - | - | - | - | - | I | - |
+| `o2c_001_customer_quote_order_entry` | **Quote Generation & Order Capture** | - | - | - | **R**, **A** | - | - | - | - | - | - | - | I | - | - | C | - | - | - |
+| `o2c_002_credit_check_approval` | **Customer Credit Assessment & Exposure Check** | - | - | - | C | - | - | **A** | - | - | - | - | **R** | - | - | I | - | - | - |
+| `o2c_003_inventory_allocation_fulfillment` | **Inventory Allocation & Warehouse Fulfillment** | - | **R**, **A** | - | C | - | - | - | - | - | - | - | - | - | - | I | - | - | - |
+| `o2c_004_billing_invoice_generation` | **Customer Billing & Electronic Invoicing** | - | - | - | C | - | **R** | **A** | - | - | - | - | - | - | - | I | - | - | - |
+| `o2c_005_cash_collection_reconciliation` | **Cash Collection & Accounts Receivable Reconciliation** | - | - | - | I | - | **R** | **A** | - | - | - | - | - | - | - | C | - | - | - |
+| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | - | - | - | - | - | C | **A** | - | - | **R** | - | - | - | - | - | C | - | I |
+| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | - | - | **A** | - | - | C | - | - | - | **R** | - | - | - | I |
+| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | - | - | **A** | - | - | **R** | - | - | - | C | - | - | - | I |
+| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | - | - | **A** | - | - | C | - | - | - | **R** | - | - | - | I |
+| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | - | - | **A** | - | - | I | - | - | - | **R** | - | - | - | C |
+| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | - | - | - | C | I | **A** | - | - | - | **R** | - | - | - | - | - |
+| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | - | - | - | C | I | **A** | - | - | - | **R** | - | - | - | - | - |
+| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | - | - | - | C | I | **A** | - | - | - | **R** | - | - | - | - | - |
+| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | - | - | - | C | I | **R**, **A** | - | - | - | - | - | - | - | - | - |
+| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | - | - | - | C | I | **A** | - | - | - | **R** | - | - | - | - | - |
+| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | - | - | - | - | - | - | - | I | **A** | - | - | - | **R** | - | - | C | - | - |
+| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | - | - | - | - | - | - | **A** | I | - | - | - | - | C | - | - | **R** | - | - |
+| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | - | - | - | - | - | - | **A** | I | C | - | - | - | - | - | - | **R** | - | - |
 
 ---
 
@@ -321,18 +394,23 @@ flowchart TD
 
 | Enterprise Role | Responsible (R) | Accountable (A) | Consulted (C) | Informed (I) | Total Touchpoints | Operational Load |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **HR Business Partner (HRBP)** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🔴 High (Key Dependency) |
 | **Warehouse & Fulfillment Supervisor** (`role_warehouse_supervisor`) | 1 | 1 | 0 | 0 | **2** | 🟢 Low |
+| **Talent Acquisition Specialist** (`role_talent_acquisition_specialist`) | 2 | 0 | 0 | 1 | **3** | 🟡 Moderate |
 | **Sales Operations Specialist** (`role_sales_ops_specialist`) | 1 | 1 | 3 | 1 | **6** | 🔴 High (Key Dependency) |
+| **Compensation Analyst** (`role_compensation_analyst`) | 0 | 0 | 3 | 0 | **3** | 🟢 Low |
 | **Billing & Accounts Receivable Specialist** (`role_billing_specialist`) | 2 | 0 | 1 | 0 | **3** | 🟡 Moderate |
-| **Finance Controller** (`role_finance_controller`) | 0 | 10 | 5 | 0 | **15** | 🔴 High (Key Dependency) |
+| **Finance Controller** (`role_finance_controller`) | 0 | 10 | 5 | 1 | **16** | 🔴 High (Key Dependency) |
 | **Supplier / Vendor** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🔴 High (Key Dependency) |
 | **Category Manager** (`role_category_manager`) | 1 | 6 | 1 | 0 | **8** | 🔴 High (Key Dependency) |
 | **General Ledger Accountant** (`role_general_ledger_accountant`) | 2 | 0 | 2 | 1 | **5** | 🟡 Moderate |
+| **Hiring Manager** (`role_hiring_manager`) | 2 | 4 | 1 | 0 | **7** | 🔴 High (Key Dependency) |
 | **Credit & Risk Manager** (`role_credit_manager`) | 1 | 0 | 0 | 1 | **2** | 🟢 Low |
 | **Procurement Specialist** (`role_procurement_specialist`) | 5 | 0 | 1 | 0 | **6** | 🔴 High (Key Dependency) |
 | **Financial Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔴 High (Key Dependency) |
 | **Enterprise Customer** (`role_customer`) | 0 | 0 | 2 | 3 | **5** | 🟡 Moderate |
 | **Accounts Payable Clerk** (`role_accounts_payable_clerk`) | 2 | 0 | 2 | 0 | **4** | 🟡 Moderate |
+| **Payroll Specialist** (`role_payroll_specialist`) | 1 | 1 | 0 | 3 | **5** | 🟡 Moderate |
 | **Internal Auditor** (`role_internal_auditor`) | 0 | 0 | 1 | 4 | **5** | 🟡 Moderate |
 
 ---
@@ -341,6 +419,10 @@ flowchart TD
 
 ⚠️ **Potential Segregation of Duties (SoD) Overlaps Detected:**
 
+- **Step `h2r_001_job_requisition_posting` (Job Requisition Definition & Posting)**: Role `role_hiring_manager` is listed as both Responsible and Accountable.
+- **Step `h2r_004_payroll_benefits_enrollment` (Payroll & Benefits Enrollment Processing)**: Role `role_payroll_specialist` is listed as both Responsible and Accountable.
+- **Step `h2r_005_performance_compensation_review` (Performance & Compensation Review)**: Role `role_hiring_manager` is listed as both Responsible and Accountable.
+- **Step `h2r_006_separation_offboarding_settlement` (Separation, Offboarding & Final Settlement)**: Role `role_hr_business_partner` is listed as both Responsible and Accountable.
 - **Step `o2c_001_customer_quote_order_entry` (Quote Generation & Order Capture)**: Role `role_sales_ops_specialist` is listed as both Responsible and Accountable.
 - **Step `o2c_003_inventory_allocation_fulfillment` (Inventory Allocation & Warehouse Fulfillment)**: Role `role_warehouse_supervisor` is listed as both Responsible and Accountable.
 - **Step `s2p_004_contracting_sla_negotiation` (Contracting & SLA Negotiation)**: Role `role_category_manager` is listed as both Responsible and Accountable.
@@ -354,26 +436,32 @@ flowchart TD
 
 ## 1. Value Chain Process DACI Grid
 
-| Step ID | Process Step Name | Warehouse & Fulfillment Supervisor | Sales Operations Specialist | Billing & Accounts Receivable Specialist | Finance Controller | Supplier / Vendor | Category Manager | General Ledger Accountant | Credit & Risk Manager | Procurement Specialist | Financial Consolidation Specialist | Enterprise Customer | Accounts Payable Clerk | Internal Auditor |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `o2c_001_customer_quote_order_entry` | **Quote Generation & Order Capture** | - | **D**, **A** | - | - | - | - | - | I | - | - | C | - | - |
-| `o2c_002_credit_check_approval` | **Customer Credit Assessment & Exposure Check** | - | C | - | **A** | - | - | - | **D** | - | - | I | - | - |
-| `o2c_003_inventory_allocation_fulfillment` | **Inventory Allocation & Warehouse Fulfillment** | **D**, **A** | C | - | - | - | - | - | - | - | - | I | - | - |
-| `o2c_004_billing_invoice_generation` | **Customer Billing & Electronic Invoicing** | - | C | **D** | **A** | - | - | - | - | - | - | I | - | - |
-| `o2c_005_cash_collection_reconciliation` | **Cash Collection & Accounts Receivable Reconciliation** | - | I | **D** | **A** | - | - | - | - | - | - | C | - | - |
-| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | - | - | C | **A** | - | - | **D** | - | - | - | - | C | I |
-| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | **A** | - | - | C | - | - | **D** | - | - | I |
-| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | **A** | - | - | **D** | - | - | C | - | - | I |
-| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | **A** | - | - | C | - | - | **D** | - | - | I |
-| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | **A** | - | - | I | - | - | **D** | - | - | C |
-| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | C | I | **A** | - | - | **D** | - | - | - | - |
-| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | C | I | **A** | - | - | **D** | - | - | - | - |
-| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | C | I | **A** | - | - | **D** | - | - | - | - |
-| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | C | I | **D**, **A** | - | - | - | - | - | - | - |
-| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | C | I | **A** | - | - | **D** | - | - | - | - |
-| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | - | - | - | - | I | **A** | - | - | **D** | - | - | C | - |
-| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | - | - | - | **A** | I | - | - | - | C | - | - | **D** | - |
-| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | - | - | - | **A** | I | C | - | - | - | - | - | **D** | - |
+| Step ID | Process Step Name | HR Business Partner (HRBP) | Warehouse & Fulfillment Supervisor | Talent Acquisition Specialist | Sales Operations Specialist | Compensation Analyst | Billing & Accounts Receivable Specialist | Finance Controller | Supplier / Vendor | Category Manager | General Ledger Accountant | Hiring Manager | Credit & Risk Manager | Procurement Specialist | Financial Consolidation Specialist | Enterprise Customer | Accounts Payable Clerk | Payroll Specialist | Internal Auditor |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | C | - | I | - | C | - | - | - | - | - | **D**, **A** | - | - | - | - | - | - | - |
+| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | C | - | **D** | - | - | - | - | - | - | - | **A** | - | - | - | - | - | - | - |
+| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | **D** | - | C | - | - | - | - | - | **A** | - | - | - | - | - | I | - |
+| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | C | - | - | - | - | - | I | - | - | - | - | - | - | - | - | - | **D**, **A** | - |
+| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | C | - | - | - | C | - | - | - | - | - | **D**, **A** | - | - | - | - | - | I | - |
+| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | **D**, **A** | - | - | - | - | - | - | - | - | - | C | - | - | - | - | - | I | - |
+| `o2c_001_customer_quote_order_entry` | **Quote Generation & Order Capture** | - | - | - | **D**, **A** | - | - | - | - | - | - | - | I | - | - | C | - | - | - |
+| `o2c_002_credit_check_approval` | **Customer Credit Assessment & Exposure Check** | - | - | - | C | - | - | **A** | - | - | - | - | **D** | - | - | I | - | - | - |
+| `o2c_003_inventory_allocation_fulfillment` | **Inventory Allocation & Warehouse Fulfillment** | - | **D**, **A** | - | C | - | - | - | - | - | - | - | - | - | - | I | - | - | - |
+| `o2c_004_billing_invoice_generation` | **Customer Billing & Electronic Invoicing** | - | - | - | C | - | **D** | **A** | - | - | - | - | - | - | - | I | - | - | - |
+| `o2c_005_cash_collection_reconciliation` | **Cash Collection & Accounts Receivable Reconciliation** | - | - | - | I | - | **D** | **A** | - | - | - | - | - | - | - | C | - | - | - |
+| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | - | - | - | - | - | C | **A** | - | - | **D** | - | - | - | - | - | C | - | I |
+| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | - | - | **A** | - | - | C | - | - | - | **D** | - | - | - | I |
+| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | - | - | **A** | - | - | **D** | - | - | - | C | - | - | - | I |
+| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | - | - | **A** | - | - | C | - | - | - | **D** | - | - | - | I |
+| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | - | - | **A** | - | - | I | - | - | - | **D** | - | - | - | C |
+| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | - | - | - | C | I | **A** | - | - | - | **D** | - | - | - | - | - |
+| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | - | - | - | C | I | **A** | - | - | - | **D** | - | - | - | - | - |
+| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | - | - | - | C | I | **A** | - | - | - | **D** | - | - | - | - | - |
+| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | - | - | - | C | I | **D**, **A** | - | - | - | - | - | - | - | - | - |
+| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | - | - | - | C | I | **A** | - | - | - | **D** | - | - | - | - | - |
+| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | - | - | - | - | - | - | - | I | **A** | - | - | - | **D** | - | - | C | - | - |
+| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | - | - | - | - | - | - | **A** | I | - | - | - | - | C | - | - | **D** | - | - |
+| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | - | - | - | - | - | - | **A** | I | C | - | - | - | - | - | - | **D** | - | - |
 
 ---
 
@@ -381,18 +469,23 @@ flowchart TD
 
 | Enterprise Role | Driver (D) | Approver (A) | Contributor (C) | Informed (I) | Total Decision Touchpoints | Governance Weight |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **HR Business Partner (HRBP)** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🟡 Operational Authority |
 | **Warehouse & Fulfillment Supervisor** (`role_warehouse_supervisor`) | 1 | 1 | 0 | 0 | **2** | 🟡 Operational Authority |
+| **Talent Acquisition Specialist** (`role_talent_acquisition_specialist`) | 2 | 0 | 0 | 1 | **3** | 🟡 Operational Authority |
 | **Sales Operations Specialist** (`role_sales_ops_specialist`) | 1 | 1 | 3 | 1 | **6** | 🟡 Operational Authority |
+| **Compensation Analyst** (`role_compensation_analyst`) | 0 | 0 | 3 | 0 | **3** | 🟢 Advisory |
 | **Billing & Accounts Receivable Specialist** (`role_billing_specialist`) | 2 | 0 | 1 | 0 | **3** | 🟡 Operational Authority |
-| **Finance Controller** (`role_finance_controller`) | 0 | 10 | 5 | 0 | **15** | 🚨 Key-Person Risk (Concentrated Approver) |
+| **Finance Controller** (`role_finance_controller`) | 0 | 10 | 5 | 1 | **16** | 🚨 Key-Person Risk (Concentrated Approver) |
 | **Supplier / Vendor** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🟢 Advisory |
 | **Category Manager** (`role_category_manager`) | 1 | 6 | 1 | 0 | **8** | 🚨 Key-Person Risk (Concentrated Approver) |
 | **General Ledger Accountant** (`role_general_ledger_accountant`) | 2 | 0 | 2 | 1 | **5** | 🟡 Operational Authority |
+| **Hiring Manager** (`role_hiring_manager`) | 2 | 4 | 1 | 0 | **7** | 🔴 Strategic Approver |
 | **Credit & Risk Manager** (`role_credit_manager`) | 1 | 0 | 0 | 1 | **2** | 🟡 Operational Authority |
 | **Procurement Specialist** (`role_procurement_specialist`) | 5 | 0 | 1 | 0 | **6** | 🔵 Primary Driver |
 | **Financial Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔵 Primary Driver |
 | **Enterprise Customer** (`role_customer`) | 0 | 0 | 2 | 3 | **5** | 🟢 Advisory |
 | **Accounts Payable Clerk** (`role_accounts_payable_clerk`) | 2 | 0 | 2 | 0 | **4** | 🟡 Operational Authority |
+| **Payroll Specialist** (`role_payroll_specialist`) | 1 | 1 | 0 | 3 | **5** | 🟡 Operational Authority |
 | **Internal Auditor** (`role_internal_auditor`) | 0 | 0 | 1 | 4 | **5** | 🟢 Advisory |
 
 ---

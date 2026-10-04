@@ -41,6 +41,15 @@ flowchart TD
     r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
   end
 
+  subgraph Subgraph_Other ["<b>Process Steps</b>"]
+    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
+    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0"]:::processStep
+    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0"]:::processStep
+    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0"]:::processStep
+    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0"]:::processStep
+    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0"]:::processStep
+  end
+
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
     credit_limit_risk_policy(["<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>"]):::controlPolicy
     sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
@@ -63,18 +72,27 @@ flowchart TD
   r2r_001_journal_entry_recording -. produces_artifact .-> data_journal_entry
   s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
   s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
+  h2r_005_performance_compensation_review --> h2r_006_separation_offboarding_settlement
+  h2r_006_separation_offboarding_settlement --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording
   o2c_005_cash_collection_reconciliation -. governed by .-> sod_spending_limits_policy
+  h2r_003_offer_letter_onboarding --> h2r_004_payroll_benefits_enrollment
+  h2r_003_offer_letter_onboarding -. exception_to .-> h2r_002_candidate_screening_interview
   r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy
   s2p_002_supplier_discovery_qualification --> s2p_003_sourcing_rfx_auction
   s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy
   r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting
   r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
+  h2r_001_job_requisition_posting --> h2r_002_candidate_screening_interview
   s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
   s2p_007_invoice_verification_matching -. exception_to .-> s2p_006_goods_services_receipt
   s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
   o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation
+  h2r_004_payroll_benefits_enrollment --> h2r_005_performance_compensation_review
+  h2r_004_payroll_benefits_enrollment --> r2r_001_journal_entry_recording
+  h2r_002_candidate_screening_interview --> h2r_003_offer_letter_onboarding
+  h2r_002_candidate_screening_interview -. exception_to .-> h2r_001_job_requisition_posting
   r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
   r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching

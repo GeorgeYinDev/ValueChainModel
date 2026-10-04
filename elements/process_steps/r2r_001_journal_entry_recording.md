@@ -55,7 +55,7 @@ Captures and posts daily accounting transactions into the General Ledger (GL), i
 
 ## 2. Operational Workflow & RACI (Tier 2 - Process Architect Level)
 - **Workflow Sequence**:
-  1. Feeder subledgers (AP disbursements from `s2p_008_payment_settlement_disbursement`, AR billing from `o2c_004_billing_invoice_generation` and cash clearing from `o2c_005_cash_collection_reconciliation`) transmit daily batched postings to General Ledger.
+  1. Feeder subledgers (AP disbursements from `s2p_008`, AR billing from `o2c_004`, cash clearing from `o2c_005`, and payroll expense from `h2r_004`) transmit daily batched postings to General Ledger.
   2. ERP validation rules verify debit/credit balance equality, valid Chart of Accounts (COA) segment combinations, and open accounting fiscal periods.
   3. Operational accounting staff submit manual adjustment vouchers with attached business substantiation.
   4. Workflows automatically route manual entries exceeding materiality thresholds ($50,000 USD) to `role_finance_controller` for electronic sign-off.

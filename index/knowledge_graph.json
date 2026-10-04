@@ -1,9 +1,9 @@
 {
   "summary": {
-    "total_elements": 27,
-    "total_roles": 13,
-    "total_assets": 6,
-    "validated_links": 41
+    "total_elements": 33,
+    "total_roles": 18,
+    "total_assets": 8,
+    "validated_links": 50
   },
   "elements": {
     "s2p_008_payment_settlement_disbursement": {
@@ -515,6 +515,143 @@
         ]
       }
     },
+    "h2r_005_performance_compensation_review": {
+      "id": "h2r_005_performance_compensation_review",
+      "type": "process_step",
+      "name": "Performance & Compensation Review",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "performance",
+        "compensation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 120.0,
+        "baseline_cost_per_unit": 200.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.05,
+        "sla_hours": 336.0,
+        "volume_per_period": 1000,
+        "capacity_fte": 10.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_006_separation_offboarding_settlement",
+          "weight": 0.1
+        }
+      ],
+      "compensating_control": "HRBP facilitates calibration sessions to normalize ratings across managers.",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "h2r_006_separation_offboarding_settlement": {
+      "id": "h2r_006_separation_offboarding_settlement",
+      "type": "process_step",
+      "name": "Separation, Offboarding & Final Settlement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offboarding",
+        "payroll"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hr_business_partner"
+        ],
+        "accountable": [
+          "role_hr_business_partner"
+        ],
+        "consulted": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.1,
+        "sla_hours": 72.0,
+        "volume_per_period": 20,
+        "capacity_fte": 1.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform",
+        "asset_payroll_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Final offboarding settlements are validated by Legal and Payroll prior to execution.",
+      "daci": {
+        "driver": [
+          "role_hr_business_partner"
+        ],
+        "approver": [
+          "role_hr_business_partner"
+        ],
+        "contributor": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
     "o2c_005_cash_collection_reconciliation": {
       "id": "o2c_005_cash_collection_reconciliation",
       "type": "process_step",
@@ -586,6 +723,78 @@
           "weight": 0.95
         }
       ]
+    },
+    "h2r_003_offer_letter_onboarding": {
+      "id": "h2r_003_offer_letter_onboarding",
+      "type": "process_step",
+      "name": "Offer Letter Generation & Employee Onboarding",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offer",
+        "onboarding"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 150.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_004_payroll_benefits_enrollment",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0,
+          "probability": 0.15
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
     },
     "r2r_005_statutory_financial_reporting": {
       "id": "r2r_005_statutory_financial_reporting",
@@ -859,6 +1068,75 @@
         ]
       }
     },
+    "h2r_001_job_requisition_posting": {
+      "id": "h2r_001_job_requisition_posting",
+      "type": "process_step",
+      "name": "Job Requisition Definition & Posting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "planning"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.1,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "HRBP formally approves the headcount budget prior to posting.",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      }
+    },
     "s2p_007_invoice_verification_matching": {
       "id": "s2p_007_invoice_verification_matching",
       "type": "process_step",
@@ -1003,6 +1281,148 @@
           "weight": 1.0
         }
       ]
+    },
+    "h2r_004_payroll_benefits_enrollment": {
+      "id": "h2r_004_payroll_benefits_enrollment",
+      "type": "process_step",
+      "name": "Payroll & Benefits Enrollment Processing",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "payroll",
+        "benefits",
+        "finance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_payroll_specialist"
+        ],
+        "accountable": [
+          "role_payroll_specialist"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.02,
+        "sla_hours": 48.0,
+        "volume_per_period": 50,
+        "capacity_fte": 1.5
+      },
+      "asset_dependencies": [
+        "asset_payroll_engine",
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_005_performance_compensation_review",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Payroll processing outputs are formally audited by Finance Controller prior to disbursement.",
+      "daci": {
+        "driver": [
+          "role_payroll_specialist"
+        ],
+        "approver": [
+          "role_payroll_specialist"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      }
+    },
+    "h2r_002_candidate_screening_interview": {
+      "id": "h2r_002_candidate_screening_interview",
+      "type": "process_step",
+      "name": "Candidate Screening & Interview Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "interview"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 168.0,
+        "baseline_cost_per_unit": 800.0,
+        "automation_rate": 0.3,
+        "error_rate": 0.15,
+        "sla_hours": 240.0,
+        "volume_per_period": 250,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_003_offer_letter_onboarding",
+          "weight": 0.2
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_001_job_requisition_posting",
+          "weight": 1.0,
+          "probability": 0.1
+        }
+      ],
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      }
     },
     "r2r_002_intercompany_reconciliation": {
       "id": "r2r_002_intercompany_reconciliation",
@@ -1829,6 +2249,17 @@
       "sla_uptime_percent": 99.99,
       "capacity_max_tps": 1500
     },
+    "asset_hcm_platform": {
+      "id": "asset_hcm_platform",
+      "asset_type": "it_application",
+      "name": "Human Capital Management (HCM) Platform",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "CloudHR",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.95,
+      "recovery_time_objective_hours": 4.0
+    },
     "asset_crm_system": {
       "id": "asset_crm_system",
       "name": "Enterprise Cloud CRM & CPQ Platform (Salesforce)",
@@ -1869,6 +2300,17 @@
       "sla_uptime_percent": 99.95,
       "capacity_max_tps": 2500
     },
+    "asset_payroll_engine": {
+      "id": "asset_payroll_engine",
+      "asset_type": "it_application",
+      "name": "Enterprise Payroll & Tax Engine",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "GlobalPay",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.99,
+      "recovery_time_objective_hours": 2.0
+    },
     "asset_financial_consolidation_system": {
       "id": "asset_financial_consolidation_system",
       "name": "Enterprise Financial Consolidation & Reporting System (SAP Group Reporting / OneStream)",
@@ -1881,11 +2323,25 @@
     }
   },
   "roles": {
+    "role_hr_business_partner": {
+      "id": "role_hr_business_partner",
+      "type": "role",
+      "name": "HR Business Partner",
+      "department": "Human Resources",
+      "approval_limit_usd": 0.0
+    },
     "role_warehouse_supervisor": {
       "id": "role_warehouse_supervisor",
       "type": "role",
       "name": "Warehouse & Fulfillment Supervisor",
       "department": "Supply Chain & Logistics Fulfillment",
+      "approval_limit_usd": 0.0
+    },
+    "role_talent_acquisition_specialist": {
+      "id": "role_talent_acquisition_specialist",
+      "type": "role",
+      "name": "Talent Acquisition Specialist",
+      "department": "Human Resources",
       "approval_limit_usd": 0.0
     },
     "role_sales_ops_specialist": {
@@ -1894,6 +2350,13 @@
       "name": "Sales Operations Specialist",
       "department": "Commercial Operations & Revenue Ops",
       "approval_limit_usd": 250000.0
+    },
+    "role_compensation_analyst": {
+      "id": "role_compensation_analyst",
+      "type": "role",
+      "name": "Compensation Analyst",
+      "department": "Human Resources",
+      "approval_limit_usd": 100000.0
     },
     "role_billing_specialist": {
       "id": "role_billing_specialist",
@@ -1930,6 +2393,13 @@
       "department": "Corporate Controller & General Accounting",
       "approval_limit_usd": 50000.0
     },
+    "role_hiring_manager": {
+      "id": "role_hiring_manager",
+      "type": "role",
+      "name": "Hiring Manager",
+      "department": "Cross-functional",
+      "approval_limit_usd": 50000.0
+    },
     "role_credit_manager": {
       "id": "role_credit_manager",
       "type": "role",
@@ -1964,6 +2434,13 @@
       "name": "Accounts Payable Clerk",
       "department": "Accounts Payable / Global Business Services",
       "approval_limit_usd": 1000.0
+    },
+    "role_payroll_specialist": {
+      "id": "role_payroll_specialist",
+      "type": "role",
+      "name": "Payroll Specialist",
+      "department": "Finance / Payroll",
+      "approval_limit_usd": 10000.0
     },
     "role_internal_auditor": {
       "id": "role_internal_auditor",
@@ -2104,6 +2581,50 @@
         "intercompany_out_of_balance_amount",
         "first_time_right_reconciliation_rate",
         "sox_internal_control_deficiencies"
+      ]
+    },
+    "H2R": {
+      "lifecycle_id": "H2R",
+      "name": "Hire to Retire Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end human capital operations from job requisition and candidate screening through onboarding, payroll integration, performance review, and final offboarding.",
+      "milestones": [
+        {
+          "step_id": "h2r_001_job_requisition_posting",
+          "name": "Job Requisition Definition & Posting",
+          "order": 1
+        },
+        {
+          "step_id": "h2r_002_candidate_screening_interview",
+          "name": "Candidate Screening & Interview Execution",
+          "order": 2
+        },
+        {
+          "step_id": "h2r_003_offer_letter_onboarding",
+          "name": "Offer Letter Generation & Employee Onboarding",
+          "order": 3
+        },
+        {
+          "step_id": "h2r_004_payroll_benefits_enrollment",
+          "name": "Payroll & Benefits Enrollment Processing",
+          "order": 4
+        },
+        {
+          "step_id": "h2r_005_performance_compensation_review",
+          "name": "Performance & Compensation Review",
+          "order": 5
+        },
+        {
+          "step_id": "h2r_006_separation_offboarding_settlement",
+          "name": "Separation, Offboarding & Final Settlement",
+          "order": 6
+        }
+      ],
+      "key_performance_indicators": [
+        "time_to_fill_days",
+        "cost_per_hire",
+        "first_year_attrition_rate",
+        "payroll_accuracy_percentage"
       ]
     }
   }

@@ -113,7 +113,7 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 ---
 
 ### Phase 7: Human Capital Operations — Hire-to-Retire (H2R)
-**Status**: 🔮 **Planned** (Target Release: **v1.6.0**)
+**Status**: ✅ **Completed** (Release: **v1.6.0**)
 - **Prerequisite**: ADR-0005 (H2R taxonomy and boundaries) approved before implementation.
 - **Milestones**: `h2r_001_job_requisition_posting`, `h2r_002_candidate_screening_interview`, `h2r_003_offer_letter_onboarding`, `h2r_004_payroll_benefits_enrollment`, `h2r_005_performance_compensation_review`, `h2r_006_separation_offboarding_settlement`.
 - **Roles**: Talent Acquisition Specialist, Hiring Manager, Compensation Analyst, Payroll Specialist, HR Business Partner (using the Phase 6 role frontmatter).

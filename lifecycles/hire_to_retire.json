@@ -1,0 +1,20 @@
+{
+  "lifecycle_id": "H2R",
+  "name": "Hire to Retire Lifecycle",
+  "version": "1.0.0",
+  "description": "End-to-end human capital operations from job requisition and candidate screening through onboarding, payroll integration, performance review, and final offboarding.",
+  "milestones": [
+    { "step_id": "h2r_001_job_requisition_posting", "name": "Job Requisition Definition & Posting", "order": 1 },
+    { "step_id": "h2r_002_candidate_screening_interview", "name": "Candidate Screening & Interview Execution", "order": 2 },
+    { "step_id": "h2r_003_offer_letter_onboarding", "name": "Offer Letter Generation & Employee Onboarding", "order": 3 },
+    { "step_id": "h2r_004_payroll_benefits_enrollment", "name": "Payroll & Benefits Enrollment Processing", "order": 4 },
+    { "step_id": "h2r_005_performance_compensation_review", "name": "Performance & Compensation Review", "order": 5 },
+    { "step_id": "h2r_006_separation_offboarding_settlement", "name": "Separation, Offboarding & Final Settlement", "order": 6 }
+  ],
+  "key_performance_indicators": [
+    "time_to_fill_days",
+    "cost_per_hire",
+    "first_year_attrition_rate",
+    "payroll_accuracy_percentage"
+  ]
+}
