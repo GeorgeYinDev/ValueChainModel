@@ -1,3 +1,10 @@
+---
+id: role_supplier
+type: role
+name: "Supplier / Vendor"
+department: "External Enterprise Partner"
+approval_limit_usd: 0.0
+---
 # Role Definition: Supplier / Vendor
 
 - **Role ID**: `role_supplier`

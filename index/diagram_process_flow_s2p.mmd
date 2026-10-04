@@ -39,6 +39,7 @@ flowchart TD
   s2p_002_supplier_discovery_qualification -. governed by .-> sod_spending_limits_policy
   s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
   s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
+  s2p_007_invoice_verification_matching -. exception_to .-> s2p_006_goods_services_receipt
   s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
   s2p_006_goods_services_receipt --> s2p_007_invoice_verification_matching
   strategic_sourcing_stream --> procure_to_pay_stream

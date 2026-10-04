@@ -56,8 +56,12 @@ def main():
 
     report_rows = []
 
-    # Sort elements by ID
-    sorted_elem_ids = sorted(elements.keys())
+    target_lifecycle = scenario.get("target_lifecycle")
+    lf_manifest = kg.get("lifecycles", {}).get(target_lifecycle, {})
+    order_map = {m.get("step_id"): m.get("order", 999) for m in lf_manifest.get("milestones", [])}
+    
+    # Sort elements by milestone order, then ID
+    sorted_elem_ids = sorted(elements.keys(), key=lambda eid: (order_map.get(eid, 999), eid))
 
     for eid in sorted_elem_ids:
         elem = elements[eid]

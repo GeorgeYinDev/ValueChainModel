@@ -1,3 +1,10 @@
+---
+id: role_sales_ops_specialist
+type: role
+name: "Sales Operations Specialist"
+department: "Commercial Operations & Revenue Ops"
+approval_limit_usd: 250000.0
+---
 # Role Definition: Sales Operations Specialist
 
 - **Role ID**: `role_sales_ops_specialist`

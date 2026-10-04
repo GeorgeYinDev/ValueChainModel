@@ -1,3 +1,10 @@
+---
+id: role_general_ledger_accountant
+type: role
+name: "General Ledger Accountant"
+department: "Corporate Controller & General Accounting"
+approval_limit_usd: 50000.0
+---
 # Role Definition: General Ledger Accountant
 
 - **Role ID**: `role_general_ledger_accountant`
@@ -13,7 +20,7 @@
 
 ## Decision Rights & Financial Approval Limits
 - **Journal Entry Preparation Limit**: Unlimited preparation; posting restricted according to materiality thresholds.
-- **Direct Journal Posting Limit**: Up to $10,000 USD for standard recurring/clearing items (entries >= $10,000 USD require Controller sign-off).
+- **Direct Journal Posting Limit**: Up to $50,000 USD for standard recurring/clearing items (entries >= $50,000 USD require Controller sign-off).
 - **Subledger Reconciliation Sign-off**: Primary Preparer sign-off on balance sheet accounts.
 
 ## Required IT Systems Access

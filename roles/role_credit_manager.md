@@ -1,3 +1,10 @@
+---
+id: role_credit_manager
+type: role
+name: "Credit & Risk Manager"
+department: "Treasury & Commercial Risk"
+approval_limit_usd: 250000.0
+---
 # Role Definition: Credit & Risk Manager
 
 - **Role ID**: `role_credit_manager`

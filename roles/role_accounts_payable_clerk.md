@@ -1,3 +1,10 @@
+---
+id: role_accounts_payable_clerk
+type: role
+name: "Accounts Payable Clerk"
+department: "Accounts Payable / Global Business Services"
+approval_limit_usd: 1000.0
+---
 # Role Definition: Accounts Payable Clerk
 
 - **Role ID**: `role_accounts_payable_clerk`

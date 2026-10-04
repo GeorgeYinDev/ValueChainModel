@@ -79,10 +79,11 @@ def main():
             errors.append(f"Schema Validation Error in {label}: {e.message}")
 
     # 1. Ingest Roles
-    roles = set()
+    roles = {}
     for role_file in roles_dir.glob("*.md"):
-        role_id = role_file.stem
-        roles.add(role_id)
+        fm, body = parse_frontmatter(role_file)
+        role_id = fm.get("id", role_file.stem)
+        roles[role_id] = fm
         print(f"  - Ingested Enterprise Role: {role_id}")
 
     # 2. Ingest Assets
@@ -134,6 +135,14 @@ def main():
                 if not fm.get("compensating_control"):
                     errors.append(f"SoD Conflict in '{elem_id}': Role(s) {list(overlap)} cannot be both Responsible and Accountable without a 'compensating_control' declared.")
 
+            # Validate Thresholds against Role Limits
+            threshold = fm.get("attributes", {}).get("approval_threshold_usd", 0.0)
+            if threshold > 0.0:
+                for acc_role_id in acc:
+                    role_limit = roles.get(acc_role_id, {}).get("approval_limit_usd", 0.0)
+                    if role_limit < threshold:
+                        errors.append(f"Threshold Violation in '{elem_id}': Accountable role '{acc_role_id}' has limit ${role_limit} which is below the step threshold of ${threshold}")
+
         # Validate or auto-derive DACI roles
         daci = fm.get("daci", {})
         if isinstance(daci, dict) and daci:
@@ -171,32 +180,18 @@ def main():
                     else:
                         valid_links += 1
 
-    # 5. Build Knowledge Graph Index
-    graph_index = {
-        "summary": {
-            "total_elements": len(elements),
-            "total_roles": len(roles),
-            "total_assets": len(assets),
-            "validated_links": valid_links
-        },
-        "elements": {k: v["frontmatter"] for k, v in elements.items()},
-        "assets": assets,
-        "roles": list(roles)
-    }
-    
-    kg_file = index_dir / "knowledge_graph.json"
-    kg_file.write_text(json.dumps(graph_index, indent=2), encoding="utf-8")
-    print(f"\n[+] Compiled Knowledge Graph Index: {kg_file.relative_to(root)}")
 
     # 6. Build Lifecycle Prompt Context Packs & Validate
     print("\n[+] Generating LLM Context Packs & Validating Lifecycles...")
     lifecycle_files = list(lifecycles_dir.glob("*.json"))
     
+    parsed_lifecycles = {}
     for lf_file in lifecycle_files:
         lf_manifest = json.loads(lf_file.read_text(encoding="utf-8"))
         validate_schema(lf_manifest, lifecycle_schema, f"Lifecycle '{lf_file.name}'")
         
         lf_id = lf_manifest.get("lifecycle_id")
+        parsed_lifecycles[lf_id] = lf_manifest
         lf_name = lf_manifest.get("name")
         
         # Cross-file reference checks for milestones
@@ -246,6 +241,24 @@ def main():
             target_id = shock.get("target_element_id")
             if target_id and target_id not in elements and target_id not in assets:
                 errors.append(f"Scenario '{sim_file.name}' references non-existent target_element_id '{target_id}'")
+
+    # 6.8 Build Knowledge Graph Index
+    graph_index = {
+        "summary": {
+            "total_elements": len(elements),
+            "total_roles": len(roles),
+            "total_assets": len(assets),
+            "validated_links": valid_links
+        },
+        "elements": {k: v["frontmatter"] for k, v in elements.items()},
+        "assets": assets,
+        "roles": roles,
+        "lifecycles": parsed_lifecycles
+    }
+    
+    kg_file = index_dir / "knowledge_graph.json"
+    kg_file.write_text(json.dumps(graph_index, indent=2), encoding="utf-8")
+    print(f"\n[+] Compiled Knowledge Graph Index: {kg_file.relative_to(root)}")
 
     # 7. Auto-compile Diagrams and Visualizer
     diagram_script = root / "tools" / "export_diagram.py"

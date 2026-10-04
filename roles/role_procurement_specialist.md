@@ -1,3 +1,10 @@
+---
+id: role_procurement_specialist
+type: role
+name: "Procurement Specialist"
+department: "Operational Procurement"
+approval_limit_usd: 50000.0
+---
 # Role Definition: Procurement Specialist
 
 - **Role ID**: `role_procurement_specialist`

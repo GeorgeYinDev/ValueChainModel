@@ -1,3 +1,10 @@
+---
+id: role_internal_auditor
+type: role
+name: "Internal Auditor"
+department: "Internal Audit & Corporate Governance"
+approval_limit_usd: 0.0
+---
 # Role Definition: Internal Auditor
 
 - **Role ID**: `role_internal_auditor`

@@ -1,3 +1,10 @@
+---
+id: role_category_manager
+type: role
+name: "Category Manager"
+department: "Global Procurement"
+approval_limit_usd: 500000.0
+---
 # Role Definition: Category Manager
 
 - **Role ID**: `role_category_manager`

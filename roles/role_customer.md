@@ -1,3 +1,10 @@
+---
+id: role_customer
+type: role
+name: "Enterprise Customer"
+department: "External Client Procurement & AP"
+approval_limit_usd: 0.0
+---
 # Role Definition: Enterprise Customer
 
 - **Role ID**: `role_customer`

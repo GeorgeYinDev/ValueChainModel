@@ -81,7 +81,7 @@ Captures and posts daily accounting transactions into the General Ledger (GL), i
   1. Feeder subledgers (AP disbursements from `s2p_008_payment_settlement_disbursement`, AR billing from `o2c_004_billing_invoice_generation` and cash clearing from `o2c_005_cash_collection_reconciliation`) transmit daily batched postings to General Ledger.
   2. ERP validation rules verify debit/credit balance equality, valid Chart of Accounts (COA) segment combinations, and open accounting fiscal periods.
   3. Operational accounting staff submit manual adjustment vouchers with attached business substantiation.
-  4. Workflows automatically route manual entries exceeding materiality thresholds ($10,000 USD) to `role_finance_controller` for electronic sign-off.
+  4. Workflows automatically route manual entries exceeding materiality thresholds ($50,000 USD) to `role_finance_controller` for electronic sign-off.
   5. Validated journals commit to the GL transaction table in `asset_erp_system`.
 - **RACI Assignment Matrix**:
   - **Responsible**: `role_general_ledger_accountant`
@@ -262,6 +262,19 @@ Establishes enterprise internal controls over financial reporting (ICFR) pursuan
 - **Control 3 (Balance Sheet Substantiation Deadline)**: 100% of high-risk balance sheet accounts (cash, inventory, intercompany, debt) must be reconciled with third-party statements by T+3 business days following period-end.
 - **Control 4 (Consolidation Elimination Auditability)**: Top-side consolidation adjustments executed in `asset_financial_consolidation_system` must possess documented business justification and formal Controller sign-off.
 - **Control 5 (Internal Audit Independent Testing)**: Quarterly independent sampling by `role_internal_auditor` to certify design and operating effectiveness of controls.
+
+---
+
+### [General Ledger Journal Entry] (`data_journal_entry`)
+- **Type**: `data_entity` | **Tags**: `data, finance, ledger`
+- **RACI**: `{}`
+- **Assets**: ``
+
+
+
+# Data Entity: General Ledger Journal Entry
+
+The core transactional artifact for accounting ledgers. Contains the debits, credits, accounting date, Chart of Accounts segment string, and business justification for financial recording.
 
 ---
 

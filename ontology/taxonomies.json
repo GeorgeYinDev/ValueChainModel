@@ -4,7 +4,7 @@
     { "id": "O2C", "name": "Order to Cash", "domain": "Sales & Revenue Operations" },
     { "id": "H2R", "name": "Hire to Retire", "domain": "Human Resources & Payroll" },
     { "id": "R2R", "name": "Record to Report", "domain": "General Ledger & Accounting" },
-    { "id": "P2P", "name": "Plan to Produce", "domain": "Supply Chain & Manufacturing" }
+    { "id": "P2M", "name": "Plan to Make", "domain": "Supply Chain & Manufacturing" }
   ],
   "element_types": [
     "process_step",
@@ -16,12 +16,11 @@
   "relation_types": [
     "triggers",
     "produces_artifact",
-    "executed_by",
     "requires_approval_from",
-    "runs_on_asset",
     "governed_by",
     "feeds_into",
-    "impacted_by"
+    "impacted_by",
+    "exception_to"
   ],
   "raci_definitions": {
     "R": "Responsible - The operational role executing the step.",

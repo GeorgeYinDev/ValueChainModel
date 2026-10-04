@@ -25,6 +25,8 @@ attributes:
   automation_rate: 0.80
   error_rate: 0.02
   sla_hours: 12.0
+  volume_per_period: 10000
+  capacity_fte: 12.0
 
 asset_dependencies:
   - asset_crm_system

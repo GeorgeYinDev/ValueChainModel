@@ -1,3 +1,10 @@
+---
+id: role_billing_specialist
+type: role
+name: "Billing & Accounts Receivable Specialist"
+department: "Finance & Revenue Accounting"
+approval_limit_usd: 5000.0
+---
 # Role Definition: Billing & Accounts Receivable Specialist
 
 - **Role ID**: `role_billing_specialist`

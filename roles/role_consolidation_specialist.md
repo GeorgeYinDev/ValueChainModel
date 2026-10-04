@@ -1,3 +1,10 @@
+---
+id: role_consolidation_specialist
+type: role
+name: "Financial Consolidation Specialist"
+department: "Corporate Financial Reporting & Consolidation"
+approval_limit_usd: 5000.0
+---
 # Role Definition: Financial Consolidation Specialist
 
 - **Role ID**: `role_consolidation_specialist`

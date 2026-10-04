@@ -25,9 +25,11 @@ flowchart TD
   r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy
   r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation
   r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_001_journal_entry_recording -. produces_artifact .-> data_journal_entry
   r2r_005_statutory_financial_reporting -. governed by .-> sox_financial_reporting_controls_policy
   r2r_004_financial_close_consolidation --> r2r_005_statutory_financial_reporting
   r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
   r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
   r2r_002_intercompany_reconciliation -. governed by .-> sox_financial_reporting_controls_policy
   financial_close_reporting_stream -. governed by .-> sox_financial_reporting_controls_policy
+  data_journal_entry -. triggers .-> r2r_002_intercompany_reconciliation

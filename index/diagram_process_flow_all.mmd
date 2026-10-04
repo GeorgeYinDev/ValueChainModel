@@ -41,10 +41,6 @@ flowchart TD
     r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
   end
 
-  subgraph Subgraph_Other ["<b>Process Steps</b>"]
-    test_invalid_schema["<b>Test Invalid Schema</b><br/><small>ID: test_invalid_schema</small><br/>⏱ 0.0h | 💰 $0.0"]:::processStep
-  end
-
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
     credit_limit_risk_policy(["<b>Policy: Commercial Credit Limit &amp; Customer Risk Exposure Policy</b><br/><small>credit_limit_risk_policy</small>"]):::controlPolicy
     sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
@@ -64,6 +60,7 @@ flowchart TD
   r2r_003_balance_sheet_substantiation -. governed by .-> sox_financial_reporting_controls_policy
   r2r_001_journal_entry_recording --> r2r_002_intercompany_reconciliation
   r2r_001_journal_entry_recording -. governed by .-> sox_financial_reporting_controls_policy
+  r2r_001_journal_entry_recording -. produces_artifact .-> data_journal_entry
   s2p_004_contracting_sla_negotiation --> s2p_005_purchase_requisition_po
   s2p_004_contracting_sla_negotiation -. governed by .-> sod_spending_limits_policy
   o2c_005_cash_collection_reconciliation --> r2r_001_journal_entry_recording
@@ -75,6 +72,7 @@ flowchart TD
   r2r_004_financial_close_consolidation -. governed by .-> sox_financial_reporting_controls_policy
   s2p_003_sourcing_rfx_auction --> s2p_004_contracting_sla_negotiation
   s2p_007_invoice_verification_matching --> s2p_008_payment_settlement_disbursement
+  s2p_007_invoice_verification_matching -. exception_to .-> s2p_006_goods_services_receipt
   s2p_007_invoice_verification_matching -. governed by .-> sod_spending_limits_policy
   o2c_003_inventory_allocation_fulfillment --> o2c_004_billing_invoice_generation
   r2r_002_intercompany_reconciliation --> r2r_003_balance_sheet_substantiation
@@ -89,3 +87,5 @@ flowchart TD
   procure_to_pay_stream -. governed by .-> sod_spending_limits_policy
   order_fulfillment_stream -. governed by .-> credit_limit_risk_policy
   order_fulfillment_stream -. governed by .-> sod_spending_limits_policy
+  kpi_dso -. impacted_by .-> o2c_005_cash_collection_reconciliation
+  data_journal_entry -. triggers .-> r2r_002_intercompany_reconciliation

@@ -1,0 +1,29 @@
+{
+  "scenario_id": "scenario_controller_absence_surge",
+  "name": "Finance Controller Absence During Period Close",
+  "description": "Simulates the systemic impact of the Finance Controller being on unexpected leave during the fiscal period close, resulting in a 4x wait time for all steps where they are the sole Approver (A) or Accountable (RACI) role.",
+  "target_lifecycle": "R2R",
+  "shocks": [
+    {
+      "target_element_id": "r2r_001_journal_entry_recording",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 4.0,
+      "additive_delta": 0.0,
+      "rationale": "Manual journals >$50k pile up awaiting Controller sign-off."
+    },
+    {
+      "target_element_id": "r2r_004_financial_close_consolidation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.0,
+      "additive_delta": 0.0,
+      "rationale": "Top-side consolidation adjustments delayed due to absence of Controller."
+    },
+    {
+      "target_element_id": "r2r_005_statutory_financial_reporting",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 5.0,
+      "additive_delta": 0.0,
+      "rationale": "Final sign-off and disclosure routing completely stalled without the Controller."
+    }
+  ]
+}

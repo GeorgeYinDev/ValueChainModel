@@ -25,6 +25,8 @@ attributes:
   automation_rate: 0.82
   error_rate: 0.015
   sla_hours: 16.0
+  approval_threshold_usd: 50000.0
+apqc_pcf_id: "8.1.1.1"
 
 asset_dependencies:
   - asset_erp_system
@@ -36,6 +38,9 @@ graph_relations:
   - relation: governed_by
     target: sox_financial_reporting_controls_policy
     weight: 0.95
+  - relation: produces_artifact
+    target: data_journal_entry
+    weight: 1.0
 ---
 
 # Process Step: General Ledger Journal Recording & Subledger Ingestion
@@ -53,7 +58,7 @@ Captures and posts daily accounting transactions into the General Ledger (GL), i
   1. Feeder subledgers (AP disbursements from `s2p_008_payment_settlement_disbursement`, AR billing from `o2c_004_billing_invoice_generation` and cash clearing from `o2c_005_cash_collection_reconciliation`) transmit daily batched postings to General Ledger.
   2. ERP validation rules verify debit/credit balance equality, valid Chart of Accounts (COA) segment combinations, and open accounting fiscal periods.
   3. Operational accounting staff submit manual adjustment vouchers with attached business substantiation.
-  4. Workflows automatically route manual entries exceeding materiality thresholds ($10,000 USD) to `role_finance_controller` for electronic sign-off.
+  4. Workflows automatically route manual entries exceeding materiality thresholds ($50,000 USD) to `role_finance_controller` for electronic sign-off.
   5. Validated journals commit to the GL transaction table in `asset_erp_system`.
 - **RACI Assignment Matrix**:
   - **Responsible**: `role_general_ledger_accountant`

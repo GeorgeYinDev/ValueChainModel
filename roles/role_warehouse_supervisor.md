@@ -1,3 +1,10 @@
+---
+id: role_warehouse_supervisor
+type: role
+name: "Warehouse & Fulfillment Supervisor"
+department: "Supply Chain & Logistics Fulfillment"
+approval_limit_usd: 0.0
+---
 # Role Definition: Warehouse & Fulfillment Supervisor
 
 - **Role ID**: `role_warehouse_supervisor`

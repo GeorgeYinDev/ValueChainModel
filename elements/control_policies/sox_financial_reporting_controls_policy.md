@@ -25,6 +25,7 @@ attributes:
   automation_rate: 1.0
   error_rate: 0.0
   sla_hours: 0.0
+  approval_threshold_usd: 50000.0
 
 asset_dependencies:
   - asset_erp_system

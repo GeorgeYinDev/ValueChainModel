@@ -92,7 +92,7 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 ---
 
 ### Phase 6: Model Enrichment
-**Status**: 🔮 **Planned** (Target Release: **v1.5.0**)
+**Status**: ✅ **Completed** (Release: **v1.5.0**)
 
 **Goal**: Close the taxonomy and schema gaps so the model can carry real governance rules and support credible simulation.
 

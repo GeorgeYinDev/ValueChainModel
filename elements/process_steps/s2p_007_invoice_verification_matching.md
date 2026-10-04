@@ -28,6 +28,10 @@ graph_relations:
   - relation: feeds_into
     target: s2p_008_payment_settlement_disbursement
     weight: 1.0
+  - relation: exception_to
+    target: s2p_006_goods_services_receipt
+    weight: 1.0
+    probability: 0.15
   - relation: governed_by
     target: sod_spending_limits_policy
     weight: 0.90

@@ -9,16 +9,6 @@ flowchart LR
     o2c_003_inventory_allocation_fulfillment__A["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_finance_controller ["<b>Finance Controller</b>"]
-    o2c_002_credit_check_approval__A["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    o2c_004_billing_invoice_generation__A["<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    o2c_005_cash_collection_reconciliation__A["<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_credit_manager ["<b>Credit &amp; Risk Manager</b>"]
-    o2c_002_credit_check_approval__R["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
   subgraph Sub_role_sales_ops_specialist ["<b>Sales Operations Specialist</b>"]
     o2c_001_customer_quote_order_entry__R["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     o2c_001_customer_quote_order_entry__A["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
@@ -27,6 +17,16 @@ flowchart LR
   subgraph Sub_role_billing_specialist ["<b>Billing &amp; Accounts Receivable Specialist</b>"]
     o2c_004_billing_invoice_generation__R["<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     o2c_005_cash_collection_reconciliation__R["<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_finance_controller ["<b>Finance Controller</b>"]
+    o2c_002_credit_check_approval__A["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    o2c_004_billing_invoice_generation__A["<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    o2c_005_cash_collection_reconciliation__A["<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_credit_manager ["<b>Credit &amp; Risk Manager</b>"]
+    o2c_002_credit_check_approval__R["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
   o2c_001_customer_quote_order_entry__R --> o2c_002_credit_check_approval__R

@@ -283,3 +283,16 @@ Defines corporate governance standards for underwriting customer credit limits, 
 
 ---
 
+### [Days Sales Outstanding (DSO)] (`kpi_dso`)
+- **Type**: `kpi_metric` | **Tags**: `kpi, receivables, cash_flow`
+- **RACI**: `{}`
+- **Assets**: ``
+
+
+
+# KPI: Days Sales Outstanding (DSO)
+
+Measures the average number of days that it takes a company to collect payment after a sale has been made. Critical metric for evaluating cash flow and accounts receivable efficiency in the Order-to-Cash lifecycle.
+
+---
+

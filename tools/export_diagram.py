@@ -129,6 +129,13 @@ def sanitize_label(text: str) -> str:
     return text.replace("&", "&amp;").replace('"', '&quot;')
 
 
+def get_order_map(kg_data: Dict[str, Any]) -> Dict[str, int]:
+    order_map = {}
+    for lf_id, lf_manifest in kg_data.get("lifecycles", {}).items():
+        for m in lf_manifest.get("milestones", []):
+            order_map[m.get("step_id")] = m.get("order", 999)
+    return order_map
+
 def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], lifecycles: Dict[str, Any]) -> str:
     """Generates Mermaid flowchart diagram for the lifecycle."""
     elements = kg_data.get("elements", {})
@@ -155,7 +162,9 @@ def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], li
     policies = []
     value_streams = []
 
-    for eid, data in sorted(matched_elems.items()):
+
+    order_map = get_order_map(kg_data)
+    for eid, data in sorted(matched_elems.items(), key=lambda x: (order_map.get(x[0], 999), x[0])):
         etype = data.get("type", "process_step")
         if etype == "control_policy":
             policies.append((eid, data))
@@ -275,7 +284,8 @@ def generate_mermaid_raci_swimlanes(lifecycle_id: str, kg_data: Dict[str, Any], 
     role_to_r = {r: [] for r in all_roles}
     role_to_a = {r: [] for r in all_roles}
 
-    for eid, data in sorted(matched_elems.items()):
+    order_map = get_order_map(kg_data)
+    for eid, data in sorted(matched_elems.items(), key=lambda x: (order_map.get(x[0], 999), x[0])):
         raci = get_element_raci(data)
         for r in raci["responsible"]:
             if r in role_to_r:
@@ -518,7 +528,9 @@ def generate_daci_matrix_markdown(lifecycle_id: str, kg_data: Dict[str, Any], ro
         total = stats["D"] + stats["A"] + stats["C"] + stats["I"]
         r_name = role_titles.get(r, r.replace("role_", "").replace("_", " ").title())
         weight_badge = "🟢 Advisory"
-        if stats["A"] >= 3:
+        if stats["A"] >= 5:
+            weight_badge = "🚨 Key-Person Risk (Concentrated Approver)"
+        elif stats["A"] >= 3:
             weight_badge = "🔴 Strategic Approver"
         elif stats["D"] >= 3:
             weight_badge = "🔵 Primary Driver"

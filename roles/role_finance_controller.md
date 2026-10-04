@@ -1,3 +1,10 @@
+---
+id: role_finance_controller
+type: role
+name: "Finance Controller"
+department: "Corporate Finance & Treasury"
+approval_limit_usd: 999999999.0
+---
 # Role Definition: Finance Controller
 
 - **Role ID**: `role_finance_controller`
