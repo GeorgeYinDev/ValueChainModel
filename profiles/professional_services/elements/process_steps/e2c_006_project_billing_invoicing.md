@@ -27,6 +27,12 @@ graph_relations:
   - relation: feeds_into
     target: e2c_007_project_closure_lessons
     weight: 1.0
+  - relation: feeds_into
+    target: r2r_001_journal_entry_recording
+    weight: 1.0
+  - relation: governed_by
+    target: time_expense_compliance_policy
+    weight: 1.0
 ---
 # Project Billing & Invoicing
 Generation of client invoices based on T&M actuals or fixed-fee milestones, posting receivables to the general ledger.

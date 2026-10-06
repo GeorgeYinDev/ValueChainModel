@@ -51,6 +51,7 @@ raci:
         # Clean up
         if invalid_element.exists():
             invalid_element.unlink()
+        subprocess.run(["uv", "run", str(VALIDATOR_SCRIPT), "--profile", "core"], cwd=ROOT_DIR, capture_output=True)
 
 def test_validator_negative_case_schema(tmp_path):
     """Test that a missing required property fails schema validation."""
@@ -76,3 +77,4 @@ version: 1.0.0
     finally:
         if invalid_element.exists():
             invalid_element.unlink()
+        subprocess.run(["uv", "run", str(VALIDATOR_SCRIPT), "--profile", "core"], cwd=ROOT_DIR, capture_output=True)

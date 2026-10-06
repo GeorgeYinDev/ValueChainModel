@@ -8,10 +8,10 @@
     ]
   },
   "summary": {
-    "total_elements": 36,
+    "total_elements": 45,
     "total_roles": 22,
     "total_assets": 8,
-    "validated_links": 48
+    "validated_links": 63
   },
   "elements": {
     "data_journal_entry": {
@@ -1742,6 +1742,328 @@
         ]
       }
     },
+    "project_pricing_margin_policy": {
+      "id": "project_pricing_margin_policy",
+      "type": "control_policy",
+      "name": "Project Pricing & Target Gross Margin Governance Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "pricing",
+        "margin",
+        "governance",
+        "professional_services"
+      ],
+      "raci": {
+        "responsible": [
+          "role_solution_architect"
+        ],
+        "accountable": [
+          "role_practice_director"
+        ],
+        "consulted": [
+          "role_account_executive"
+        ],
+        "informed": [
+          "role_engagement_manager"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_solution_architect"
+        ],
+        "approver": [
+          "role_practice_director"
+        ],
+        "contributor": [
+          "role_account_executive"
+        ],
+        "informed": [
+          "role_engagement_manager"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 100000.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_psa_system"
+      ],
+      "graph_relations": [],
+      "source_layer": "professional_services"
+    },
+    "time_expense_compliance_policy": {
+      "id": "time_expense_compliance_policy",
+      "type": "control_policy",
+      "name": "Consultant Time & Expense Submission Compliance Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "compliance",
+        "timesheets",
+        "expenses",
+        "governance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consultant"
+        ],
+        "accountable": [
+          "role_engagement_manager"
+        ],
+        "consulted": [
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_practice_director"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consultant"
+        ],
+        "approver": [
+          "role_engagement_manager"
+        ],
+        "contributor": [
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_practice_director"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "asset_dependencies": [
+        "asset_psa_system"
+      ],
+      "graph_relations": [],
+      "source_layer": "professional_services"
+    },
+    "data_consultant_timesheet": {
+      "id": "data_consultant_timesheet",
+      "type": "data_entity",
+      "name": "Consultant Time & Expense Record",
+      "version": "1.0.0",
+      "lifecycles": [
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "timesheet",
+        "psa",
+        "billing",
+        "labor"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_psa_system",
+        "owner": "role_engagement_manager"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "e2c_006_project_billing_invoicing",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "data_statement_of_work": {
+      "id": "data_statement_of_work",
+      "type": "data_entity",
+      "name": "Statement of Work (SOW) & Engagement Contract",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2C",
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "sow",
+        "contract",
+        "legal",
+        "commercial"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_crm_system",
+        "owner": "role_practice_director"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "e2c_001_project_kickoff",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_billable_utilization": {
+      "id": "kpi_billable_utilization",
+      "type": "kpi_metric",
+      "name": "Billable Consultant Utilization Rate",
+      "version": "1.0.0",
+      "lifecycles": [
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "utilization",
+        "capacity",
+        "consulting",
+        "psa"
+      ],
+      "kpi_metric_details": {
+        "formula": "(Total Billable Hours Delivered / Total Available Standard Working Hours) * 100",
+        "target": ">= 78.5%",
+        "owner": "role_practice_director",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "e2c_004_time_expense_entry",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_deal_win_rate": {
+      "id": "kpi_deal_win_rate",
+      "type": "kpi_metric",
+      "name": "Professional Services Deal Win Rate",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "sales",
+        "win_rate",
+        "pipeline",
+        "commercial"
+      ],
+      "kpi_metric_details": {
+        "formula": "(Won Qualified Opportunities / Total Closed Qualified Opportunities) * 100",
+        "target": ">= 35.0%",
+        "owner": "role_account_executive",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "l2c_004_deal_closure_handover",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_project_gross_margin": {
+      "id": "kpi_project_gross_margin",
+      "type": "kpi_metric",
+      "name": "Project Gross Margin Percentage",
+      "version": "1.0.0",
+      "lifecycles": [
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "margin",
+        "profitability",
+        "finance",
+        "consulting"
+      ],
+      "kpi_metric_details": {
+        "formula": "((Recognized Engagement Revenue - Direct Labor and Expense Costs) / Recognized Engagement Revenue) * 100",
+        "target": ">= 45.0%",
+        "owner": "role_engagement_manager",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "e2c_006_project_billing_invoicing",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
     "e2c_001_project_kickoff": {
       "id": "e2c_001_project_kickoff",
       "type": "process_step",
@@ -1975,6 +2297,16 @@
           "relation": "feeds_into",
           "target": "e2c_005_client_acceptance",
           "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "time_expense_compliance_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_consultant_timesheet",
+          "weight": 1.0
         }
       ],
       "source_layer": "professional_services",
@@ -2103,6 +2435,16 @@
         {
           "relation": "feeds_into",
           "target": "e2c_007_project_closure_lessons",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "time_expense_compliance_policy",
           "weight": 1.0
         }
       ],
@@ -2288,6 +2630,11 @@
           "relation": "feeds_into",
           "target": "l2c_003_contract_negotiation",
           "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "project_pricing_margin_policy",
+          "weight": 1.0
         }
       ],
       "source_layer": "professional_services",
@@ -2350,6 +2697,16 @@
         {
           "relation": "feeds_into",
           "target": "l2c_004_deal_closure_handover",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "project_pricing_margin_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_statement_of_work",
           "weight": 1.0
         }
       ],
@@ -2432,6 +2789,152 @@
           "role_sales_ops_specialist"
         ]
       }
+    },
+    "client_engagement_delivery_stream": {
+      "id": "client_engagement_delivery_stream",
+      "type": "value_stream",
+      "name": "Client Engagement & Delivery Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2C",
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "consulting",
+        "delivery",
+        "professional_services",
+        "client_engagement"
+      ],
+      "raci": {
+        "responsible": [
+          "role_account_executive",
+          "role_engagement_manager"
+        ],
+        "accountable": [
+          "role_practice_director"
+        ],
+        "consulted": [
+          "role_solution_architect",
+          "role_consultant"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_engagement_manager"
+        ],
+        "approver": [
+          "role_practice_director"
+        ],
+        "contributor": [
+          "role_account_executive",
+          "role_solution_architect"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 288.0,
+        "baseline_cost_per_unit": 24700.0,
+        "automation_rate": 0.28,
+        "error_rate": 0.08,
+        "sla_hours": 360.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_psa_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "project_pricing_margin_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services"
+    },
+    "consulting_revenue_billing_stream": {
+      "id": "consulting_revenue_billing_stream",
+      "type": "value_stream",
+      "name": "Consulting Time, Expense & Revenue Billing Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "E2C"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "billing",
+        "time_and_expense",
+        "revenue",
+        "professional_services"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consultant",
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_engagement_manager"
+        ],
+        "consulted": [
+          "role_practice_director"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_engagement_manager"
+        ],
+        "contributor": [
+          "role_consultant"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 58.0,
+        "baseline_cost_per_unit": 750.0,
+        "automation_rate": 0.52,
+        "error_rate": 0.09,
+        "sla_hours": 72.0
+      },
+      "asset_dependencies": [
+        "asset_psa_system",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "time_expense_compliance_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "professional_services"
     }
   },
   "assets": {
@@ -2683,6 +3186,9 @@
       "id": "role_account_executive",
       "type": "role",
       "name": "Account Executive",
+      "department": "Commercial & Business Development",
+      "reports_to": "role_practice_director",
+      "approval_limit_usd": 25000.0,
       "version": "1.0.0",
       "lod_support": [
         "tier_2"
@@ -2694,7 +3200,7 @@
       ],
       "attributes": {
         "fte_cost_annual_usd": 150000,
-        "approval_limit_usd": 25000
+        "approval_limit_usd": 25000.0
       },
       "source_layer": "professional_services"
     },
@@ -2702,6 +3208,9 @@
       "id": "role_consultant",
       "type": "role",
       "name": "Consultant",
+      "department": "Client Delivery & Consulting",
+      "reports_to": "role_engagement_manager",
+      "approval_limit_usd": 0.0,
       "version": "1.0.0",
       "lod_support": [
         "tier_2"
@@ -2712,7 +3221,7 @@
       ],
       "attributes": {
         "fte_cost_annual_usd": 120000,
-        "approval_limit_usd": 0
+        "approval_limit_usd": 0.0
       },
       "source_layer": "professional_services"
     },
@@ -2720,6 +3229,9 @@
       "id": "role_engagement_manager",
       "type": "role",
       "name": "Engagement Manager",
+      "department": "Client Delivery & Consulting",
+      "reports_to": "role_practice_director",
+      "approval_limit_usd": 50000.0,
       "version": "1.0.0",
       "lod_support": [
         "tier_2"
@@ -2731,7 +3243,7 @@
       ],
       "attributes": {
         "fte_cost_annual_usd": 160000,
-        "approval_limit_usd": 50000
+        "approval_limit_usd": 50000.0
       },
       "source_layer": "professional_services"
     },
@@ -2739,6 +3251,8 @@
       "id": "role_practice_director",
       "type": "role",
       "name": "Practice Director",
+      "department": "Practice Leadership",
+      "approval_limit_usd": 250000.0,
       "version": "1.0.0",
       "lod_support": [
         "tier_2"
@@ -2749,7 +3263,7 @@
       ],
       "attributes": {
         "fte_cost_annual_usd": 250000,
-        "approval_limit_usd": 250000
+        "approval_limit_usd": 250000.0
       },
       "source_layer": "professional_services"
     },
@@ -2757,6 +3271,9 @@
       "id": "role_solution_architect",
       "type": "role",
       "name": "Solution Architect",
+      "department": "Solution Architecture & Presales",
+      "reports_to": "role_practice_director",
+      "approval_limit_usd": 10000.0,
       "version": "1.0.0",
       "lod_support": [
         "tier_2"
@@ -2768,7 +3285,7 @@
       ],
       "attributes": {
         "fte_cost_annual_usd": 180000,
-        "approval_limit_usd": 10000
+        "approval_limit_usd": 10000.0
       },
       "source_layer": "professional_services"
     }

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_psa_outage_billing_crunch",
+  "name": "PSA Cloud Platform Outage & Billing Crunch",
+  "target_lifecycle": "E2C",
+  "applicable_profiles": ["professional_services"],
+  "description": "Simulates a major PSA cloud platform outage during monthly billing cut-off, forcing manual spreadsheet time capture and invoice generation.",
+  "shocks": [
+    {
+      "target_element_id": "e2c_004_time_expense_entry",
+      "attribute_modifier": "automation_rate",
+      "multiplier": 0.2,
+      "additive_delta": 0.0
+    },
+    {
+      "target_element_id": "e2c_004_time_expense_entry",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 4.0
+    },
+    {
+      "target_element_id": "e2c_006_project_billing_invoicing",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.0,
+      "additive_delta": 8.0
+    },
+    {
+      "target_element_id": "e2c_006_project_billing_invoicing",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.5,
+      "additive_delta": 0.05
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_consultant_bench_surge",
+  "name": "Commercial Pipeline Stagnation & Bench Surge",
+  "target_lifecycle": "L2C",
+  "applicable_profiles": ["professional_services"],
+  "description": "Simulates prolonged sales cycles and extended contract negotiation bottlenecks resulting in unassigned consultant bench build-up and presales cost escalation.",
+  "shocks": [
+    {
+      "target_element_id": "l2c_002_proposal_development",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.4,
+      "additive_delta": 16.0
+    },
+    {
+      "target_element_id": "l2c_003_contract_negotiation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.6,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "l2c_003_contract_negotiation",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.3,
+      "additive_delta": 500.0
+    },
+    {
+      "target_element_id": "l2c_004_deal_closure_handover",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.5,
+      "additive_delta": 4.0
+    }
+  ]
+}

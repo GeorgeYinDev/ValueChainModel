@@ -26,6 +26,9 @@ graph_relations:
   - relation: feeds_into
     target: l2c_003_contract_negotiation
     weight: 1.0
+  - relation: governed_by
+    target: project_pricing_margin_policy
+    weight: 1.0
 ---
 # Proposal Development & Scoping
 The process of capturing client requirements, estimating effort, defining timelines, and generating the Statement of Work (SOW).

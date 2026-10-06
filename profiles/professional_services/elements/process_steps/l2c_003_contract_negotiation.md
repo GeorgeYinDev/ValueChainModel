@@ -26,6 +26,12 @@ graph_relations:
   - relation: feeds_into
     target: l2c_004_deal_closure_handover
     weight: 1.0
+  - relation: governed_by
+    target: project_pricing_margin_policy
+    weight: 1.0
+  - relation: produces_artifact
+    target: data_statement_of_work
+    weight: 1.0
 ---
 # Contract Negotiation & Legal Review
 Review of MSAs, NDAs, and SOW terms and conditions between the firm's legal team and the client.

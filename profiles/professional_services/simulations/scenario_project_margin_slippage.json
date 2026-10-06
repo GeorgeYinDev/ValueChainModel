@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_project_margin_slippage",
+  "name": "Project Scope Creep & Margin Slippage Disruption",
+  "target_lifecycle": "E2C",
+  "applicable_profiles": ["professional_services"],
+  "description": "Simulates project scope creep and prolonged client acceptance rework loops, triggering consultant overtime costs and eroded gross margins.",
+  "shocks": [
+    {
+      "target_element_id": "e2c_003_project_execution_delivery",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.35,
+      "additive_delta": 0.0
+    },
+    {
+      "target_element_id": "e2c_003_project_execution_delivery",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.0,
+      "additive_delta": 15000.0
+    },
+    {
+      "target_element_id": "e2c_005_client_acceptance",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.5,
+      "additive_delta": 12.0
+    },
+    {
+      "target_element_id": "e2c_006_project_billing_invoicing",
+      "attribute_modifier": "error_rate",
+      "multiplier": 1.4,
+      "additive_delta": 0.03
+    }
+  ]
+}

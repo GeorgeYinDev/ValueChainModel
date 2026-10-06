@@ -47,3 +47,22 @@ def test_simulation_cross_profile_erp_outage(profile_name):
     )
     assert result.returncode == 0, f"Simulator failed on {profile_name}: {result.stderr}\n{result.stdout}"
     assert "Simulation Report written to:" in result.stdout
+
+@pytest.mark.parametrize("scenario_id,expected_min_increase", [
+    ("scenario_project_margin_slippage", 30.0),
+    ("scenario_consultant_bench_surge", 80.0),
+    ("scenario_psa_outage_billing_crunch", 5.0)
+])
+def test_simulation_professional_services_scenarios(scenario_id, expected_min_increase):
+    """Test that professional services disruption scenarios execute and compute valid deltas."""
+    result = subprocess.run(
+        ["uv", "run", str(SIMULATOR_SCRIPT), "--profile", "professional_services", scenario_id],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True
+    )
+    assert result.returncode == 0, f"Simulator failed on {scenario_id}: {result.stderr}\n{result.stdout}"
+    assert "Total Lead Time:" in result.stdout
+    assert "Total Unit Cost:" in result.stdout
+    assert "Simulation Report written to:" in result.stdout
+

@@ -5,6 +5,22 @@ All notable changes to the Enterprise Value Chain Modeling Engine repository wil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-10-05
+
+### Added
+- **Professional Services Domain Model Expansion (`profiles/professional_services/`)**:
+  - **Enterprise Value Stream Elements**: Added `client_engagement_delivery_stream.md` (spanning L2C and E2C) and `consulting_revenue_billing_stream.md` (covering timesheet capture, client acceptance, billing, and GL posting).
+  - **Governance & Control Policies**: Added `project_pricing_margin_policy.md` (45% gross margin hurdle rate and rate card discounting limits) and `time_expense_compliance_policy.md` (weekly timesheet lock SLA and expense substantiation rules) linked to process steps via `governed_by`.
+  - **First-Class KPI Metric Elements**: Added `kpi_billable_utilization.md` (>= 78.5% target), `kpi_project_gross_margin.md` (>= 45.0% target), and `kpi_deal_win_rate.md` (>= 35.0% target) linked via `impacted_by`.
+  - **First-Class Data Entity Elements**: Added `data_statement_of_work.md` (system of record: `asset_crm_system`) and `data_consultant_timesheet.md` (system of record: `asset_psa_system`) linked via `produces_artifact`.
+  - **Disruption Scenarios**: Added `scenario_project_margin_slippage.json` (E2C scope creep and margin slippage), `scenario_consultant_bench_surge.json` (L2C presales pipeline stagnation and unassigned bench surge), and `scenario_psa_outage_billing_crunch.json` (E2C PSA cloud outage and billing crunch).
+  - **Financial Triad Integration**: Connected professional services billing (`e2c_006_project_billing_invoicing`) directly into core GL subledger ingestion (`r2r_001_journal_entry_recording`).
+  - **Automated Simulation Test Suite**: Expanded `tests/test_simulation.py` to validate all three professional services disruption scenarios, bringing test suite to 20 automated tests.
+
+### Changed
+- Updated `profiles/professional_services/roles/` to conform to Phase 6.2 role frontmatter standard (`department`, `approval_limit_usd`).
+- Enhanced `tools/validate_and_build.py` to robustly evaluate role financial approval limits across root and nested attributes.
+
 ## [1.8.0] - 2026-10-05
 
 ### Added

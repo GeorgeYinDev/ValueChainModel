@@ -141,9 +141,15 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - **Governance**: [ADR-0007](docs/decisions/0007-industry-profiles-architecture.md) and [ADR-0008](docs/decisions/0008-professional-services-taxonomy.md).
 
 ### Phase 8.6: Professional Services Domain Model Expansion
-**Status**: 🔮 **Planned** (Target Release: **v1.9.0**)
-- Deepen L2C and E2C with full quantitative parameters, SLA policies, billable rate cards, and PSA platform bindings.
-- Disruption scenarios: `scenario_project_margin_slippage.json`, `scenario_consultant_bench_surge.json`.
+**Status**: ✅ **Completed** (Release: **v1.9.0**)
+- Deepened L2C and E2C with quantitative parameters, SLA policies, billable rate cards, and PSA platform bindings.
+- Enterprise Value Stream elements: `client_engagement_delivery_stream.md`, `consulting_revenue_billing_stream.md`.
+- Governance & Control Policy elements: `project_pricing_margin_policy.md`, `time_expense_compliance_policy.md` linked via `governed_by`.
+- First-class KPI Metric elements: `kpi_billable_utilization.md`, `kpi_project_gross_margin.md`, `kpi_deal_win_rate.md`.
+- Data Entity elements: `data_statement_of_work.md`, `data_consultant_timesheet.md` linked via `produces_artifact`.
+- Core Financial Triad Integration: `e2c_006_project_billing_invoicing` feeds directly into `r2r_001_journal_entry_recording`.
+- Disruption scenarios: `scenario_project_margin_slippage.json`, `scenario_consultant_bench_surge.json`, `scenario_psa_outage_billing_crunch.json`.
+- Full simulation and profile test coverage in `tests/test_simulation.py` with 20 passing tests.
 
 ### Phase 9: Headless REST API & Web Application
 **Status**: 🔮 **Planned** (Target Release: **v2.0.0**)
@@ -196,8 +202,8 @@ These findings are tracked to the phase that resolves them.
 | **R2R** | Record to Report | General Ledger & Accounting | 3 | ✅ v1.2.0 |
 | **H2R** | Hire to Retire | Human Resources & Payroll | 7 | ✅ v1.6.0 |
 | **P2M** | Plan to Make | Supply Chain & Manufacturing | 8 | ✅ v1.7.0 |
-| **L2C** | Lead to Cash | Professional Services / Business Dev | 8.5 | ✅ v1.8.0 |
-| **E2C** | Engagement to Cash | Professional Services / Delivery | 8.5 | ✅ v1.8.0 |
+| **L2C** | Lead to Cash | Professional Services / Business Dev | 8.6 | ✅ v1.9.0 |
+| **E2C** | Engagement to Cash | Professional Services / Delivery | 8.6 | ✅ v1.9.0 |
 
 ---
 

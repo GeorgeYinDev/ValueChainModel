@@ -13,6 +13,8 @@ flowchart TD
   classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
 
   subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    client_engagement_delivery_stream[["<b>Stream: Client Engagement &amp; Delivery Value Stream</b><br/><small>client_engagement_delivery_stream</small>"]]:::valueStream
+    consulting_revenue_billing_stream[["<b>Stream: Consulting Time, Expense &amp; Revenue Billing Stream</b><br/><small>consulting_revenue_billing_stream</small>"]]:::valueStream
     financial_close_reporting_stream[["<b>Stream: Financial Close, Consolidation &amp; Regulatory Reporting Stream</b><br/><small>financial_close_reporting_stream</small>"]]:::valueStream
     procure_to_pay_stream[["<b>Stream: Procure to Pay (P2P) Operational Value Stream</b><br/><small>procure_to_pay_stream</small>"]]:::valueStream
     strategic_sourcing_stream[["<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>"]]:::valueStream
@@ -52,8 +54,10 @@ flowchart TD
   end
 
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    project_pricing_margin_policy(["<b>Policy: Project Pricing &amp; Target Gross Margin Governance Policy</b><br/><small>project_pricing_margin_policy</small>"]):::controlPolicy
     sod_spending_limits_policy(["<b>Policy: Segregation of Duties &amp; Financial Authority Policy</b><br/><small>sod_spending_limits_policy</small>"]):::controlPolicy
     sox_financial_reporting_controls_policy(["<b>Policy: SOX 404 Financial Reporting Internal Controls &amp; Materiality Thresholds Policy</b><br/><small>sox_financial_reporting_controls_policy</small>"]):::controlPolicy
+    time_expense_compliance_policy(["<b>Policy: Consultant Time &amp; Expense Submission Compliance Policy</b><br/><small>time_expense_compliance_policy</small>"]):::controlPolicy
   end
 
   %% Process Flows & Policy Linkages
@@ -95,16 +99,31 @@ flowchart TD
   s2p_008_payment_settlement_disbursement --> r2r_001_journal_entry_recording
   s2p_008_payment_settlement_disbursement -. governed by .-> sod_spending_limits_policy
   strategic_sourcing_stream --> procure_to_pay_stream
+  data_consultant_timesheet -. triggers .-> e2c_006_project_billing_invoicing
+  data_statement_of_work -. triggers .-> e2c_001_project_kickoff
+  kpi_billable_utilization -. impacted_by .-> e2c_004_time_expense_entry
+  kpi_deal_win_rate -. impacted_by .-> l2c_004_deal_closure_handover
+  kpi_project_gross_margin -. impacted_by .-> e2c_006_project_billing_invoicing
   e2c_001_project_kickoff --> e2c_002_resource_scheduling
   e2c_002_resource_scheduling --> e2c_003_project_execution_delivery
   e2c_003_project_execution_delivery --> e2c_004_time_expense_entry
   e2c_004_time_expense_entry --> e2c_005_client_acceptance
+  e2c_004_time_expense_entry -. governed by .-> time_expense_compliance_policy
+  e2c_004_time_expense_entry -. produces_artifact .-> data_consultant_timesheet
   e2c_005_client_acceptance --> e2c_006_project_billing_invoicing
   e2c_006_project_billing_invoicing --> e2c_007_project_closure_lessons
+  e2c_006_project_billing_invoicing --> r2r_001_journal_entry_recording
+  e2c_006_project_billing_invoicing -. governed by .-> time_expense_compliance_policy
   l2c_001_lead_qualification --> l2c_002_proposal_development
   l2c_002_proposal_development --> l2c_003_contract_negotiation
+  l2c_002_proposal_development -. governed by .-> project_pricing_margin_policy
   l2c_003_contract_negotiation --> l2c_004_deal_closure_handover
+  l2c_003_contract_negotiation -. governed by .-> project_pricing_margin_policy
+  l2c_003_contract_negotiation -. produces_artifact .-> data_statement_of_work
   l2c_004_deal_closure_handover --> e2c_001_project_kickoff
+  client_engagement_delivery_stream -. governed by .-> project_pricing_margin_policy
+  consulting_revenue_billing_stream -. governed by .-> time_expense_compliance_policy
+  consulting_revenue_billing_stream --> r2r_001_journal_entry_recording
 ```
 
 ---
@@ -250,6 +269,7 @@ flowchart LR
   e2c_004_time_expense_entry__R --> e2c_005_client_acceptance__R
   e2c_005_client_acceptance__R --> e2c_006_project_billing_invoicing__R
   e2c_006_project_billing_invoicing__R --> e2c_007_project_closure_lessons__R
+  e2c_006_project_billing_invoicing__R --> r2r_001_journal_entry_recording__R
   l2c_001_lead_qualification__R --> l2c_002_proposal_development__R
   l2c_002_proposal_development__R --> l2c_003_contract_negotiation__R
   l2c_003_contract_negotiation__R --> l2c_004_deal_closure_handover__R

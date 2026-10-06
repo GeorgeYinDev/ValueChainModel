@@ -26,6 +26,12 @@ graph_relations:
   - relation: feeds_into
     target: e2c_005_client_acceptance
     weight: 1.0
+  - relation: governed_by
+    target: time_expense_compliance_policy
+    weight: 1.0
+  - relation: produces_artifact
+    target: data_consultant_timesheet
+    weight: 1.0
 ---
 # Time & Expense Logging
 Consultants submit weekly timesheets and expense reports against specific project WBS codes for approval and capitalization.

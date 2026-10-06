@@ -251,7 +251,11 @@ def main():
             threshold = fm.get("attributes", {}).get("approval_threshold_usd", 0.0)
             if threshold > 0.0:
                 for acc_role_id in acc:
-                    role_limit = roles.get(acc_role_id, {}).get("approval_limit_usd", 0.0)
+                    role_info = roles.get(acc_role_id, {})
+                    role_limit = role_info.get("approval_limit_usd")
+                    if role_limit is None:
+                        role_limit = role_info.get("attributes", {}).get("approval_limit_usd", 0.0)
+                    role_limit = float(role_limit or 0.0)
                     if role_limit < threshold:
                         errors.append(f"Threshold Violation in '{elem_id}': Accountable role '{acc_role_id}' has limit ${role_limit} which is below the step threshold of ${threshold}")
 

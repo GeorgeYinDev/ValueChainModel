@@ -3,11 +3,13 @@
     {
       "id": "L2C",
       "name": "Lead to Cash",
+      "domain": "Commercial & Business Development",
       "description": "Sales pipeline generation, proposal development, and contract closure."
     },
     {
       "id": "E2C",
       "name": "Engagement to Cash",
+      "domain": "Delivery & Client Operations",
       "description": "Project delivery, resource allocation, time tracking, and professional services billing."
     }
   ],
