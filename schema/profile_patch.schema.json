@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://valuechainmodel.schema/profile_patch.json",
+  "title": "ProfilePatch",
+  "type": "object",
+  "required": ["target"],
+  "properties": {
+    "target": {
+      "type": "string"
+    },
+    "append": {
+      "type": "object",
+      "properties": {
+        "lifecycles": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "graph_relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["relation", "target"],
+            "properties": {
+              "relation": { "type": "string" },
+              "target": { "type": "string" },
+              "weight": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+              "probability": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "asset_dependencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

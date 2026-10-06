@@ -13,22 +13,12 @@ Welcome to the **Enterprise Value Chain Modeling Engine**, a composable, schema-
 │   ├── architecture/       # Core Financial Triad & Dual RACI/DACI governance
 │   ├── guides/             # Element authoring & quantitative simulation guides
 │   ├── reference/          # CLI tooling & engine syntax reference
-│   └── decisions/          # Architecture Decision Records (ADRs 0001 - 0004)
+│   └── decisions/          # Architecture Decision Records (ADRs 0001 - 0008)
 ├── schema/                 # JSON Schemas enforcing metadata & frontmatter validation
-│   ├── value_chain_element.schema.json # Element YAML frontmatter schema
-│   ├── lifecycle_manifest.schema.json  # Lifecycle blueprint validation schema
-│   ├── asset_hierarchy.schema.json     # System asset node validation schema
-│   └── scenario_simulation.schema.json # Scenario simulation payload schema
-├── ontology/               # EA taxonomies, relation types, and RACI matrices
-│   └── taxonomies.json
-├── lifecycles/             # Lifecycle presets & manifests (e.g., S2P, O2C, R2R)
-├── elements/               # Core Value Chain elements (markdown with YAML frontmatter)
-│   ├── process_steps/      # Granular process steps (e.g., s2p_001, o2c_001, r2r_001)
-│   ├── value_streams/      # High-level end-to-end streams (e.g., P2P, Sourcing, Close)
-│   └── control_policies/   # Governance, compliance, and SoD rules
-├── roles/                  # Enterprise RACI role definitions (e.g., role_category_manager.md)
-├── assets/                 # System and infrastructure asset nodes (e.g., asset_erp_system.md)
-├── simulations/            # Operational scenario definitions (JSON payloads)
+├── profiles/               # Industry-specific taxonomy overlays
+│   ├── core/               # Shared enterprise capabilities (S2P, R2R, H2R)
+│   ├── manufacturing/      # Discrete manufacturing overlays (P2M, O2C)
+│   └── professional_services/ # Services overlays (L2C, E2C)
 ├── templates/              # Boilerplates for new elements, roles, assets, and manifests
 │   ├── element_template.md
 │   ├── role_template.md
@@ -62,32 +52,31 @@ Always run the validator after creating or modifying elements, roles, assets, or
 
 ```bash
 # Validate schemas, verify bi-directional relationships, and re-generate knowledge graph, prompt packs & visualizers
-python3 tools/validate_and_build.py
+uv run tools/validate_and_build.py --profile ALL
 
-# Or export diagrams directly for specific lifecycles:
-python3 tools/export_diagram.py --lifecycle R2R --format all
-python3 tools/export_diagram.py --lifecycle O2C --format all
-python3 tools/export_diagram.py --lifecycle S2P --format all
-python3 tools/export_diagram.py --lifecycle ALL --format all
+# Or validate and build for a specific profile:
+uv run tools/validate_and_build.py --profile manufacturing
+uv run tools/validate_and_build.py --profile core
+uv run tools/validate_and_build.py --profile professional_services
 ```
 
 To run scenario simulations:
 
 ```bash
 # Run Year-End Financial Close Crunch Scenario (R2R)
-python3 tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
+uv run tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
 
 # Run Customer Credit Hold Surge Scenario (O2C)
-python3 tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
+uv run tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
 
 # Run Supplier Disruption Shock Scenario (S2P)
-python3 tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
+uv run tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
 
 # Run Invoice Exception & Bottleneck Scenario (S2P)
-python3 tools/simulate_scenario.py simulations/scenario_invoice_bottleneck.json
+uv run tools/simulate_scenario.py simulations/scenario_invoice_bottleneck.json
 
 # Run ERP Outage Scenario (Global)
-python3 tools/simulate_scenario.py simulations/scenario_erp_outage.json
+uv run tools/simulate_scenario.py simulations/scenario_erp_outage.json
 ```
 
 ---
@@ -98,5 +87,5 @@ python3 tools/simulate_scenario.py simulations/scenario_erp_outage.json
 2. **RACI Integrity**: Any role listed in an element's `raci:` YAML frontmatter must correspond to an existing file in `roles/` (e.g. `role_procurement_specialist.md`).
 3. **Asset Dependency Integrity**: Any asset referenced in `asset_dependencies:` must correspond to an existing file in `assets/` (e.g. `asset_erp_system.md`).
 4. **Relational Consistency**: Graph relationships in `graph_relations:` (e.g., `feeds_into`, `governed_by`) should reference valid element IDs.
-5. **Always Run `validate_and_build.py`**: After adding or editing any model files, always execute `python3 tools/validate_and_build.py` to ensure zero schema violations and to update `index/knowledge_graph.json` and prompt packs.
+5. **Always Run `validate_and_build.py`**: After adding or editing any model files, always execute `uv run tools/validate_and_build.py` to ensure zero schema violations and to update `index/knowledge_graph.json` and prompt packs.
 6. **Consult Architecture & Authoring Guides**: Adhere to `docs/architecture/` specifications and consult `docs/guides/authoring-elements-and-lifecycles.md` when modeling new processes or lifecycles.

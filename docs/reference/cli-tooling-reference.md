@@ -8,7 +8,7 @@ This document provides a comprehensive technical reference for the command-line 
 
 ### Synopsis
 ```bash
-python3 tools/validate_and_build.py
+uv run tools/validate_and_build.py
 ```
 
 ### Purpose
@@ -39,7 +39,7 @@ The primary validation and build orchestrator for the repository. It ingests all
 
 ### Synopsis
 ```bash
-python3 tools/export_diagram.py [--lifecycle LIFECYCLE_ID] [--format FORMAT] [--output-dir DIR]
+uv run tools/export_diagram.py [--lifecycle LIFECYCLE_ID] [--format FORMAT] [--output-dir DIR]
 ```
 
 ### CLI Arguments
@@ -65,13 +65,13 @@ python3 tools/export_diagram.py [--lifecycle LIFECYCLE_ID] [--format FORMAT] [--
 ### Example Commands
 ```bash
 # Export only Mermaid diagrams for R2R
-python3 tools/export_diagram.py --lifecycle R2R --format mermaid
+uv run tools/export_diagram.py --lifecycle R2R --format mermaid
 
 # Export markdown RACI and DACI governance tables
-python3 tools/export_diagram.py --lifecycle ALL --format markdown
+uv run tools/export_diagram.py --lifecycle ALL --format markdown
 
 # Compile the standalone interactive dashboard
-python3 tools/export_diagram.py --lifecycle ALL --format html
+uv run tools/export_diagram.py --lifecycle ALL --format html
 ```
 
 ---
@@ -80,7 +80,7 @@ python3 tools/export_diagram.py --lifecycle ALL --format html
 
 ### Synopsis
 ```bash
-python3 tools/simulate_scenario.py <path_to_scenario.json>
+uv run tools/simulate_scenario.py <path_to_scenario.json>
 ```
 
 ### Purpose
@@ -99,11 +99,26 @@ Calculates the operational impact of disruption shocks on process lead times, un
 ### Example Commands
 ```bash
 # Simulate Month-End Close Crunch (R2R)
-python3 tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
+uv run tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
 
 # Simulate Customer Credit Hold Contraction (O2C)
-python3 tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
+uv run tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
 
 # Simulate Supplier Disruption (S2P)
-python3 tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
+uv run tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
+```
+
+## 4. `tools/new_profile.py`
+
+A scaffolding utility for generating the boilerplate folder structures, manifests, and taxonomies for entirely new industry overlays.
+
+### Usage
+```bash
+uv run tools/new_profile.py <profile_id> [--extends <parent_id>] [--name <display_name>]
+```
+
+### Examples
+Create a new Healthcare profile inheriting from Core:
+```bash
+uv run tools/new_profile.py healthcare --extends core --name "Healthcare Provider"
 ```

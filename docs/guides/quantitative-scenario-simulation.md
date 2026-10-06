@@ -111,7 +111,7 @@ The repository ships with several pre-calibrated baseline scenarios modeling rea
 
 ### Running via CLI
 ```bash
-python3 tools/simulate_scenario.py simulations/scenario_freight_rate_surge.json
+uv run tools/simulate_scenario.py simulations/scenario_freight_rate_surge.json
 ```
 
 ### Understanding the Generated Report

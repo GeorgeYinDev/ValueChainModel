@@ -5,62 +5,87 @@ All notable changes to the Enterprise Value Chain Modeling Engine repository wil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-10-05
+
+### Added
+- **Multi-Industry Profile Inheritance Architecture (`profiles/`)**: Restructured the monolithic repository into a layered profile architecture with `profiles/core`, `profiles/manufacturing`, and `profiles/professional_services`.
+- **Profile Loader Engine (`tools/vcm_profiles.py`)**: Resolves multi-layer profile inheritance, merges taxonomies, validates manifests and patches with schemas, and prevents accidental cross-layer ID collisions.
+- **JSON Schemas for Profiles**: Added `schema/profile_manifest.schema.json` and `schema/profile_patch.schema.json`; updated `value_chain_element.schema.json` with `overrides:` and `lifecycle_manifest.schema.json` with data-driven `phases:`.
+- **Profile Scaffolding CLI (`tools/new_profile.py`)**: Single-command generator for bootstrapping new industry overlays.
+- **Global Build Mode & Switcher Dashboard (`index/index.html`)**: Added `--profile ALL` and an interactive profile switcher landing dashboard.
+- **Professional Services Operating Model**: Initialized `L2C` (Lead-to-Cash) and `E2C` (Engagement-to-Cash) lifecycles, consulting roles, and `asset_psa_system`.
+- **Architecture Governance Records**: Added ADR-0007 (Industry Profiles Architecture) and ADR-0008 (Professional Services Taxonomy).
+- **Profile Test Suite**: Added `tests/test_profiles.py` and fixture profiles covering inheritance, cycle rejection, collision prevention, overrides, and isolation guarantees.
+
+### Changed
+- All CLI tools (`tools/validate_and_build.py`, `tools/simulate_scenario.py`, `tools/export_diagram.py`) accept `--profile <name>` (defaulting to `VCM_PROFILE` or `manufacturing`).
+- Diagram exporter replaces hardcoded element prefixes with data-driven `phases` declared in lifecycle manifests.
+- Output artifacts are cleanly isolated into `index/<profile>/`.
+
+## [1.7.0] - 2026-10-04
+
+### Added
+- **Plan-to-Make (P2M) Lifecycle**: Full 6-milestone discrete manufacturing lifecycle (`p2m_001` through `p2m_006`) covering Demand Sensing, MRP Planning, Production Sequencing, Shop Floor Execution, Quality Release, and Finished Goods Put-Away.
+- **Manufacturing Systems & Roles**: Added MES (`asset_mes_system`), APS (`asset_aps_planner`), and WMS (`asset_wms_system`), alongside roles for Demand Planner, Inventory Manager, Manufacturing Supervisor, Production Scheduler, and QA Engineer.
+- **Manufacturing Disruption Scenarios**: Added Raw Material Stockout scenario (`simulations/scenario_raw_material_stockout.json`).
+- **ADR-0006**: Plan-to-Make taxonomy design.
+
+## [1.6.0] - 2026-10-04
+
+### Added
+- **Hire-to-Retire (H2R) Lifecycle**: Full 6-milestone HR operations model (`h2r_001` through `h2r_006`) from Job Requisition through Payroll Enrollment and Offboarding.
+- **HCM & Payroll Integration**: Added `asset_hcm_platform` and `asset_payroll_engine` integrated into R2R general ledger recording.
+- **ADR-0005**: Hire-to-Retire taxonomy design.
+- **Payroll Outage Scenario**: Added `scenario_payroll_outage_surge.json`.
+
+## [1.5.0] - 2026-10-04
+
+### Added
+- **Model Enrichment & Quantitative Calibration**: First-class KPI elements, data entity elements, and capacity fields for queueing theory modeling.
+- **Approval Limit Enforcement**: Automated cross-validation between role approval limits and process step thresholds.
+
+## [1.4.0] - 2026-10-03
+
+### Fixed
+- **Integrity Release**: Enforced JSON schema validation across all elements, assets, and lifecycles; single approver rule enforcement ($|A|=1$); eliminated simulation double-counting; fixed policy self-referencing loops; added automated pytest suite and CI workflow.
+
 ## [1.3.0] - 2026-10-03
 
 ### Added
 - **Comprehensive Architecture Documentation Suite (`docs/architecture/`)**:
-  - `docs/architecture/core-financial-triad.md`: Detailed architecture specification for the end-to-end Core Financial Triad (S2P $\longleftrightarrow$ O2C $\longleftrightarrow$ R2R), subledger transaction ingestion mechanics, three-tier LOD mappings, and enterprise IT asset topology.
-  - `docs/architecture/governance-raci-daci.md`: Governance specification for dual RACI (operational delivery) and DACI (decision authority) models, Single Approver rule enforcement ($|A|=1$), Segregation of Duties (SoD) toxic combination detection algorithm, and role workload balance analysis.
+  - `docs/architecture/core-financial-triad.md`: Detailed architecture specification for the end-to-end Core Financial Triad (S2P $\longleftrightarrow$ O2C $\longleftrightarrow$ R2R).
+  - `docs/architecture/governance-raci-daci.md`: Governance specification for dual RACI and DACI models, Single Approver rule enforcement, and SoD conflict detection.
 - **Practitioner & Modeling Guides (`docs/guides/`)**:
-  - `docs/guides/authoring-elements-and-lifecycles.md`: Step-by-step authoring manual for process milestones, control policies, value streams, roles, IT assets, and new lifecycle manifests with troubleshooting for common schema validation errors.
-  - `docs/guides/quantitative-scenario-simulation.md`: Mathematical modeling guide for discrete-event and shock disruption analysis, Kingman queueing latency, bottleneck shift formulas, and multi-shock modifier mechanics.
-- **CLI Tooling & Engine Reference (`docs/reference/`)**:
-  - `docs/reference/cli-tooling-reference.md`: Complete syntax, arguments, flags, output artifact schemas, and example commands for `validate_and_build.py`, `export_diagram.py`, and `simulate_scenario.py`.
-- **Reusable EA Scaffolding Templates (`templates/`)**:
-  - `templates/lifecycle_template.json`: Documented JSON manifest boilerplate conforming to `schema/lifecycle_manifest.schema.json`.
-  - `templates/scenario_template.json`: Documented JSON disruption payload boilerplate conforming to `schema/scenario_simulation.schema.json`.
-- **Strategic Product Roadmap (`ROADMAP.md`)**:
-  - Authored multi-phase master implementation plan establishing completed milestones (Phases 1-4: S2P, O2C, R2R, Documentation) and future roadmap targets (Phase 5: Hire-to-Retire H2R, Phase 6: Plan-to-Produce P2P, Phase 7: REST API microservice, Phase 8: Process mining & ERP event telemetry).
-- **Repository Navigator & Agent Rule Synchronization**:
-  - Added Documentation Index & Reading Guides table to `README.md`.
-  - Updated `GEMINI.md` system guidelines and directory layout to direct agents to the new `docs/` hierarchy and `ROADMAP.md`.
+  - `docs/guides/authoring-elements-and-lifecycles.md`: Step-by-step authoring manual.
+  - `docs/guides/quantitative-scenario-simulation.md`: Mathematical modeling guide.
+- **CLI Reference & Scaffolding Templates**:
+  - `docs/reference/cli-tooling-reference.md`.
+  - `templates/lifecycle_template.json` and `templates/scenario_template.json`.
 
 ## [1.2.0] - 2026-10-03
 
 ### Added
-- **Record-to-Report (R2R) Business Lifecycle**: Full 5-milestone financial accounting and reporting model (`r2r_001` through `r2r_005`) covering Subledger Ingestion, Intercompany Matching & Elimination, Balance Sheet Substantiation, Financial Close & Consolidation, and Statutory/Regulatory Disclosures (`lifecycles/record_to_report.json`).
-- **Core Financial Triad Integration**: Bi-directionally connected S2P payment settlement (`s2p_008`) and O2C cash reconciliation (`o2c_005`) into R2R general ledger recording (`r2r_001`), completing the unified enterprise financial lifecycle graph.
-- **Enterprise Roles Expansion**: Added role definitions for General Ledger Accountant (`roles/role_general_ledger_accountant.md`), Financial Consolidation Specialist (`roles/role_consolidation_specialist.md`), and Internal Auditor (`roles/role_internal_auditor.md`).
-- **Enterprise Systems Expansion**: Added Financial Consolidation & Reporting System node (`assets/asset_financial_consolidation_system.md`, SAP Group Reporting / OneStream) as a child system of Core ERP.
-- **Financial Governance & Controls**: Added SOX 404 Financial Reporting Internal Controls & Materiality Thresholds Policy (`elements/control_policies/sox_financial_reporting_controls_policy.md`).
-- **Financial Close Value Stream**: Added Financial Close, Consolidation & Regulatory Reporting Stream (`elements/value_streams/financial_close_reporting_stream.md`).
-- **Close Period Crunch Simulation**: Added Fiscal Year-End Financial Close Crunch stress-test scenario (`simulations/scenario_close_period_crunch.json`).
-- **Multi-Shock Simulation Support**: Enhanced `tools/simulate_scenario.py` and `index/value_chain_visualizer.html` to support multiple concurrent shock modifiers on a single process element (e.g. cycle time, cost, error rate).
-- **Architecture Governance**: Added Architecture Decision Record ADR-0004 for R2R lifecycle taxonomy, internal controls, and consolidation system boundaries (`docs/decisions/0004-r2r-lifecycle-taxonomy-design.md`).
+- **Record-to-Report (R2R) Business Lifecycle**: Full 5-milestone financial accounting and reporting model (`r2r_001` through `r2r_005`).
+- **Core Financial Triad Integration**: Connected S2P payment settlement (`s2p_008`) and O2C cash reconciliation (`o2c_005`) into R2R (`r2r_001`).
+- **Financial Governance**: SOX 404 Controls Policy (`sox_financial_reporting_controls_policy.md`).
+- **Close Period Crunch Simulation**: `scenario_close_period_crunch.json`.
+- **ADR-0004**: Record-to-Report taxonomy design.
 
 ## [1.1.0] - 2026-10-03
 
 ### Added
-- **Order-to-Cash (O2C) Business Lifecycle**: Full 5-milestone commercial execution model (`o2c_001` through `o2c_005`) covering Quote-to-Order, Credit Assessment, Warehouse Dispatch, Billing, and AR Reconciliation (`lifecycles/order_to_cash.json`).
-- **DACI Decision Authority Matrix**: Integrated DACI governance (Driver, Approver, Contributor, Informed) alongside RACI in schemas, taxonomies, and validation compiler with strict Single Approver rule verification.
-- **Enterprise Roles Expansion**: Added role definitions for Sales Operations Specialist, Credit & Risk Manager, Warehouse Supervisor, Billing Specialist, and Customer (`roles/`).
-- **Enterprise Systems Expansion**: Added asset object models for Enterprise Cloud CRM & CPQ (Salesforce) and Automated Warehouse Management & Dispatch System (SAP EWM) (`assets/`).
-- **Commercial Governance Policies**: Added Commercial Credit Limit & Customer Risk Exposure Policy (`elements/control_policies/credit_limit_risk_policy.md`).
-- **Operational Scenario Simulation**: Added Credit Hold Surge stress-test scenario (`simulations/scenario_credit_hold_surge.json`).
-- **Interactive Standalone Executive Dashboard**: Re-architected `index/value_chain_visualizer.html` as a standalone client-side Single-Page Application (SPA) with multi-lifecycle scope selectors, RACI/DACI live toggles, and dynamic zero-error Mermaid diagram rendering.
-- **Architecture Governance**: Added Architecture Decision Record ADR-0003 for O2C lifecycle taxonomy and CRM/WMS integration (`docs/decisions/0003-o2c-lifecycle-taxonomy-design.md`).
-
-### Fixed
-- **Mermaid 10 Layout Parser Conflict**: Resolved Mermaid syntax error in `index/value_chain_visualizer.html` by transitioning to deferred on-demand rendering, sanitizing special characters in labels (`&amp;`, `&quot;`), switching policy shapes to stadium brackets `(["..."])`, declaring value streams in dedicated subgraphs, and eliminating self-referencing relationship loops.
+- **Order-to-Cash (O2C) Business Lifecycle**: Full 5-milestone commercial execution model (`o2c_001` through `o2c_005`).
+- **DACI Decision Authority Matrix**: Integrated DACI governance alongside RACI with Single Approver verification.
+- **Commercial Governance Policies**: Commercial Credit Limit Policy and Credit Hold Surge scenario.
+- **Interactive Standalone Executive Dashboard**: Re-architected `index/value_chain_visualizer.html` as an SPA.
+- **ADR-0003**: Order-to-Cash taxonomy design.
 
 ## [1.0.0] - 2026-08-08
 
 ### Added
 - **Core Engine Architecture**: Schema-driven validation engine based on the WorldBuild composable model framework.
 - **JSON Schemas**: Strict validation schemas for frontmatter elements, business lifecycle manifests, asset hierarchies, and scenario simulations (`schema/`).
-- **Source to Pay (S2P) Lifecycle**: Complete 8-step lifecycle model (`s2p_001` through `s2p_008`) spanning Strategic Sourcing, Contracting, Procure-to-Pay, Invoice Processing, and Disbursement.
-- **Enterprise Roles & RACI Definitions**: Structured role definitions (`roles/`) for Category Manager, Procurement Specialist, AP Clerk, Finance Controller, and Supplier.
-- **Enterprise Asset Object Hierarchies**: Parent-child system trees (`assets/`) for Enterprise ERP, Cloud e-Procurement Portal, and Banking Payment Gateway.
-- **Scenario Simulation Engine**: CLI tool (`tools/simulate_scenario.py`) for evaluating supplier disruptions, invoice bottlenecks, and system outages.
-- **Knowledge Graph & LLM Prompt Indexing**: Validation CLI (`tools/validate_and_build.py`) for automated graph synthesis and context prompt pack compilation (`index/`).
-- **Architecture Governance**: Initial Architecture Decision Records ADR-0001 and ADR-0002 (`docs/decisions/`).
+- **Source to Pay (S2P) Lifecycle**: Complete 8-step lifecycle model (`s2p_001` through `s2p_008`).
+- **Enterprise Roles & Assets**: Core procurement roles and enterprise ERP, e-Procurement Portal, and Banking Payment Gateway assets.
+- **Scenario Simulation CLI**: Scenario evaluator (`tools/simulate_scenario.py`) for disruptions and outages.
+- **ADR-0001 & ADR-0002**: Initial architecture decisions.

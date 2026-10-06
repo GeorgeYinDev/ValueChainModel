@@ -1,0 +1,37 @@
+{
+  "lifecycle_id": "O2C",
+  "name": "Order to Cash Lifecycle",
+  "version": "1.0.0",
+  "description": "End-to-end sales lifecycle from customer quote and order entry through order fulfillment, billing, credit management, and cash collection.",
+  "milestones": [
+    { "step_id": "o2c_001_customer_quote_order_entry", "name": "Quote Generation & Order Capture", "order": 1 },
+    { "step_id": "o2c_002_credit_check_approval", "name": "Customer Credit Assessment", "order": 2 },
+    { "step_id": "o2c_003_inventory_allocation_fulfillment", "name": "Inventory Allocation & Warehousing", "order": 3 },
+    { "step_id": "o2c_004_billing_invoice_generation", "name": "Customer Billing & Invoicing", "order": 4 },
+    { "step_id": "o2c_005_cash_collection_reconciliation", "name": "Cash Collection & Accounts Receivable Match", "order": 5 }
+  ],
+  "phases": [
+    {
+      "phase_id": "commercial_credit",
+      "name": "Commercial Capture & Credit Phase",
+      "milestones": [
+        "o2c_001_customer_quote_order_entry",
+        "o2c_002_credit_check_approval"
+      ]
+    },
+    {
+      "phase_id": "fulfillment_billing_cash",
+      "name": "Fulfillment, Billing & Cash Collection Phase",
+      "milestones": [
+        "o2c_003_inventory_allocation_fulfillment",
+        "o2c_004_billing_invoice_generation",
+        "o2c_005_cash_collection_reconciliation"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "days_sales_outstanding_dso",
+    "order_fulfillment_lead_time",
+    "perfect_order_rate"
+  ]
+}

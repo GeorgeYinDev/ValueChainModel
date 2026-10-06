@@ -4,7 +4,7 @@ import pathlib
 
 ROOT_DIR = pathlib.Path(__file__).parent.parent.resolve()
 EXPORTER_SCRIPT = ROOT_DIR / "tools" / "export_diagram.py"
-INDEX_DIR = ROOT_DIR / "index"
+INDEX_DIR = ROOT_DIR / "index" / "manufacturing"
 
 def test_exporter_creates_files():
     """Test that the exporter creates the expected diagrams and visualizer."""
@@ -13,7 +13,7 @@ def test_exporter_creates_files():
     # Note: validate_and_build already runs exporter. But we can run it standalone.
     
     result = subprocess.run(
-        ["uv", "run", str(EXPORTER_SCRIPT), "--lifecycle", "ALL", "--format", "all"],
+        ["uv", "run", str(EXPORTER_SCRIPT), "--profile", "manufacturing", "--lifecycle", "ALL", "--format", "all"],
         cwd=ROOT_DIR,
         capture_output=True,
         text=True

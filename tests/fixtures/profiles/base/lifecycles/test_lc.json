@@ -1,0 +1,17 @@
+{
+  "lifecycle_id": "TEST_LC",
+  "name": "Test Lifecycle",
+  "version": "1.0.0",
+  "description": "Lifecycle for test fixtures",
+  "milestones": [
+    { "step_id": "test_step_1", "name": "Test Step 1", "order": 1 }
+  ],
+  "phases": [
+    {
+      "phase_id": "phase_1",
+      "name": "Phase 1",
+      "milestones": ["test_step_1"]
+    }
+  ],
+  "key_performance_indicators": ["test_kpi"]
+}

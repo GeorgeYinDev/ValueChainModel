@@ -25,7 +25,9 @@ jobs:
       run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Run Schema Validator & Graph Builder
-      run: uv run tools/validate_and_build.py
+      run: uv run tools/validate_and_build.py --profile ALL
+    - name: Run Schema Validator (Core Isolation Test)
+      run: uv run tools/validate_and_build.py --profile core
 
     - name: Run Test Suite
       run: uv run --with pytest pytest tests/

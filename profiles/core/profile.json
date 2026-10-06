@@ -1,0 +1,10 @@
+{
+  "profile_id": "core",
+  "name": "Core Enterprise Architecture",
+  "industry": "agnostic",
+  "version": "1.0.0",
+  "extends": [],
+  "lifecycles": ["S2P", "R2R", "H2R"],
+  "default_lifecycle": "R2R",
+  "apqc_pcf_variant": "cross-industry"
+}

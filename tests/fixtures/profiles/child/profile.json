@@ -1,0 +1,8 @@
+{
+  "profile_id": "child",
+  "name": "Child Fixture Profile",
+  "version": "1.0.0",
+  "extends": ["base"],
+  "lifecycles": ["TEST_LC"],
+  "default_lifecycle": "TEST_LC"
+}

@@ -1,0 +1,10 @@
+{
+  "profile_id": "manufacturing",
+  "name": "Discrete Manufacturing",
+  "industry": "manufacturing",
+  "version": "1.0.0",
+  "extends": ["core"],
+  "lifecycles": ["S2P", "O2C", "R2R", "H2R", "P2M"],
+  "default_lifecycle": "S2P",
+  "apqc_pcf_variant": "cross-industry"
+}

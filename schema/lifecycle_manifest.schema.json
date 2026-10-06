@@ -27,6 +27,21 @@
         }
       }
     },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phase_id", "name", "milestones"],
+        "properties": {
+          "phase_id": { "type": "string" },
+          "name": { "type": "string" },
+          "milestones": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
     "key_performance_indicators": {
       "type": "array",
       "items": { "type": "string" }

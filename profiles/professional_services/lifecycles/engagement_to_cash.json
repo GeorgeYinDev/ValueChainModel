@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "E2C",
+  "name": "Engagement to Cash",
+  "version": "1.1.0",
+  "description": "Project delivery, resource allocation, time tracking, and billing.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "e2c_001_project_kickoff",
+      "name": "Project Kickoff"
+    },
+    {
+      "order": 2,
+      "step_id": "e2c_002_resource_scheduling",
+      "name": "Resource Scheduling"
+    },
+    {
+      "order": 3,
+      "step_id": "e2c_003_project_execution_delivery",
+      "name": "Project Execution"
+    },
+    {
+      "order": 4,
+      "step_id": "e2c_004_time_expense_entry",
+      "name": "Time & Expense Entry"
+    },
+    {
+      "order": 5,
+      "step_id": "e2c_005_client_acceptance",
+      "name": "Client Acceptance"
+    },
+    {
+      "order": 6,
+      "step_id": "e2c_006_project_billing_invoicing",
+      "name": "Project Billing"
+    },
+    {
+      "order": 7,
+      "step_id": "e2c_007_project_closure_lessons",
+      "name": "Project Closure"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "initiation_staffing",
+      "name": "Initiation & Staffing Phase",
+      "milestones": [
+        "e2c_001_project_kickoff",
+        "e2c_002_resource_scheduling"
+      ]
+    },
+    {
+      "phase_id": "delivery_execution",
+      "name": "Delivery & Execution Phase",
+      "milestones": [
+        "e2c_003_project_execution_delivery",
+        "e2c_004_time_expense_entry",
+        "e2c_005_client_acceptance"
+      ]
+    },
+    {
+      "phase_id": "billing_closure",
+      "name": "Billing & Engagement Closure Phase",
+      "milestones": [
+        "e2c_006_project_billing_invoicing",
+        "e2c_007_project_closure_lessons"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "Utilization Rate",
+    "Project Margin",
+    "Days Sales Outstanding (DSO)"
+  ]
+}

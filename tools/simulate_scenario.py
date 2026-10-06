@@ -11,31 +11,64 @@ Enterprise Value Chain Scenario Simulation Engine
 
 import os
 import sys
+import argparse
+import subprocess
 import json
 import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.resolve()))
 from typing import Dict, Any, List
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 tools/simulate_scenario.py <path_to_scenario.json>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Scenario Simulation Engine")
+    parser.add_argument("--profile", default="manufacturing", help="Industry profile")
+    parser.add_argument("scenario_path", help="Path or name of scenario JSON file")
+    args = parser.parse_args()
 
-    scenario_path = pathlib.Path(sys.argv[1]).resolve()
-    root = scenario_path.parent.parent
-    index_dir = root / "index"
+    root = pathlib.Path(__file__).parent.parent.resolve()
+    
+    # Try resolving scenario path
+    scenario_input = args.scenario_path
+    candidate_path = pathlib.Path(scenario_input)
+    if candidate_path.exists():
+        scenario_path = candidate_path.resolve()
+    else:
+        # Search via vcm_profiles
+        from tools.vcm_profiles import resolve_profile
+        ep = resolve_profile(root / "profiles", args.profile, root)
+        clean_name = candidate_path.stem
+        found_file = None
+        for s_id, (s_file, _) in ep.scenario_files.items():
+            if s_id == clean_name or s_file.name == scenario_input or s_file.stem == clean_name:
+                found_file = s_file
+                break
+        if found_file:
+            scenario_path = found_file
+        else:
+            print(f"❌ Scenario '{scenario_input}' not found in profile '{args.profile}' or file system.")
+            sys.exit(1)
+
+    index_dir = root / "index" / args.profile
     kg_file = index_dir / "knowledge_graph.json"
 
     if not kg_file.exists():
-        print("[-] Knowledge graph index not found. Running validator first...")
+        print(f"[-] Knowledge graph index for profile '{args.profile}' not found. Running validator first...")
         val_script = root / "tools" / "validate_and_build.py"
-        os.system(f"python3 {val_script}")
+        subprocess.run(["uv", "run", str(val_script), "--profile", args.profile], check=True)
 
     scenario = json.loads(scenario_path.read_text(encoding="utf-8"))
+    
+    # Check applicable_profiles
+    applicable = scenario.get("applicable_profiles", [])
+    if applicable and args.profile not in applicable:
+        print(f"❌ Scenario '{scenario.get('scenario_id')}' is not applicable to profile '{args.profile}'. (Applicable profiles: {applicable})")
+        sys.exit(1)
+
     kg = json.loads(kg_file.read_text(encoding="utf-8"))
     elements = kg.get("elements", {})
 
     print("==================================================")
     print(f" Value Chain Scenario Simulation: {scenario.get('name')}")
+    print(f" Profile: {args.profile}")
     print("==================================================")
     print(f"Target Lifecycle: {scenario.get('target_lifecycle')}")
     print(f"Description     : {scenario.get('description')}\n")
@@ -44,6 +77,9 @@ def main():
     shock_map = {}
     for s in shocks:
         tid = s.get("target_element_id")
+        if tid not in elements and tid not in kg.get("assets", {}):
+            print(f"❌ Shock target element '{tid}' not found in profile '{args.profile}' knowledge graph.")
+            sys.exit(1)
         if tid not in shock_map:
             shock_map[tid] = []
         shock_map[tid].append(s)

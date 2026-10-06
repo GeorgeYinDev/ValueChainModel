@@ -26,6 +26,10 @@
           "additive_delta": { "type": "number" }
         }
       }
+    },
+    "applicable_profiles": {
+      "type": "array",
+      "items": { "type": "string" }
     }
   }
 }

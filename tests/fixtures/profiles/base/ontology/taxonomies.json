@@ -1,0 +1,22 @@
+{
+  "lifecycles": [
+    { "id": "TEST_LC", "name": "Test Lifecycle", "domain": "Testing" }
+  ],
+  "element_types": ["process_step", "value_stream", "control_policy"],
+  "relation_types": ["feeds_into", "governed_by"],
+  "raci_definitions": {
+    "R": "Responsible",
+    "A": "Accountable",
+    "C": "Consulted",
+    "I": "Informed"
+  },
+  "daci_definitions": {
+    "D": "Driver",
+    "A": "Approver",
+    "C": "Contributor",
+    "I": "Informed"
+  },
+  "lod_tiers": [
+    { "id": "tier_1", "name": "Executive" }
+  ]
+}

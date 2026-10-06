@@ -1,0 +1,21 @@
+{
+  "lifecycles": [
+    {
+      "id": "L2C",
+      "name": "Lead to Cash",
+      "description": "Sales pipeline generation, proposal development, and contract closure."
+    },
+    {
+      "id": "E2C",
+      "name": "Engagement to Cash",
+      "description": "Project delivery, resource allocation, time tracking, and professional services billing."
+    }
+  ],
+  "raci_definitions": {
+    "role_engagement_manager": "Accountable for project delivery, profitability, and client satisfaction.",
+    "role_solution_architect": "Responsible for technical design, scoping, and proposal technical reviews.",
+    "role_practice_director": "Accountable for overall practice P&L, utilization, and strategic growth.",
+    "role_consultant": "Responsible for executing project deliverables and tracking billable hours.",
+    "role_account_executive": "Responsible for driving new business, managing client relationships, and closing deals."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profile_id": "base",
+  "name": "Base Fixture Profile",
+  "version": "1.0.0",
+  "extends": [],
+  "lifecycles": ["TEST_LC"],
+  "default_lifecycle": "TEST_LC"
+}

@@ -17,6 +17,9 @@
       "type": "string",
       "pattern": "^[a-z0-9_]+$"
     },
+    "overrides": {
+      "type": "string"
+    },
     "type": {
       "type": "string",
       "enum": [

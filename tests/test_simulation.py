@@ -6,10 +6,10 @@ SIMULATOR_SCRIPT = ROOT_DIR / "tools" / "simulate_scenario.py"
 
 def test_simulation_baseline_vs_shock():
     """Test that a simulation correctly computes totals and the visualizer matches."""
-    scenario_path = ROOT_DIR / "simulations" / "scenario_close_period_crunch.json"
+    scenario_path = ROOT_DIR / "profiles" / "core" / "simulations" / "scenario_close_period_crunch.json"
     
     result = subprocess.run(
-        ["uv", "run", str(SIMULATOR_SCRIPT), str(scenario_path)],
+        ["uv", "run", str(SIMULATOR_SCRIPT), "--profile", "core", str(scenario_path)],
         cwd=ROOT_DIR,
         capture_output=True,
         text=True
@@ -33,3 +33,17 @@ def test_simulation_baseline_vs_shock():
     assert val > 0
     # Phase 5.3 verified R2R drops from 140h to 70h, so check it's around 70-80, not >100.
     assert val < 100, f"Baseline time {val}h is too high, possible double-counting!"
+
+import pytest
+
+@pytest.mark.parametrize("profile_name", ["manufacturing", "professional_services"])
+def test_simulation_cross_profile_erp_outage(profile_name):
+    """Test that a shared scenario (scenario_erp_outage) runs cleanly across profiles."""
+    result = subprocess.run(
+        ["uv", "run", str(SIMULATOR_SCRIPT), "--profile", profile_name, "scenario_erp_outage"],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True
+    )
+    assert result.returncode == 0, f"Simulator failed on {profile_name}: {result.stderr}\n{result.stdout}"
+    assert "Simulation Report written to:" in result.stdout

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enterprise Value Chain Architecture - Profiles Switcher</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px; }
+    h1 { font-size: 2rem; color: #38bdf8; margin-bottom: 8px; }
+    p.lead { color: #94a3b8; font-size: 1.1rem; margin-bottom: 32px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; transition: transform 0.2s, border-color 0.2s; }
+    .card:hover { transform: translateY(-4px); border-color: #38bdf8; }
+    .card h2 { margin-top: 0; font-size: 1.3rem; color: #e2e8f0; }
+    .card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .badge { background: #0f172a; border: 1px solid #475569; color: #cbd5e1; padding: 4px 10px; border-radius: 9999px; font-size: 0.8rem; }
+    .badge.lc { border-color: #0284c7; color: #38bdf8; }
+    .btn { display: inline-block; background: #0284c7; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .btn:hover { background: #0369a1; }
+  </style>
+</head>
+<body>
+  <h1>🏛️ Enterprise Value Chain Modeling Profiles</h1>
+  <p class="lead">Select an industry profile to inspect its interactive process graph, RACI/DACI governance, system topology, and scenario simulations.</p>
+  <div class="grid">
+    <div class="card">
+      <h2>Discrete Manufacturing</h2>
+      <p>Operating model and value streams for Discrete Manufacturing.</p>
+      <div class="meta">
+        <span class="badge">Extends: core</span>
+        <span class="badge lc">S2P</span><span class="badge lc">O2C</span><span class="badge lc">R2R</span><span class="badge lc">H2R</span><span class="badge lc">P2M</span>
+      </div>
+      <a class="btn" href="manufacturing/value_chain_visualizer.html">Open Visualizer &rarr;</a>
+    </div>
+    <div class="card">
+      <h2>Professional Services & Consulting</h2>
+      <p>Operating model and value streams for Professional Services & Consulting.</p>
+      <div class="meta">
+        <span class="badge">Extends: core</span>
+        <span class="badge lc">S2P</span><span class="badge lc">R2R</span><span class="badge lc">H2R</span><span class="badge lc">L2C</span><span class="badge lc">E2C</span>
+      </div>
+      <a class="btn" href="professional_services/value_chain_visualizer.html">Open Visualizer &rarr;</a>
+    </div>
+  </div>
+</body>
+</html>

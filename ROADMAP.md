@@ -10,11 +10,13 @@ flowchart LR
   P1["Phase 1<br/>S2P Foundation<br/>✅ v1.0.0"] --> P2["Phase 2<br/>O2C + DACI<br/>✅ v1.1.0"]
   P2 --> P3["Phase 3<br/>R2R Triad<br/>✅ v1.2.0"]
   P3 --> P4["Phase 4<br/>Documentation<br/>✅ v1.3.0"]
-  P4 --> P5["Phase 5<br/>Integrity Release<br/>⏳ v1.4.0"]
-  P5 --> P6["Phase 6<br/>Model Enrichment<br/>🔮 v1.5.0"]
-  P6 --> P7["Phase 7<br/>H2R Lifecycle<br/>🔮 v1.6.0"]
-  P7 --> P8["Phase 8<br/>P2M Lifecycle<br/>🔮 v1.7.0"]
-  P8 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
+  P4 --> P5["Phase 5<br/>Integrity Release<br/>✅ v1.4.0"]
+  P5 --> P6["Phase 6<br/>Model Enrichment<br/>✅ v1.5.0"]
+  P6 --> P7["Phase 7<br/>H2R Lifecycle<br/>✅ v1.6.0"]
+  P7 --> P8["Phase 8<br/>P2M Lifecycle<br/>✅ v1.7.0"]
+  P8 --> P85["Phase 8.5<br/>Industry Profiles<br/>✅ v1.8.0"]
+  P85 --> P86["Phase 8.6<br/>Services Enrichment<br/>🔮 v1.9.0"]
+  P86 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
   P9 --> P10["Phase 10<br/>Process Mining<br/>🔮 v2.1.0"]
 ```
 
@@ -129,9 +131,23 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - **Assets**: `asset_mes_system` (Manufacturing Execution), `asset_aps_planner` (Advanced Planning & Scheduling).
 - **Scenario**: `scenario_raw_material_stockout.json`.
 
+### Phase 8.5: Multi-Industry Profile Inheritance Architecture
+**Status**: ✅ **Completed** (Release: **v1.8.0**)
+- **Layered Hierarchy**: `profiles/core` (cross-industry back-office), `profiles/manufacturing` (P2M, O2C, MES/WMS), `profiles/professional_services` (L2C, E2C, PSA).
+- **Profile Loader Engine (`tools/vcm_profiles.py`)**: Depth-first inheritance resolution, schema validation for manifests and patches, collision prevention with required `overrides:`, and isolation guarantees.
+- **Data-Driven Exporter**: Replaced hardcoded element prefix buckets with `phases` declared in lifecycle manifests.
+- **Global Compilation**: `--profile ALL` builds all profiles sequentially and outputs an interactive profile switcher dashboard at `index/index.html`.
+- **Test Suite**: Dedicated profile test suite (`tests/test_profiles.py`) with fixtures verifying inheritance, cycles, collision protection, and layer isolation.
+- **Governance**: [ADR-0007](docs/decisions/0007-industry-profiles-architecture.md) and [ADR-0008](docs/decisions/0008-professional-services-taxonomy.md).
+
+### Phase 8.6: Professional Services Domain Model Expansion
+**Status**: 🔮 **Planned** (Target Release: **v1.9.0**)
+- Deepen L2C and E2C with full quantitative parameters, SLA policies, billable rate cards, and PSA platform bindings.
+- Disruption scenarios: `scenario_project_margin_slippage.json`, `scenario_consultant_bench_surge.json`.
+
 ### Phase 9: Headless REST API & Web Application
 **Status**: 🔮 **Planned** (Target Release: **v2.0.0**)
-- FastAPI microservice: `GET /api/v1/graph`, `GET /api/v1/lifecycles`, `POST /api/v1/simulations/run`, `GET /api/v1/governance/{raci|daci}` (JSON / CSV).
+- FastAPI microservice: `GET /api/v1/profiles`, `GET /api/v1/profiles/{profile}/graph`, `GET /api/v1/profiles/{profile}/lifecycles`, `POST /api/v1/profiles/{profile}/simulations/run`, `GET /api/v1/profiles/{profile}/governance/{raci|daci}` (JSON / CSV).
 - Web frontend with an interactive graph canvas (Cytoscape.js / D3) and slider-based scenario tuning.
 - Reuses the Phase 5 test suite as the API contract baseline.
 
@@ -178,15 +194,17 @@ These findings are tracked to the phase that resolves them.
 | **S2P** | Source to Pay | Procurement & Payables | 1 | ✅ v1.0.0 |
 | **O2C** | Order to Cash | Sales & Commercial Operations | 2 | ✅ v1.1.0 |
 | **R2R** | Record to Report | General Ledger & Accounting | 3 | ✅ v1.2.0 |
-| **H2R** | Hire to Retire | Human Resources & Payroll | 7 | 🔮 v1.6.0 |
-| **P2M** | Plan to Make *(formerly P2P)* | Supply Chain & Manufacturing | 8 | 🔮 v1.7.0 |
+| **H2R** | Hire to Retire | Human Resources & Payroll | 7 | ✅ v1.6.0 |
+| **P2M** | Plan to Make | Supply Chain & Manufacturing | 8 | ✅ v1.7.0 |
+| **L2C** | Lead to Cash | Professional Services / Business Dev | 8.5 | ✅ v1.8.0 |
+| **E2C** | Engagement to Cash | Professional Services / Delivery | 8.5 | ✅ v1.8.0 |
 
 ---
 
 ## 🏛️ Governance & Release Standards
 
 1. **ADR first**: Every new lifecycle or architectural capability requires an approved ADR in `docs/decisions/` before implementation.
-2. **Build gate**: Nothing is merged unless `python3 tools/validate_and_build.py` passes with zero errors **and** the test suite passes (enforced from Phase 5).
+2. **Build gate**: Nothing is merged unless `uv run tools/validate_and_build.py` passes with zero errors **and** the test suite passes (enforced from Phase 5).
 3. **Governance compliance**: Every process step declares RACI roles and exactly one DACI Approver. R = A overlaps require a documented `compensating_control`.
 4. **Resilience scenario**: Every lifecycle ships with at least one validated disruption scenario in `simulations/`.
 5. **Docs match code**: Documentation may only describe implemented behavior. Planned capabilities must be labeled as such and linked to a roadmap item.

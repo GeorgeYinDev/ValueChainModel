@@ -1,0 +1,105 @@
+flowchart TD
+  %% Systems & Assets Styling
+  classDef coreAsset fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#f0fdf4,rx:8,ry:8;
+  classDef subAsset fill:#064e3b,stroke:#2dd4bf,stroke-width:2px,color:#f0fdfa,rx:6,ry:6;
+  classDef stepDep fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0,rx:4,ry:4;
+
+  subgraph Subgraph_EnterpriseSystems ["<b>Enterprise Core IT Systems & Assets</b>"]
+    asset_erp_system["<b>Enterprise Core ERP (SAP S/4HANA)</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 2500</small>"]:::coreAsset
+    asset_hcm_platform["<b>Human Capital Management (HCM) Platform</b><br/><small>Type: it_application | SLA: 99.95% | Max TPS: 0</small>"]:::coreAsset
+    asset_payroll_engine["<b>Enterprise Payroll &amp; Tax Engine</b><br/><small>Type: it_application | SLA: 99.99% | Max TPS: 0</small>"]:::coreAsset
+    asset_psa_system["<b>Professional Services Automation (PSA)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 0</small>"]:::coreAsset
+    asset_crm_system["<b>Enterprise Cloud CRM &amp; CPQ Platform (Salesforce)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 1200</small>"]:::subAsset
+    asset_erp_system ==>|integrates with| asset_crm_system
+    asset_eprocurement_portal["<b>Cloud e-Procurement &amp; Supplier Network Portal</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 800</small>"]:::subAsset
+    asset_erp_system ==>|integrates with| asset_eprocurement_portal
+    asset_financial_consolidation_system["<b>Enterprise Financial Consolidation &amp; Reporting System (SAP Group Reporting / OneStream)</b><br/><small>Type: it_application | SLA: 99.9% | Max TPS: 500</small>"]:::subAsset
+    asset_erp_system ==>|integrates with| asset_financial_consolidation_system
+    asset_payment_gateway["<b>Corporate Banking Payment Gateway &amp; ISO 20022 Router</b><br/><small>Type: api_gateway | SLA: 99.99% | Max TPS: 1500</small>"]:::subAsset
+    asset_erp_system ==>|integrates with| asset_payment_gateway
+  end
+
+  subgraph Subgraph_ProcessBindings ["<b>Value Chain Process Workloads</b>"]
+    proc_l2c_001_lead_qualification_asset_crm_system["Lead Qualification &amp; Discovery"]:::stepDep
+    proc_l2c_001_lead_qualification_asset_crm_system -. runs on .-> asset_crm_system
+    proc_l2c_002_proposal_development_asset_crm_system["Proposal Development &amp; Scoping"]:::stepDep
+    proc_l2c_002_proposal_development_asset_crm_system -. runs on .-> asset_crm_system
+    proc_l2c_003_contract_negotiation_asset_crm_system["Contract Negotiation &amp; Legal Review"]:::stepDep
+    proc_l2c_003_contract_negotiation_asset_crm_system -. runs on .-> asset_crm_system
+    proc_l2c_004_deal_closure_handover_asset_crm_system["Deal Closure &amp; Delivery Handover"]:::stepDep
+    proc_l2c_004_deal_closure_handover_asset_crm_system -. runs on .-> asset_crm_system
+    proc_s2p_001_spend_analysis_need_id_asset_eprocurement_portal["Spend Analysis &amp; Need Identification"]:::stepDep
+    proc_s2p_001_spend_analysis_need_id_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_s2p_002_supplier_discovery_qualification_asset_eprocurement_portal["Supplier Discovery &amp; Qualification"]:::stepDep
+    proc_s2p_002_supplier_discovery_qualification_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_s2p_003_sourcing_rfx_auction_asset_eprocurement_portal["Strategic Sourcing &amp; RFx Execution"]:::stepDep
+    proc_s2p_003_sourcing_rfx_auction_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_s2p_004_contracting_sla_negotiation_asset_eprocurement_portal["Contracting &amp; SLA Negotiation"]:::stepDep
+    proc_s2p_004_contracting_sla_negotiation_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_s2p_005_purchase_requisition_po_asset_eprocurement_portal["Purchase Requisition &amp; PO Issuance"]:::stepDep
+    proc_s2p_005_purchase_requisition_po_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_s2p_007_invoice_verification_matching_asset_eprocurement_portal["Invoice 3-Way Matching &amp; Exception Handling"]:::stepDep
+    proc_s2p_007_invoice_verification_matching_asset_eprocurement_portal -. runs on .-> asset_eprocurement_portal
+    proc_r2r_001_journal_entry_recording_asset_erp_system["General Ledger Journal Recording &amp; Subledger Ingestion"]:::stepDep
+    proc_r2r_001_journal_entry_recording_asset_erp_system -. runs on .-> asset_erp_system
+    proc_r2r_002_intercompany_reconciliation_asset_erp_system["Intercompany Transaction Matching &amp; Elimination"]:::stepDep
+    proc_r2r_002_intercompany_reconciliation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_r2r_003_balance_sheet_substantiation_asset_erp_system["Balance Sheet Account Substantiation &amp; Reconciliation"]:::stepDep
+    proc_r2r_003_balance_sheet_substantiation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_r2r_004_financial_close_consolidation_asset_erp_system["Financial Close Orchestration &amp; Group Consolidation"]:::stepDep
+    proc_r2r_004_financial_close_consolidation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_001_spend_analysis_need_id_asset_erp_system["Spend Analysis &amp; Need Identification"]:::stepDep
+    proc_s2p_001_spend_analysis_need_id_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_004_contracting_sla_negotiation_asset_erp_system["Contracting &amp; SLA Negotiation"]:::stepDep
+    proc_s2p_004_contracting_sla_negotiation_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_005_purchase_requisition_po_asset_erp_system["Purchase Requisition &amp; PO Issuance"]:::stepDep
+    proc_s2p_005_purchase_requisition_po_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_006_goods_services_receipt_asset_erp_system["Goods &amp; Services Receipt Verification"]:::stepDep
+    proc_s2p_006_goods_services_receipt_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_007_invoice_verification_matching_asset_erp_system["Invoice 3-Way Matching &amp; Exception Handling"]:::stepDep
+    proc_s2p_007_invoice_verification_matching_asset_erp_system -. runs on .-> asset_erp_system
+    proc_s2p_008_payment_settlement_disbursement_asset_erp_system["Payment Settlement &amp; Disbursement"]:::stepDep
+    proc_s2p_008_payment_settlement_disbursement_asset_erp_system -. runs on .-> asset_erp_system
+    proc_e2c_006_project_billing_invoicing_asset_erp_system["Project Billing &amp; Invoicing"]:::stepDep
+    proc_e2c_006_project_billing_invoicing_asset_erp_system -. runs on .-> asset_erp_system
+    proc_r2r_002_intercompany_reconciliation_asset_financial_consolidation_system["Intercompany Transaction Matching &amp; Elimination"]:::stepDep
+    proc_r2r_002_intercompany_reconciliation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system
+    proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system["Balance Sheet Account Substantiation &amp; Reconciliation"]:::stepDep
+    proc_r2r_003_balance_sheet_substantiation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system
+    proc_r2r_004_financial_close_consolidation_asset_financial_consolidation_system["Financial Close Orchestration &amp; Group Consolidation"]:::stepDep
+    proc_r2r_004_financial_close_consolidation_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system
+    proc_r2r_005_statutory_financial_reporting_asset_financial_consolidation_system["Statutory, Tax &amp; Management Financial Reporting"]:::stepDep
+    proc_r2r_005_statutory_financial_reporting_asset_financial_consolidation_system -. runs on .-> asset_financial_consolidation_system
+    proc_h2r_001_job_requisition_posting_asset_hcm_platform["Job Requisition Definition &amp; Posting"]:::stepDep
+    proc_h2r_001_job_requisition_posting_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_002_candidate_screening_interview_asset_hcm_platform["Candidate Screening &amp; Interview Execution"]:::stepDep
+    proc_h2r_002_candidate_screening_interview_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_003_offer_letter_onboarding_asset_hcm_platform["Offer Letter Generation &amp; Employee Onboarding"]:::stepDep
+    proc_h2r_003_offer_letter_onboarding_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_004_payroll_benefits_enrollment_asset_hcm_platform["Payroll &amp; Benefits Enrollment Processing"]:::stepDep
+    proc_h2r_004_payroll_benefits_enrollment_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_005_performance_compensation_review_asset_hcm_platform["Performance &amp; Compensation Review"]:::stepDep
+    proc_h2r_005_performance_compensation_review_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_h2r_006_separation_offboarding_settlement_asset_hcm_platform["Separation, Offboarding &amp; Final Settlement"]:::stepDep
+    proc_h2r_006_separation_offboarding_settlement_asset_hcm_platform -. runs on .-> asset_hcm_platform
+    proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway["Payment Settlement &amp; Disbursement"]:::stepDep
+    proc_s2p_008_payment_settlement_disbursement_asset_payment_gateway -. runs on .-> asset_payment_gateway
+    proc_h2r_004_payroll_benefits_enrollment_asset_payroll_engine["Payroll &amp; Benefits Enrollment Processing"]:::stepDep
+    proc_h2r_004_payroll_benefits_enrollment_asset_payroll_engine -. runs on .-> asset_payroll_engine
+    proc_h2r_006_separation_offboarding_settlement_asset_payroll_engine["Separation, Offboarding &amp; Final Settlement"]:::stepDep
+    proc_h2r_006_separation_offboarding_settlement_asset_payroll_engine -. runs on .-> asset_payroll_engine
+    proc_e2c_001_project_kickoff_asset_psa_system["Project Kickoff &amp; Resource Allocation"]:::stepDep
+    proc_e2c_001_project_kickoff_asset_psa_system -. runs on .-> asset_psa_system
+    proc_e2c_002_resource_scheduling_asset_psa_system["Resource Scheduling &amp; Allocation"]:::stepDep
+    proc_e2c_002_resource_scheduling_asset_psa_system -. runs on .-> asset_psa_system
+    proc_e2c_004_time_expense_entry_asset_psa_system["Time &amp; Expense Logging"]:::stepDep
+    proc_e2c_004_time_expense_entry_asset_psa_system -. runs on .-> asset_psa_system
+    proc_e2c_005_client_acceptance_asset_psa_system["Client Review &amp; Deliverable Acceptance"]:::stepDep
+    proc_e2c_005_client_acceptance_asset_psa_system -. runs on .-> asset_psa_system
+    proc_e2c_006_project_billing_invoicing_asset_psa_system["Project Billing &amp; Invoicing"]:::stepDep
+    proc_e2c_006_project_billing_invoicing_asset_psa_system -. runs on .-> asset_psa_system
+    proc_e2c_007_project_closure_lessons_asset_psa_system["Project Closure &amp; Lessons Learned"]:::stepDep
+    proc_e2c_007_project_closure_lessons_asset_psa_system -. runs on .-> asset_psa_system
+    proc_l2c_004_deal_closure_handover_asset_psa_system["Deal Closure &amp; Delivery Handover"]:::stepDep
+    proc_l2c_004_deal_closure_handover_asset_psa_system -. runs on .-> asset_psa_system
+  end

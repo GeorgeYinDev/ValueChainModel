@@ -197,7 +197,7 @@ The visualizer ([`index/value_chain_visualizer.html`](index/value_chain_visualiz
 ### 1. Validate Repository & Build Index
 Execute the build engine whenever elements, roles, assets, or policies are modified:
 ```bash
-python3 tools/validate_and_build.py
+uv run tools/validate_and_build.py --profile manufacturing
 ```
 This automatically:
 - Validates frontmatter schemas and cross-references.
@@ -210,35 +210,35 @@ This automatically:
 Generate Mermaid flowcharts, markdown matrices, and the standalone dashboard for specific lifecycles:
 ```bash
 # Export all formats for Record-to-Report (R2R)
-python3 tools/export_diagram.py --lifecycle R2R --format all
+uv run tools/export_diagram.py --lifecycle R2R --format all
 
 # Export all formats for Order-to-Cash (O2C)
-python3 tools/export_diagram.py --lifecycle O2C --format all
+uv run tools/export_diagram.py --lifecycle O2C --format all
 
 # Export all formats for Source-to-Pay (S2P)
-python3 tools/export_diagram.py --lifecycle S2P --format all
+uv run tools/export_diagram.py --lifecycle S2P --format all
 
 # Export enterprise-wide consolidated views
-python3 tools/export_diagram.py --lifecycle ALL --format all
+uv run tools/export_diagram.py --lifecycle ALL --format all
 ```
 
 ### 3. Run Quantitative Operational Simulations
 Simulate operational resilience and quantify cycle lead time and unit cost impacts:
 ```bash
 # 1. Year-End Financial Close Crunch & Manual Adjustment Surge (R2R)
-python3 tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
+uv run tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
 
 # 2. Customer Credit Hold Surge Scenario (O2C)
-python3 tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
+uv run tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
 
 # 3. Supplier Disruption Shock Scenario (S2P)
-python3 tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
+uv run tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
 
 # 4. Invoice Exception & Matching Bottleneck Scenario (S2P)
-python3 tools/simulate_scenario.py simulations/scenario_invoice_bottleneck.json
+uv run tools/simulate_scenario.py simulations/scenario_invoice_bottleneck.json
 
 # 5. Enterprise Core ERP Outage Scenario (Global)
-python3 tools/simulate_scenario.py simulations/scenario_erp_outage.json
+uv run tools/simulate_scenario.py simulations/scenario_erp_outage.json
 ```
 
 ---

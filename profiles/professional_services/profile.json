@@ -1,0 +1,10 @@
+{
+  "profile_id": "professional_services",
+  "name": "Professional Services & Consulting",
+  "industry": "professional_services",
+  "version": "1.0.0",
+  "extends": ["core"],
+  "lifecycles": ["S2P", "R2R", "H2R", "L2C", "E2C"],
+  "default_lifecycle": "L2C",
+  "apqc_pcf_variant": "professional_services"
+}

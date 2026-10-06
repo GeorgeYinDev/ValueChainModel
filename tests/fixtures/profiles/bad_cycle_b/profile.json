@@ -1,0 +1,8 @@
+{
+  "profile_id": "bad_cycle_b",
+  "name": "Bad Cycle B",
+  "version": "1.0.0",
+  "extends": ["bad_cycle_a"],
+  "lifecycles": ["TEST_LC"],
+  "default_lifecycle": "TEST_LC"
+}

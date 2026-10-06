@@ -342,13 +342,19 @@
 
 <header>
   <div class="brand">
-    <div class="logo-badge">⚡</div>
-    <div>
-      <h1>Enterprise Value Chain Visualizer</h1>
-      <p>Multi-Tier Architecture & Simulation Engine (TOGAF / SCOR Alignment)</p>
-    </div>
+    <a href="../index.html" title="Switch Industry Profile" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 16px;">
+      <div class="logo-badge">⚡</div>
+      <div>
+        <h1>Enterprise Value Chain Visualizer</h1>
+        <p>Multi-Tier Architecture & Simulation Engine &bull; Profile: <span style="color: var(--accent-blue); font-weight: 600;">/*__PROFILE_NAME__*/</span></p>
+      </div>
+    </a>
   </div>
   <div class="kpi-pills">
+    <div class="kpi-pill">
+      <span>Profile</span>
+      <span class="val" style="font-size: 13px;"><a href="../index.html" style="color: var(--accent-blue); text-decoration: none;" title="Switch Profile">/*__PROFILE_ID__*/ ↗</a></span>
+    </div>
     <div class="kpi-pill">
       <span>Lifecycle</span>
       <span class="val" id="headerLifecycle">S2P</span>

@@ -1,0 +1,4 @@
+target: sod_spending_limits_policy
+append:
+  lifecycles:
+    - O2C

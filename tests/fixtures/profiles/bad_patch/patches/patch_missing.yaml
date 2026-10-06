@@ -1,0 +1,4 @@
+target: non_existent_step
+append:
+  tags:
+    - bad_tag

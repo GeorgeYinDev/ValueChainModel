@@ -59,6 +59,9 @@ flowchart LR
   class O_ORD,O_CRD,O_WMS,O_BIL,O_CSH o2cBox;
   class H_REQ,H_ONB,H_PAY,H_OFF h2rBox;
   class R_GL,R_IC,R_REC,R_CLS,R_RPT r2rBox;
+
+  classDef psBox fill:#451a03,stroke:#fbbf24,stroke-width:2px,color:#fef3c7;
+  class L_QUAL,L_PROP,L_CONT,E_KICK,E_DELIV,E_BILL psBox;
 ```
 
 ---
@@ -135,3 +138,5 @@ flowchart TD
 | **O2C** | Sales & Revenue | 5 Steps | Credit Check, Fulfillment, Billing | Consumes P2M ATP, Feeds R2R AR |
 | **H2R** | Human Capital | 6 Steps | Onboarding, Payroll, Offboarding | Feeds R2R Payroll Expense |
 | **R2R** | Accounting | 5 Steps | GL Consolidation, Reporting | Root ledger for the enterprise |
+| **L2C** | Prof. Services | 4 Steps | Proposal, SOW, Contracting | Feeds E2C Kickoff |
+| **E2C** | Prof. Services | 7 Steps | Time Tracking, Project Billing | Feeds R2R AR |

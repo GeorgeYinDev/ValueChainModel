@@ -16,9 +16,9 @@ import pathlib
 import argparse
 from typing import Dict, Any, List, Optional, Tuple
 
-def load_data(root: pathlib.Path) -> Tuple[Dict[str, Any], Dict[str, Any], List[Dict[str, Any]], Dict[str, str]]:
+def load_data(root: pathlib.Path, profile: str) -> Tuple[Dict[str, Any], Dict[str, Any], List[Dict[str, Any]], Dict[str, str]]:
     """Loads knowledge graph, lifecycles, scenarios, and role display names."""
-    index_dir = root / "index"
+    index_dir = root / "index" / profile
     kg_file = index_dir / "knowledge_graph.json"
 
     # If knowledge graph doesn't exist, run validator first
@@ -153,15 +153,39 @@ def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], li
         if lifecycle_id == "ALL" or lifecycle_id in data.get("lifecycles", [])
     }
 
-    # Group into subgraphs (Strategic Sourcing vs P2P if S2P, O2C if O2C)
-    sourcing_steps = []
-    p2p_steps = []
-    o2c_steps = []
-    r2r_steps = []
+    # Build data-driven phase mapping from lifecycles manifests
+    phase_map = {}
+    phase_order = []
+    phase_meta = {}
+
+    target_lcs = [lifecycle_id] if lifecycle_id != "ALL" and lifecycle_id in lifecycles else list(lifecycles.keys())
+    for lc in target_lcs:
+        lc_manifest = lifecycles.get(lc, {})
+        phases = lc_manifest.get("phases", [])
+        if phases:
+            for p in phases:
+                pid = f"{lc}_{p.get('phase_id')}"
+                pname = p.get("name", pid)
+                if pid not in phase_meta:
+                    phase_meta[pid] = pname
+                    phase_order.append(pid)
+                for step_id in p.get("milestones", []):
+                    phase_map[step_id] = pid
+        else:
+            pid = f"{lc}_phase"
+            pname = f"{lc_manifest.get('name', lc)} Phase"
+            if pid not in phase_meta:
+                phase_meta[pid] = pname
+                phase_order.append(pid)
+            for m in lc_manifest.get("milestones", []):
+                step_id = m.get("step_id")
+                if step_id:
+                    phase_map[step_id] = pid
+
+    grouped_steps = {pid: [] for pid in phase_order}
     other_steps = []
     policies = []
     value_streams = []
-
 
     order_map = get_order_map(kg_data)
     for eid, data in sorted(matched_elems.items(), key=lambda x: (order_map.get(x[0], 999), x[0])):
@@ -171,14 +195,9 @@ def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], li
         elif etype == "value_stream":
             value_streams.append((eid, data))
         elif etype == "process_step":
-            if eid.startswith("s2p_001") or eid.startswith("s2p_002") or eid.startswith("s2p_003") or eid.startswith("s2p_004"):
-                sourcing_steps.append((eid, data))
-            elif eid.startswith("s2p_005") or eid.startswith("s2p_006") or eid.startswith("s2p_007") or eid.startswith("s2p_008"):
-                p2p_steps.append((eid, data))
-            elif eid.startswith("o2c_"):
-                o2c_steps.append((eid, data))
-            elif eid.startswith("r2r_"):
-                r2r_steps.append((eid, data))
+            pid = phase_map.get(eid)
+            if pid and pid in grouped_steps:
+                grouped_steps[pid].append((eid, data))
             else:
                 other_steps.append((eid, data))
 
@@ -189,44 +208,23 @@ def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], li
             lines.append(f"    {eid}[[\"<b>Stream: {name}</b><br/><small>{eid}</small>\"]]:::valueStream")
         lines.append("  end\n")
 
-    if sourcing_steps:
-        lines.append("  subgraph Subgraph_Sourcing [\"<b>Strategic Sourcing & Contracting Phase</b>\"]")
-        for eid, data in sourcing_steps:
+    for pid in phase_order:
+        steps = grouped_steps[pid]
+        if not steps:
+            continue
+        display_name = phase_meta[pid]
+        clean_pid = "".join(c for c in pid if c.isalnum() or c == "_")
+        lines.append(f"  subgraph Subgraph_{clean_pid} [\"<b>{display_name}</b>\"]")
+        for eid, data in steps:
             attrs = get_element_attrs(data)
             name = sanitize_label(data.get("name", eid))
-            label = f"\"<b>{name}</b><br/><small>ID: {eid}</small><br/>⏱ {attrs['cycle_time']}h | 💰 ${attrs['cost']} | ⚡ {int(attrs['automation']*100)}% auto\""
-            lines.append(f"    {eid}[{label}]:::processStep")
-        lines.append("  end\n")
-
-    if p2p_steps:
-        lines.append("  subgraph Subgraph_P2P [\"<b>Procure-to-Pay (P2P) Operational Phase</b>\"]")
-        for eid, data in p2p_steps:
-            attrs = get_element_attrs(data)
-            name = sanitize_label(data.get("name", eid))
-            label = f"\"<b>{name}</b><br/><small>ID: {eid}</small><br/>⏱ {attrs['cycle_time']}h | 💰 ${attrs['cost']} | ⚡ {int(attrs['automation']*100)}% auto\""
-            lines.append(f"    {eid}[{label}]:::processStep")
-        lines.append("  end\n")
-
-    if o2c_steps:
-        lines.append("  subgraph Subgraph_O2C [\"<b>Order-to-Cash Commercial & Fulfillment Phase</b>\"]")
-        for eid, data in o2c_steps:
-            attrs = get_element_attrs(data)
-            name = sanitize_label(data.get("name", eid))
-            label = f"\"<b>{name}</b><br/><small>ID: {eid}</small><br/>⏱ {attrs['cycle_time']}h | 💰 ${attrs['cost']} | ⚡ {int(attrs['automation']*100)}% auto\""
-            lines.append(f"    {eid}[{label}]:::processStep")
-        lines.append("  end\n")
-
-    if r2r_steps:
-        lines.append("  subgraph Subgraph_R2R [\"<b>Record-to-Report Financial Accounting Phase</b>\"]")
-        for eid, data in r2r_steps:
-            attrs = get_element_attrs(data)
-            name = sanitize_label(data.get("name", eid))
-            label = f"\"<b>{name}</b><br/><small>ID: {eid}</small><br/>⏱ {attrs['cycle_time']}h | 💰 ${attrs['cost']} | ⚡ {int(attrs['automation']*100)}% auto\""
+            auto_pct = int(attrs['automation']*100)
+            label = f"\"<b>{name}</b><br/><small>ID: {eid}</small><br/>⏱ {attrs['cycle_time']}h | 💰 ${attrs['cost']} | ⚡ {auto_pct}% auto\""
             lines.append(f"    {eid}[{label}]:::processStep")
         lines.append("  end\n")
 
     if other_steps:
-        lines.append("  subgraph Subgraph_Other [\"<b>Process Steps</b>\"]")
+        lines.append("  subgraph Subgraph_Other [\"<b>Other Process Steps</b>\"]")
         for eid, data in other_steps:
             attrs = get_element_attrs(data)
             name = sanitize_label(data.get("name", eid))
@@ -598,22 +596,44 @@ def generate_interactive_html(
         f"  const mermaidAssets = {json.dumps(mermaid_assets)};\n"
     )
 
+    prof_id = kg_data.get("profile", {}).get("profile_id", "manufacturing")
+    prof_name = kg_data.get("profile", {}).get("name", prof_id.title())
     html = template.replace("/*__DATA_PAYLOAD__*/", payload_js)
     html = html.replace("__MERMAID_FLOW__", mermaid_flow)
     html = html.replace("__MERMAID_ASSETS__", mermaid_assets)
+    html = html.replace("/*__PROFILE_ID__*/", prof_id)
+    html = html.replace("/*__PROFILE_NAME__*/", prof_name)
 
     return html
 
 
 def main():
     parser = argparse.ArgumentParser(description="Export Mermaid & Interactive HTML Value Chain Diagrams")
+    parser.add_argument("--profile", default="manufacturing", help="Industry profile")
     parser.add_argument("--lifecycle", default="S2P", help="Lifecycle ID to filter (e.g. S2P, O2C, ALL)")
     parser.add_argument("--format", default="all", choices=["mermaid", "markdown", "html", "all"], help="Export format")
     parser.add_argument("--output-dir", default="index", help="Output directory path")
     args = parser.parse_args()
 
     root = pathlib.Path(__file__).resolve().parent.parent
-    out_dir = root / args.output_dir
+    
+    if args.profile == "ALL":
+        import subprocess, sys
+        sys.path.insert(0, str(root))
+        import json
+        profiles = []
+        p_root = root / "profiles"
+        if p_root.exists():
+            for p_dir in p_root.iterdir():
+                if p_dir.is_dir() and (p_dir / "profile.json").exists():
+                    manifest = json.loads((p_dir / "profile.json").read_text(encoding="utf-8"))
+                    if manifest.get("profile_id") != "core":
+                        profiles.append(manifest.get("profile_id"))
+        for p in profiles:
+            res = subprocess.run(["uv", "run", __file__, "--profile", p, "--lifecycle", args.lifecycle, "--format", args.format], check=False)
+        sys.exit(0)
+    
+    out_dir = root / "index" / args.profile
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print("==================================================")
@@ -623,7 +643,7 @@ def main():
     print(f"Output Directory : {out_dir.relative_to(root)}")
     print(f"Export Format    : {args.format}\n")
 
-    kg_data, lifecycles, scenarios, role_titles = load_data(root)
+    kg_data, lifecycles, scenarios, role_titles = load_data(root, args.profile)
 
     # 1. Generate Mermaid Diagrams
     mermaid_flow = generate_mermaid_process_flow(args.lifecycle, kg_data, lifecycles)

@@ -1,0 +1,52 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "L2C",
+  "name": "Lead to Cash",
+  "version": "1.1.0",
+  "description": "Sales pipeline generation, proposal development, and contract closure.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "l2c_001_lead_qualification",
+      "name": "Lead Qualification"
+    },
+    {
+      "order": 2,
+      "step_id": "l2c_002_proposal_development",
+      "name": "Proposal Development"
+    },
+    {
+      "order": 3,
+      "step_id": "l2c_003_contract_negotiation",
+      "name": "Contract Negotiation"
+    },
+    {
+      "order": 4,
+      "step_id": "l2c_004_deal_closure_handover",
+      "name": "Deal Closure"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "pipeline_proposal",
+      "name": "Pipeline & Proposal Phase",
+      "milestones": [
+        "l2c_001_lead_qualification",
+        "l2c_002_proposal_development"
+      ]
+    },
+    {
+      "phase_id": "negotiation_closing",
+      "name": "Negotiation & Deal Closure Phase",
+      "milestones": [
+        "l2c_003_contract_negotiation",
+        "l2c_004_deal_closure_handover"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "Win Rate",
+    "Time to Close",
+    "Pipeline Velocity"
+  ]
+}

@@ -197,7 +197,7 @@ Lifecycles define sequential milestone blueprints and key performance metrics. S
 Always execute the automated build engine after adding or editing files:
 
 ```bash
-python3 tools/validate_and_build.py
+uv run tools/validate_and_build.py
 ```
 
 ### Common Pitfalls & How to Fix Them
