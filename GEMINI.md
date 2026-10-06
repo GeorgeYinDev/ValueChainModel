@@ -63,20 +63,27 @@ uv run tools/validate_and_build.py --profile professional_services
 To run scenario simulations:
 
 ```bash
-# Run Year-End Financial Close Crunch Scenario (R2R)
-uv run tools/simulate_scenario.py simulations/scenario_close_period_crunch.json
+# Run Year-End Financial Close Crunch Scenario (R2R, Core)
+uv run tools/simulate_scenario.py --profile core scenario_close_period_crunch
 
-# Run Customer Credit Hold Surge Scenario (O2C)
-uv run tools/simulate_scenario.py simulations/scenario_credit_hold_surge.json
+# Run Customer Credit Hold Surge Scenario (O2C, Manufacturing)
+uv run tools/simulate_scenario.py --profile manufacturing scenario_credit_hold_surge
 
-# Run Supplier Disruption Shock Scenario (S2P)
-uv run tools/simulate_scenario.py simulations/scenario_supplier_disruption.json
+# Run Supplier Disruption Shock Scenario (S2P, Core)
+uv run tools/simulate_scenario.py --profile core scenario_supplier_disruption
 
-# Run Invoice Exception & Bottleneck Scenario (S2P)
-uv run tools/simulate_scenario.py simulations/scenario_invoice_bottleneck.json
+# Run Project Margin Slippage Scenario (E2C, Professional Services)
+uv run tools/simulate_scenario.py --profile professional_services scenario_project_margin_slippage
 
-# Run ERP Outage Scenario (Global)
-uv run tools/simulate_scenario.py simulations/scenario_erp_outage.json
+# Run Consultant Bench Surge Scenario (L2C, Professional Services)
+uv run tools/simulate_scenario.py --profile professional_services scenario_consultant_bench_surge
+
+# Run PSA Cloud Outage Scenario (E2C, Professional Services)
+uv run tools/simulate_scenario.py --profile professional_services scenario_psa_outage_billing_crunch
+
+# Run Core ERP Outage Scenario (Shared across profiles)
+uv run tools/simulate_scenario.py --profile manufacturing scenario_erp_outage
+uv run tools/simulate_scenario.py --profile professional_services scenario_erp_outage
 ```
 
 ---
