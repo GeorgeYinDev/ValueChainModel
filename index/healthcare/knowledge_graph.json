@@ -1,0 +1,3824 @@
+{
+  "profile": {
+    "profile_id": "healthcare",
+    "name": "Healthcare Provider & Clinical Systems",
+    "layers": [
+      "core",
+      "healthcare"
+    ]
+  },
+  "summary": {
+    "total_elements": 45,
+    "total_roles": 24,
+    "total_assets": 10,
+    "validated_links": 70
+  },
+  "elements": {
+    "data_journal_entry": {
+      "id": "data_journal_entry",
+      "type": "data_entity",
+      "name": "General Ledger Journal Entry",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "finance",
+        "ledger"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_erp_system",
+        "owner": "role_finance_controller"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "r2r_002_intercompany_reconciliation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "financial_close_reporting_stream": {
+      "id": "financial_close_reporting_stream",
+      "type": "value_stream",
+      "name": "Financial Close, Consolidation & Regulatory Reporting Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "record_to_report",
+        "financial_close",
+        "consolidation",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant",
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 70.0,
+        "baseline_cost_per_unit": 213.0,
+        "automation_rate": 0.76,
+        "error_rate": 0.013,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "h2r_001_job_requisition_posting": {
+      "id": "h2r_001_job_requisition_posting",
+      "type": "process_step",
+      "name": "Job Requisition Definition & Posting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "planning"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.1,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "HRBP formally approves the headcount budget prior to posting.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      }
+    },
+    "h2r_002_candidate_screening_interview": {
+      "id": "h2r_002_candidate_screening_interview",
+      "type": "process_step",
+      "name": "Candidate Screening & Interview Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "interview"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 168.0,
+        "baseline_cost_per_unit": 800.0,
+        "automation_rate": 0.3,
+        "error_rate": 0.15,
+        "sla_hours": 240.0,
+        "volume_per_period": 250,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_003_offer_letter_onboarding",
+          "weight": 0.2
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_001_job_requisition_posting",
+          "weight": 1.0,
+          "probability": 0.1
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      }
+    },
+    "h2r_003_offer_letter_onboarding": {
+      "id": "h2r_003_offer_letter_onboarding",
+      "type": "process_step",
+      "name": "Offer Letter Generation & Employee Onboarding",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offer",
+        "onboarding"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 150.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_004_payroll_benefits_enrollment",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0,
+          "probability": 0.15
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "h2r_004_payroll_benefits_enrollment": {
+      "id": "h2r_004_payroll_benefits_enrollment",
+      "type": "process_step",
+      "name": "Payroll & Benefits Enrollment Processing",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "payroll",
+        "benefits",
+        "finance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_payroll_specialist"
+        ],
+        "accountable": [
+          "role_payroll_specialist"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.02,
+        "sla_hours": 48.0,
+        "volume_per_period": 50,
+        "capacity_fte": 1.5
+      },
+      "asset_dependencies": [
+        "asset_payroll_engine",
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_005_performance_compensation_review",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Payroll processing outputs are formally audited by Finance Controller prior to disbursement.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_payroll_specialist"
+        ],
+        "approver": [
+          "role_payroll_specialist"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      }
+    },
+    "h2r_005_performance_compensation_review": {
+      "id": "h2r_005_performance_compensation_review",
+      "type": "process_step",
+      "name": "Performance & Compensation Review",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "performance",
+        "compensation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 120.0,
+        "baseline_cost_per_unit": 200.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.05,
+        "sla_hours": 336.0,
+        "volume_per_period": 1000,
+        "capacity_fte": 10.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_006_separation_offboarding_settlement",
+          "weight": 0.1
+        }
+      ],
+      "compensating_control": "HRBP facilitates calibration sessions to normalize ratings across managers.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "h2r_006_separation_offboarding_settlement": {
+      "id": "h2r_006_separation_offboarding_settlement",
+      "type": "process_step",
+      "name": "Separation, Offboarding & Final Settlement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offboarding",
+        "payroll"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hr_business_partner"
+        ],
+        "accountable": [
+          "role_hr_business_partner"
+        ],
+        "consulted": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.1,
+        "sla_hours": 72.0,
+        "volume_per_period": 20,
+        "capacity_fte": 1.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform",
+        "asset_payroll_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Final offboarding settlements are validated by Legal and Payroll prior to execution.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hr_business_partner"
+        ],
+        "approver": [
+          "role_hr_business_partner"
+        ],
+        "contributor": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "procure_to_pay_stream": {
+      "id": "procure_to_pay_stream",
+      "type": "value_stream",
+      "name": "Procure to Pay (P2P) Operational Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "procure_to_pay",
+        "p2p"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 34.0,
+        "baseline_cost_per_unit": 60.5,
+        "automation_rate": 0.85,
+        "error_rate": 0.018,
+        "sla_hours": 56.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_eprocurement_portal",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "r2r_001_journal_entry_recording": {
+      "id": "r2r_001_journal_entry_recording",
+      "type": "process_step",
+      "name": "General Ledger Journal Recording & Subledger Ingestion",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "journal_entry",
+        "general_ledger",
+        "subledger",
+        "ingestion",
+        "accounting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.82,
+        "error_rate": 0.015,
+        "sla_hours": 16.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "apqc_pcf_id": "8.1.1.1",
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_002_intercompany_reconciliation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_journal_entry",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_002_intercompany_reconciliation": {
+      "id": "r2r_002_intercompany_reconciliation",
+      "type": "process_step",
+      "name": "Intercompany Transaction Matching & Elimination",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "intercompany",
+        "elimination",
+        "matching",
+        "netting",
+        "consolidation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 35.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.025,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_003_balance_sheet_substantiation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_003_balance_sheet_substantiation": {
+      "id": "r2r_003_balance_sheet_substantiation",
+      "type": "process_step",
+      "name": "Balance Sheet Account Substantiation & Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "reconciliation",
+        "balance_sheet",
+        "substantiation",
+        "blackline",
+        "audit"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.02,
+        "sla_hours": 36.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_004_financial_close_consolidation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_004_financial_close_consolidation": {
+      "id": "r2r_004_financial_close_consolidation",
+      "type": "process_step",
+      "name": "Financial Close Orchestration & Group Consolidation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "financial_close",
+        "consolidation",
+        "currency_translation",
+        "trial_balance",
+        "group_reporting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 20.0,
+        "baseline_cost_per_unit": 65.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.01,
+        "sla_hours": 48.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_005_statutory_financial_reporting",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_005_statutory_financial_reporting": {
+      "id": "r2r_005_statutory_financial_reporting",
+      "type": "process_step",
+      "name": "Statutory, Tax & Management Financial Reporting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "statutory_reporting",
+        "sec_filing",
+        "10k",
+        "management_reporting",
+        "disclosure"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 14.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.008,
+        "sla_hours": 32.0
+      },
+      "asset_dependencies": [
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "s2p_001_spend_analysis_need_id": {
+      "id": "s2p_001_spend_analysis_need_id",
+      "type": "process_step",
+      "name": "Spend Analysis & Need Identification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "procurement",
+        "analytics",
+        "requisition"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.03,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_002_supplier_discovery_qualification",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.85
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_002_supplier_discovery_qualification": {
+      "id": "s2p_002_supplier_discovery_qualification",
+      "type": "process_step",
+      "name": "Supplier Discovery & Qualification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "vendor_management",
+        "compliance",
+        "risk"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.05,
+        "sla_hours": 72.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_003_sourcing_rfx_auction",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_003_sourcing_rfx_auction": {
+      "id": "s2p_003_sourcing_rfx_auction",
+      "type": "process_step",
+      "name": "Strategic Sourcing & RFx Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "sourcing",
+        "rfp",
+        "rfq",
+        "negotiation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 96.0,
+        "baseline_cost_per_unit": 250.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.02,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_004_contracting_sla_negotiation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_004_contracting_sla_negotiation": {
+      "id": "s2p_004_contracting_sla_negotiation",
+      "type": "process_step",
+      "name": "Contracting & SLA Negotiation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "contracting",
+        "legal",
+        "slas"
+      ],
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 72.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.04,
+        "sla_hours": 96.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "compensating_control": "Legal department reviews all non-standard clauses. Standard templates locked in CLM.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_005_purchase_requisition_po",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.95
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_005_purchase_requisition_po": {
+      "id": "s2p_005_purchase_requisition_po",
+      "type": "process_step",
+      "name": "Purchase Requisition & PO Issuance",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "purchasing",
+        "po",
+        "requisition",
+        "approval"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.9,
+        "error_rate": 0.01,
+        "sla_hours": 12.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_006_goods_services_receipt",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_006_goods_services_receipt": {
+      "id": "s2p_006_goods_services_receipt",
+      "type": "process_step",
+      "name": "Goods & Services Receipt Verification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "receiving",
+        "inventory",
+        "quality",
+        "grn"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 12.5,
+        "automation_rate": 0.8,
+        "error_rate": 0.02,
+        "sla_hours": 12.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_007_invoice_verification_matching",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "p2d_004_care_delivery_order_execution",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_007_invoice_verification_matching": {
+      "id": "s2p_007_invoice_verification_matching",
+      "type": "process_step",
+      "name": "Invoice 3-Way Matching & Exception Handling",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "invoicing",
+        "ap",
+        "matching",
+        "finance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 22.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.04,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_008_payment_settlement_disbursement",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "s2p_006_goods_services_receipt",
+          "weight": 1.0,
+          "probability": 0.15
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_008_payment_settlement_disbursement": {
+      "id": "s2p_008_payment_settlement_disbursement",
+      "type": "process_step",
+      "name": "Payment Settlement & Disbursement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "payment",
+        "treasury",
+        "disbursement",
+        "banking"
+      ],
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 8.5,
+        "automation_rate": 0.95,
+        "error_rate": 0.005,
+        "sla_hours": 8.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 0.9
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "sod_spending_limits_policy": {
+      "id": "sod_spending_limits_policy",
+      "type": "control_policy",
+      "name": "Segregation of Duties & Financial Authority Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "governance",
+        "sod",
+        "compliance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_finance_controller"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "compensating_control": "Policy configuration changes require dual authorization in GRC tool.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_finance_controller"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      }
+    },
+    "sox_financial_reporting_controls_policy": {
+      "id": "sox_financial_reporting_controls_policy",
+      "type": "control_policy",
+      "name": "SOX 404 Financial Reporting Internal Controls & Materiality Thresholds Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "sox",
+        "compliance",
+        "internal_controls",
+        "financial_reporting",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "source_layer": "core"
+    },
+    "strategic_sourcing_stream": {
+      "id": "strategic_sourcing_stream",
+      "type": "value_stream",
+      "name": "Strategic Sourcing & Contracting Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "strategic_sourcing"
+      ],
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 228.0,
+        "baseline_cost_per_unit": 715.0,
+        "automation_rate": 0.55,
+        "error_rate": 0.035,
+        "sla_hours": 312.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "compensating_control": "Strategic sourcing stream performance is reviewed quarterly by the Procurement Steering Committee.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "procure_to_pay_stream",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "clinical_prior_auth_medical_necessity_policy": {
+      "id": "clinical_prior_auth_medical_necessity_policy",
+      "type": "control_policy",
+      "name": "Medical Necessity & Prior Authorization Governance Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D",
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "prior_auth",
+        "medical_necessity",
+        "rcm",
+        "healthcare"
+      ],
+      "raci": {
+        "responsible": [
+          "role_patient_access_specialist",
+          "role_medical_coder"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_patient_access_specialist"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 250000.0
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse",
+        "asset_ehr_system"
+      ],
+      "graph_relations": [],
+      "source_layer": "healthcare"
+    },
+    "hipaa_phi_privacy_policy": {
+      "id": "hipaa_phi_privacy_policy",
+      "type": "control_policy",
+      "name": "HIPAA Security, Privacy & PHI Governance Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D",
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "hipaa",
+        "phi",
+        "privacy",
+        "compliance",
+        "healthcare"
+      ],
+      "raci": {
+        "responsible": [
+          "role_patient_access_specialist",
+          "role_triage_nurse",
+          "role_medical_coder"
+        ],
+        "accountable": [
+          "role_compliance_officer"
+        ],
+        "consulted": [
+          "role_rcm_director"
+        ],
+        "informed": [
+          "role_attending_physician"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_patient_access_specialist"
+        ],
+        "approver": [
+          "role_compliance_officer"
+        ],
+        "contributor": [
+          "role_rcm_director"
+        ],
+        "informed": [
+          "role_attending_physician"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "asset_dependencies": [
+        "asset_ehr_system",
+        "asset_rcm_clearinghouse"
+      ],
+      "graph_relations": [],
+      "source_layer": "healthcare"
+    },
+    "data_837_claim_file": {
+      "id": "data_837_claim_file",
+      "type": "data_entity",
+      "name": "HIPAA ANSI X12N 837 Electronic Healthcare Claim",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "claims",
+        "edi837",
+        "rcm",
+        "billing",
+        "healthcare"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_rcm_clearinghouse",
+        "owner": "role_rcm_director"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "rcm_003_payer_adjudication_remittance",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "data_electronic_health_record": {
+      "id": "data_electronic_health_record",
+      "type": "data_entity",
+      "name": "Longitudinal Electronic Health Record (EHR / FHIR)",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "ehr",
+        "clinical",
+        "chart",
+        "fhir",
+        "healthcare"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_ehr_system",
+        "owner": "role_attending_physician"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "p2d_005_discharge_planning_transition",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_average_length_of_stay": {
+      "id": "kpi_average_length_of_stay",
+      "type": "kpi_metric",
+      "name": "Average Length of Stay (ALOS)",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "clinical",
+        "inpatient",
+        "utilization",
+        "healthcare"
+      ],
+      "kpi_metric_details": {
+        "formula": "Total Inpatient Bed Days / Total Inpatient Discharges",
+        "target": "<= 4.2 days",
+        "owner": "role_attending_physician",
+        "unit": "Days"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "p2d_005_discharge_planning_transition",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_days_in_ar": {
+      "id": "kpi_days_in_ar",
+      "type": "kpi_metric",
+      "name": "Net Days in Accounts Receivable (A/R)",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "rcm",
+        "ar_days",
+        "cash_flow",
+        "healthcare"
+      ],
+      "kpi_metric_details": {
+        "formula": "(Total Net Accounts Receivable / Average Daily Net Patient Revenue)",
+        "target": "<= 38.0 days",
+        "owner": "role_rcm_director",
+        "unit": "Days"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "rcm_006_cash_posting_reconciliation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_initial_denial_rate": {
+      "id": "kpi_initial_denial_rate",
+      "type": "kpi_metric",
+      "name": "Initial Claim Denial Rate",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "rcm",
+        "denials",
+        "claims",
+        "healthcare"
+      ],
+      "kpi_metric_details": {
+        "formula": "(Total Initial Claims Denied / Total Claims Submitted to Payers) * 100",
+        "target": "<= 5.0%",
+        "owner": "role_rcm_director",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "rcm_004_denial_management_appeals",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "p2d_001_patient_registration_scheduling": {
+      "id": "p2d_001_patient_registration_scheduling",
+      "type": "process_step",
+      "name": "Patient Registration & Scheduling",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "scheduling",
+        "registration",
+        "intake",
+        "patient_access"
+      ],
+      "raci": {
+        "responsible": [
+          "role_patient_access_specialist"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_triage_nurse"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_patient_access_specialist"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_triage_nurse"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.5,
+        "baseline_cost_per_unit": 25.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.04
+      },
+      "asset_dependencies": [
+        "asset_ehr_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2d_002_insurance_verification_prior_auth",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "p2d_002_insurance_verification_prior_auth": {
+      "id": "p2d_002_insurance_verification_prior_auth",
+      "type": "process_step",
+      "name": "Insurance Verification & Prior Authorization",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "eligibility",
+        "prior_auth",
+        "clearance",
+        "insurance",
+        "rcm"
+      ],
+      "raci": {
+        "responsible": [
+          "role_patient_access_specialist"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_patient_access_specialist"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.08
+      },
+      "asset_dependencies": [
+        "asset_ehr_system",
+        "asset_rcm_clearinghouse"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2d_003_clinical_admission_triage",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "clinical_prior_auth_medical_necessity_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "p2d_003_clinical_admission_triage": {
+      "id": "p2d_003_clinical_admission_triage",
+      "type": "process_step",
+      "name": "Clinical Admission & Triage",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "clinical",
+        "triage",
+        "admission",
+        "nursing",
+        "emergency"
+      ],
+      "raci": {
+        "responsible": [
+          "role_triage_nurse"
+        ],
+        "accountable": [
+          "role_attending_physician"
+        ],
+        "consulted": [
+          "role_patient_access_specialist"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_triage_nurse"
+        ],
+        "approver": [
+          "role_attending_physician"
+        ],
+        "contributor": [
+          "role_patient_access_specialist"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 1.5,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.25,
+        "error_rate": 0.03
+      },
+      "asset_dependencies": [
+        "asset_ehr_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2d_004_care_delivery_order_execution",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "p2d_004_care_delivery_order_execution": {
+      "id": "p2d_004_care_delivery_order_execution",
+      "type": "process_step",
+      "name": "Care Delivery & Order Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "clinical",
+        "cpoe",
+        "emar",
+        "care_delivery",
+        "bedside"
+      ],
+      "raci": {
+        "responsible": [
+          "role_triage_nurse"
+        ],
+        "accountable": [
+          "role_attending_physician"
+        ],
+        "consulted": [
+          "role_medical_coder"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_triage_nurse"
+        ],
+        "approver": [
+          "role_attending_physician"
+        ],
+        "contributor": [
+          "role_medical_coder"
+        ],
+        "informed": [
+          "role_patient"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 2800.0,
+        "automation_rate": 0.35,
+        "error_rate": 0.02
+      },
+      "asset_dependencies": [
+        "asset_ehr_system",
+        "asset_pacs_lis_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "p2d_005_discharge_planning_transition",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "p2d_005_discharge_planning_transition": {
+      "id": "p2d_005_discharge_planning_transition",
+      "type": "process_step",
+      "name": "Discharge Planning & Care Transition",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "discharge",
+        "transition_of_care",
+        "reconciliation",
+        "clinical"
+      ],
+      "raci": {
+        "responsible": [
+          "role_triage_nurse"
+        ],
+        "accountable": [
+          "role_attending_physician"
+        ],
+        "consulted": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_rcm_director"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_triage_nurse"
+        ],
+        "approver": [
+          "role_attending_physician"
+        ],
+        "contributor": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_rcm_director"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 3.5,
+        "baseline_cost_per_unit": 180.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.04
+      },
+      "asset_dependencies": [
+        "asset_ehr_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_001_charge_capture_coding",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_001_charge_capture_coding": {
+      "id": "rcm_001_charge_capture_coding",
+      "type": "process_step",
+      "name": "Charge Capture & Medical Coding",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "coding",
+        "him",
+        "icd10",
+        "cpt",
+        "charges",
+        "rcm"
+      ],
+      "raci": {
+        "responsible": [
+          "role_medical_coder"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_medical_coder"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 85.0,
+        "automation_rate": 0.6,
+        "error_rate": 0.05
+      },
+      "asset_dependencies": [
+        "asset_ehr_system",
+        "asset_rcm_clearinghouse"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_002_claim_scrubbing_submission",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_002_claim_scrubbing_submission": {
+      "id": "rcm_002_claim_scrubbing_submission",
+      "type": "process_step",
+      "name": "Claim Scrubbing & Clearinghouse Submission",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "claims",
+        "scrubbing",
+        "edi837",
+        "clearinghouse",
+        "billing"
+      ],
+      "raci": {
+        "responsible": [
+          "role_medical_coder"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_patient_access_specialist"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_medical_coder"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_patient_access_specialist"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 40.0,
+        "automation_rate": 0.88,
+        "error_rate": 0.03
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_003_payer_adjudication_remittance",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "clinical_prior_auth_medical_necessity_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_003_payer_adjudication_remittance": {
+      "id": "rcm_003_payer_adjudication_remittance",
+      "type": "process_step",
+      "name": "Payer Adjudication & Remittance",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "adjudication",
+        "era",
+        "edi835",
+        "remittance",
+        "payer"
+      ],
+      "raci": {
+        "responsible": [
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_medical_coder"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_medical_coder"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 120.0,
+        "baseline_cost_per_unit": 15.0,
+        "automation_rate": 0.92,
+        "error_rate": 0.06
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_004_denial_management_appeals",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_004_denial_management_appeals": {
+      "id": "rcm_004_denial_management_appeals",
+      "type": "process_step",
+      "name": "Denial Management & Appeals",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "denials",
+        "appeals",
+        "carc",
+        "rarc",
+        "rcm"
+      ],
+      "raci": {
+        "responsible": [
+          "role_medical_coder"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_medical_coder"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 110.0,
+        "automation_rate": 0.35,
+        "error_rate": 0.07
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse",
+        "asset_ehr_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_005_patient_billing_collections",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "clinical_prior_auth_medical_necessity_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_005_patient_billing_collections": {
+      "id": "rcm_005_patient_billing_collections",
+      "type": "process_step",
+      "name": "Patient Billing & Collections",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "patient_billing",
+        "statements",
+        "collections",
+        "rcm"
+      ],
+      "raci": {
+        "responsible": [
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_compliance_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 35.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.04
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse",
+        "asset_ehr_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "rcm_006_cash_posting_reconciliation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "rcm_006_cash_posting_reconciliation": {
+      "id": "rcm_006_cash_posting_reconciliation",
+      "type": "process_step",
+      "name": "Cash Posting & Subledger Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "cash_posting",
+        "reconciliation",
+        "subledger",
+        "r2r",
+        "rcm"
+      ],
+      "raci": {
+        "responsible": [
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_rcm_director"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_billing_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_rcm_director"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.02
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "clinical_patient_care_stream": {
+      "id": "clinical_patient_care_stream",
+      "type": "value_stream",
+      "name": "Clinical Patient Access & Inpatient Care Delivery Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "P2D"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "clinical",
+        "inpatient",
+        "care_delivery",
+        "healthcare"
+      ],
+      "raci": {
+        "responsible": [
+          "role_triage_nurse",
+          "role_patient_access_specialist"
+        ],
+        "accountable": [
+          "role_attending_physician"
+        ],
+        "consulted": [
+          "role_patient"
+        ],
+        "informed": [
+          "role_rcm_director"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_triage_nurse"
+        ],
+        "approver": [
+          "role_attending_physician"
+        ],
+        "contributor": [
+          "role_patient_access_specialist"
+        ],
+        "informed": [
+          "role_rcm_director"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 57.5,
+        "baseline_cost_per_unit": 3170.0,
+        "automation_rate": 0.45,
+        "error_rate": 0.03,
+        "sla_hours": 72.0
+      },
+      "asset_dependencies": [
+        "asset_ehr_system",
+        "asset_rcm_clearinghouse",
+        "asset_pacs_lis_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "hipaa_phi_privacy_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "hospital_revenue_cycle_stream",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    },
+    "hospital_revenue_cycle_stream": {
+      "id": "hospital_revenue_cycle_stream",
+      "type": "value_stream",
+      "name": "Hospital Revenue Cycle & Cash Reconciliation Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "RCM"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "rcm",
+        "billing",
+        "cash_posting",
+        "finance",
+        "healthcare"
+      ],
+      "raci": {
+        "responsible": [
+          "role_medical_coder",
+          "role_billing_specialist"
+        ],
+        "accountable": [
+          "role_rcm_director"
+        ],
+        "consulted": [
+          "role_attending_physician"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_medical_coder"
+        ],
+        "approver": [
+          "role_rcm_director"
+        ],
+        "contributor": [
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 218.0,
+        "baseline_cost_per_unit": 335.0,
+        "automation_rate": 0.72,
+        "error_rate": 0.05,
+        "sla_hours": 240.0
+      },
+      "asset_dependencies": [
+        "asset_rcm_clearinghouse",
+        "asset_ehr_system",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "clinical_prior_auth_medical_necessity_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "healthcare"
+    }
+  },
+  "assets": {
+    "asset_crm_system": {
+      "id": "asset_crm_system",
+      "name": "Enterprise Cloud CRM & CPQ Platform (Salesforce)",
+      "asset_type": "it_application",
+      "version": "2.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 1200,
+      "source_layer": "core"
+    },
+    "asset_eprocurement_portal": {
+      "id": "asset_eprocurement_portal",
+      "name": "Cloud e-Procurement & Supplier Network Portal",
+      "asset_type": "it_application",
+      "version": "1.8.4",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 800,
+      "source_layer": "core"
+    },
+    "asset_erp_system": {
+      "id": "asset_erp_system",
+      "name": "Enterprise Core ERP (SAP S/4HANA)",
+      "asset_type": "it_application",
+      "version": "2.1.0",
+      "parent_asset_id": null,
+      "status": "operational",
+      "sla_uptime_percent": 99.95,
+      "capacity_max_tps": 2500,
+      "source_layer": "core"
+    },
+    "asset_financial_consolidation_system": {
+      "id": "asset_financial_consolidation_system",
+      "name": "Enterprise Financial Consolidation & Reporting System (SAP Group Reporting / OneStream)",
+      "asset_type": "it_application",
+      "version": "3.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 500,
+      "source_layer": "core"
+    },
+    "asset_hcm_platform": {
+      "id": "asset_hcm_platform",
+      "asset_type": "it_application",
+      "name": "Human Capital Management (HCM) Platform",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "CloudHR",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.95,
+      "recovery_time_objective_hours": 4.0,
+      "source_layer": "core"
+    },
+    "asset_payment_gateway": {
+      "id": "asset_payment_gateway",
+      "name": "Corporate Banking Payment Gateway & ISO 20022 Router",
+      "asset_type": "api_gateway",
+      "version": "3.0.1",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.99,
+      "capacity_max_tps": 1500,
+      "source_layer": "core"
+    },
+    "asset_payroll_engine": {
+      "id": "asset_payroll_engine",
+      "asset_type": "it_application",
+      "name": "Enterprise Payroll & Tax Engine",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "GlobalPay",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.99,
+      "recovery_time_objective_hours": 2.0,
+      "source_layer": "core"
+    },
+    "asset_ehr_system": {
+      "id": "asset_ehr_system",
+      "type": "asset",
+      "name": "Electronic Health Record Platform (EHR)",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "clinical",
+        "ehr",
+        "cpoe",
+        "emar",
+        "epic",
+        "cerner"
+      ],
+      "attributes": {
+        "vendor": "Epic Systems / Oracle Health",
+        "sla_uptime_percent": 99.99,
+        "capacity_max_tps": 850.0,
+        "integration_endpoints": [
+          "asset_rcm_clearinghouse",
+          "asset_pacs_lis_system",
+          "asset_erp_system"
+        ]
+      },
+      "source_layer": "healthcare"
+    },
+    "asset_pacs_lis_system": {
+      "id": "asset_pacs_lis_system",
+      "type": "asset",
+      "name": "Diagnostic PACS & Laboratory Information System (LIS)",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "diagnostic",
+        "pacs",
+        "lis",
+        "radiology",
+        "pathology",
+        "imaging"
+      ],
+      "attributes": {
+        "vendor": "GE HealthCare / Siemens Healthineers / Sunquest",
+        "sla_uptime_percent": 99.9,
+        "capacity_max_tps": 400.0,
+        "integration_endpoints": [
+          "asset_ehr_system"
+        ]
+      },
+      "source_layer": "healthcare"
+    },
+    "asset_rcm_clearinghouse": {
+      "id": "asset_rcm_clearinghouse",
+      "type": "asset",
+      "name": "Revenue Cycle EDI Clearinghouse & Billing Platform",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "rcm",
+        "edi",
+        "clearinghouse",
+        "billing",
+        "claims"
+      ],
+      "attributes": {
+        "vendor": "Waystar / Change Healthcare / Availity",
+        "sla_uptime_percent": 99.95,
+        "capacity_max_tps": 600.0,
+        "integration_endpoints": [
+          "asset_ehr_system",
+          "asset_erp_system"
+        ]
+      },
+      "source_layer": "healthcare"
+    }
+  },
+  "roles": {
+    "role_accounts_payable_clerk": {
+      "id": "role_accounts_payable_clerk",
+      "type": "role",
+      "name": "Accounts Payable Clerk",
+      "department": "Accounts Payable / Global Business Services",
+      "approval_limit_usd": 1000.0,
+      "source_layer": "core"
+    },
+    "role_billing_specialist": {
+      "id": "role_billing_specialist",
+      "type": "role",
+      "name": "Billing & Accounts Receivable Specialist",
+      "department": "Finance & Revenue Accounting",
+      "approval_limit_usd": 5000.0,
+      "source_layer": "core"
+    },
+    "role_category_manager": {
+      "id": "role_category_manager",
+      "type": "role",
+      "name": "Category Manager",
+      "department": "Global Procurement",
+      "approval_limit_usd": 500000.0,
+      "source_layer": "core"
+    },
+    "role_compensation_analyst": {
+      "id": "role_compensation_analyst",
+      "type": "role",
+      "name": "Compensation Analyst",
+      "department": "Human Resources",
+      "approval_limit_usd": 100000.0,
+      "source_layer": "core"
+    },
+    "role_consolidation_specialist": {
+      "id": "role_consolidation_specialist",
+      "type": "role",
+      "name": "Financial Consolidation Specialist",
+      "department": "Corporate Financial Reporting & Consolidation",
+      "approval_limit_usd": 5000.0,
+      "source_layer": "core"
+    },
+    "role_credit_manager": {
+      "id": "role_credit_manager",
+      "type": "role",
+      "name": "Credit & Risk Manager",
+      "department": "Treasury & Commercial Risk",
+      "approval_limit_usd": 250000.0,
+      "source_layer": "core"
+    },
+    "role_customer": {
+      "id": "role_customer",
+      "type": "role",
+      "name": "Enterprise Customer",
+      "department": "External Client Procurement & AP",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_finance_controller": {
+      "id": "role_finance_controller",
+      "type": "role",
+      "name": "Finance Controller",
+      "department": "Corporate Finance & Treasury",
+      "approval_limit_usd": 999999999.0,
+      "source_layer": "core"
+    },
+    "role_general_ledger_accountant": {
+      "id": "role_general_ledger_accountant",
+      "type": "role",
+      "name": "General Ledger Accountant",
+      "department": "Corporate Controller & General Accounting",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_hiring_manager": {
+      "id": "role_hiring_manager",
+      "type": "role",
+      "name": "Hiring Manager",
+      "department": "Cross-functional",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_hr_business_partner": {
+      "id": "role_hr_business_partner",
+      "type": "role",
+      "name": "HR Business Partner",
+      "department": "Human Resources",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_internal_auditor": {
+      "id": "role_internal_auditor",
+      "type": "role",
+      "name": "Internal Auditor",
+      "department": "Internal Audit & Corporate Governance",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_payroll_specialist": {
+      "id": "role_payroll_specialist",
+      "type": "role",
+      "name": "Payroll Specialist",
+      "department": "Finance / Payroll",
+      "approval_limit_usd": 10000.0,
+      "source_layer": "core"
+    },
+    "role_procurement_specialist": {
+      "id": "role_procurement_specialist",
+      "type": "role",
+      "name": "Procurement Specialist",
+      "department": "Operational Procurement",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_sales_ops_specialist": {
+      "id": "role_sales_ops_specialist",
+      "type": "role",
+      "name": "Sales Operations Specialist",
+      "department": "Commercial Operations & Revenue Ops",
+      "approval_limit_usd": 250000.0,
+      "source_layer": "core"
+    },
+    "role_supplier": {
+      "id": "role_supplier",
+      "type": "role",
+      "name": "Supplier / Vendor",
+      "department": "External Enterprise Partner",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_talent_acquisition_specialist": {
+      "id": "role_talent_acquisition_specialist",
+      "type": "role",
+      "name": "Talent Acquisition Specialist",
+      "department": "Human Resources",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_attending_physician": {
+      "id": "role_attending_physician",
+      "type": "role",
+      "name": "Attending Physician",
+      "department": "Clinical Inpatient Medicine",
+      "reports_to": "role_rcm_director",
+      "approval_limit_usd": 10000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "clinical",
+        "physician",
+        "provider",
+        "medical"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 320000,
+        "approval_limit_usd": 10000.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_compliance_officer": {
+      "id": "role_compliance_officer",
+      "type": "role",
+      "name": "Healthcare Compliance & Privacy Officer",
+      "department": "Corporate Integrity & Regulatory Compliance",
+      "reports_to": "role_internal_auditor",
+      "approval_limit_usd": 50000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "compliance",
+        "hipaa",
+        "privacy",
+        "regulatory",
+        "healthcare"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 175000,
+        "approval_limit_usd": 50000.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_medical_coder": {
+      "id": "role_medical_coder",
+      "type": "role",
+      "name": "Certified Medical Coder",
+      "department": "Health Information Management (HIM)",
+      "reports_to": "role_rcm_director",
+      "approval_limit_usd": 15000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "coding",
+        "him",
+        "icd10",
+        "cpt",
+        "rcm"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 72000,
+        "approval_limit_usd": 15000.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_patient": {
+      "id": "role_patient",
+      "type": "role",
+      "name": "Patient / Healthcare Consumer",
+      "department": "External Beneficiary",
+      "reports_to": null,
+      "approval_limit_usd": 0.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "external",
+        "patient",
+        "consumer",
+        "guarantor"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 0,
+        "approval_limit_usd": 0.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_patient_access_specialist": {
+      "id": "role_patient_access_specialist",
+      "type": "role",
+      "name": "Patient Access Specialist",
+      "department": "Patient Access & Front Revenue Cycle",
+      "reports_to": "role_rcm_director",
+      "approval_limit_usd": 5000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "front_rcm",
+        "scheduling",
+        "registration",
+        "eligibility"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 58000,
+        "approval_limit_usd": 5000.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_rcm_director": {
+      "id": "role_rcm_director",
+      "type": "role",
+      "name": "Revenue Cycle Management Director",
+      "department": "Patient Financial Services & Revenue Cycle",
+      "reports_to": "role_finance_controller",
+      "approval_limit_usd": 250000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "rcm",
+        "revenue",
+        "billing",
+        "management"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 210000,
+        "approval_limit_usd": 250000.0
+      },
+      "source_layer": "healthcare"
+    },
+    "role_triage_nurse": {
+      "id": "role_triage_nurse",
+      "type": "role",
+      "name": "Triage & Bedside Registered Nurse",
+      "department": "Nursing Operations & Emergency Services",
+      "reports_to": "role_attending_physician",
+      "approval_limit_usd": 0.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "clinical",
+        "nursing",
+        "inpatient",
+        "triage"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 105000,
+        "approval_limit_usd": 0.0
+      },
+      "source_layer": "healthcare"
+    }
+  },
+  "lifecycles": {
+    "H2R": {
+      "lifecycle_id": "H2R",
+      "name": "Hire to Retire Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end human capital operations from job requisition and candidate screening through onboarding, payroll integration, performance review, and final offboarding.",
+      "milestones": [
+        {
+          "step_id": "h2r_001_job_requisition_posting",
+          "name": "Job Requisition Definition & Posting",
+          "order": 1
+        },
+        {
+          "step_id": "h2r_002_candidate_screening_interview",
+          "name": "Candidate Screening & Interview Execution",
+          "order": 2
+        },
+        {
+          "step_id": "h2r_003_offer_letter_onboarding",
+          "name": "Offer Letter Generation & Employee Onboarding",
+          "order": 3
+        },
+        {
+          "step_id": "h2r_004_payroll_benefits_enrollment",
+          "name": "Payroll & Benefits Enrollment Processing",
+          "order": 4
+        },
+        {
+          "step_id": "h2r_005_performance_compensation_review",
+          "name": "Performance & Compensation Review",
+          "order": 5
+        },
+        {
+          "step_id": "h2r_006_separation_offboarding_settlement",
+          "name": "Separation, Offboarding & Final Settlement",
+          "order": 6
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "talent_acquisition",
+          "name": "Talent Acquisition & Onboarding Phase",
+          "milestones": [
+            "h2r_001_job_requisition_posting",
+            "h2r_002_candidate_screening_interview",
+            "h2r_003_offer_letter_onboarding"
+          ]
+        },
+        {
+          "phase_id": "talent_management_payroll",
+          "name": "Payroll, Performance & Offboarding Phase",
+          "milestones": [
+            "h2r_004_payroll_benefits_enrollment",
+            "h2r_005_performance_compensation_review",
+            "h2r_006_separation_offboarding_settlement"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "time_to_fill_days",
+        "cost_per_hire",
+        "first_year_attrition_rate",
+        "payroll_accuracy_percentage"
+      ],
+      "source_layer": "core"
+    },
+    "R2R": {
+      "lifecycle_id": "R2R",
+      "name": "Record to Report Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end financial accounting and reporting lifecycle from subledger transaction ingestion and intercompany eliminations to balance sheet account reconciliation, financial close orchestration, group consolidation, and regulatory/statutory disclosures.",
+      "milestones": [
+        {
+          "step_id": "r2r_001_journal_entry_recording",
+          "name": "General Ledger Journal Recording & Subledger Ingestion",
+          "order": 1
+        },
+        {
+          "step_id": "r2r_002_intercompany_reconciliation",
+          "name": "Intercompany Transaction Matching & Elimination",
+          "order": 2
+        },
+        {
+          "step_id": "r2r_003_balance_sheet_substantiation",
+          "name": "Balance Sheet Account Substantiation & Reconciliation",
+          "order": 3
+        },
+        {
+          "step_id": "r2r_004_financial_close_consolidation",
+          "name": "Financial Close Orchestration & Group Consolidation",
+          "order": 4
+        },
+        {
+          "step_id": "r2r_005_statutory_financial_reporting",
+          "name": "Statutory, Tax & Management Financial Reporting",
+          "order": 5
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "subledger_reconciliation",
+          "name": "Subledger Ingestion & Substantiation Phase",
+          "milestones": [
+            "r2r_001_journal_entry_recording",
+            "r2r_002_intercompany_reconciliation",
+            "r2r_003_balance_sheet_substantiation"
+          ]
+        },
+        {
+          "phase_id": "close_reporting",
+          "name": "Financial Close & Group Reporting Phase",
+          "milestones": [
+            "r2r_004_financial_close_consolidation",
+            "r2r_005_statutory_financial_reporting"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "days_to_close_financial_books",
+        "manual_journal_entry_ratio",
+        "intercompany_out_of_balance_amount",
+        "first_time_right_reconciliation_rate",
+        "sox_internal_control_deficiencies"
+      ],
+      "source_layer": "core"
+    },
+    "S2P": {
+      "lifecycle_id": "S2P",
+      "name": "Source to Pay Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end procurement lifecycle from spend identification and vendor sourcing through contract execution, PO issuance, invoice processing, and financial settlement.",
+      "milestones": [
+        {
+          "step_id": "s2p_001_spend_analysis_need_id",
+          "name": "Spend Analysis & Need Identification",
+          "order": 1
+        },
+        {
+          "step_id": "s2p_002_supplier_discovery_qualification",
+          "name": "Supplier Discovery & Qualification",
+          "order": 2
+        },
+        {
+          "step_id": "s2p_003_sourcing_rfx_auction",
+          "name": "Strategic Sourcing & RFx Execution",
+          "order": 3
+        },
+        {
+          "step_id": "s2p_004_contracting_sla_negotiation",
+          "name": "Contracting & SLA Negotiation",
+          "order": 4
+        },
+        {
+          "step_id": "s2p_005_purchase_requisition_po",
+          "name": "Purchase Requisition & PO Issuance",
+          "order": 5
+        },
+        {
+          "step_id": "s2p_006_goods_services_receipt",
+          "name": "Goods & Services Receipt Verification",
+          "order": 6
+        },
+        {
+          "step_id": "s2p_007_invoice_verification_matching",
+          "name": "Invoice 3-Way Matching & Exception Handling",
+          "order": 7
+        },
+        {
+          "step_id": "s2p_008_payment_settlement_disbursement",
+          "name": "Payment Settlement & Disbursement",
+          "order": 8
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "sourcing",
+          "name": "Strategic Sourcing & Contracting Phase",
+          "milestones": [
+            "s2p_001_spend_analysis_need_id",
+            "s2p_002_supplier_discovery_qualification",
+            "s2p_003_sourcing_rfx_auction",
+            "s2p_004_contracting_sla_negotiation"
+          ]
+        },
+        {
+          "phase_id": "procure_to_pay",
+          "name": "Procure-to-Pay (P2P) Phase",
+          "milestones": [
+            "s2p_005_purchase_requisition_po",
+            "s2p_006_goods_services_receipt",
+            "s2p_007_invoice_verification_matching",
+            "s2p_008_payment_settlement_disbursement"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "s2p_cycle_time_days",
+        "po_automation_percentage",
+        "first_pass_match_rate",
+        "early_payment_discount_capture"
+      ],
+      "source_layer": "core"
+    },
+    "P2D": {
+      "$schema": "../../schema/lifecycle_manifest.schema.json",
+      "lifecycle_id": "P2D",
+      "name": "Patient to Discharge",
+      "version": "1.0.0",
+      "description": "Patient access, eligibility verification, clinical admission, acute care delivery, and safe discharge transitions.",
+      "milestones": [
+        {
+          "order": 1,
+          "step_id": "p2d_001_patient_registration_scheduling",
+          "name": "Patient Registration & Scheduling"
+        },
+        {
+          "order": 2,
+          "step_id": "p2d_002_insurance_verification_prior_auth",
+          "name": "Insurance Verification & Prior Authorization"
+        },
+        {
+          "order": 3,
+          "step_id": "p2d_003_clinical_admission_triage",
+          "name": "Clinical Admission & Triage"
+        },
+        {
+          "order": 4,
+          "step_id": "p2d_004_care_delivery_order_execution",
+          "name": "Care Delivery & Order Execution"
+        },
+        {
+          "order": 5,
+          "step_id": "p2d_005_discharge_planning_transition",
+          "name": "Discharge Planning & Care Transition"
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "patient_access",
+          "name": "Patient Access & Clearance Phase",
+          "milestones": [
+            "p2d_001_patient_registration_scheduling",
+            "p2d_002_insurance_verification_prior_auth"
+          ]
+        },
+        {
+          "phase_id": "inpatient_clinical_care",
+          "name": "Clinical Care & Discharge Phase",
+          "milestones": [
+            "p2d_003_clinical_admission_triage",
+            "p2d_004_care_delivery_order_execution",
+            "p2d_005_discharge_planning_transition"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "Average Length of Stay (ALOS)",
+        "Bed Turnover Rate",
+        "Time to Triage",
+        "30-Day Readmission Rate"
+      ],
+      "source_layer": "healthcare"
+    },
+    "RCM": {
+      "$schema": "../../schema/lifecycle_manifest.schema.json",
+      "lifecycle_id": "RCM",
+      "name": "Revenue Cycle Management",
+      "version": "1.0.0",
+      "description": "Charge capture, medical coding, electronic claim clearinghouse scrubbing, remittance processing, and cash reconciliation.",
+      "milestones": [
+        {
+          "order": 1,
+          "step_id": "rcm_001_charge_capture_coding",
+          "name": "Charge Capture & Medical Coding"
+        },
+        {
+          "order": 2,
+          "step_id": "rcm_002_claim_scrubbing_submission",
+          "name": "Claim Scrubbing & Clearinghouse Submission"
+        },
+        {
+          "order": 3,
+          "step_id": "rcm_003_payer_adjudication_remittance",
+          "name": "Payer Adjudication & Remittance"
+        },
+        {
+          "order": 4,
+          "step_id": "rcm_004_denial_management_appeals",
+          "name": "Denial Management & Appeals"
+        },
+        {
+          "order": 5,
+          "step_id": "rcm_005_patient_billing_collections",
+          "name": "Patient Billing & Collections"
+        },
+        {
+          "order": 6,
+          "step_id": "rcm_006_cash_posting_reconciliation",
+          "name": "Cash Posting & Subledger Reconciliation"
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "billing_submission",
+          "name": "Billing Preparation & Submission Phase",
+          "milestones": [
+            "rcm_001_charge_capture_coding",
+            "rcm_002_claim_scrubbing_submission"
+          ]
+        },
+        {
+          "phase_id": "adjudication_recovery",
+          "name": "Adjudication & Denial Recovery Phase",
+          "milestones": [
+            "rcm_003_payer_adjudication_remittance",
+            "rcm_004_denial_management_appeals"
+          ]
+        },
+        {
+          "phase_id": "settlement_reconciliation",
+          "name": "Settlement & Ledger Reconciliation Phase",
+          "milestones": [
+            "rcm_005_patient_billing_collections",
+            "rcm_006_cash_posting_reconciliation"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "Days in Accounts Receivable (A/R)",
+        "Initial Claim Denial Rate",
+        "Clean Claim Rate",
+        "Net Collection Rate"
+      ],
+      "source_layer": "healthcare"
+    }
+  }
+}

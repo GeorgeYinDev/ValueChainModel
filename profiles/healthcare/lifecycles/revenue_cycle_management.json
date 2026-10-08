@@ -1,0 +1,71 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "RCM",
+  "name": "Revenue Cycle Management",
+  "version": "1.0.0",
+  "description": "Charge capture, medical coding, electronic claim clearinghouse scrubbing, remittance processing, and cash reconciliation.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "rcm_001_charge_capture_coding",
+      "name": "Charge Capture & Medical Coding"
+    },
+    {
+      "order": 2,
+      "step_id": "rcm_002_claim_scrubbing_submission",
+      "name": "Claim Scrubbing & Clearinghouse Submission"
+    },
+    {
+      "order": 3,
+      "step_id": "rcm_003_payer_adjudication_remittance",
+      "name": "Payer Adjudication & Remittance"
+    },
+    {
+      "order": 4,
+      "step_id": "rcm_004_denial_management_appeals",
+      "name": "Denial Management & Appeals"
+    },
+    {
+      "order": 5,
+      "step_id": "rcm_005_patient_billing_collections",
+      "name": "Patient Billing & Collections"
+    },
+    {
+      "order": 6,
+      "step_id": "rcm_006_cash_posting_reconciliation",
+      "name": "Cash Posting & Subledger Reconciliation"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "billing_submission",
+      "name": "Billing Preparation & Submission Phase",
+      "milestones": [
+        "rcm_001_charge_capture_coding",
+        "rcm_002_claim_scrubbing_submission"
+      ]
+    },
+    {
+      "phase_id": "adjudication_recovery",
+      "name": "Adjudication & Denial Recovery Phase",
+      "milestones": [
+        "rcm_003_payer_adjudication_remittance",
+        "rcm_004_denial_management_appeals"
+      ]
+    },
+    {
+      "phase_id": "settlement_reconciliation",
+      "name": "Settlement & Ledger Reconciliation Phase",
+      "milestones": [
+        "rcm_005_patient_billing_collections",
+        "rcm_006_cash_posting_reconciliation"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "Days in Accounts Receivable (A/R)",
+    "Initial Claim Denial Rate",
+    "Clean Claim Rate",
+    "Net Collection Rate"
+  ]
+}

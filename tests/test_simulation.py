@@ -36,7 +36,7 @@ def test_simulation_baseline_vs_shock():
 
 import pytest
 
-@pytest.mark.parametrize("profile_name", ["manufacturing", "professional_services"])
+@pytest.mark.parametrize("profile_name", ["manufacturing", "professional_services", "healthcare"])
 def test_simulation_cross_profile_erp_outage(profile_name):
     """Test that a shared scenario (scenario_erp_outage) runs cleanly across profiles."""
     result = subprocess.run(
@@ -65,4 +65,23 @@ def test_simulation_professional_services_scenarios(scenario_id, expected_min_in
     assert "Total Lead Time:" in result.stdout
     assert "Total Unit Cost:" in result.stdout
     assert "Simulation Report written to:" in result.stdout
+
+@pytest.mark.parametrize("scenario_id", [
+    "scenario_clearinghouse_cyberattack_outage",
+    "scenario_payer_prior_auth_denial_surge",
+    "scenario_emergency_surge_capacity_crunch"
+])
+def test_simulation_healthcare_scenarios(scenario_id):
+    """Test that healthcare disruption scenarios execute and compute valid deltas."""
+    result = subprocess.run(
+        ["uv", "run", str(SIMULATOR_SCRIPT), "--profile", "healthcare", scenario_id],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True
+    )
+    assert result.returncode == 0, f"Simulator failed on {scenario_id}: {result.stderr}\n{result.stdout}"
+    assert "Total Lead Time:" in result.stdout
+    assert "Total Unit Cost:" in result.stdout
+    assert "Simulation Report written to:" in result.stdout
+
 

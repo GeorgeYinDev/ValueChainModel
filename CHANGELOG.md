@@ -5,6 +5,25 @@ All notable changes to the Enterprise Value Chain Modeling Engine repository wil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] - 2026-10-07
+
+### Added
+- **Healthcare Provider & Clinical Systems Domain Model Overlay (`profiles/healthcare/`)**:
+  - **Operating Model Overlay**: Created healthcare industry profile inheriting shared back-office capabilities (`R2R`, `H2R`, `S2P`) from `profiles/core`.
+  - **Patient Access & Care Delivery (P2D) Lifecycle**: Added 5-milestone clinical journey (`p2d_001` through `p2d_005`) covering Patient Scheduling/Registration, Insurance Clearance & Prior Authorization, Inpatient Admission & Triage, Acute Care Delivery (CPOE / eMAR), and Discharge Planning & Care Transition.
+  - **Revenue Cycle Management (RCM) Lifecycle**: Added 6-milestone hospital revenue cycle (`rcm_001` through `rcm_006`) covering Charge Capture & ICD-10/CPT Medical Coding, EDI 837 Claim Scrubbing & Submission, Payer Adjudication & ERA 835 Remittance, Denial Management & Appeals, Patient Billing & Collections, and Cash Posting & Subledger Reconciliation.
+  - **Healthcare Roles**: Added `role_attending_physician.md`, `role_triage_nurse.md`, `role_patient_access_specialist.md`, `role_medical_coder.md`, `role_rcm_director.md`, `role_compliance_officer.md`, and `role_patient.md` conforming to Phase 6.2 role frontmatter and financial approval limits.
+  - **Clinical & Administrative IT Assets**: Added Electronic Health Record (`asset_ehr_system`), EDI Clearinghouse & Billing Platform (`asset_rcm_clearinghouse`), and Diagnostic PACS & LIS (`asset_pacs_lis_system`).
+  - **Enterprise Value Stream Elements**: Added `clinical_patient_care_stream.md` (spanning P2D) and `hospital_revenue_cycle_stream.md` (spanning RCM).
+  - **Governance & Control Policies**: Added `hipaa_phi_privacy_policy.md` (minimum necessary rule, audit trails, BAA compliance) and `clinical_prior_auth_medical_necessity_policy.md` (pre-service financial clearance and peer-to-peer review escalation).
+  - **First-Class KPI Metric Elements**: Added `kpi_initial_denial_rate.md` (<= 5.0% target), `kpi_days_in_ar.md` (<= 38.0 days target), and `kpi_average_length_of_stay.md` (<= 4.2 days target).
+  - **First-Class Data Entity Elements**: Added `data_electronic_health_record.md` (system of record: `asset_ehr_system`) and `data_837_claim_file.md` (system of record: `asset_rcm_clearinghouse`).
+  - **Operational Disruption Scenarios**: Added `scenario_clearinghouse_cyberattack_outage.json` (nationwide EDI clearinghouse ransomware outage), `scenario_payer_prior_auth_denial_surge.json` (payer algorithmic claim denial shock), and `scenario_emergency_surge_capacity_crunch.json` (inpatient respiratory epidemic capacity crunch).
+  - **Cross-Lifecycle Patch**: Added `s2p_006_goods_services_receipt.yaml` patching core goods receipt to care delivery order execution.
+  - **Core Financial Triad Integration**: Integrated hospital cash posting (`rcm_006_cash_posting_reconciliation`) directly into general ledger journal voucher ingestion (`r2r_001_journal_entry_recording`).
+  - **Architecture Governance Record**: Added [ADR-0009](docs/decisions/0009-healthcare-operating-model-taxonomy.md) establishing healthcare taxonomy design.
+  - **Automated Test Coverage**: Expanded `tests/test_profiles.py` and `tests/test_simulation.py` with healthcare isolation, layer resolution, and simulation tests, reaching 26 automated tests passing.
+
 ## [1.9.0] - 2026-10-05
 
 ### Added

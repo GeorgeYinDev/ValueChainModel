@@ -15,8 +15,9 @@ flowchart LR
   P6 --> P7["Phase 7<br/>H2R Lifecycle<br/>✅ v1.6.0"]
   P7 --> P8["Phase 8<br/>P2M Lifecycle<br/>✅ v1.7.0"]
   P8 --> P85["Phase 8.5<br/>Industry Profiles<br/>✅ v1.8.0"]
-  P85 --> P86["Phase 8.6<br/>Services Enrichment<br/>🔮 v1.9.0"]
-  P86 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
+  P85 --> P86["Phase 8.6<br/>Services Enrichment<br/>✅ v1.9.0"]
+  P86 --> P87["Phase 8.7<br/>Healthcare Overlay<br/>✅ v1.10.0"]
+  P87 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
   P9 --> P10["Phase 10<br/>Process Mining<br/>🔮 v2.1.0"]
 ```
 
@@ -151,6 +152,21 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - Disruption scenarios: `scenario_project_margin_slippage.json`, `scenario_consultant_bench_surge.json`, `scenario_psa_outage_billing_crunch.json`.
 - Full simulation and profile test coverage in `tests/test_simulation.py` with 20 passing tests.
 
+### Phase 8.7: Healthcare Provider & Clinical Systems Domain Model Overlay
+**Status**: ✅ **Completed** (Release: **v1.10.0**)
+- Established dedicated Healthcare industry overlay (`profiles/healthcare/`) extending `profiles/core`.
+- **Patient Access & Care Delivery (P2D)** lifecycle: 5 milestones (`p2d_001` through `p2d_005`) from scheduling and insurance verification to inpatient care delivery and discharge planning.
+- **Revenue Cycle Management (RCM)** lifecycle: 6 milestones (`rcm_001` through `rcm_006`) from charge capture and medical coding to claim scrubbing, ERA adjudication, denial management, patient billing, and cash posting.
+- Healthcare roles: Attending Physician, Triage Nurse, Patient Access Specialist, Medical Coder, RCM Director, Compliance Officer, and Patient.
+- Clinical & RCM IT assets: Electronic Health Record (`asset_ehr_system`), EDI Clearinghouse (`asset_rcm_clearinghouse`), and Diagnostic PACS/LIS (`asset_pacs_lis_system`).
+- Enterprise Value Streams: `clinical_patient_care_stream.md` and `hospital_revenue_cycle_stream.md`.
+- Governance & Control Policies: `hipaa_phi_privacy_policy.md` and `clinical_prior_auth_medical_necessity_policy.md`.
+- First-class KPIs and Data Entities: Initial Claim Denial Rate, Net Days in A/R, Average Length of Stay (ALOS), Longitudinal EHR (FHIR), and EDI 837 Claim.
+- Core Financial Triad Integration: Cash posting (`rcm_006`) feeds directly into General Ledger journal recording (`r2r_001`), and supply receipt (`s2p_006`) feeds clinical care delivery (`p2d_004`).
+- Operational disruption scenarios: EDI clearinghouse cyberattack outage, payer prior-authorization denial surge, and emergency department inpatient capacity surge.
+- Architecture Governance: [ADR-0009](docs/decisions/0009-healthcare-operating-model-taxonomy.md).
+- Automated test suite expanded to 26 passing tests across profile inheritance, element isolation, and discrete scenario simulations.
+
 ### Phase 9: Headless REST API & Web Application
 **Status**: 🔮 **Planned** (Target Release: **v2.0.0**)
 - FastAPI microservice: `GET /api/v1/profiles`, `GET /api/v1/profiles/{profile}/graph`, `GET /api/v1/profiles/{profile}/lifecycles`, `POST /api/v1/profiles/{profile}/simulations/run`, `GET /api/v1/profiles/{profile}/governance/{raci|daci}` (JSON / CSV).
@@ -204,6 +220,8 @@ These findings are tracked to the phase that resolves them.
 | **P2M** | Plan to Make | Supply Chain & Manufacturing | 8 | ✅ v1.7.0 |
 | **L2C** | Lead to Cash | Professional Services / Business Dev | 8.6 | ✅ v1.9.0 |
 | **E2C** | Engagement to Cash | Professional Services / Delivery | 8.6 | ✅ v1.9.0 |
+| **P2D** | Patient to Discharge | Healthcare / Clinical Inpatient Care | 8.7 | ✅ v1.10.0 |
+| **RCM** | Revenue Cycle Management | Healthcare / Patient Accounting | 8.7 | ✅ v1.10.0 |
 
 ---
 

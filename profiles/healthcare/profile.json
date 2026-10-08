@@ -1,0 +1,11 @@
+{
+  "profile_id": "healthcare",
+  "name": "Healthcare Provider & Clinical Systems",
+  "industry": "healthcare",
+  "version": "1.0.0",
+  "description": "Operating model for healthcare provider organizations, clinical inpatient care delivery, and hospital revenue cycle management.",
+  "extends": ["core"],
+  "lifecycles": ["S2P", "R2R", "H2R", "P2D", "RCM"],
+  "default_lifecycle": "P2D",
+  "apqc_pcf_variant": "healthcare"
+}

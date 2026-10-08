@@ -1,0 +1,59 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "P2D",
+  "name": "Patient to Discharge",
+  "version": "1.0.0",
+  "description": "Patient access, eligibility verification, clinical admission, acute care delivery, and safe discharge transitions.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "p2d_001_patient_registration_scheduling",
+      "name": "Patient Registration & Scheduling"
+    },
+    {
+      "order": 2,
+      "step_id": "p2d_002_insurance_verification_prior_auth",
+      "name": "Insurance Verification & Prior Authorization"
+    },
+    {
+      "order": 3,
+      "step_id": "p2d_003_clinical_admission_triage",
+      "name": "Clinical Admission & Triage"
+    },
+    {
+      "order": 4,
+      "step_id": "p2d_004_care_delivery_order_execution",
+      "name": "Care Delivery & Order Execution"
+    },
+    {
+      "order": 5,
+      "step_id": "p2d_005_discharge_planning_transition",
+      "name": "Discharge Planning & Care Transition"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "patient_access",
+      "name": "Patient Access & Clearance Phase",
+      "milestones": [
+        "p2d_001_patient_registration_scheduling",
+        "p2d_002_insurance_verification_prior_auth"
+      ]
+    },
+    {
+      "phase_id": "inpatient_clinical_care",
+      "name": "Clinical Care & Discharge Phase",
+      "milestones": [
+        "p2d_003_clinical_admission_triage",
+        "p2d_004_care_delivery_order_execution",
+        "p2d_005_discharge_planning_transition"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "Average Length of Stay (ALOS)",
+    "Bed Turnover Rate",
+    "Time to Triage",
+    "30-Day Readmission Rate"
+  ]
+}

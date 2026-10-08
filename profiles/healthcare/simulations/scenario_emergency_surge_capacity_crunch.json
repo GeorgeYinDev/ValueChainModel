@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_emergency_surge_capacity_crunch",
+  "name": "Emergency Department Inpatient Surge Capacity Crunch",
+  "target_lifecycle": "P2D",
+  "applicable_profiles": ["healthcare"],
+  "description": "Simulates an acute surge in emergency department inpatient admissions during a respiratory epidemic, causing triage boarding bottlenecks, elevated inpatient length of stay, and bed capacity gridlock.",
+  "shocks": [
+    {
+      "target_element_id": "p2d_003_clinical_admission_triage",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.0,
+      "additive_delta": 4.5
+    },
+    {
+      "target_element_id": "p2d_003_clinical_admission_triage",
+      "attribute_modifier": "error_rate",
+      "multiplier": 1.5,
+      "additive_delta": 0.02
+    },
+    {
+      "target_element_id": "p2d_004_care_delivery_order_execution",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.25,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "p2d_004_care_delivery_order_execution",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.0,
+      "additive_delta": 950.0
+    },
+    {
+      "target_element_id": "p2d_005_discharge_planning_transition",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.0,
+      "additive_delta": 6.0
+    },
+    {
+      "target_element_id": "p2d_005_discharge_planning_transition",
+      "attribute_modifier": "error_rate",
+      "multiplier": 1.6,
+      "additive_delta": 0.03
+    }
+  ]
+}

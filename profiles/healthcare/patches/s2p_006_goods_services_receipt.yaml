@@ -1,0 +1,6 @@
+target: s2p_006_goods_services_receipt
+append:
+  graph_relations:
+    - relation: feeds_into
+      target: p2d_004_care_delivery_order_execution
+      weight: 1.0

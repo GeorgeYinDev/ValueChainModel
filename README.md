@@ -15,7 +15,7 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 ├── CHANGELOG.md                        # Versioned change history & release log
 ├── GEMINI.md                           # Agent instructions, LOD invariants & execution commands
 ├── docs/
-│   ├── decisions/                      # Architecture Decision Records (ADRs 0001 - 0008)
+│   ├── decisions/                      # Architecture Decision Records (ADRs 0001 - 0009)
 │   │   ├── 0001-worldbuild-architecture-adaptation.md
 │   │   ├── 0002-s2p-lifecycle-taxonomy-design.md
 │   │   ├── 0003-o2c-lifecycle-taxonomy-design.md
@@ -23,9 +23,10 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   │   ├── 0005-h2r-taxonomy.md
 │   │   ├── 0006-p2m-taxonomy.md
 │   │   ├── 0007-industry-profiles-architecture.md
-│   │   └── 0008-professional-services-taxonomy.md
+│   │   ├── 0008-professional-services-taxonomy.md
+│   │   └── 0009-healthcare-operating-model-taxonomy.md
 │   ├── architecture/                   # Enterprise Architecture Deep Dives
-│   │   ├── enterprise-value-chain-architecture.md # End-to-end integration across all 7 lifecycles
+│   │   ├── enterprise-value-chain-architecture.md # End-to-end integration across all 9 lifecycles
 │   │   └── governance-raci-daci.md     # Dual RACI vs. DACI & Single Approver governance
 │   ├── guides/                         # Practitioner & Authoring Guides
 │   │   ├── authoring-elements-and-lifecycles.md # Modeling guide for EA architects
@@ -54,12 +55,19 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   │   ├── lifecycles/                 # Plan-to-Make and Order-to-Cash manifests
 │   │   ├── patches/                    # YAML patches linking core S2P to P2M
 │   │   └── simulations/                # Stockout and credit hold disruption scenarios
-│   └── professional_services/          # Consulting & Services overlay (L2C, E2C, PSA)
-│       ├── elements/                   # L2C and E2C steps, streams, policies, KPIs, data entities
-│       ├── roles/                      # Practice director, engagement manager, consultant
-│       ├── assets/                     # PSA platform (Certinia / Kantata)
-│       ├── lifecycles/                 # Lead-to-Cash and Engagement-to-Cash manifests
-│       └── simulations/                # Margin slippage, bench surge, and PSA outage scenarios
+│   ├── professional_services/          # Consulting & Services overlay (L2C, E2C, PSA)
+│   │   ├── elements/                   # L2C and E2C steps, streams, policies, KPIs, data entities
+│   │   ├── roles/                      # Practice director, engagement manager, consultant
+│   │   ├── assets/                     # PSA platform (Certinia / Kantata)
+│   │   ├── lifecycles/                 # Lead-to-Cash and Engagement-to-Cash manifests
+│   │   └── simulations/                # Margin slippage, bench surge, and PSA outage scenarios
+│   └── healthcare/                     # Healthcare Provider overlay (P2D, RCM, EHR, Clearinghouse)
+│       ├── elements/                   # P2D and RCM steps, streams, policies, KPIs, data entities
+│       ├── roles/                      # Physician, triage nurse, patient access, coder, RCM director
+│       ├── assets/                     # EHR platform, EDI clearinghouse, PACS/LIS
+│       ├── lifecycles/                 # Patient-to-Discharge and Revenue Cycle manifests
+│       ├── patches/                    # Patch linking core S2P receipt to care delivery
+│       └── simulations/                # Clearinghouse cyberattack, prior auth surge, emergency surge
 ├── templates/                          # Boilerplate templates for new model entities
 │   ├── element_template.md             # Process step / policy / stream template
 │   ├── role_template.md                # Enterprise role definition template
@@ -70,7 +78,8 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   ├── index.html                      # Multi-profile landing dashboard and switcher
 │   ├── core/                           # Compiled artifacts for Core Back-Office profile
 │   ├── manufacturing/                  # Compiled artifacts for Manufacturing profile
-│   └── professional_services/          # Compiled artifacts for Professional Services profile
+│   ├── professional_services/          # Compiled artifacts for Professional Services profile
+│   └── healthcare/                     # Compiled artifacts for Healthcare profile
 └── tools/                              # Validation, Visualization & Simulation CLI Tooling
     ├── vcm_profiles.py                 # Profile inheritance, patch merging & collision loader
     ├── validate_and_build.py           # Model validator, graph linker & multi-profile compiler
@@ -168,6 +177,20 @@ Covers service fulfillment, consultant time/expense tracking, client acceptance,
 - **Integrations**: Connects directly to `r2r_001` for General Ledger subledger ingestion and revenue recognition.
 - **Primary Systems**: PSA Platform (`asset_psa_system`), Core ERP (`asset_erp_system`).
 
+### 8. Patient to Discharge (P2D) — Healthcare Profile
+Covers acute inpatient and ambulatory clinical care delivery, patient access, and transition of care:
+- **Milestones**: `p2d_001` (Registration & Scheduling), `p2d_002` (Insurance Verification & Prior Auth), `p2d_003` (Clinical Admission & Triage), `p2d_004` (Care Delivery & Order Execution), `p2d_005` (Discharge Planning & Transition).
+- **Core Governance**: HIPAA Security, Privacy & PHI Governance Policy; Medical Necessity & Prior Auth Policy.
+- **Integrations**: Ingests medical supplies from S2P (`s2p_006`); triggers encounter charge capture in RCM (`rcm_001`).
+- **Primary Systems**: Epic / Cerner EHR (`asset_ehr_system`), Diagnostic PACS/LIS (`asset_pacs_lis_system`).
+
+### 9. Revenue Cycle Management (RCM) — Healthcare Profile
+Covers healthcare clinical-financial translation, electronic claim clearinghouse scrubbing, denial recovery, and cash posting:
+- **Milestones**: `rcm_001` (Charge Capture & Coding), `rcm_002` (Claim Scrubbing & Submission), `rcm_003` (Payer Adjudication & Remittance), `rcm_004` (Denial Management & Appeals), `rcm_005` (Patient Billing & Collections), `rcm_006` (Cash Posting & Reconciliation).
+- **Core Governance**: Medical Necessity & Prior Authorization Governance Policy.
+- **Integrations**: Cash posting (`rcm_006`) feeds directly into General Ledger journal recording (`r2r_001`).
+- **Primary Systems**: EDI Clearinghouse & Billing Platform (`asset_rcm_clearinghouse`), EHR Platform (`asset_ehr_system`), ERP GL (`asset_erp_system`).
+
 ---
 
 ## 📊 Interactive Standalone Executive Visualizers
@@ -175,8 +198,9 @@ Covers service fulfillment, consultant time/expense tracking, client acceptance,
 Each profile compiles an independent, **100% standalone Single-Page Application (SPA)** with zero server dependencies:
 
 - **Global Profile Switcher Dashboard**: [`index/index.html`](index/index.html)
-- **Manufacturing Visualizer**: [`index/manufacturing/value_chain_visualizer.html`](index/manufacturing/value_chain_visualizer.html)
+- **Healthcare Visualizer**: [`index/healthcare/value_chain_visualizer.html`](index/healthcare/value_chain_visualizer.html)
 - **Professional Services Visualizer**: [`index/professional_services/value_chain_visualizer.html`](index/professional_services/value_chain_visualizer.html)
+- **Manufacturing Visualizer**: [`index/manufacturing/value_chain_visualizer.html`](index/manufacturing/value_chain_visualizer.html)
 - **Core Back-Office Visualizer**: [`index/core/value_chain_visualizer.html`](index/core/value_chain_visualizer.html)
 
 ### How to Open

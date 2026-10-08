@@ -1,0 +1,25 @@
+{
+  "lifecycles": [
+    {
+      "id": "P2D",
+      "name": "Patient to Discharge",
+      "domain": "Clinical Care & Patient Operations",
+      "description": "Patient access, clinical triage, inpatient care delivery, and safe discharge transitions."
+    },
+    {
+      "id": "RCM",
+      "name": "Revenue Cycle Management",
+      "domain": "Healthcare Revenue Cycle & Patient Accounting",
+      "description": "Clinical charge capture, medical coding, electronic claim transmission, remittance, and cash reconciliation."
+    }
+  ],
+  "raci_definitions": {
+    "role_attending_physician": "Accountable for clinical order execution, diagnostic decisions, and discharge disposition.",
+    "role_triage_nurse": "Responsible for clinical intake, vital sign assessment, and bedside care execution.",
+    "role_patient_access_specialist": "Responsible for demographic registration, eligibility verification, and upfront patient collections.",
+    "role_medical_coder": "Responsible for ICD-10 and CPT coding compliance and charge review.",
+    "role_rcm_director": "Accountable for revenue cycle performance, denial management, and accounts receivable reconciliation.",
+    "role_compliance_officer": "Accountable for HIPAA privacy, regulatory compliance, and billing integrity.",
+    "role_patient": "Informed participant in clinical care transitions, treatment plans, and guarantor for patient balances."
+  }
+}

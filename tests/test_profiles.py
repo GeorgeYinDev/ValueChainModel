@@ -89,15 +89,17 @@ def test_profile_isolation_guarantee():
     kg_path = ROOT_DIR / "index" / "core" / "knowledge_graph.json"
     kg_data = json.loads(kg_path.read_text(encoding="utf-8"))
     
-    # Ensure no manufacturing or professional services elements exist in core
+    # Ensure no manufacturing, professional services, or healthcare elements exist in core
     for eid in kg_data["elements"].keys():
         assert not eid.startswith("p2m_"), f"Unexpected manufacturing element '{eid}' in core graph"
         assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in core graph"
         assert not eid.startswith("l2c_"), f"Unexpected professional services element '{eid}' in core graph"
         assert not eid.startswith("e2c_"), f"Unexpected professional services element '{eid}' in core graph"
+        assert not eid.startswith("p2d_"), f"Unexpected healthcare element '{eid}' in core graph"
+        assert not eid.startswith("rcm_"), f"Unexpected healthcare element '{eid}' in core graph"
 
 def test_professional_services_isolation():
-    """Verify professional services contains no discrete manufacturing elements."""
+    """Verify professional services contains no discrete manufacturing or healthcare elements."""
     res = subprocess.run(
         ["uv", "run", str(VALIDATOR_SCRIPT), "--profile", "professional_services"],
         cwd=ROOT_DIR,
@@ -112,3 +114,34 @@ def test_professional_services_isolation():
     for eid in kg_data["elements"].keys():
         assert not eid.startswith("p2m_"), f"Unexpected manufacturing element '{eid}' in professional services graph"
         assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in professional services graph"
+        assert not eid.startswith("p2d_"), f"Unexpected healthcare element '{eid}' in professional services graph"
+        assert not eid.startswith("rcm_"), f"Unexpected healthcare element '{eid}' in professional services graph"
+
+def test_healthcare_profile_resolution():
+    """Verify healthcare profile resolves with expected layers and elements."""
+    ep = resolve_profile(ROOT_DIR / "profiles", "healthcare", ROOT_DIR)
+    assert ep.layers == ["core", "healthcare"]
+    assert "p2d_001_patient_registration_scheduling" in ep.element_files
+    assert "rcm_001_charge_capture_coding" in ep.element_files
+    assert "asset_ehr_system" in ep.asset_files
+    assert "role_attending_physician" in ep.role_files
+
+def test_healthcare_isolation():
+    """Verify healthcare contains no discrete manufacturing or professional services elements."""
+    res = subprocess.run(
+        ["uv", "run", str(VALIDATOR_SCRIPT), "--profile", "healthcare"],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True
+    )
+    assert res.returncode == 0, f"Healthcare build failed: {res.stderr}\n{res.stdout}"
+    
+    kg_path = ROOT_DIR / "index" / "healthcare" / "knowledge_graph.json"
+    kg_data = json.loads(kg_path.read_text(encoding="utf-8"))
+    
+    for eid in kg_data["elements"].keys():
+        assert not eid.startswith("p2m_"), f"Unexpected manufacturing element '{eid}' in healthcare graph"
+        assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in healthcare graph"
+        assert not eid.startswith("l2c_"), f"Unexpected professional services element '{eid}' in healthcare graph"
+        assert not eid.startswith("e2c_"), f"Unexpected professional services element '{eid}' in healthcare graph"
+

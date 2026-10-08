@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_clearinghouse_cyberattack_outage",
+  "name": "EDI Clearinghouse Cyberattack & Claim Blackout Shock",
+  "target_lifecycle": "RCM",
+  "applicable_profiles": ["healthcare"],
+  "description": "Simulates a nationwide healthcare clearinghouse cyberattack and ransomware shutdown (e.g. Change Healthcare incident), paralyzing EDI 837 claim transmission and 835 remittance ingestion, forcing manual workarounds and severe cash delay.",
+  "shocks": [
+    {
+      "target_element_id": "rcm_002_claim_scrubbing_submission",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.5,
+      "additive_delta": 48.0
+    },
+    {
+      "target_element_id": "rcm_002_claim_scrubbing_submission",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.2,
+      "additive_delta": 0.08
+    },
+    {
+      "target_element_id": "rcm_003_payer_adjudication_remittance",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 120.0
+    },
+    {
+      "target_element_id": "rcm_006_cash_posting_reconciliation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.0,
+      "additive_delta": 16.0
+    },
+    {
+      "target_element_id": "rcm_006_cash_posting_reconciliation",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.0,
+      "additive_delta": 150.0
+    }
+  ]
+}

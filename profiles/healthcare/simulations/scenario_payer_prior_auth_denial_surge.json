@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_payer_prior_auth_denial_surge",
+  "name": "Payer Algorithmic Prior-Authorization & Denial Surge",
+  "target_lifecycle": "RCM",
+  "applicable_profiles": ["healthcare"],
+  "description": "Simulates an aggressive payer utilization review shift using algorithmic claim denials, spiking initial denial rates and overburdening clinical appeal and peer-to-peer review workflows.",
+  "shocks": [
+    {
+      "target_element_id": "p2d_002_insurance_verification_prior_auth",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 12.0
+    },
+    {
+      "target_element_id": "p2d_002_insurance_verification_prior_auth",
+      "attribute_modifier": "error_rate",
+      "multiplier": 1.8,
+      "additive_delta": 0.05
+    },
+    {
+      "target_element_id": "rcm_004_denial_management_appeals",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.2,
+      "additive_delta": 36.0
+    },
+    {
+      "target_element_id": "rcm_004_denial_management_appeals",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.0,
+      "additive_delta": 180.0
+    },
+    {
+      "target_element_id": "rcm_004_denial_management_appeals",
+      "attribute_modifier": "error_rate",
+      "multiplier": 1.5,
+      "additive_delta": 0.04
+    },
+    {
+      "target_element_id": "rcm_005_patient_billing_collections",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.4,
+      "additive_delta": 18.0
+    }
+  ]
+}

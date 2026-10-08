@@ -13,12 +13,13 @@ Welcome to the **Enterprise Value Chain Modeling Engine**, a composable, schema-
 │   ├── architecture/       # Core Financial Triad & Dual RACI/DACI governance
 │   ├── guides/             # Element authoring & quantitative simulation guides
 │   ├── reference/          # CLI tooling & engine syntax reference
-│   └── decisions/          # Architecture Decision Records (ADRs 0001 - 0008)
+│   └── decisions/          # Architecture Decision Records (ADRs 0001 - 0009)
 ├── schema/                 # JSON Schemas enforcing metadata & frontmatter validation
 ├── profiles/               # Industry-specific taxonomy overlays
 │   ├── core/               # Shared enterprise capabilities (S2P, R2R, H2R)
 │   ├── manufacturing/      # Discrete manufacturing overlays (P2M, O2C)
-│   └── professional_services/ # Services overlays (L2C, E2C)
+│   ├── professional_services/ # Services overlays (L2C, E2C)
+│   └── healthcare/         # Healthcare provider & clinical overlays (P2D, RCM)
 ├── templates/              # Boilerplates for new elements, roles, assets, and manifests
 │   ├── element_template.md
 │   ├── role_template.md
@@ -58,6 +59,7 @@ uv run tools/validate_and_build.py --profile ALL
 uv run tools/validate_and_build.py --profile manufacturing
 uv run tools/validate_and_build.py --profile core
 uv run tools/validate_and_build.py --profile professional_services
+uv run tools/validate_and_build.py --profile healthcare
 ```
 
 To run scenario simulations:
@@ -81,9 +83,19 @@ uv run tools/simulate_scenario.py --profile professional_services scenario_consu
 # Run PSA Cloud Outage Scenario (E2C, Professional Services)
 uv run tools/simulate_scenario.py --profile professional_services scenario_psa_outage_billing_crunch
 
+# Run EDI Clearinghouse Cyberattack Outage Scenario (RCM, Healthcare)
+uv run tools/simulate_scenario.py --profile healthcare scenario_clearinghouse_cyberattack_outage
+
+# Run Payer Prior-Auth & Denial Surge Scenario (RCM, Healthcare)
+uv run tools/simulate_scenario.py --profile healthcare scenario_payer_prior_auth_denial_surge
+
+# Run Emergency Department Surge Capacity Crunch Scenario (P2D, Healthcare)
+uv run tools/simulate_scenario.py --profile healthcare scenario_emergency_surge_capacity_crunch
+
 # Run Core ERP Outage Scenario (Shared across profiles)
 uv run tools/simulate_scenario.py --profile manufacturing scenario_erp_outage
 uv run tools/simulate_scenario.py --profile professional_services scenario_erp_outage
+uv run tools/simulate_scenario.py --profile healthcare scenario_erp_outage
 ```
 
 ---
