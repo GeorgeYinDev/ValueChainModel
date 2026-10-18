@@ -1,0 +1,46 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    hospital_revenue_cycle_stream[["<b>Stream: Hospital Revenue Cycle &amp; Cash Reconciliation Value Stream</b><br/><small>hospital_revenue_cycle_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_RCM_billing_submission ["<b>Billing Preparation & Submission Phase</b>"]
+    rcm_001_charge_capture_coding["<b>Charge Capture &amp; Medical Coding</b><br/><small>ID: rcm_001_charge_capture_coding</small><br/>⏱ 12.0h | 💰 $85.0 | ⚡ 60% auto"]:::processStep
+    rcm_002_claim_scrubbing_submission["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/><small>ID: rcm_002_claim_scrubbing_submission</small><br/>⏱ 6.0h | 💰 $40.0 | ⚡ 88% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_adjudication_recovery ["<b>Adjudication & Denial Recovery Phase</b>"]
+    rcm_003_payer_adjudication_remittance["<b>Payer Adjudication &amp; Remittance</b><br/><small>ID: rcm_003_payer_adjudication_remittance</small><br/>⏱ 120.0h | 💰 $15.0 | ⚡ 92% auto"]:::processStep
+    rcm_004_denial_management_appeals["<b>Denial Management &amp; Appeals</b><br/><small>ID: rcm_004_denial_management_appeals</small><br/>⏱ 24.0h | 💰 $110.0 | ⚡ 35% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_settlement_reconciliation ["<b>Settlement & Ledger Reconciliation Phase</b>"]
+    rcm_005_patient_billing_collections["<b>Patient Billing &amp; Collections</b><br/><small>ID: rcm_005_patient_billing_collections</small><br/>⏱ 48.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    rcm_006_cash_posting_reconciliation["<b>Cash Posting &amp; Subledger Reconciliation</b><br/><small>ID: rcm_006_cash_posting_reconciliation</small><br/>⏱ 8.0h | 💰 $50.0 | ⚡ 85% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    clinical_prior_auth_medical_necessity_policy(["<b>Policy: Medical Necessity &amp; Prior Authorization Governance Policy</b><br/><small>clinical_prior_auth_medical_necessity_policy</small>"]):::controlPolicy
+    hipaa_phi_privacy_policy(["<b>Policy: HIPAA Security, Privacy &amp; PHI Governance Policy</b><br/><small>hipaa_phi_privacy_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  data_837_claim_file -. triggers .-> rcm_003_payer_adjudication_remittance
+  kpi_days_in_ar -. impacted_by .-> rcm_006_cash_posting_reconciliation
+  kpi_initial_denial_rate -. impacted_by .-> rcm_004_denial_management_appeals
+  rcm_001_charge_capture_coding --> rcm_002_claim_scrubbing_submission
+  rcm_001_charge_capture_coding -. governed by .-> hipaa_phi_privacy_policy
+  rcm_002_claim_scrubbing_submission --> rcm_003_payer_adjudication_remittance
+  rcm_002_claim_scrubbing_submission -. governed by .-> clinical_prior_auth_medical_necessity_policy
+  rcm_003_payer_adjudication_remittance --> rcm_004_denial_management_appeals
+  rcm_003_payer_adjudication_remittance -. governed by .-> hipaa_phi_privacy_policy
+  rcm_004_denial_management_appeals --> rcm_005_patient_billing_collections
+  rcm_004_denial_management_appeals -. governed by .-> clinical_prior_auth_medical_necessity_policy
+  rcm_005_patient_billing_collections --> rcm_006_cash_posting_reconciliation
+  rcm_005_patient_billing_collections -. governed by .-> hipaa_phi_privacy_policy
+  rcm_006_cash_posting_reconciliation -. governed by .-> hipaa_phi_privacy_policy
+  hospital_revenue_cycle_stream -. governed by .-> clinical_prior_auth_medical_necessity_policy

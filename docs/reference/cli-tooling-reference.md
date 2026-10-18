@@ -147,3 +147,30 @@ profiles/<profile_id>/
 ```bash
 uv run tools/new_profile.py aerospace --extends manufacturing --name "Aerospace & Defense"
 ```
+
+---
+
+## 5. Custom Profile Overlay Bundle Importer (`import_custom_profile.py`)
+
+### Synopsis
+```bash
+uv run tools/import_custom_profile.py <bundle_path> [--profiles-root DIR] [--output-dir DIR] [--skip-build]
+```
+
+### Purpose
+Unpacks a custom profile overlay bundle (`.vcm.json`) exported from the client-side **Interactive Designer Studio** (`value_chain_visualizer.html`) into a first-class layered profile directory (`profiles/<custom_id>/`) with compliant YAML frontmatter and Tier 1/2/3 Markdown descriptions, and automatically runs `validate_and_build.py`.
+
+### CLI Arguments
+
+| Argument | Type | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `bundle_path` | path | *(required)* | Path to the exported `.vcm.json` bundle file. |
+| `--profiles-root` | string | `profiles` | Root directory where the unpacked `<custom_id>` profile folder will be created. |
+| `--output-dir` | string | `index` | Target index directory passed to `validate_and_build.py`. |
+| `--skip-build` | flag | `false` | Materialize the profile files on disk without running `validate_and_build.py`. |
+
+### Example
+```bash
+uv run tools/import_custom_profile.py ~/Downloads/manufacturing_custom.vcm.json
+```
+

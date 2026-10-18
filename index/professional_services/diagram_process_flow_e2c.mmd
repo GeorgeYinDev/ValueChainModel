@@ -1,0 +1,46 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    client_engagement_delivery_stream[["<b>Stream: Client Engagement &amp; Delivery Value Stream</b><br/><small>client_engagement_delivery_stream</small>"]]:::valueStream
+    consulting_revenue_billing_stream[["<b>Stream: Consulting Time, Expense &amp; Revenue Billing Stream</b><br/><small>consulting_revenue_billing_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_E2C_initiation_staffing ["<b>Initiation & Staffing Phase</b>"]
+    e2c_001_project_kickoff["<b>Project Kickoff &amp; Resource Allocation</b><br/><small>ID: e2c_001_project_kickoff</small><br/>⏱ 16.0h | 💰 $500.0 | ⚡ 20% auto"]:::processStep
+    e2c_002_resource_scheduling["<b>Resource Scheduling &amp; Allocation</b><br/><small>ID: e2c_002_resource_scheduling</small><br/>⏱ 12.0h | 💰 $800.0 | ⚡ 40% auto"]:::processStep
+  end
+
+  subgraph Subgraph_E2C_delivery_execution ["<b>Delivery & Execution Phase</b>"]
+    e2c_003_project_execution_delivery["<b>Project Execution &amp; Milestone Delivery</b><br/><small>ID: e2c_003_project_execution_delivery</small><br/>⏱ 160.0h | 💰 $20000.0 | ⚡ 5% auto"]:::processStep
+    e2c_004_time_expense_entry["<b>Time &amp; Expense Logging</b><br/><small>ID: e2c_004_time_expense_entry</small><br/>⏱ 2.0h | 💰 $100.0 | ⚡ 60% auto"]:::processStep
+    e2c_005_client_acceptance["<b>Client Review &amp; Deliverable Acceptance</b><br/><small>ID: e2c_005_client_acceptance</small><br/>⏱ 48.0h | 💰 $500.0 | ⚡ 10% auto"]:::processStep
+  end
+
+  subgraph Subgraph_E2C_billing_closure ["<b>Billing & Engagement Closure Phase</b>"]
+    e2c_006_project_billing_invoicing["<b>Project Billing &amp; Invoicing</b><br/><small>ID: e2c_006_project_billing_invoicing</small><br/>⏱ 8.0h | 💰 $150.0 | ⚡ 70% auto"]:::processStep
+    e2c_007_project_closure_lessons["<b>Project Closure &amp; Lessons Learned</b><br/><small>ID: e2c_007_project_closure_lessons</small><br/>⏱ 6.0h | 💰 $600.0 | ⚡ 20% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    time_expense_compliance_policy(["<b>Policy: Consultant Time &amp; Expense Submission Compliance Policy</b><br/><small>time_expense_compliance_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  data_consultant_timesheet -. triggers .-> e2c_006_project_billing_invoicing
+  data_statement_of_work -. triggers .-> e2c_001_project_kickoff
+  kpi_billable_utilization -. impacted_by .-> e2c_004_time_expense_entry
+  kpi_project_gross_margin -. impacted_by .-> e2c_006_project_billing_invoicing
+  e2c_001_project_kickoff --> e2c_002_resource_scheduling
+  e2c_002_resource_scheduling --> e2c_003_project_execution_delivery
+  e2c_003_project_execution_delivery --> e2c_004_time_expense_entry
+  e2c_004_time_expense_entry --> e2c_005_client_acceptance
+  e2c_004_time_expense_entry -. governed by .-> time_expense_compliance_policy
+  e2c_004_time_expense_entry -. produces_artifact .-> data_consultant_timesheet
+  e2c_005_client_acceptance --> e2c_006_project_billing_invoicing
+  e2c_006_project_billing_invoicing --> e2c_007_project_closure_lessons
+  e2c_006_project_billing_invoicing -. governed by .-> time_expense_compliance_policy
+  consulting_revenue_billing_stream -. governed by .-> time_expense_compliance_policy

@@ -73,7 +73,8 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   ├── role_template.md                # Enterprise role definition template
 │   ├── asset_template.md               # Enterprise IT system node template
 │   ├── lifecycle_template.json         # Business lifecycle manifest JSON template
-│   └── scenario_template.json          # Operational scenario shock JSON template
+│   ├── scenario_template.json          # Operational scenario shock JSON template
+│   └── visualizer_template.html        # Standalone SPA & Interactive Designer Studio template
 ├── index/                              # Generated Knowledge Graphs, Dashboards & Visualizers
 │   ├── index.html                      # Multi-profile landing dashboard and switcher
 │   ├── core/                           # Compiled artifacts for Core Back-Office profile
@@ -85,7 +86,8 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
     ├── validate_and_build.py           # Model validator, graph linker & multi-profile compiler
     ├── export_diagram.py               # Data-driven Mermaid diagram & visualizer builder
     ├── simulate_scenario.py            # Quantitative scenario simulation engine
-    └── new_profile.py                  # Scaffolding generator for new industry overlays
+    ├── new_profile.py                  # Scaffolding generator for new industry overlays
+    └── import_custom_profile.py        # Importer for Browser Designer Studio (.vcm.json) bundles
 ```
 
 ---
@@ -96,13 +98,13 @@ A comprehensive enterprise documentation suite is available in the [`docs/`](doc
 
 | Domain | Guide / Specification | Primary Focus & Target Audience |
 | :--- | :--- | :--- |
-| **Enterprise Architecture** | [The Enterprise Value Chain](docs/architecture/enterprise-value-chain-architecture.md) | End-to-end structural spine unifying all 7 lifecycles, operational material flows, subledger feeds, and IT topology. |
+| **Enterprise Architecture** | [The Enterprise Value Chain](docs/architecture/enterprise-value-chain-architecture.md) | End-to-end structural spine unifying all 9 lifecycles, operational material flows, subledger feeds, and IT topology. |
 | **Enterprise Architecture** | [Dual RACI & DACI Governance](docs/architecture/governance-raci-daci.md) | Operational task delivery vs. decision rights; Single Approver rule ($|A|=1$); Segregation of Duties (SoD) toxic combination detection algorithm. |
-| **Practitioner Guide** | [Authoring Elements & Lifecycles](docs/guides/authoring-elements-and-lifecycles.md) | Step-by-step authoring manual for process milestones, control policies, value streams, roles, IT assets, and new lifecycle blueprints. |
+| **Practitioner Guide** | [Authoring Elements & Lifecycles](docs/guides/authoring-elements-and-lifecycles.md) | Step-by-step authoring manual (CLI & Interactive Browser Designer Studio) for process milestones, control policies, value streams, roles, IT assets, and lifecycles. |
 | **Practitioner Guide** | [Quantitative Scenario Simulation](docs/guides/quantitative-scenario-simulation.md) | Disruption shock mechanics; Kingman queueing math & bottleneck shifts; multi-shock modifier modeling; interpreting sensitivity reports. |
-| **Technical Reference** | [CLI Tooling & Engine Reference](docs/reference/cli-tooling-reference.md) | Exhaustive parameter, flag, and output schema reference for `validate_and_build.py`, `export_diagram.py`, `simulate_scenario.py`, and `new_profile.py`. |
-| **Strategic Roadmap** | [Master Implementation Plan](ROADMAP.md) | Multi-phase strategic roadmap from Core Financial Triad to H2R, P2M, Multi-Industry Profiles, and Professional Services. |
-| **Decisions (ADRs)** | [Architecture Decision Records](docs/decisions/) | ADR-0001 through ADR-0008 documenting all lifecycle, framework, and profile governance decisions. |
+| **Technical Reference** | [CLI Tooling & Engine Reference](docs/reference/cli-tooling-reference.md) | Exhaustive parameter, flag, and output schema reference for `validate_and_build.py`, `export_diagram.py`, `simulate_scenario.py`, `new_profile.py`, and `import_custom_profile.py`. |
+| **Strategic Roadmap** | [Master Implementation Plan](ROADMAP.md) | Multi-phase strategic roadmap from Core Financial Triad to H2R, P2M, Multi-Industry Profiles, Professional Services, Healthcare, and Interactive Designer Studio. |
+| **Decisions (ADRs)** | [Architecture Decision Records](docs/decisions/) | ADR-0001 through ADR-0009 documenting all lifecycle, framework, and profile governance decisions. |
 
 ---
 
@@ -132,7 +134,7 @@ The engine supports two complementary governance matrices across all lifecycles:
 
 ## 🔄 Supported Business Lifecycles
 
-The engine models 7 enterprise lifecycles across horizontal and industry-specific profiles:
+The engine models 9 enterprise lifecycles across horizontal and industry-specific profiles:
 
 ### 1. Source to Pay (S2P) — Core Back-Office
 Covers end-to-end strategic procurement from spend analysis to bank disbursement:
@@ -193,15 +195,15 @@ Covers healthcare clinical-financial translation, electronic claim clearinghouse
 
 ---
 
-## 📊 Interactive Standalone Executive Visualizers
+## 📊 Interactive Standalone Executive Visualizers & Designer Studio
 
-Each profile compiles an independent, **100% standalone Single-Page Application (SPA)** with zero server dependencies:
+Each profile compiles an independent, **100% standalone Single-Page Application (SPA)** with zero server dependencies, including the **`🎨 Designer Studio`** tab for interactive lifecycle milestone sequencing, process step authoring/overriding, role/asset management, live governance guardrails (Single Approver $|A|=1$, SoD, role limits), client-side Mermaid re-rendering, and `.vcm.json` profile overlay export:
 
 - **Global Profile Switcher Dashboard**: [`index/index.html`](index/index.html)
-- **Healthcare Visualizer**: [`index/healthcare/value_chain_visualizer.html`](index/healthcare/value_chain_visualizer.html)
-- **Professional Services Visualizer**: [`index/professional_services/value_chain_visualizer.html`](index/professional_services/value_chain_visualizer.html)
-- **Manufacturing Visualizer**: [`index/manufacturing/value_chain_visualizer.html`](index/manufacturing/value_chain_visualizer.html)
-- **Core Back-Office Visualizer**: [`index/core/value_chain_visualizer.html`](index/core/value_chain_visualizer.html)
+- **Healthcare Visualizer & Studio**: [`index/healthcare/value_chain_visualizer.html`](index/healthcare/value_chain_visualizer.html)
+- **Professional Services Visualizer & Studio**: [`index/professional_services/value_chain_visualizer.html`](index/professional_services/value_chain_visualizer.html)
+- **Manufacturing Visualizer & Studio**: [`index/manufacturing/value_chain_visualizer.html`](index/manufacturing/value_chain_visualizer.html)
+- **Core Back-Office Visualizer & Studio**: [`index/core/value_chain_visualizer.html`](index/core/value_chain_visualizer.html)
 
 ### How to Open
 ```bash
@@ -224,6 +226,7 @@ Execute the build engine whenever elements, roles, assets, or policies are modif
 uv run tools/validate_and_build.py --profile ALL
 
 # Or target a specific profile:
+uv run tools/validate_and_build.py --profile healthcare
 uv run tools/validate_and_build.py --profile professional_services
 uv run tools/validate_and_build.py --profile manufacturing
 uv run tools/validate_and_build.py --profile core
@@ -242,6 +245,11 @@ uv run tools/export_diagram.py --profile manufacturing --lifecycle P2M --format 
 ### 3. Run Quantitative Operational Simulations
 Simulate operational disruptions and quantify lead time and unit cost impacts:
 ```bash
+# Healthcare Provider & RCM Scenarios:
+uv run tools/simulate_scenario.py --profile healthcare scenario_clearinghouse_cyberattack_outage
+uv run tools/simulate_scenario.py --profile healthcare scenario_payer_prior_auth_denial_surge
+uv run tools/simulate_scenario.py --profile healthcare scenario_emergency_surge_capacity_crunch
+
 # Professional Services Scenarios:
 uv run tools/simulate_scenario.py --profile professional_services scenario_project_margin_slippage
 uv run tools/simulate_scenario.py --profile professional_services scenario_consultant_bench_surge
@@ -261,12 +269,17 @@ uv run tools/simulate_scenario.py --profile core scenario_payroll_outage_surge
 # Cross-Profile Shared Scenarios:
 uv run tools/simulate_scenario.py --profile manufacturing scenario_erp_outage
 uv run tools/simulate_scenario.py --profile professional_services scenario_erp_outage
+uv run tools/simulate_scenario.py --profile healthcare scenario_erp_outage
 ```
 
-### 4. Scaffold New Industry Overlays
-Generate folder structures and manifests for a new industry domain:
+### 4. Scaffold New Industry Overlays & Import Studio Bundles
+Generate folder structures and manifests for a new industry domain, or materialize an exported `.vcm.json` overlay bundle from the Browser Designer Studio:
 ```bash
+# Scaffold an empty profile overlay:
 uv run tools/new_profile.py aerospace --extends manufacturing --name "Aerospace & Defense"
+
+# Materialize and build a custom profile bundle exported from the Browser Designer Studio:
+uv run tools/import_custom_profile.py path/to/acme_custom.vcm.json
 ```
 
 ---
@@ -282,5 +295,6 @@ Managed under Architecture Decision Records in `docs/decisions/`:
 - **ADR-0006**: Plan-to-Make (P2M) Lifecycle Taxonomy & Manufacturing Operations
 - **ADR-0007**: Multi-Industry Profiles & Layered Inheritance Architecture
 - **ADR-0008**: Professional Services (L2C / E2C) Operating Model & PSA Integration
+- **ADR-0009**: Healthcare Provider & Clinical Systems (P2D / RCM) Operating Model Taxonomy
 
 All releases and historical changes are tracked in [`CHANGELOG.md`](CHANGELOG.md).

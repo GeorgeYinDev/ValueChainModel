@@ -79,6 +79,12 @@
     "apqc_pcf_id": {
       "type": "string"
     },
+    "compensating_control": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "kpi_metric_details": {
       "type": "object",
       "properties": {

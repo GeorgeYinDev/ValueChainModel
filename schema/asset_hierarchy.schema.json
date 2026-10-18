@@ -12,6 +12,7 @@
   ],
   "properties": {
     "id": { "type": "string" },
+    "overrides": { "type": "string" },
     "name": { "type": "string" },
     "asset_type": {
       "type": "string",

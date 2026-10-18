@@ -1,0 +1,33 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    client_engagement_delivery_stream[["<b>Stream: Client Engagement &amp; Delivery Value Stream</b><br/><small>client_engagement_delivery_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_L2C_pipeline_proposal ["<b>Pipeline & Proposal Phase</b>"]
+    l2c_001_lead_qualification["<b>Lead Qualification &amp; Discovery</b><br/><small>ID: l2c_001_lead_qualification</small><br/>⏱ 8.0h | 💰 $500.0 | ⚡ 15% auto"]:::processStep
+    l2c_002_proposal_development["<b>Proposal Development &amp; Scoping</b><br/><small>ID: l2c_002_proposal_development</small><br/>⏱ 40.0h | 💰 $1500.0 | ⚡ 10% auto"]:::processStep
+  end
+
+  subgraph Subgraph_L2C_negotiation_closing ["<b>Negotiation & Deal Closure Phase</b>"]
+    l2c_003_contract_negotiation["<b>Contract Negotiation &amp; Legal Review</b><br/><small>ID: l2c_003_contract_negotiation</small><br/>⏱ 48.0h | 💰 $1200.0 | ⚡ 5% auto"]:::processStep
+    l2c_004_deal_closure_handover["<b>Deal Closure &amp; Delivery Handover</b><br/><small>ID: l2c_004_deal_closure_handover</small><br/>⏱ 4.0h | 💰 $200.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    project_pricing_margin_policy(["<b>Policy: Project Pricing &amp; Target Gross Margin Governance Policy</b><br/><small>project_pricing_margin_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  kpi_deal_win_rate -. impacted_by .-> l2c_004_deal_closure_handover
+  l2c_001_lead_qualification --> l2c_002_proposal_development
+  l2c_002_proposal_development --> l2c_003_contract_negotiation
+  l2c_002_proposal_development -. governed by .-> project_pricing_margin_policy
+  l2c_003_contract_negotiation --> l2c_004_deal_closure_handover
+  l2c_003_contract_negotiation -. governed by .-> project_pricing_margin_policy
+  l2c_003_contract_negotiation -. produces_artifact .-> data_statement_of_work
+  client_engagement_delivery_stream -. governed by .-> project_pricing_margin_policy

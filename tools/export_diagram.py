@@ -9,69 +9,137 @@ Generates:
 4. Executive Standalone Interactive Visualizer Dashboard in index/value_chain_visualizer.html
 """
 
-import os
-import sys
-import json
-import pathlib
 import argparse
-from typing import Dict, Any, List, Optional, Tuple
+import json
+import os
+import pathlib
+import subprocess
+import sys
+from typing import Any
 
-def load_data(root: pathlib.Path, profile: str) -> Tuple[Dict[str, Any], Dict[str, Any], List[Dict[str, Any]], Dict[str, str]]:
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+
+from tools.vcm_profiles import resolve_profile
+
+
+def _display_path(path: pathlib.Path, root: pathlib.Path) -> pathlib.Path:
+    return path.relative_to(root) if path.is_relative_to(root) else path
+
+
+def _role_keys(kg_data: dict[str, Any]) -> list[str]:
+    raw_roles = kg_data.get("roles", {})
+    if isinstance(raw_roles, dict):
+        return sorted(raw_roles.keys())
+    if isinstance(raw_roles, list):
+        return sorted(str(r) for r in raw_roles)
+    return []
+
+
+def load_data(
+    root: pathlib.Path,
+    profile: str,
+    output_base: pathlib.Path | None = None,
+    profiles_root: pathlib.Path | None = None,
+) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], dict[str, str]]:
     """Loads knowledge graph, lifecycles, scenarios, and role display names."""
-    index_dir = root / "index" / profile
+    base_dir = output_base if output_base is not None else (root / "index")
+    p_root = profiles_root if profiles_root is not None else (root / "profiles")
+    index_dir = base_dir / profile
     kg_file = index_dir / "knowledge_graph.json"
 
     # If knowledge graph doesn't exist, run validator first
     if not kg_file.exists():
         print("[-] Knowledge graph index not found. Running validator first...")
         val_script = root / "tools" / "validate_and_build.py"
-        os.system(f"python3 {val_script}")
+        os.system(
+            f"python3 {val_script} --profile {profile} --profiles-root {p_root} --output-dir {base_dir}"
+        )
 
     kg_data = json.loads(kg_file.read_text(encoding="utf-8"))
 
-    # Load lifecycles
-    lifecycles = {}
-    lifecycles_dir = root / "lifecycles"
-    if lifecycles_dir.exists():
-        for lf in lifecycles_dir.glob("*.json"):
-            try:
-                data = json.loads(lf.read_text(encoding="utf-8"))
-                lifecycles[data.get("lifecycle_id", lf.stem.upper())] = data
-            except Exception:
-                pass
+    # 1. Load lifecycles from knowledge_graph.json (fallback to root/lifecycles)
+    lifecycles: dict[str, Any] = {}
+    if isinstance(kg_data.get("lifecycles"), dict) and kg_data["lifecycles"]:
+        lifecycles = dict(kg_data["lifecycles"])
+    else:
+        lifecycles_dir = root / "lifecycles"
+        if lifecycles_dir.exists():
+            for lf in lifecycles_dir.glob("*.json"):
+                try:
+                    data = json.loads(lf.read_text(encoding="utf-8"))
+                    lifecycles[data.get("lifecycle_id", lf.stem.upper())] = data
+                except Exception:
+                    pass
 
-    # Load scenarios
-    scenarios = []
-    sim_dir = root / "simulations"
-    if sim_dir.exists():
-        for sf in sorted(sim_dir.glob("*.json")):
+    # 2. Resolve profile for scenarios and role markdown fallback
+    ep = None
+    if (p_root / profile / "profile.json").exists():
+        try:
+            ep = resolve_profile(p_root, profile, root)
+        except Exception:
+            ep = None
+
+    scenarios: list[dict[str, Any]] = []
+    if ep is not None:
+        for _sim_id, (sf, _layer) in sorted(ep.scenario_files.items()):
             try:
                 data = json.loads(sf.read_text(encoding="utf-8"))
+                applicable = data.get("applicable_profiles", [])
+                if applicable and profile not in applicable:
+                    continue
                 scenarios.append(data)
             except Exception:
                 pass
+    else:
+        sim_dir = root / "simulations"
+        if sim_dir.exists():
+            for sf in sorted(sim_dir.glob("*.json")):
+                try:
+                    data = json.loads(sf.read_text(encoding="utf-8"))
+                    scenarios.append(data)
+                except Exception:
+                    pass
 
-    # Load role titles from markdown files
-    role_titles = {}
-    roles_dir = root / "roles"
-    if roles_dir.exists():
-        for rf in roles_dir.glob("*.md"):
-            content = rf.read_text(encoding="utf-8")
-            role_id = rf.stem
-            title = role_id.replace("role_", "").replace("_", " ").title()
-            for line in content.splitlines():
-                if line.startswith("# Role Definition:"):
-                    title = line.replace("# Role Definition:", "").strip()
-                    break
-                elif line.startswith("# "):
-                    title = line.replace("# ", "").strip()
-                    break
+    # 3. Populate role_titles from kg_data["roles"] and role markdown files
+    role_titles: dict[str, str] = {}
+    raw_roles = kg_data.get("roles", {})
+    if isinstance(raw_roles, dict):
+        for role_id, role_obj in raw_roles.items():
+            title = ""
+            if isinstance(role_obj, dict):
+                title = str(role_obj.get("name", "")).strip()
+            if not title and ep is not None and role_id in ep.role_files:
+                rf, _ = ep.role_files[role_id]
+                for line in rf.read_text(encoding="utf-8").splitlines():
+                    if line.startswith("# Role Definition:"):
+                        title = line.replace("# Role Definition:", "").strip()
+                        break
+                    if line.startswith("# "):
+                        title = line.replace("# ", "").strip()
+                        break
+            if not title:
+                title = role_id.replace("role_", "").replace("_", " ").title()
             role_titles[role_id] = title
+    else:
+        roles_dir = root / "roles"
+        if roles_dir.exists():
+            for rf in roles_dir.glob("*.md"):
+                content = rf.read_text(encoding="utf-8")
+                role_id = rf.stem
+                title = role_id.replace("role_", "").replace("_", " ").title()
+                for line in content.splitlines():
+                    if line.startswith("# Role Definition:"):
+                        title = line.replace("# Role Definition:", "").strip()
+                        break
+                    elif line.startswith("# "):
+                        title = line.replace("# ", "").strip()
+                        break
+                role_titles[role_id] = title
 
     return kg_data, lifecycles, scenarios, role_titles
 
 
-def get_element_raci(elem: Dict[str, Any]) -> Dict[str, List[str]]:
+def get_element_raci(elem: dict[str, Any]) -> dict[str, list[str]]:
     """Helper to reliably extract RACI roles."""
     raci = elem.get("raci", {})
     if not isinstance(raci, dict):
@@ -85,7 +153,7 @@ def get_element_raci(elem: Dict[str, Any]) -> Dict[str, List[str]]:
     }
 
 
-def get_element_daci(elem: Dict[str, Any]) -> Dict[str, List[str]]:
+def get_element_daci(elem: dict[str, Any]) -> dict[str, list[str]]:
     """Helper to extract DACI roles (Driver, Approver, Contributor, Informed)."""
     daci = elem.get("daci", {})
     if not isinstance(daci, dict):
@@ -107,7 +175,7 @@ def get_element_daci(elem: Dict[str, Any]) -> Dict[str, List[str]]:
     }
 
 
-def get_element_attrs(elem: Dict[str, Any]) -> Dict[str, float]:
+def get_element_attrs(elem: dict[str, Any]) -> dict[str, float]:
     """Helper to extract operational parameters."""
     attrs = elem.get("attributes", {})
     if not isinstance(attrs, dict):
@@ -129,14 +197,14 @@ def sanitize_label(text: str) -> str:
     return text.replace("&", "&amp;").replace('"', '&quot;')
 
 
-def get_order_map(kg_data: Dict[str, Any]) -> Dict[str, int]:
+def get_order_map(kg_data: dict[str, Any]) -> dict[str, int]:
     order_map = {}
-    for lf_id, lf_manifest in kg_data.get("lifecycles", {}).items():
+    for lf_manifest in kg_data.get("lifecycles", {}).values():
         for m in lf_manifest.get("milestones", []):
             order_map[m.get("step_id")] = m.get("order", 999)
     return order_map
 
-def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], lifecycles: Dict[str, Any]) -> str:
+def generate_mermaid_process_flow(lifecycle_id: str, kg_data: dict[str, Any], lifecycles: dict[str, Any]) -> str:
     """Generates Mermaid flowchart diagram for the lifecycle."""
     elements = kg_data.get("elements", {})
     lines = [
@@ -260,10 +328,10 @@ def generate_mermaid_process_flow(lifecycle_id: str, kg_data: Dict[str, Any], li
     return "\n".join(lines)
 
 
-def generate_mermaid_raci_swimlanes(lifecycle_id: str, kg_data: Dict[str, Any], role_titles: Dict[str, str]) -> str:
+def generate_mermaid_raci_swimlanes(lifecycle_id: str, kg_data: dict[str, Any], role_titles: dict[str, str]) -> str:
     """Generates Mermaid flowchart organized by RACI role swimlanes."""
     elements = kg_data.get("elements", {})
-    all_roles = kg_data.get("roles", [])
+    all_roles = _role_keys(kg_data)
 
     lines = [
         "flowchart LR",
@@ -322,7 +390,7 @@ def generate_mermaid_raci_swimlanes(lifecycle_id: str, kg_data: Dict[str, Any], 
     return "\n".join(lines)
 
 
-def generate_mermaid_asset_architecture(kg_data: Dict[str, Any]) -> str:
+def generate_mermaid_asset_architecture(kg_data: dict[str, Any]) -> str:
     """Generates Mermaid system architecture diagram."""
     assets = kg_data.get("assets", {})
     elements = kg_data.get("elements", {})
@@ -380,10 +448,10 @@ def generate_mermaid_asset_architecture(kg_data: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def generate_raci_matrix_markdown(lifecycle_id: str, kg_data: Dict[str, Any], role_titles: Dict[str, str]) -> str:
+def generate_raci_matrix_markdown(lifecycle_id: str, kg_data: dict[str, Any], role_titles: dict[str, str]) -> str:
     """Generates detailed 2D RACI Matrix with Workload Analysis in Markdown."""
     elements = kg_data.get("elements", {})
-    all_roles = kg_data.get("roles", [])
+    all_roles = _role_keys(kg_data)
 
     matched_elems = {
         eid: data for eid, data in sorted(elements.items())
@@ -467,10 +535,10 @@ def generate_raci_matrix_markdown(lifecycle_id: str, kg_data: Dict[str, Any], ro
     return "\n".join(md)
 
 
-def generate_daci_matrix_markdown(lifecycle_id: str, kg_data: Dict[str, Any], role_titles: Dict[str, str]) -> str:
+def generate_daci_matrix_markdown(lifecycle_id: str, kg_data: dict[str, Any], role_titles: dict[str, str]) -> str:
     """Generates detailed 2D DACI Decision Matrix with Governance Analysis in Markdown."""
     elements = kg_data.get("elements", {})
-    all_roles = kg_data.get("roles", [])
+    all_roles = _role_keys(kg_data)
 
     matched_elems = {
         eid: data for eid, data in sorted(elements.items())
@@ -559,10 +627,10 @@ def generate_daci_matrix_markdown(lifecycle_id: str, kg_data: Dict[str, Any], ro
 
 def generate_interactive_html(
     root: pathlib.Path,
-    kg_data: Dict[str, Any],
-    lifecycles: Dict[str, Any],
-    scenarios: List[Dict[str, Any]],
-    role_titles: Dict[str, str],
+    kg_data: dict[str, Any],
+    lifecycles: dict[str, Any],
+    scenarios: list[dict[str, Any]],
+    role_titles: dict[str, str],
     mermaid_flow: str,
     mermaid_raci: str,
     mermaid_assets: str
@@ -584,10 +652,14 @@ def generate_interactive_html(
         mermaid_flows_dict[lid] = generate_mermaid_process_flow(lid, kg_data, lifecycles)
         mermaid_raci_dict[lid] = generate_mermaid_raci_swimlanes(lid, kg_data, role_titles)
 
+    raw_roles = kg_data.get("roles", {})
+    roles_dict = raw_roles if isinstance(raw_roles, dict) else {str(r): {"id": str(r), "name": role_titles.get(str(r), str(r))} for r in raw_roles}
+
     payload_js = (
-        f"const elements = {json.dumps(kg_data.get('elements', {}))};\n"
+        f"const profileMeta = {json.dumps(kg_data.get('profile', {}))};\n"
+        f"  const elements = {json.dumps(kg_data.get('elements', {}))};\n"
         f"  const assets = {json.dumps(kg_data.get('assets', {}))};\n"
-        f"  const roles = {json.dumps(kg_data.get('roles', []))};\n"
+        f"  const roles = {json.dumps(roles_dict)};\n"
         f"  const roleTitles = {json.dumps(role_titles)};\n"
         f"  const scenarios = {json.dumps(scenarios)};\n"
         f"  const lifecycles = {json.dumps(lifecycles)};\n"
@@ -610,40 +682,54 @@ def generate_interactive_html(
 def main():
     parser = argparse.ArgumentParser(description="Export Mermaid & Interactive HTML Value Chain Diagrams")
     parser.add_argument("--profile", default="manufacturing", help="Industry profile")
+    parser.add_argument("--profiles-root", default="profiles", help="Path to profiles directory")
     parser.add_argument("--lifecycle", default="S2P", help="Lifecycle ID to filter (e.g. S2P, O2C, ALL)")
     parser.add_argument("--format", default="all", choices=["mermaid", "markdown", "html", "all"], help="Export format")
     parser.add_argument("--output-dir", default="index", help="Output directory path")
     args = parser.parse_args()
 
     root = pathlib.Path(__file__).resolve().parent.parent
-    
+    profiles_root = pathlib.Path(args.profiles_root)
+    if not profiles_root.is_absolute():
+        profiles_root = root / profiles_root
+    output_base = pathlib.Path(args.output_dir)
+    if not output_base.is_absolute():
+        output_base = root / output_base
+
     if args.profile == "ALL":
-        import subprocess, sys
         sys.path.insert(0, str(root))
-        import json
         profiles = []
-        p_root = root / "profiles"
-        if p_root.exists():
-            for p_dir in p_root.iterdir():
+        if profiles_root.exists():
+            for p_dir in profiles_root.iterdir():
                 if p_dir.is_dir() and (p_dir / "profile.json").exists():
                     manifest = json.loads((p_dir / "profile.json").read_text(encoding="utf-8"))
                     if manifest.get("profile_id") != "core":
                         profiles.append(manifest.get("profile_id"))
         for p in profiles:
-            res = subprocess.run(["uv", "run", __file__, "--profile", p, "--lifecycle", args.lifecycle, "--format", args.format], check=False)
+            subprocess.run(
+                [
+                    "uv", "run", __file__,
+                    "--profile", p,
+                    "--profiles-root", str(profiles_root),
+                    "--lifecycle", args.lifecycle,
+                    "--format", args.format,
+                    "--output-dir", str(output_base),
+                ],
+                check=False,
+            )
         sys.exit(0)
-    
-    out_dir = root / "index" / args.profile
+
+    out_dir = output_base / args.profile
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print("==================================================")
     print(" Enterprise Value Chain Diagram & Visualizer Builder")
     print("==================================================")
     print(f"Target Lifecycle : {args.lifecycle}")
-    print(f"Output Directory : {out_dir.relative_to(root)}")
+    print(f"Output Directory : {_display_path(out_dir, root)}")
     print(f"Export Format    : {args.format}\n")
 
-    kg_data, lifecycles, scenarios, role_titles = load_data(root, args.profile)
+    kg_data, lifecycles, scenarios, role_titles = load_data(root, args.profile, output_base, profiles_root)
 
     # 1. Generate Mermaid Diagrams
     mermaid_flow = generate_mermaid_process_flow(args.lifecycle, kg_data, lifecycles)
@@ -658,28 +744,28 @@ def main():
             flow_code = generate_mermaid_process_flow(lid, kg_data, lifecycles)
             flow_file = out_dir / f"diagram_process_flow_{lid.lower()}.mmd"
             flow_file.write_text(flow_code, encoding="utf-8")
-            print(f"[+] Exported Mermaid Process Flow ({lid}): {flow_file.relative_to(root)}")
+            print(f"[+] Exported Mermaid Process Flow ({lid}): {_display_path(flow_file, root)}")
 
             raci_code = generate_mermaid_raci_swimlanes(lid, kg_data, role_titles)
             raci_mmd_file = out_dir / f"diagram_raci_swimlanes_{lid.lower()}.mmd"
             raci_mmd_file.write_text(raci_code, encoding="utf-8")
-            print(f"[+] Exported Mermaid RACI Swimlanes ({lid}): {raci_mmd_file.relative_to(root)}")
+            print(f"[+] Exported Mermaid RACI Swimlanes ({lid}): {_display_path(raci_mmd_file, root)}")
 
         asset_mmd_file = out_dir / "diagram_system_architecture.mmd"
         asset_mmd_file.write_text(mermaid_assets, encoding="utf-8")
-        print(f"[+] Exported Mermaid Asset Topology: {asset_mmd_file.relative_to(root)}")
+        print(f"[+] Exported Mermaid Asset Topology: {_display_path(asset_mmd_file, root)}")
 
     # 2. Generate Markdown RACI/DACI Matrices & Consolidated Diagrams Summary
     if args.format in ["markdown", "all"]:
         raci_md = generate_raci_matrix_markdown(args.lifecycle, kg_data, role_titles)
         raci_md_file = out_dir / "diagram_raci_matrix.md"
         raci_md_file.write_text(raci_md, encoding="utf-8")
-        print(f"[+] Exported RACI Governance Matrix: {raci_md_file.relative_to(root)}")
+        print(f"[+] Exported RACI Governance Matrix: {_display_path(raci_md_file, root)}")
 
         daci_md = generate_daci_matrix_markdown(args.lifecycle, kg_data, role_titles)
         daci_md_file = out_dir / "diagram_daci_matrix.md"
         daci_md_file.write_text(daci_md, encoding="utf-8")
-        print(f"[+] Exported DACI Decision Matrix  : {daci_md_file.relative_to(root)}")
+        print(f"[+] Exported DACI Decision Matrix  : {_display_path(daci_md_file, root)}")
 
         summary_md = f"""# Enterprise Value Chain Diagrams Summary [{args.lifecycle}]
 
@@ -718,7 +804,7 @@ Auto-generated visualization pack compiled from validated knowledge graph index.
 """
         summary_md_file = out_dir / "diagrams_summary.md"
         summary_md_file.write_text(summary_md, encoding="utf-8")
-        print(f"[+] Exported Consolidated Diagrams: {summary_md_file.relative_to(root)}")
+        print(f"[+] Exported Consolidated Diagrams: {_display_path(summary_md_file, root)}")
 
     # 3. Generate Interactive Standalone Executive Visualizer HTML
     if args.format in ["html", "all"]:
@@ -728,7 +814,7 @@ Auto-generated visualization pack compiled from validated knowledge graph index.
         )
         html_file = out_dir / "value_chain_visualizer.html"
         html_file.write_text(html_content, encoding="utf-8")
-        print(f"[+] Exported Interactive Executive Dashboard: {html_file.relative_to(root)}")
+        print(f"[+] Exported Interactive Executive Dashboard: {_display_path(html_file, root)}")
 
     print("\n==================================================")
     print("✅ All value chain diagrams exported successfully!")

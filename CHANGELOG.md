@@ -5,6 +5,21 @@ All notable changes to the Enterprise Value Chain Modeling Engine repository wil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2026-10-17
+
+### Added
+- **Interactive Lifecycle & Operating Model Designer Studio (`templates/visualizer_template.html`)**:
+  - **100% Client-Side Authoring Studio Tab (`🎨 Designer Studio`)**: Added interactive authoring workspace inside `value_chain_visualizer.html` with `localStorage` draft persistence (`vcm_studio_overlay_*`), draft JSON snapshots (`.draft.json`), and validated profile overlay bundle export (`.vcm.json`).
+  - **Four Authoring Sub-Panels**: Lifecycle Milestone Sequencer (reorder, insert, remove milestones), Process Step Editor (create new or override inherited steps across Tier 1/2/3 descriptions, operational metrics, RACI/DACI roles, asset bindings, and `feeds_into` links), Enterprise Roles & Approval Authority Manager, and IT System Assets Manager.
+  - **Live Governance Guardrail Engine (`validateStudioGovernance`)**: Real-time browser enforcement of Single Approver ($|A|=1$), Segregation of Duties (`R == A` requiring `compensating_control`), Role Approval Threshold limits, Graph & Asset dependency integrity, and Concentrated Approver advisory warnings.
+  - **Client-Side Dynamic Mermaid Re-Rendering**: Added `buildMermaidFlowClient`, `buildMermaidRaciClient`, and `buildMermaidAssetsClient` for immediate diagram updates in the browser without Python rebuilds.
+- **Companion CLI Overlay Importer (`tools/import_custom_profile.py`)**: Unpacks exported `.vcm.json` bundles into first-class layered profile directories (`profiles/<custom_id>/`) and runs `validate_and_build.py`.
+- **Schema Overrides Support**: Added `"overrides"` property to `schema/lifecycle_manifest.schema.json` and `schema/asset_hierarchy.schema.json`, and explicit `compensating_control` and `description` properties to `schema/value_chain_element.schema.json`.
+- **Automated Designer Studio Test Suite (`tests/test_custom_designer.py`)**: Added tests for visualizer payload hydration, round-trip `.vcm.json` overlay import and build, and SoD governance enforcement, expanding the test suite to 30 passing tests.
+
+### Fixed
+- **Visualizer Exporter Data Hydration (`tools/export_diagram.py`)**: Updated `load_data()` and RACI/DACI matrix generators to hydrate `lifecycles`, `scenarios`, `roles`, and `role_titles` directly from `knowledge_graph.json` and the resolved profile (`resolve_profile`) instead of legacy root directories.
+
 ## [1.10.0] - 2026-10-07
 
 ### Added

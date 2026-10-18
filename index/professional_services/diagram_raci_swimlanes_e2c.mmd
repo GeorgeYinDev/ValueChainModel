@@ -1,0 +1,41 @@
+flowchart LR
+  %% RACI Swimlanes Styling
+  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;
+  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;
+  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;
+
+  subgraph Sub_role_billing_specialist ["<b>Billing &amp; Accounts Receivable Specialist</b>"]
+    e2c_006_project_billing_invoicing__R["<b>Project Billing &amp; Invoicing</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_consultant ["<b>Consultant</b>"]
+    e2c_003_project_execution_delivery__R["<b>Project Execution &amp; Milestone Delivery</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    e2c_004_time_expense_entry__R["<b>Time &amp; Expense Logging</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_engagement_manager ["<b>Engagement Manager</b>"]
+    e2c_001_project_kickoff__R["<b>Project Kickoff &amp; Resource Allocation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    e2c_002_resource_scheduling__R["<b>Resource Scheduling &amp; Allocation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    e2c_005_client_acceptance__R["<b>Client Review &amp; Deliverable Acceptance</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    e2c_007_project_closure_lessons__R["<b>Project Closure &amp; Lessons Learned</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    e2c_003_project_execution_delivery__A["<b>Project Execution &amp; Milestone Delivery</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    e2c_004_time_expense_entry__A["<b>Time &amp; Expense Logging</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    e2c_005_client_acceptance__A["<b>Client Review &amp; Deliverable Acceptance</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_finance_controller ["<b>Finance Controller</b>"]
+    e2c_006_project_billing_invoicing__A["<b>Project Billing &amp; Invoicing</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_practice_director ["<b>Practice Director</b>"]
+    e2c_001_project_kickoff__A["<b>Project Kickoff &amp; Resource Allocation</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    e2c_002_resource_scheduling__A["<b>Resource Scheduling &amp; Allocation</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    e2c_007_project_closure_lessons__A["<b>Project Closure &amp; Lessons Learned</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  e2c_001_project_kickoff__R --> e2c_002_resource_scheduling__R
+  e2c_002_resource_scheduling__R --> e2c_003_project_execution_delivery__R
+  e2c_003_project_execution_delivery__R --> e2c_004_time_expense_entry__R
+  e2c_004_time_expense_entry__R --> e2c_005_client_acceptance__R
+  e2c_005_client_acceptance__R --> e2c_006_project_billing_invoicing__R
+  e2c_006_project_billing_invoicing__R --> e2c_007_project_closure_lessons__R

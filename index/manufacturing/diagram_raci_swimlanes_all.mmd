@@ -9,7 +9,7 @@ flowchart LR
     s2p_008_payment_settlement_disbursement__R["<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_billing_specialist ["<b>Billing Specialist</b>"]
+  subgraph Sub_role_billing_specialist ["<b>Billing &amp; Accounts Receivable Specialist</b>"]
     o2c_004_billing_invoice_generation__R["<b>Customer Billing &amp; Electronic Invoicing</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     o2c_005_cash_collection_reconciliation__R["<b>Cash Collection &amp; Accounts Receivable Reconciliation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
@@ -24,14 +24,19 @@ flowchart LR
     s2p_006_goods_services_receipt__A["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_consolidation_specialist ["<b>Consolidation Specialist</b>"]
+  subgraph Sub_role_consolidation_specialist ["<b>Financial Consolidation Specialist</b>"]
     r2r_002_intercompany_reconciliation__R["<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_004_financial_close_consolidation__R["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_005_statutory_financial_reporting__R["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_credit_manager ["<b>Credit Manager</b>"]
+  subgraph Sub_role_credit_manager ["<b>Credit &amp; Risk Manager</b>"]
     o2c_002_credit_check_approval__R["<b>Customer Credit Assessment &amp; Exposure Check</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_demand_planner ["<b>Demand Planner</b>"]
+    p2m_001_demand_sensing_forecasting__R["<b>Statistical Demand Sensing &amp; Forecasting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    p2m_001_demand_sensing_forecasting__A["<b>Statistical Demand Sensing &amp; Forecasting</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
   subgraph Sub_role_finance_controller ["<b>Finance Controller</b>"]
@@ -61,9 +66,20 @@ flowchart LR
     h2r_005_performance_compensation_review__A["<b>Performance &amp; Compensation Review</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_hr_business_partner ["<b>Hr Business Partner</b>"]
+  subgraph Sub_role_hr_business_partner ["<b>HR Business Partner</b>"]
     h2r_006_separation_offboarding_settlement__R["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     h2r_006_separation_offboarding_settlement__A["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_inventory_manager ["<b>Inventory Manager</b>"]
+    p2m_006_finished_goods_putaway__R["<b>Finished Goods Put-Away &amp; ATP Update</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    p2m_006_finished_goods_putaway__A["<b>Finished Goods Put-Away &amp; ATP Update</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_manufacturing_supervisor ["<b>Manufacturing Supervisor</b>"]
+    p2m_004_manufacturing_execution__R["<b>Manufacturing Execution &amp; Yield Tracking</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    p2m_003_production_order_release__A["<b>Production Order Sequencing &amp; Release</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    p2m_004_manufacturing_execution__A["<b>Manufacturing Execution &amp; Yield Tracking</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
   subgraph Sub_role_payroll_specialist ["<b>Payroll Specialist</b>"]
@@ -79,32 +95,6 @@ flowchart LR
     s2p_006_goods_services_receipt__R["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_sales_ops_specialist ["<b>Sales Ops Specialist</b>"]
-    o2c_001_customer_quote_order_entry__R["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    o2c_001_customer_quote_order_entry__A["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
-    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_demand_planner ["<b>Demand Planner</b>"]
-    p2m_001_demand_sensing_forecasting__R["<b>Statistical Demand Sensing &amp; Forecasting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    p2m_001_demand_sensing_forecasting__A["<b>Statistical Demand Sensing &amp; Forecasting</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_inventory_manager ["<b>Inventory Manager</b>"]
-    p2m_006_finished_goods_putaway__R["<b>Finished Goods Put-Away &amp; ATP Update</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    p2m_006_finished_goods_putaway__A["<b>Finished Goods Put-Away &amp; ATP Update</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_manufacturing_supervisor ["<b>Manufacturing Supervisor</b>"]
-    p2m_004_manufacturing_execution__R["<b>Manufacturing Execution &amp; Yield Tracking</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    p2m_003_production_order_release__A["<b>Production Order Sequencing &amp; Release</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    p2m_004_manufacturing_execution__A["<b>Manufacturing Execution &amp; Yield Tracking</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
   subgraph Sub_role_production_scheduler ["<b>Production Scheduler</b>"]
     p2m_002_mrp_production_planning__R["<b>Material Requirements Planning (MRP)</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     p2m_003_production_order_release__R["<b>Production Order Sequencing &amp; Release</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -116,7 +106,17 @@ flowchart LR
     p2m_005_quality_inspection_release__A["<b>Quality Inspection &amp; Batch Release</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_warehouse_supervisor ["<b>Warehouse Supervisor</b>"]
+  subgraph Sub_role_sales_ops_specialist ["<b>Sales Operations Specialist</b>"]
+    o2c_001_customer_quote_order_entry__R["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    o2c_001_customer_quote_order_entry__A["<b>Quote Generation &amp; Order Capture</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
+    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_warehouse_supervisor ["<b>Warehouse &amp; Fulfillment Supervisor</b>"]
     o2c_003_inventory_allocation_fulfillment__R["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     o2c_003_inventory_allocation_fulfillment__A["<b>Inventory Allocation &amp; Warehouse Fulfillment</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enterprise Value Chain Visualizer</title>
+  <title>Enterprise Value Chain Visualizer &amp; Designer Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@
     header {
       background: linear-gradient(180deg, #111827 0%, rgba(17,24,39,0.8) 100%);
       border-bottom: 1px solid var(--card-border);
-      padding: 24px 36px;
+      padding: 20px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -45,6 +45,8 @@
       top: 0;
       z-index: 100;
       backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+      gap: 16px;
     }
     .brand {
       display: flex;
@@ -75,7 +77,9 @@
     }
     .kpi-pills {
       display: flex;
-      gap: 12px;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
     }
     .kpi-pill {
       background: rgba(31, 41, 55, 0.6);
@@ -93,12 +97,31 @@
       font-size: 15px;
       font-family: 'JetBrains Mono', monospace;
     }
+    .studio-status-pill {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      color: #e9d5ff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .studio-status-pill.dirty {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: var(--accent-amber);
+      color: #fde68a;
+    }
     nav.tabs {
       display: flex;
       gap: 8px;
       padding: 16px 36px 0 36px;
       border-bottom: 1px solid var(--card-border);
       background: rgba(15, 23, 42, 0.5);
+      overflow-x: auto;
     }
     .tab-btn {
       background: transparent;
@@ -113,6 +136,7 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
     .tab-btn:hover {
       color: #fff;
@@ -148,13 +172,16 @@
       border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 12px 20px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .filter-group {
       display: flex;
       gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
     }
-    select, input {
+    select, input, textarea {
       background: #1f2937;
       border: 1px solid #374151;
       color: #f3f4f6;
@@ -162,6 +189,52 @@
       padding: 8px 12px;
       font-size: 13px;
       font-family: inherit;
+    }
+    textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 64px;
+    }
+    .btn-action {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: #f3f4f6;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn-action:hover:not(:disabled) {
+      border-color: var(--accent-blue);
+      color: #fff;
+      background: #374151;
+    }
+    .btn-action.primary {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #fff;
+    }
+    .btn-action.primary:hover:not(:disabled) {
+      background: #0369a1;
+    }
+    .btn-action.success {
+      background: #059669;
+      border-color: #34d399;
+      color: #fff;
+    }
+    .btn-action.danger {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: var(--accent-red);
+      color: #fca5a5;
+    }
+    .btn-action:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
     }
     .pipeline-grid {
       display: grid;
@@ -188,6 +261,9 @@
       background: linear-gradient(180deg, #1f1d24 0%, #17131b 100%);
       box-shadow: 0 0 16px rgba(248, 113, 113, 0.2);
     }
+    .step-card.customized {
+      border-color: var(--accent-purple);
+    }
     .step-num {
       font-size: 11px;
       font-weight: 700;
@@ -197,6 +273,7 @@
       margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
     .step-name {
       font-size: 16px;
@@ -232,6 +309,17 @@
       border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .override-badge {
+      display: inline-block;
+      background: rgba(192, 132, 252, 0.18);
+      border: 1px solid var(--accent-purple);
+      color: #e9d5ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
     }
     .table-container {
@@ -302,7 +390,7 @@
       border: 1px solid #374151;
       border-radius: 16px;
       width: 90%;
-      max-width: 800px;
+      max-width: 820px;
       max-height: 85vh;
       overflow-y: auto;
       padding: 28px;
@@ -336,6 +424,113 @@
       color: var(--accent-blue);
       margin-bottom: 8px;
     }
+
+    /* Designer Studio Layout */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .studio-grid { grid-template-columns: 1fr; }
+    }
+    .studio-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .studio-panel h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-field label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .guardrail-banner {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      border: 1px solid var(--accent-green);
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .guardrail-banner.has-errors {
+      border-color: var(--accent-red);
+      background: rgba(239, 68, 68, 0.12);
+    }
+    .guardrail-banner.has-warnings {
+      border-color: var(--accent-amber);
+      background: rgba(251, 191, 36, 0.1);
+    }
+    .seq-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .seq-item {
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .checkbox-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: #171f2e;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      padding: 8px;
+      max-height: 130px;
+      overflow-y: auto;
+    }
+    .checkbox-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-pill input {
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 <body>
@@ -346,11 +541,14 @@
       <div class="logo-badge">⚡</div>
       <div>
         <h1>Enterprise Value Chain Visualizer</h1>
-        <p>Multi-Tier Architecture & Simulation Engine &bull; Profile: <span style="color: var(--accent-blue); font-weight: 600;">/*__PROFILE_NAME__*/</span></p>
+        <p>Multi-Tier Architecture &amp; Simulation Engine &bull; Profile: <span style="color: var(--accent-blue); font-weight: 600;">/*__PROFILE_NAME__*/</span></p>
       </div>
     </a>
   </div>
   <div class="kpi-pills">
+    <div id="studioStatusPill" class="studio-status-pill" onclick="openDesignerTab()" title="Open Interactive Designer Studio">
+      <span>🎨 Base Profile</span>
+    </div>
     <div class="kpi-pill">
       <span>Profile</span>
       <span class="val" style="font-size: 13px;"><a href="../index.html" style="color: var(--accent-blue); text-decoration: none;" title="Switch Profile">/*__PROFILE_ID__*/ ↗</a></span>
@@ -375,11 +573,12 @@
 </header>
 
 <nav class="tabs">
-  <button class="tab-btn active" onclick="switchTab('tab-pipeline')">🔀 Process Flow</button>
-  <button class="tab-btn" onclick="switchTab('tab-raci')">👥 Governance (RACI / DACI)</button>
-  <button class="tab-btn" onclick="switchTab('tab-assets')">💻 System Assets</button>
-  <button class="tab-btn" onclick="switchTab('tab-simulation')">⚡ Scenario Stress-Test</button>
-  <button class="tab-btn" onclick="switchTab('tab-mermaid')">📐 Live Mermaid Graph</button>
+  <button class="tab-btn active" data-tab="tab-pipeline" onclick="switchTab('tab-pipeline', this)">🔀 Process Flow</button>
+  <button class="tab-btn" data-tab="tab-raci" onclick="switchTab('tab-raci', this)">👥 Governance (RACI / DACI)</button>
+  <button class="tab-btn" data-tab="tab-assets" onclick="switchTab('tab-assets', this)">💻 System Assets</button>
+  <button class="tab-btn" data-tab="tab-simulation" onclick="switchTab('tab-simulation', this)">⚡ Scenario Stress-Test</button>
+  <button class="tab-btn" data-tab="tab-mermaid" onclick="switchTab('tab-mermaid', this)">📐 Live Mermaid Graph</button>
+  <button class="tab-btn" data-tab="tab-designer" id="tabBtnDesigner" onclick="switchTab('tab-designer', this)">🎨 Designer Studio</button>
 </nav>
 
 <main class="container">
@@ -396,6 +595,7 @@
       </div>
       <div class="filter-group">
         <input type="text" id="searchSteps" placeholder="Search steps, tags, roles..." oninput="renderPipeline()">
+        <button class="btn-action primary" onclick="startNewProcessStepInStudio()">+ Customize / New Step</button>
       </div>
     </div>
     <div id="pipelineGrid" class="pipeline-grid"></div>
@@ -498,6 +698,257 @@
     </div>
   </section>
 
+  <!-- 6. Interactive Designer Studio Tab -->
+  <section id="tab-designer" class="section-content">
+    <div class="controls-bar">
+      <div class="filter-group">
+        <div class="form-field">
+          <label for="studioProfileId">Custom Overlay Profile ID</label>
+          <input type="text" id="studioProfileId" value="/*__PROFILE_ID__*/_custom" oninput="onStudioMetaChange()">
+        </div>
+        <div class="form-field">
+          <label for="studioProfileName">Overlay Display Name</label>
+          <input type="text" id="studioProfileName" value="/*__PROFILE_NAME__*/ Custom Overlay" oninput="onStudioMetaChange()" style="min-width: 240px;">
+        </div>
+        <div class="form-field">
+          <label>Extends Base Profile</label>
+          <input type="text" value="/*__PROFILE_ID__*/" disabled style="opacity: 0.7; width: 150px;">
+        </div>
+      </div>
+      <div class="filter-group">
+        <button class="btn-action" onclick="saveDraftToLocalStorage(true)">💾 Save Draft (Browser)</button>
+        <button class="btn-action" onclick="exportDraftOverlayBundle()">💾 Download Draft (.draft.json)</button>
+        <button class="btn-action" onclick="document.getElementById('studioImportInput').click()">📂 Import Overlay (.json)</button>
+        <input type="file" id="studioImportInput" accept=".json" style="display: none;" onchange="importOverlayBundleFile(event)">
+        <button class="btn-action danger" onclick="resetOverlayToBase()">🗑️ Reset to Base</button>
+        <button class="btn-action success" id="btnExportValidated" onclick="exportValidatedOverlayBundle()">📦 Export Validated Overlay (.vcm.json)</button>
+      </div>
+    </div>
+
+    <!-- Live Governance Guardrail Banner -->
+    <div id="studioGovernanceBanner" class="guardrail-banner"></div>
+
+    <div class="studio-grid">
+      <!-- Left Column: Lifecycle Milestone Sequencer + Roles + Assets -->
+      <div>
+        <!-- Panel 1: Lifecycle Milestone Sequencer -->
+        <div class="studio-panel">
+          <h3>
+            <span>1. Lifecycle Milestone Sequencer</span>
+            <select id="studioSeqLifecycle" onchange="renderMilestoneSequencer()" style="font-size: 12px; padding: 4px 8px;"></select>
+          </h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+            Reorder milestones (↑/↓), click a milestone to edit it, or insert a step into this lifecycle.
+          </p>
+          <ul id="studioSeqList" class="seq-list"></ul>
+          <div style="margin-top: 12px; display: flex; gap: 6px;">
+            <select id="studioAddMilestoneSelect" style="flex: 1; font-size: 12px;"></select>
+            <button class="btn-action primary" onclick="addStepToLifecycleSequence()">+ Insert</button>
+          </div>
+        </div>
+
+        <!-- Panel 3: Enterprise Roles & Approval Authority Manager -->
+        <div class="studio-panel">
+          <h3>
+            <span>3. Enterprise Roles &amp; Approval Limits</span>
+            <button class="btn-action" onclick="clearRoleEditor()">+ New Role</button>
+          </h3>
+          <div class="form-field" style="margin-bottom: 10px;">
+            <label for="studioSelectRole">Inspect / Override Existing Role</label>
+            <select id="studioSelectRole" onchange="loadRoleIntoEditor(this.value)"></select>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="editRoleId">Role ID (`role_*`)</label>
+              <input type="text" id="editRoleId" placeholder="role_custom_approver">
+            </div>
+            <div class="form-field">
+              <label for="editRoleName">Role Title</label>
+              <input type="text" id="editRoleName" placeholder="Custom Operations Director">
+            </div>
+            <div class="form-field">
+              <label for="editRoleDept">Department</label>
+              <input type="text" id="editRoleDept" placeholder="Operations">
+            </div>
+            <div class="form-field">
+              <label for="editRoleLimit">Approval Limit (USD)</label>
+              <input type="number" id="editRoleLimit" step="1000" min="0" value="100000">
+            </div>
+          </div>
+          <button class="btn-action primary" style="width: 100%;" onclick="saveOverlayRole()">Save Role to Overlay</button>
+        </div>
+
+        <!-- Panel 4: IT System Assets Manager -->
+        <div class="studio-panel">
+          <h3>
+            <span>4. IT System Assets Manager</span>
+            <button class="btn-action" onclick="clearAssetEditor()">+ New Asset</button>
+          </h3>
+          <div class="form-field" style="margin-bottom: 10px;">
+            <label for="studioSelectAsset">Inspect / Override Existing Asset</label>
+            <select id="studioSelectAsset" onchange="loadAssetIntoEditor(this.value)"></select>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="editAssetId">Asset ID (`asset_*`)</label>
+              <input type="text" id="editAssetId" placeholder="asset_custom_platform">
+            </div>
+            <div class="form-field">
+              <label for="editAssetName">System Name</label>
+              <input type="text" id="editAssetName" placeholder="Custom Workflow Hub">
+            </div>
+            <div class="form-field">
+              <label for="editAssetType">Asset Type</label>
+              <select id="editAssetType">
+                <option value="it_application">it_application</option>
+                <option value="erp_module">erp_module</option>
+                <option value="database">database</option>
+                <option value="api_gateway">api_gateway</option>
+                <option value="financial_asset">financial_asset</option>
+                <option value="physical_facility">physical_facility</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="editAssetStatus">Status</label>
+              <select id="editAssetStatus">
+                <option value="operational">operational</option>
+                <option value="degraded">degraded</option>
+                <option value="outage">outage</option>
+                <option value="maintenance">maintenance</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="editAssetSla">SLA Uptime (%)</label>
+              <input type="number" id="editAssetSla" step="0.01" min="0" max="100" value="99.9">
+            </div>
+            <div class="form-field">
+              <label for="editAssetTps">Max Throughput (TPS)</label>
+              <input type="number" id="editAssetTps" step="10" min="0" value="500">
+            </div>
+          </div>
+          <button class="btn-action primary" style="width: 100%;" onclick="saveOverlayAsset()">Save System Asset to Overlay</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Panel 2 Process Step Editor -->
+      <div class="studio-panel">
+        <h3>
+          <span>2. Process Step Editor (Create New or Override Inherited)</span>
+          <div style="display: flex; gap: 8px;">
+            <select id="studioSelectStep" onchange="loadStepIntoEditor(this.value)" style="font-size: 12px;"></select>
+            <button class="btn-action" onclick="clearStepEditorForNew()">+ New Step</button>
+          </div>
+        </h3>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="editStepId">Step ID (`^[a-z0-9_]+$`)</label>
+            <input type="text" id="editStepId" placeholder="o2c_006_custom_review">
+          </div>
+          <div class="form-field">
+            <label for="editStepName">Process Step Name</label>
+            <input type="text" id="editStepName" placeholder="Custom Commercial Deal Review">
+          </div>
+          <div class="form-field">
+            <label for="editStepLifecycles">Lifecycles (comma-separated)</label>
+            <input type="text" id="editStepLifecycles" placeholder="O2C">
+          </div>
+          <div class="form-field">
+            <label for="editStepTags">Tags (comma-separated)</label>
+            <input type="text" id="editStepTags" placeholder="commercial, review, governance">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="editStepCycleTime">Baseline Cycle Time (Hours)</label>
+            <input type="number" id="editStepCycleTime" step="0.5" min="0" value="8.0">
+          </div>
+          <div class="form-field">
+            <label for="editStepCost">Baseline Unit Cost (USD)</label>
+            <input type="number" id="editStepCost" step="1" min="0" value="25.0">
+          </div>
+          <div class="form-field">
+            <label for="editStepSla">Target SLA (Hours)</label>
+            <input type="number" id="editStepSla" step="1" min="0" value="24.0">
+          </div>
+          <div class="form-field">
+            <label for="editStepAutomation">Automation Rate (0.0 - 1.0)</label>
+            <input type="number" id="editStepAutomation" step="0.05" min="0" max="1" value="0.75">
+          </div>
+          <div class="form-field">
+            <label for="editStepErrorRate">Error Rate (0.0 - 1.0)</label>
+            <input type="number" id="editStepErrorRate" step="0.01" min="0" max="1" value="0.02">
+          </div>
+          <div class="form-field">
+            <label for="editStepThreshold">Approval Threshold (USD)</label>
+            <input type="number" id="editStepThreshold" step="1000" min="0" value="0">
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-top: 10px;">
+          <div class="form-field">
+            <label>RACI: Responsible (R) — Executes</label>
+            <div id="editRaciResponsible" class="checkbox-pills"></div>
+          </div>
+          <div class="form-field">
+            <label for="editRaciAccountable">RACI: Accountable (A) — Single Approver</label>
+            <select id="editRaciAccountable" onchange="syncDaciApproverFromRaci()"></select>
+          </div>
+          <div class="form-field">
+            <label>RACI: Consulted (C)</label>
+            <div id="editRaciConsulted" class="checkbox-pills"></div>
+          </div>
+          <div class="form-field">
+            <label>RACI: Informed (I)</label>
+            <div id="editRaciInformed" class="checkbox-pills"></div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="editDaciApprover">DACI: Approver (A) — Single Sign-Off</label>
+            <select id="editDaciApprover"></select>
+          </div>
+          <div class="form-field">
+            <label for="editStepCompControl">Compensating Control (Required if R == A for SoD)</label>
+            <input type="text" id="editStepCompControl" placeholder="Automated ERP dual-signature audit log review">
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-top: 10px;">
+          <div class="form-field">
+            <label>IT System Asset Dependencies</label>
+            <div id="editStepAssetsContainer" class="checkbox-pills"></div>
+          </div>
+          <div class="form-field">
+            <label>Graph Relations (`feeds_into` downstream steps)</label>
+            <div id="editStepFeedsIntoContainer" class="checkbox-pills"></div>
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-top: 10px;">
+          <div class="form-field">
+            <label for="editStepTier1">Tier 1: Executive Strategic Intent &amp; Outcomes</label>
+            <textarea id="editStepTier1" placeholder="Strategic business value, alignment, and risk profile..."></textarea>
+          </div>
+          <div class="form-field">
+            <label for="editStepTier2">Tier 2: Operational Workflow &amp; Business Rules</label>
+            <textarea id="editStepTier2" placeholder="Operational execution rules, SLAs, and exception handling..."></textarea>
+          </div>
+          <div class="form-field">
+            <label for="editStepTier3">Tier 3: Systems Math &amp; Queueing Parameters</label>
+            <textarea id="editStepTier3" placeholder="System bindings, throughput math, and bottleneck sensitivity..."></textarea>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+          <button class="btn-action primary" onclick="saveOverlayStep()">💾 Apply &amp; Validate Process Step</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- Detail Modal -->
@@ -511,9 +962,40 @@
 <script>
   /*__DATA_PAYLOAD__*/
 
+  const BASE_PROFILE_ID = (typeof profileMeta !== 'undefined' && profileMeta.profile_id) ? profileMeta.profile_id : "/*__PROFILE_ID__*/";
+  const BASE_PROFILE_NAME = (typeof profileMeta !== 'undefined' && profileMeta.name) ? profileMeta.name : "/*__PROFILE_NAME__*/";
+  const STORAGE_KEY = `vcm_studio_overlay_${BASE_PROFILE_ID}`;
+
+  // Deep-clone baseline snapshots so we can reset or detect overrides accurately
+  const baseElements = JSON.parse(JSON.stringify(elements || {}));
+  const baseAssets = JSON.parse(JSON.stringify(assets || {}));
+  const baseRoles = JSON.parse(JSON.stringify(
+    Array.isArray(roles)
+      ? Object.fromEntries(roles.map(r => [r, { id: r, name: (roleTitles && roleTitles[r]) || r, approval_limit_usd: 1000000 }]))
+      : (roles || {})
+  ));
+  const baseRoleTitles = JSON.parse(JSON.stringify(roleTitles || {}));
+  const baseLifecycles = JSON.parse(JSON.stringify(lifecycles || {}));
+
+  // Normalize roles to dictionary while keeping getRoleIds() helper
+  const rolesMap = JSON.parse(JSON.stringify(baseRoles));
+  function getRoleIds() {
+    return Object.keys(rolesMap).sort();
+  }
+
+  // Studio Overlay State tracking customized/added entities
+  let studioOverlay = {
+    profile_id: `${BASE_PROFILE_ID}_custom`,
+    name: `${BASE_PROFILE_NAME} Custom Overlay`,
+    elements: {},
+    roles: {},
+    assets: {},
+    lifecycles: {},
+    patches: []
+  };
+
   let activeShockMap = {};
   let currentMatrixModel = 'RACI';
-
   let mermaidRenderCounter = 0;
 
   window.onMermaidReady = function() {
@@ -522,6 +1004,248 @@
       renderMermaidTab();
     }
   };
+
+  function sanitizeMermaidLabel(text) {
+    if (!text) return "";
+    return String(text).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  }
+
+  function getOrderMapClient() {
+    const orderMap = {};
+    Object.values(lifecycles).forEach(lf => {
+      (lf.milestones || []).forEach(m => {
+        if (m.step_id) orderMap[m.step_id] = m.order || 999;
+      });
+    });
+    return orderMap;
+  }
+
+  function buildMermaidFlowClient(lifecycleId) {
+    const lines = [
+      "flowchart TD",
+      "  %% Style Classes",
+      "  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;",
+      "  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;",
+      "  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;",
+      ""
+    ];
+
+    const matchedElems = {};
+    Object.keys(elements).forEach(eid => {
+      const data = elements[eid];
+      if (lifecycleId === "ALL" || (data.lifecycles || []).includes(lifecycleId)) {
+        matchedElems[eid] = data;
+      }
+    });
+
+    const phaseMap = {};
+    const phaseOrder = [];
+    const phaseMeta = {};
+    const targetLcs = (lifecycleId !== "ALL" && lifecycles[lifecycleId]) ? [lifecycleId] : Object.keys(lifecycles);
+
+    targetLcs.forEach(lc => {
+      const lcManifest = lifecycles[lc] || {};
+      const phases = lcManifest.phases || [];
+      if (phases.length > 0) {
+        phases.forEach(p => {
+          const pid = `${lc}_${p.phase_id}`;
+          if (!phaseMeta[pid]) {
+            phaseMeta[pid] = p.name || pid;
+            phaseOrder.push(pid);
+          }
+          (p.milestones || []).forEach(stepId => { phaseMap[stepId] = pid; });
+        });
+      } else {
+        const pid = `${lc}_phase`;
+        if (!phaseMeta[pid]) {
+          phaseMeta[pid] = `${lcManifest.name || lc} Phase`;
+          phaseOrder.push(pid);
+        }
+        (lcManifest.milestones || []).forEach(m => {
+          if (m.step_id) phaseMap[m.step_id] = pid;
+        });
+      }
+    });
+
+    const groupedSteps = {};
+    phaseOrder.forEach(pid => { groupedSteps[pid] = []; });
+    const otherSteps = [];
+    const policies = [];
+    const valueStreams = [];
+
+    const orderMap = getOrderMapClient();
+    const sortedIds = Object.keys(matchedElems).sort((a, b) => {
+      const oa = orderMap[a] !== undefined ? orderMap[a] : 999;
+      const ob = orderMap[b] !== undefined ? orderMap[b] : 999;
+      return oa !== ob ? oa - ob : a.localeCompare(b);
+    });
+
+    sortedIds.forEach(eid => {
+      const data = matchedElems[eid];
+      const etype = data.type || "process_step";
+      if (etype === "control_policy") policies.push([eid, data]);
+      else if (etype === "value_stream") valueStreams.push([eid, data]);
+      else if (etype === "process_step") {
+        const pid = phaseMap[eid];
+        if (pid && groupedSteps[pid]) groupedSteps[pid].push([eid, data]);
+        else otherSteps.push([eid, data]);
+      }
+    });
+
+    if (valueStreams.length > 0) {
+      lines.push('  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]');
+      valueStreams.forEach(([eid, data]) => {
+        const name = sanitizeMermaidLabel(data.name || eid);
+        lines.push(`    ${eid}[["<b>Stream: ${name}</b><br/><small>${eid}</small>"]]:::valueStream`);
+      });
+      lines.push("  end\n");
+    }
+
+    phaseOrder.forEach(pid => {
+      const steps = groupedSteps[pid];
+      if (!steps || steps.length === 0) return;
+      const cleanPid = pid.replace(/[^a-zA-Z0-9_]/g, "");
+      lines.push(`  subgraph Subgraph_${cleanPid} ["<b>${sanitizeMermaidLabel(phaseMeta[pid])}</b>"]`);
+      steps.forEach(([eid, data]) => {
+        const attrs = getAttrs(data);
+        const name = sanitizeMermaidLabel(data.name || eid);
+        const autoPct = Math.round(attrs.automation * 100);
+        lines.push(`    ${eid}["<b>${name}</b><br/><small>ID: ${eid}</small><br/>⏱ ${attrs.cycle_time}h | 💰 $${attrs.cost} | ⚡ ${autoPct}% auto"]:::processStep`);
+      });
+      lines.push("  end\n");
+    });
+
+    if (otherSteps.length > 0) {
+      lines.push('  subgraph Subgraph_Other ["<b>Other Process Steps</b>"]');
+      otherSteps.forEach(([eid, data]) => {
+        const attrs = getAttrs(data);
+        const name = sanitizeMermaidLabel(data.name || eid);
+        lines.push(`    ${eid}["<b>${name}</b><br/><small>ID: ${eid}</small><br/>⏱ ${attrs.cycle_time}h | 💰 $${attrs.cost}"]:::processStep`);
+      });
+      lines.push("  end\n");
+    }
+
+    if (policies.length > 0) {
+      lines.push('  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]');
+      policies.forEach(([eid, data]) => {
+        const name = sanitizeMermaidLabel(data.name || eid);
+        lines.push(`    ${eid}(["<b>Policy: ${name}</b><br/><small>${eid}</small>"]):::controlPolicy`);
+      });
+      lines.push("  end\n");
+    }
+
+    lines.push("  %% Process Flows & Policy Linkages");
+    Object.keys(matchedElems).forEach(eid => {
+      const data = matchedElems[eid];
+      (data.graph_relations || []).forEach(rel => {
+        const target = rel.target;
+        const rtype = rel.relation;
+        if (!target || target === eid || !matchedElems[target]) return;
+        if (rtype === "feeds_into") lines.push(`  ${eid} --> ${target}`);
+        else if (rtype === "governed_by") lines.push(`  ${eid} -. governed by .-> ${target}`);
+        else lines.push(`  ${eid} -. ${rtype} .-> ${target}`);
+      });
+    });
+
+    return lines.join("\n");
+  }
+
+  function buildMermaidRaciClient(lifecycleId) {
+    const allRoleIds = getRoleIds();
+    const lines = [
+      "flowchart LR",
+      "  classDef roleLane fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#cbd5e1;",
+      "  classDef rNode fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#eff6ff,rx:6,ry:6;",
+      "  classDef aNode fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8,rx:6,ry:6;",
+      ""
+    ];
+
+    const matchedElems = {};
+    Object.keys(elements).forEach(eid => {
+      const data = elements[eid];
+      if ((lifecycleId === "ALL" || (data.lifecycles || []).includes(lifecycleId)) && data.type === "process_step") {
+        matchedElems[eid] = data;
+      }
+    });
+
+    const roleToR = {};
+    const roleToA = {};
+    allRoleIds.forEach(r => { roleToR[r] = []; roleToA[r] = []; });
+
+    const orderMap = getOrderMapClient();
+    Object.keys(matchedElems).sort((a, b) => (orderMap[a] || 999) - (orderMap[b] || 999)).forEach(eid => {
+      const data = matchedElems[eid];
+      const raci = getRaci(data);
+      raci.responsible.forEach(r => { if (roleToR[r]) roleToR[r].push([eid, data.name || eid]); });
+      raci.accountable.forEach(a => { if (roleToA[a]) roleToA[a].push([eid, data.name || eid]); });
+    });
+
+    allRoleIds.forEach(r => {
+      const rSteps = roleToR[r] || [];
+      const aSteps = roleToA[r] || [];
+      if (rSteps.length === 0 && aSteps.length === 0) return;
+      const rTitle = sanitizeMermaidLabel(roleTitles[r] || r);
+      lines.push(`  subgraph Sub_${r} ["<b>${rTitle}</b>"]`);
+      rSteps.forEach(([eid, name]) => {
+        lines.push(`    ${eid}__R["<b>${sanitizeMermaidLabel(name)}</b><br/>Role: <b>Responsible (R)</b>"]:::rNode`);
+      });
+      aSteps.forEach(([eid, name]) => {
+        lines.push(`    ${eid}__A["<b>${sanitizeMermaidLabel(name)}</b><br/>Role: <b>Accountable (A)</b>"]:::aNode`);
+      });
+      lines.push("  end\n");
+    });
+
+    Object.keys(matchedElems).forEach(eid => {
+      const data = matchedElems[eid];
+      (data.graph_relations || []).forEach(rel => {
+        if (rel.relation === "feeds_into" && rel.target && rel.target !== eid && matchedElems[rel.target]) {
+          lines.push(`  ${eid}__R --> ${rel.target}__R`);
+        }
+      });
+    });
+
+    return lines.join("\n");
+  }
+
+  function buildMermaidAssetsClient() {
+    const lines = [
+      "flowchart TD",
+      "  classDef coreAsset fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#f0fdf4,rx:8,ry:8;",
+      "  classDef subAsset fill:#064e3b,stroke:#2dd4bf,stroke-width:2px,color:#f0fdfa,rx:6,ry:6;",
+      "  classDef stepDep fill:#1e293b,stroke:#94a3b8,stroke-width:1px,color:#e2e8f0,rx:4,ry:4;",
+      ""
+    ];
+
+    const rootAssets = Object.keys(assets).filter(aid => !assets[aid].parent_asset_id);
+    const childAssets = Object.keys(assets).filter(aid => assets[aid].parent_asset_id);
+
+    lines.push('  subgraph Subgraph_EnterpriseSystems ["<b>Enterprise Core IT Systems & Assets</b>"]');
+    rootAssets.forEach(aid => {
+      const a = assets[aid];
+      lines.push(`    ${aid}["<b>${sanitizeMermaidLabel(a.name || aid)}</b><br/><small>Type: ${a.asset_type} | SLA: ${a.sla_uptime_percent || 99.9}% | Max TPS: ${a.capacity_max_tps || 0}</small>"]:::coreAsset`);
+    });
+    childAssets.forEach(aid => {
+      const a = assets[aid];
+      lines.push(`    ${aid}["<b>${sanitizeMermaidLabel(a.name || aid)}</b><br/><small>Type: ${a.asset_type} | SLA: ${a.sla_uptime_percent || 99.9}% | Max TPS: ${a.capacity_max_tps || 0}</small>"]:::subAsset`);
+      if (a.parent_asset_id) lines.push(`    ${a.parent_asset_id} ==>|integrates with| ${aid}`);
+    });
+    lines.push("  end\n");
+
+    lines.push('  subgraph Subgraph_ProcessBindings ["<b>Value Chain Process Workloads</b>"]');
+    Object.keys(assets).forEach(aid => {
+      Object.keys(elements).forEach(eid => {
+        const elem = elements[eid];
+        if (elem.type === "process_step" && (elem.asset_dependencies || []).includes(aid)) {
+          const nodeId = `proc_${eid}_${aid}`;
+          lines.push(`    ${nodeId}["${sanitizeMermaidLabel(elem.name || eid)}"]:::stepDep`);
+          lines.push(`    ${nodeId} -. runs on .-> ${aid}`);
+        }
+      });
+    });
+    lines.push("  end\n");
+
+    return lines.join("\n");
+  }
 
   async function renderMermaidDiagram(containerId, code) {
     const container = document.getElementById(containerId);
@@ -579,9 +1303,9 @@
     const raciBox = document.getElementById("mermaidRaciBox");
     const assetsBox = document.getElementById("mermaidAssetsBox");
 
-    const flowCode = (typeof mermaidFlows !== 'undefined' && (mermaidFlows[activeLf] || mermaidFlows["ALL"])) || "";
-    const raciCode = (typeof mermaidRaci !== 'undefined' && (mermaidRaci[activeLf] || mermaidRaci["ALL"])) || "";
-    const assetCode = typeof mermaidAssets !== 'undefined' ? mermaidAssets : "";
+    const flowCode = buildMermaidFlowClient(activeLf);
+    const raciCode = buildMermaidRaciClient(activeLf);
+    const assetCode = buildMermaidAssetsClient();
 
     if (viewSelector === "flow") {
       flowBox.style.display = "block";
@@ -612,14 +1336,12 @@
     }
   }
 
-  function init() {
-    document.getElementById("headerElements").innerText = Object.keys(elements).length;
-    document.getElementById("headerRoles").innerText = roles.length;
-    document.getElementById("headerAssets").innerText = Object.keys(assets).length;
-
-    // Dynamically populate lifecycle filter dropdown
+  function populateLifecycleDropdowns() {
     const lfFilter = document.getElementById("filterLifecycle");
     const mlfFilter = document.getElementById("mermaidLifecycleFilter");
+    const seqFilter = document.getElementById("studioSeqLifecycle");
+    const prevVal = lfFilter ? lfFilter.value : "S2P";
+
     if (lfFilter) {
       lfFilter.innerHTML = "";
       Object.keys(lifecycles).sort().forEach(lid => {
@@ -633,14 +1355,52 @@
       allOpt.value = "ALL";
       allOpt.innerText = "All Enterprise Lifecycles";
       lfFilter.appendChild(allOpt);
-
+      if ([...lfFilter.options].some(o => o.value === prevVal)) {
+        lfFilter.value = prevVal;
+      }
       if (mlfFilter) {
         mlfFilter.innerHTML = lfFilter.innerHTML;
         mlfFilter.value = lfFilter.value;
       }
     }
 
-    // Populate scenario dropdown
+    if (seqFilter) {
+      const prevSeq = seqFilter.value;
+      seqFilter.innerHTML = "";
+      Object.keys(lifecycles).sort().forEach(lid => {
+        const opt = document.createElement("option");
+        opt.value = lid;
+        opt.innerText = `${lid} — ${lifecycles[lid].name || lid}`;
+        seqFilter.appendChild(opt);
+      });
+      if ([...seqFilter.options].some(o => o.value === prevSeq)) {
+        seqFilter.value = prevSeq;
+      }
+    }
+  }
+
+  function refreshAllViews() {
+    document.getElementById("headerElements").innerText = Object.keys(elements).length;
+    document.getElementById("headerRoles").innerText = getRoleIds().length;
+    document.getElementById("headerAssets").innerText = Object.keys(assets).length;
+
+    populateLifecycleDropdowns();
+    renderPipeline();
+    renderRaciTable();
+    renderAssets();
+    applyScenario();
+    refreshStudioSelectors();
+    validateStudioGovernance();
+    updateStudioStatusPill();
+
+    const mermaidTab = document.getElementById("tab-mermaid");
+    if (mermaidTab && mermaidTab.classList.contains("active")) {
+      renderMermaidTab();
+    }
+  }
+
+  function init() {
+    loadDraftFromLocalStorage();
     const scSelect = document.getElementById("selectScenario");
     scSelect.innerHTML = '<option value="baseline">Baseline (Normal Operations)</option>';
     scenarios.forEach(s => {
@@ -650,20 +1410,38 @@
       scSelect.appendChild(opt);
     });
 
-    renderPipeline();
-    renderRaciTable();
-    renderAssets();
-    applyScenario();
+    refreshAllViews();
+    const firstStep = Object.keys(elements).sort().find(k => elements[k].type === "process_step");
+    if (firstStep) loadStepIntoEditor(firstStep);
+    const firstRole = getRoleIds()[0];
+    if (firstRole) loadRoleIntoEditor(firstRole);
+    const firstAsset = Object.keys(assets).sort()[0];
+    if (firstAsset) loadAssetIntoEditor(firstAsset);
   }
 
-  function switchTab(tabId) {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  function switchTab(tabId, btnEl) {
+    document.querySelectorAll("nav.tabs .tab-btn").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".section-content").forEach(s => s.classList.remove("active"));
-    event.currentTarget.classList.add("active");
+    const targetBtn = btnEl || document.querySelector(`nav.tabs .tab-btn[data-tab="${tabId}"]`);
+    if (targetBtn) targetBtn.classList.add("active");
     document.getElementById(tabId).classList.add("active");
     if (tabId === 'tab-mermaid') {
       renderMermaidTab();
+    } else if (tabId === 'tab-designer') {
+      validateStudioGovernance();
     }
+  }
+
+  function openDesignerTab(stepId) {
+    switchTab('tab-designer', document.getElementById('tabBtnDesigner'));
+    if (stepId && elements[stepId]) {
+      loadStepIntoEditor(stepId);
+    }
+  }
+
+  function startNewProcessStepInStudio() {
+    switchTab('tab-designer', document.getElementById('tabBtnDesigner'));
+    clearStepEditorForNew();
   }
 
   function setMatrixModel(model) {
@@ -708,11 +1486,12 @@
   function getAttrs(elem) {
     const a = elem.attributes || {};
     return {
-      cycle_time: elem.baseline_cycle_time_hours || a.baseline_cycle_time_hours || 0.0,
-      cost: elem.baseline_cost_per_unit || a.baseline_cost_per_unit || 0.0,
-      automation: elem.automation_rate !== undefined ? elem.automation_rate : (a.automation_rate !== undefined ? a.automation_rate : 1.0),
-      error_rate: elem.error_rate !== undefined ? elem.error_rate : (a.error_rate !== undefined ? a.error_rate : 0.0),
-      sla: elem.sla_hours || a.sla_hours || 0.0
+      cycle_time: Number(elem.baseline_cycle_time_hours ?? a.baseline_cycle_time_hours ?? 0.0),
+      cost: Number(elem.baseline_cost_per_unit ?? a.baseline_cost_per_unit ?? 0.0),
+      automation: Number(elem.automation_rate ?? a.automation_rate ?? 1.0),
+      error_rate: Number(elem.error_rate ?? a.error_rate ?? 0.0),
+      sla: Number(elem.sla_hours ?? a.sla_hours ?? 0.0),
+      threshold: Number(elem.approval_threshold_usd ?? a.approval_threshold_usd ?? 0.0)
     };
   }
 
@@ -721,26 +1500,37 @@
     grid.innerHTML = "";
     const filterLf = document.getElementById("filterLifecycle").value;
     const query = document.getElementById("searchSteps").value.toLowerCase();
+    const orderMap = getOrderMapClient();
 
-    Object.keys(elements).sort().forEach(eid => {
+    Object.keys(elements).sort((a, b) => {
+      const oa = orderMap[a] !== undefined ? orderMap[a] : 999;
+      const ob = orderMap[b] !== undefined ? orderMap[b] : 999;
+      return oa !== ob ? oa - ob : a.localeCompare(b);
+    }).forEach(eid => {
       const elem = elements[eid];
       if (filterLf !== "ALL" && !((elem.lifecycles || []).includes(filterLf))) return;
       if (elem.type !== "process_step") return;
 
       const name = elem.name || eid;
-      const raci = getRaci(elem);
       const attrs = getAttrs(elem);
+      const isCustomized = Boolean(studioOverlay.elements[eid]);
 
       if (query && !name.toLowerCase().includes(query) && !eid.toLowerCase().includes(query)) return;
 
       const card = document.createElement("div");
-      card.className = "step-card";
+      card.className = "step-card" + (isCustomized ? " customized" : "");
       card.onclick = () => openModal(eid);
 
       card.innerHTML = `
-        <div class="step-num"><span>Step Milestone</span><span>SLA: ${attrs.sla}h</span></div>
+        <div class="step-num">
+          <span>Step Milestone ${isCustomized ? '<span class="override-badge">CUSTOM</span>' : ''}</span>
+          <span>SLA: ${attrs.sla}h</span>
+        </div>
         <div class="step-name">${name}</div>
-        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${eid}</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: monospace; display: flex; justify-content: space-between; align-items: center;">
+          <span>ID: ${eid}</span>
+          <button class="btn-action" style="padding: 2px 8px; font-size: 11px;" onclick="event.stopPropagation(); openDesignerTab('${eid}');">✏️ Customize Step</button>
+        </div>
         <div class="metric-row">
           <div class="metric-item">Lead Time<div class="metric-val">⏱ ${attrs.cycle_time}h</div></div>
           <div class="metric-item">Unit Cost<div class="metric-val">💰 $${attrs.cost.toFixed(2)}</div></div>
@@ -753,9 +1543,10 @@
   }
 
   function renderRaciTable() {
+    const allRoleIds = getRoleIds();
     const headerRow = document.getElementById("raciHeaderRow");
     headerRow.innerHTML = "<th>Step ID</th><th>Process Step Name</th>";
-    roles.forEach(r => {
+    allRoleIds.forEach(r => {
       const th = document.createElement("th");
       th.innerText = roleTitles[r] || r;
       headerRow.appendChild(th);
@@ -773,7 +1564,7 @@
 
       if (currentMatrixModel === 'RACI') {
         const raci = getRaci(elem);
-        roles.forEach(r => {
+        allRoleIds.forEach(r => {
           let badges = "";
           if (raci.responsible.includes(r)) badges += `<span class="raci-badge badge-r" title="Responsible (Executes)">R</span>`;
           if (raci.accountable.includes(r)) badges += `<span class="raci-badge badge-a" title="Accountable (Sign-off)">A</span>`;
@@ -783,7 +1574,7 @@
         });
       } else {
         const daci = getDaci(elem);
-        roles.forEach(r => {
+        allRoleIds.forEach(r => {
           let badges = "";
           if (daci.driver.includes(r)) badges += `<span class="raci-badge badge-d" title="Driver (Orchestrates)">D</span>`;
           if (daci.approver.includes(r)) badges += `<span class="raci-badge badge-a" title="Approver (Veto/Sign-off)">A</span>`;
@@ -805,9 +1596,8 @@
     Object.keys(assets).forEach(aid => {
       const a = assets[aid];
       const card = document.createElement("div");
-      card.className = "step-card";
+      card.className = "step-card" + (studioOverlay.assets[aid] ? " customized" : "");
 
-      // Find dependent process steps
       const boundSteps = [];
       Object.keys(elements).forEach(eid => {
         if ((elements[eid].asset_dependencies || []).includes(aid)) {
@@ -816,12 +1606,12 @@
       });
 
       card.innerHTML = `
-        <div class="step-num"><span>${a.asset_type.toUpperCase()}</span><span style="color: var(--accent-green);">${a.status}</span></div>
+        <div class="step-num"><span>${(a.asset_type || 'it_application').toUpperCase()}</span><span style="color: var(--accent-green);">${a.status || 'operational'}</span></div>
         <div class="step-name">${a.name}</div>
         <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">ID: ${aid}</div>
         <div class="metric-row">
-          <div class="metric-item">SLA Uptime<div class="metric-val" style="color: var(--accent-green);">${a.sla_uptime_percent}%</div></div>
-          <div class="metric-item">Max Throughput<div class="metric-val">${a.capacity_max_tps} TPS</div></div>
+          <div class="metric-item">SLA Uptime<div class="metric-val" style="color: var(--accent-green);">${a.sla_uptime_percent ?? 99.9}%</div></div>
+          <div class="metric-item">Max Throughput<div class="metric-val">${a.capacity_max_tps ?? 0} TPS</div></div>
         </div>
         <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted);">
           <b>Bound Process Workloads:</b>
@@ -934,12 +1724,12 @@
       grid.appendChild(card);
     });
 
-    const timeDeltaPct = (((shockedTime - baseTime) / baseTime) * 100).toFixed(1);
-    const costDeltaPct = (((shockedCost - baseCost) / baseCost) * 100).toFixed(1);
+    const timeDeltaPct = baseTime > 0 ? (((shockedTime - baseTime) / baseTime) * 100).toFixed(1) : "0.0";
+    const costDeltaPct = baseCost > 0 ? (((shockedCost - baseCost) / baseCost) * 100).toFixed(1) : "0.0";
 
     document.getElementById("simCycleTime").innerHTML = `${shockedTime.toFixed(1)}h <small style="font-size: 13px; color: ${shockedTime > baseTime ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${timeDeltaPct}%)</small>`;
     document.getElementById("simCost").innerHTML = `$${shockedCost.toFixed(2)} <small style="font-size: 13px; color: ${shockedCost > baseCost ? 'var(--accent-red)' : 'var(--accent-green)'};">(+${costDeltaPct}%)</small>`;
-    document.getElementById("simBottleneck").innerText = `${maxStepId} (${maxStepTime.toFixed(1)}h)`;
+    document.getElementById("simBottleneck").innerText = maxStepId ? `${maxStepId} (${maxStepTime.toFixed(1)}h)` : "--";
   }
 
   function openModal(eid) {
@@ -951,17 +1741,20 @@
 
     const content = document.getElementById("modalContent");
     content.innerHTML = `
-      <div style="font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">Process Step Detail Inspector</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 36px;">
+        <div style="font-size: 12px; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">Process Step Detail Inspector</div>
+        <button class="btn-action primary" onclick="closeModal(); openDesignerTab('${eid}');">✏️ Customize Step in Studio</button>
+      </div>
       <h2 style="font-size: 22px; font-weight: 700; margin: 6px 0 16px 0;">${elem.name}</h2>
-      <div style="font-family: monospace; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Element ID: ${eid} | Lifecycles: [${(elem.lifecycles || []).join(", ")}]</div>
+      <div style="font-family: monospace; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Element ID: ${eid} | Lifecycles: [${(elem.lifecycles || []).join(", ")}] ${elem.overrides ? `| Overrides: ${elem.overrides}` : ''}</div>
 
       <div class="modal-tier">
-        <h4>Tier 1: Strategic Intent & Outcomes</h4>
+        <h4>Tier 1: Strategic Intent &amp; Outcomes</h4>
         <p style="font-size: 14px; color: #e2e8f0;">${elem.description || "Critical enterprise milestone aligned with operational excellence and financial governance."}</p>
       </div>
 
       <div class="modal-tier" style="border-left-color: var(--accent-purple);">
-        <h4>Tier 2: Operational RACI & Decision DACI</h4>
+        <h4>Tier 2: Operational RACI &amp; Decision DACI</h4>
         <div style="margin-bottom: 12px;">
           <div style="font-weight: 700; color: var(--accent-blue); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">RACI (Operational Execution)</div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
@@ -970,6 +1763,7 @@
             <div><b>Consulted (C):</b> ${raci.consulted.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
             <div><b>Informed (I):</b> ${raci.informed.map(r => roleTitles[r] || r).join(", ") || "None"}</div>
           </div>
+          ${elem.compensating_control ? `<div style="margin-top: 8px; font-size: 12px; color: var(--accent-amber);"><b>Compensating Control:</b> ${elem.compensating_control}</div>` : ''}
         </div>
         <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
           <div style="font-weight: 700; color: var(--accent-purple); font-size: 12px; text-transform: uppercase; margin-bottom: 6px;">DACI (Decision Authority)</div>
@@ -983,7 +1777,7 @@
       </div>
 
       <div class="modal-tier" style="border-left-color: var(--accent-green);">
-        <h4>Tier 3: Systems Math & Infrastructure</h4>
+        <h4>Tier 3: Systems Math &amp; Infrastructure</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
           <div>Baseline Cycle Time: <b>${attrs.cycle_time} hours</b></div>
           <div>Baseline Cost/Unit: <b>$${attrs.cost.toFixed(2)}</b></div>
@@ -1010,6 +1804,783 @@
     const m = document.getElementById("detailModal");
     if (e.target === m) closeModal();
   };
+
+  /* =========================================================================
+   * Interactive Designer Studio & Live Governance Engine
+   * ========================================================================= */
+
+  function getOverlayCount() {
+    return (
+      Object.keys(studioOverlay.elements).length +
+      Object.keys(studioOverlay.roles).length +
+      Object.keys(studioOverlay.assets).length +
+      Object.keys(studioOverlay.lifecycles).length
+    );
+  }
+
+  function updateStudioStatusPill() {
+    const pill = document.getElementById("studioStatusPill");
+    if (!pill) return;
+    const count = getOverlayCount();
+    if (count === 0) {
+      pill.className = "studio-status-pill";
+      pill.innerHTML = `<span>🎨 Base Profile (${BASE_PROFILE_ID})</span>`;
+    } else {
+      pill.className = "studio-status-pill dirty";
+      pill.innerHTML = `<span>✏️ Draft Overlay: ${studioOverlay.profile_id} (${count} custom)</span>`;
+    }
+  }
+
+  function onStudioMetaChange() {
+    studioOverlay.profile_id = document.getElementById("studioProfileId").value.trim() || `${BASE_PROFILE_ID}_custom`;
+    studioOverlay.name = document.getElementById("studioProfileName").value.trim() || `${BASE_PROFILE_NAME} Custom Overlay`;
+    updateStudioStatusPill();
+    saveDraftToLocalStorage(false);
+  }
+
+  function refreshStudioSelectors() {
+    const allRoleIds = getRoleIds();
+    const allStepIds = Object.keys(elements).filter(k => elements[k].type === "process_step").sort();
+    const allAssetIds = Object.keys(assets).sort();
+
+    // Populate Step Selector
+    const selStep = document.getElementById("studioSelectStep");
+    if (selStep) {
+      const cur = selStep.value;
+      selStep.innerHTML = "";
+      allStepIds.forEach(eid => {
+        const opt = document.createElement("option");
+        opt.value = eid;
+        opt.innerText = `${eid} — ${elements[eid].name || eid}${studioOverlay.elements[eid] ? ' [CUSTOM]' : ''}`;
+        selStep.appendChild(opt);
+      });
+      if (cur && elements[cur]) selStep.value = cur;
+    }
+
+    // Populate Role Selector
+    const selRole = document.getElementById("studioSelectRole");
+    if (selRole) {
+      const cur = selRole.value;
+      selRole.innerHTML = "";
+      allRoleIds.forEach(rid => {
+        const opt = document.createElement("option");
+        opt.value = rid;
+        opt.innerText = `${rid} (${roleTitles[rid] || rid})${studioOverlay.roles[rid] ? ' [CUSTOM]' : ''}`;
+        selRole.appendChild(opt);
+      });
+      if (cur && rolesMap[cur]) selRole.value = cur;
+    }
+
+    // Populate Asset Selector
+    const selAsset = document.getElementById("studioSelectAsset");
+    if (selAsset) {
+      const cur = selAsset.value;
+      selAsset.innerHTML = "";
+      allAssetIds.forEach(aid => {
+        const opt = document.createElement("option");
+        opt.value = aid;
+        opt.innerText = `${aid} (${assets[aid].name || aid})${studioOverlay.assets[aid] ? ' [CUSTOM]' : ''}`;
+        selAsset.appendChild(opt);
+      });
+      if (cur && assets[cur]) selAsset.value = cur;
+    }
+
+    // Populate Add Milestone dropdown
+    const addM = document.getElementById("studioAddMilestoneSelect");
+    if (addM) {
+      addM.innerHTML = "";
+      allStepIds.forEach(eid => {
+        const opt = document.createElement("option");
+        opt.value = eid;
+        opt.innerText = `${eid} — ${elements[eid].name || eid}`;
+        addM.appendChild(opt);
+      });
+    }
+
+    renderMilestoneSequencer();
+  }
+
+  function renderCheckboxGroup(containerId, items, selectedValues) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const selectedSet = new Set(selectedValues || []);
+    container.innerHTML = "";
+    items.forEach(({ id, label }) => {
+      const lbl = document.createElement("label");
+      lbl.className = "checkbox-pill";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = id;
+      cb.checked = selectedSet.has(id);
+      lbl.appendChild(cb);
+      const span = document.createElement("span");
+      span.innerText = label;
+      lbl.appendChild(span);
+      container.appendChild(lbl);
+    });
+  }
+
+  function getCheckedValues(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return [];
+    return [...container.querySelectorAll("input[type='checkbox']:checked")].map(cb => cb.value);
+  }
+
+  function populateSingleRoleSelect(selectId, selectedRole) {
+    const sel = document.getElementById(selectId);
+    if (!sel) return;
+    sel.innerHTML = "";
+    getRoleIds().forEach(rid => {
+      const opt = document.createElement("option");
+      opt.value = rid;
+      const limit = rolesMap[rid]?.approval_limit_usd ?? rolesMap[rid]?.attributes?.approval_limit_usd;
+      const limitTxt = limit !== undefined ? ` [$${Number(limit).toLocaleString()}]` : "";
+      opt.innerText = `${roleTitles[rid] || rid} (${rid})${limitTxt}`;
+      sel.appendChild(opt);
+    });
+    if (selectedRole && rolesMap[selectedRole]) {
+      sel.value = selectedRole;
+    }
+  }
+
+  function syncDaciApproverFromRaci() {
+    const raciAcc = document.getElementById("editRaciAccountable").value;
+    const daciApp = document.getElementById("editDaciApprover");
+    if (daciApp && raciAcc) daciApp.value = raciAcc;
+  }
+
+  function loadStepIntoEditor(eid) {
+    const elem = elements[eid];
+    if (!elem) return;
+    const selStep = document.getElementById("studioSelectStep");
+    if (selStep) selStep.value = eid;
+
+    const attrs = getAttrs(elem);
+    const raci = getRaci(elem);
+    const daci = getDaci(elem);
+    const overlayEntry = studioOverlay.elements[eid];
+    const tiers = overlayEntry?.tiers || {};
+
+    document.getElementById("editStepId").value = eid;
+    document.getElementById("editStepName").value = elem.name || eid;
+    document.getElementById("editStepLifecycles").value = (elem.lifecycles || []).join(", ");
+    document.getElementById("editStepTags").value = (elem.tags || ["process"]).join(", ");
+    document.getElementById("editStepCycleTime").value = attrs.cycle_time;
+    document.getElementById("editStepCost").value = attrs.cost;
+    document.getElementById("editStepSla").value = attrs.sla;
+    document.getElementById("editStepAutomation").value = attrs.automation;
+    document.getElementById("editStepErrorRate").value = attrs.error_rate;
+    document.getElementById("editStepThreshold").value = attrs.threshold;
+    document.getElementById("editStepCompControl").value = elem.compensating_control || "";
+
+    const roleItems = getRoleIds().map(r => ({ id: r, label: `${roleTitles[r] || r}` }));
+    renderCheckboxGroup("editRaciResponsible", roleItems, raci.responsible);
+    renderCheckboxGroup("editRaciConsulted", roleItems, raci.consulted);
+    renderCheckboxGroup("editRaciInformed", roleItems, raci.informed);
+    populateSingleRoleSelect("editRaciAccountable", raci.accountable[0] || getRoleIds()[0]);
+    populateSingleRoleSelect("editDaciApprover", daci.approver[0] || raci.accountable[0] || getRoleIds()[0]);
+
+    const assetItems = Object.keys(assets).sort().map(a => ({ id: a, label: `${assets[a].name || a}` }));
+    renderCheckboxGroup("editStepAssetsContainer", assetItems, elem.asset_dependencies || []);
+
+    const downstreamTargets = (elem.graph_relations || [])
+      .filter(rel => rel.relation === "feeds_into")
+      .map(rel => rel.target);
+    const stepItems = Object.keys(elements)
+      .filter(k => k !== eid && elements[k].type === "process_step")
+      .sort()
+      .map(k => ({ id: k, label: `${k} (${elements[k].name || k})` }));
+    renderCheckboxGroup("editStepFeedsIntoContainer", stepItems, downstreamTargets);
+
+    document.getElementById("editStepTier1").value = tiers.tier_1 || elem.description || `Core milestone for ${elem.name || eid}.`;
+    document.getElementById("editStepTier2").value = tiers.tier_2 || `Executed by ${raci.responsible.join(", ")} with sign-off by ${raci.accountable.join(", ")}.`;
+    document.getElementById("editStepTier3").value = tiers.tier_3 || `Cycle Time: ${attrs.cycle_time}h | Unit Cost: $${attrs.cost} | Automation: ${Math.round(attrs.automation * 100)}%.`;
+  }
+
+  function clearStepEditorForNew() {
+    const activeLf = document.getElementById("studioSeqLifecycle")?.value || Object.keys(lifecycles)[0] || "S2P";
+    const prefix = activeLf.toLowerCase();
+    const nextNum = Object.keys(elements).filter(k => k.startsWith(prefix + "_")).length + 1;
+    const suggestedId = `${prefix}_${String(nextNum).padStart(3, '0')}_custom_step`;
+
+    document.getElementById("editStepId").value = suggestedId;
+    document.getElementById("editStepName").value = "New Custom Process Milestone";
+    document.getElementById("editStepLifecycles").value = activeLf;
+    document.getElementById("editStepTags").value = `${prefix}, custom, governance`;
+    document.getElementById("editStepCycleTime").value = 8.0;
+    document.getElementById("editStepCost").value = 25.0;
+    document.getElementById("editStepSla").value = 24.0;
+    document.getElementById("editStepAutomation").value = 0.8;
+    document.getElementById("editStepErrorRate").value = 0.02;
+    document.getElementById("editStepThreshold").value = 0;
+    document.getElementById("editStepCompControl").value = "";
+
+    const roleItems = getRoleIds().map(r => ({ id: r, label: `${roleTitles[r] || r}` }));
+    renderCheckboxGroup("editRaciResponsible", roleItems, getRoleIds().slice(0, 1));
+    renderCheckboxGroup("editRaciConsulted", roleItems, []);
+    renderCheckboxGroup("editRaciInformed", roleItems, []);
+    populateSingleRoleSelect("editRaciAccountable", getRoleIds()[1] || getRoleIds()[0]);
+    populateSingleRoleSelect("editDaciApprover", getRoleIds()[1] || getRoleIds()[0]);
+
+    const assetItems = Object.keys(assets).sort().map(a => ({ id: a, label: `${assets[a].name || a}` }));
+    renderCheckboxGroup("editStepAssetsContainer", assetItems, Object.keys(assets).slice(0, 1));
+
+    const stepItems = Object.keys(elements)
+      .filter(k => elements[k].type === "process_step")
+      .sort()
+      .map(k => ({ id: k, label: `${k} (${elements[k].name || k})` }));
+    renderCheckboxGroup("editStepFeedsIntoContainer", stepItems, []);
+
+    document.getElementById("editStepTier1").value = "Deliver measurable operational compliance and cycle-time predictability.";
+    document.getElementById("editStepTier2").value = "Standardized operational execution workflow with single-approver governance.";
+    document.getElementById("editStepTier3").value = "Automated system transaction bindings and queueing parameters.";
+  }
+
+  function saveOverlayStep() {
+    const eid = document.getElementById("editStepId").value.trim();
+    if (!/^[a-z0-9_]+$/.test(eid)) {
+      alert("Step ID must contain only lowercase letters, numbers, and underscores (^[a-z0-9_]+$).");
+      return;
+    }
+    const name = document.getElementById("editStepName").value.trim() || eid;
+    const lcs = document.getElementById("editStepLifecycles").value
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+    if (lcs.length === 0) {
+      alert("Please specify at least one lifecycle (e.g. S2P, O2C).");
+      return;
+    }
+    const tags = document.getElementById("editStepTags").value
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const resp = getCheckedValues("editRaciResponsible");
+    const accRole = document.getElementById("editRaciAccountable").value;
+    const cons = getCheckedValues("editRaciConsulted");
+    const inf = getCheckedValues("editRaciInformed");
+    const daciApp = document.getElementById("editDaciApprover").value || accRole;
+
+    const selectedAssets = getCheckedValues("editStepAssetsContainer");
+    const downstreamIds = getCheckedValues("editStepFeedsIntoContainer");
+
+    // Preserve non-feeds_into relations from base element if overriding
+    const existingRels = (elements[eid]?.graph_relations || []).filter(r => r.relation !== "feeds_into");
+    const newRels = [
+      ...existingRels,
+      ...downstreamIds.map(t => ({ relation: "feeds_into", target: t, weight: 1.0 }))
+    ];
+
+    const compControl = document.getElementById("editStepCompControl").value.trim();
+    const tier1 = document.getElementById("editStepTier1").value.trim();
+    const tier2 = document.getElementById("editStepTier2").value.trim();
+    const tier3 = document.getElementById("editStepTier3").value.trim();
+
+    const baseElem = baseElements[eid];
+    const fm = {
+      id: eid,
+      type: "process_step",
+      name: name,
+      version: baseElem?.version || "1.0.0",
+      lifecycles: lcs,
+      lod_support: ["tier_1", "tier_2", "tier_3"],
+      tags: tags.length > 0 ? tags : ["custom"],
+      description: tier1,
+      raci: {
+        responsible: resp,
+        accountable: accRole ? [accRole] : [],
+        consulted: cons,
+        informed: inf
+      },
+      daci: {
+        driver: resp,
+        approver: daciApp ? [daciApp] : [],
+        contributor: cons,
+        informed: inf
+      },
+      attributes: {
+        baseline_cycle_time_hours: Number(document.getElementById("editStepCycleTime").value || 0),
+        baseline_cost_per_unit: Number(document.getElementById("editStepCost").value || 0),
+        automation_rate: Number(document.getElementById("editStepAutomation").value || 0),
+        error_rate: Number(document.getElementById("editStepErrorRate").value || 0),
+        sla_hours: Number(document.getElementById("editStepSla").value || 0),
+        approval_threshold_usd: Number(document.getElementById("editStepThreshold").value || 0)
+      },
+      asset_dependencies: selectedAssets,
+      graph_relations: newRels
+    };
+
+    if (compControl) {
+      fm.compensating_control = compControl;
+    }
+    if (baseElem) {
+      fm.overrides = baseElem.source_layer || BASE_PROFILE_ID;
+      fm.source_layer = studioOverlay.profile_id;
+    } else {
+      fm.source_layer = studioOverlay.profile_id;
+    }
+
+    elements[eid] = fm;
+    studioOverlay.elements[eid] = {
+      frontmatter: fm,
+      tiers: { tier_1: tier1, tier_2: tier2, tier_3: tier3 }
+    };
+
+    // If this is a new step, ensure it is added to its primary lifecycle milestones if not present
+    lcs.forEach(lcId => {
+      if (lifecycles[lcId]) {
+        const ms = lifecycles[lcId].milestones || [];
+        const existingM = ms.find(m => m.step_id === eid);
+        if (existingM) {
+          existingM.name = name;
+        } else {
+          ms.push({ step_id: eid, name: name, order: ms.length + 1 });
+          lifecycles[lcId].milestones = ms;
+        }
+        markLifecycleOverridden(lcId);
+      }
+    });
+
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+    loadStepIntoEditor(eid);
+  }
+
+  function markLifecycleOverridden(lcId) {
+    const lf = lifecycles[lcId];
+    if (!lf) return;
+    if (baseLifecycles[lcId]) {
+      lf.overrides = baseLifecycles[lcId].source_layer || BASE_PROFILE_ID;
+    }
+    studioOverlay.lifecycles[lcId] = JSON.parse(JSON.stringify(lf));
+  }
+
+  function renderMilestoneSequencer() {
+    const lcId = document.getElementById("studioSeqLifecycle")?.value;
+    const listEl = document.getElementById("studioSeqList");
+    if (!listEl || !lcId || !lifecycles[lcId]) return;
+
+    const ms = lifecycles[lcId].milestones || [];
+    listEl.innerHTML = "";
+    ms.forEach((m, idx) => {
+      const li = document.createElement("li");
+      li.className = "seq-item";
+      li.innerHTML = `
+        <div style="cursor: pointer; flex: 1;" onclick="loadStepIntoEditor('${m.step_id}')">
+          <div style="font-weight: 700; color: var(--accent-blue);">#${idx + 1} &bull; ${m.step_id}</div>
+          <div style="color: #e5e7eb;">${elements[m.step_id]?.name || m.name}</div>
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button class="btn-action" style="padding: 4px 8px;" onclick="moveMilestone('${lcId}', ${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>↑</button>
+          <button class="btn-action" style="padding: 4px 8px;" onclick="moveMilestone('${lcId}', ${idx}, 1)" ${idx === ms.length - 1 ? 'disabled' : ''}>↓</button>
+          <button class="btn-action danger" style="padding: 4px 8px;" onclick="removeMilestoneFromLifecycle('${lcId}', ${idx})">&times;</button>
+        </div>
+      `;
+      listEl.appendChild(li);
+    });
+  }
+
+  function moveMilestone(lcId, index, delta) {
+    const lf = lifecycles[lcId];
+    if (!lf || !lf.milestones) return;
+    const ms = lf.milestones;
+    const targetIdx = index + delta;
+    if (targetIdx < 0 || targetIdx >= ms.length) return;
+    const temp = ms[index];
+    ms[index] = ms[targetIdx];
+    ms[targetIdx] = temp;
+    ms.forEach((m, i) => { m.order = i + 1; });
+    markLifecycleOverridden(lcId);
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+  }
+
+  function removeMilestoneFromLifecycle(lcId, index) {
+    const lf = lifecycles[lcId];
+    if (!lf || !lf.milestones) return;
+    lf.milestones.splice(index, 1);
+    lf.milestones.forEach((m, i) => { m.order = i + 1; });
+    markLifecycleOverridden(lcId);
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+  }
+
+  function addStepToLifecycleSequence() {
+    const lcId = document.getElementById("studioSeqLifecycle")?.value;
+    const stepId = document.getElementById("studioAddMilestoneSelect")?.value;
+    if (!lcId || !stepId || !lifecycles[lcId] || !elements[stepId]) return;
+    const ms = lifecycles[lcId].milestones || [];
+    if (!ms.some(m => m.step_id === stepId)) {
+      ms.push({ step_id: stepId, name: elements[stepId].name || stepId, order: ms.length + 1 });
+      lifecycles[lcId].milestones = ms;
+    }
+    if (!(elements[stepId].lifecycles || []).includes(lcId)) {
+      elements[stepId].lifecycles = [...(elements[stepId].lifecycles || []), lcId];
+      if (baseElements[stepId]) {
+        elements[stepId].overrides = baseElements[stepId].source_layer || BASE_PROFILE_ID;
+      }
+      studioOverlay.elements[stepId] = {
+        frontmatter: elements[stepId],
+        tiers: studioOverlay.elements[stepId]?.tiers || {}
+      };
+    }
+    markLifecycleOverridden(lcId);
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+  }
+
+  function loadRoleIntoEditor(rid) {
+    const r = rolesMap[rid];
+    if (!r) return;
+    document.getElementById("editRoleId").value = rid;
+    document.getElementById("editRoleName").value = roleTitles[rid] || r.name || rid;
+    document.getElementById("editRoleDept").value = r.department || "Enterprise Operations";
+    const limit = r.approval_limit_usd ?? r.attributes?.approval_limit_usd ?? 100000;
+    document.getElementById("editRoleLimit").value = Number(limit);
+  }
+
+  function clearRoleEditor() {
+    document.getElementById("editRoleId").value = "role_custom_specialist";
+    document.getElementById("editRoleName").value = "Custom Process Specialist";
+    document.getElementById("editRoleDept").value = "Operations";
+    document.getElementById("editRoleLimit").value = 150000;
+  }
+
+  function saveOverlayRole() {
+    const rid = document.getElementById("editRoleId").value.trim();
+    if (!/^role_[a-z0-9_]+$/.test(rid)) {
+      alert("Role ID must start with 'role_' and contain only lowercase letters, numbers, and underscores.");
+      return;
+    }
+    const name = document.getElementById("editRoleName").value.trim() || rid;
+    const dept = document.getElementById("editRoleDept").value.trim() || "Operations";
+    const limit = Number(document.getElementById("editRoleLimit").value || 0);
+
+    const roleObj = {
+      id: rid,
+      type: "role",
+      name: name,
+      department: dept,
+      approval_limit_usd: limit
+    };
+    if (baseRoles[rid]) {
+      roleObj.overrides = baseRoles[rid].source_layer || BASE_PROFILE_ID;
+    }
+    rolesMap[rid] = roleObj;
+    roleTitles[rid] = name;
+    studioOverlay.roles[rid] = roleObj;
+
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+    loadStepIntoEditor(document.getElementById("editStepId").value);
+  }
+
+  function loadAssetIntoEditor(aid) {
+    const a = assets[aid];
+    if (!a) return;
+    document.getElementById("editAssetId").value = aid;
+    document.getElementById("editAssetName").value = a.name || aid;
+    document.getElementById("editAssetType").value = a.asset_type || "it_application";
+    document.getElementById("editAssetStatus").value = a.status || "operational";
+    document.getElementById("editAssetSla").value = Number(a.sla_uptime_percent ?? 99.9);
+    document.getElementById("editAssetTps").value = Number(a.capacity_max_tps ?? 500);
+  }
+
+  function clearAssetEditor() {
+    document.getElementById("editAssetId").value = "asset_custom_platform";
+    document.getElementById("editAssetName").value = "Custom Cloud Workflow Platform";
+    document.getElementById("editAssetType").value = "it_application";
+    document.getElementById("editAssetStatus").value = "operational";
+    document.getElementById("editAssetSla").value = 99.95;
+    document.getElementById("editAssetTps").value = 750;
+  }
+
+  function saveOverlayAsset() {
+    const aid = document.getElementById("editAssetId").value.trim();
+    if (!/^asset_[a-z0-9_]+$/.test(aid)) {
+      alert("Asset ID must start with 'asset_' and contain only lowercase letters, numbers, and underscores.");
+      return;
+    }
+    const name = document.getElementById("editAssetName").value.trim() || aid;
+    const assetType = document.getElementById("editAssetType").value;
+    const status = document.getElementById("editAssetStatus").value;
+    const sla = Number(document.getElementById("editAssetSla").value || 99.9);
+    const tps = Number(document.getElementById("editAssetTps").value || 500);
+
+    const assetObj = {
+      id: aid,
+      name: name,
+      asset_type: assetType,
+      version: baseAssets[aid]?.version || "1.0.0",
+      status: status,
+      sla_uptime_percent: sla,
+      capacity_max_tps: tps,
+      parent_asset_id: baseAssets[aid]?.parent_asset_id || null
+    };
+    if (baseAssets[aid]) {
+      assetObj.overrides = baseAssets[aid].source_layer || BASE_PROFILE_ID;
+    }
+    assets[aid] = assetObj;
+    studioOverlay.assets[aid] = assetObj;
+
+    saveDraftToLocalStorage(false);
+    refreshAllViews();
+    loadStepIntoEditor(document.getElementById("editStepId").value);
+  }
+
+  function validateStudioGovernance() {
+    const errors = [];
+    const warnings = [];
+    const approverCounts = {};
+
+    Object.keys(elements).sort().forEach(eid => {
+      const elem = elements[eid];
+      const raci = getRaci(elem);
+      const daci = getDaci(elem);
+      const attrs = getAttrs(elem);
+
+      if (elem.type === "process_step") {
+        // 1. Single Approver Rule
+        if (raci.accountable.length !== 1) {
+          errors.push(`Single Approver Rule violation in '${eid}': RACI Accountable must have exactly 1 role (found ${raci.accountable.length}).`);
+        }
+        if (daci.approver.length !== 1) {
+          errors.push(`Single Approver Rule violation in '${eid}': DACI Approver must have exactly 1 role (found ${daci.approver.length}).`);
+        }
+
+        // 2. Segregation of Duties (SoD)
+        const overlap = raci.responsible.filter(r => raci.accountable.includes(r));
+        if (overlap.length > 0 && !elem.compensating_control) {
+          errors.push(`SoD Conflict in '${eid}': Role(s) [${overlap.join(", ")}] cannot be both Responsible and Accountable without a 'compensating_control' declared.`);
+        }
+
+        // 3. Approval Threshold vs Role Limit
+        if (attrs.threshold > 0) {
+          raci.accountable.forEach(accRole => {
+            const rInfo = rolesMap[accRole] || {};
+            const rLimit = Number(rInfo.approval_limit_usd ?? rInfo.attributes?.approval_limit_usd ?? 0);
+            if (rLimit < attrs.threshold) {
+              errors.push(`Threshold Violation in '${eid}': Accountable role '${accRole}' limit ($${rLimit.toLocaleString()}) is below step threshold ($${attrs.threshold.toLocaleString()}).`);
+            }
+          });
+        }
+
+        // Track concentrated approvers
+        daci.approver.forEach(a => {
+          approverCounts[a] = (approverCounts[a] || 0) + 1;
+        });
+      }
+
+      // 4. Undefined RACI/DACI roles
+      [...raci.responsible, ...raci.accountable, ...raci.consulted, ...raci.informed].forEach(r => {
+        if (!rolesMap[r]) errors.push(`Element '${eid}' references undefined role '${r}'.`);
+      });
+
+      // 5. Asset dependencies
+      (elem.asset_dependencies || []).forEach(a => {
+        if (!assets[a]) errors.push(`Element '${eid}' references undefined system asset '${a}'.`);
+      });
+
+      // 6. Graph relations
+      (elem.graph_relations || []).forEach(rel => {
+        if (rel.target === eid) {
+          errors.push(`Element '${eid}' has a self-referencing relation '${rel.relation}'.`);
+        } else if (rel.target && !elements[rel.target] && !assets[rel.target]) {
+          errors.push(`Element '${eid}' references non-existent target '${rel.target}'.`);
+        }
+      });
+    });
+
+    Object.entries(approverCounts).forEach(([roleId, count]) => {
+      if (count >= 5) {
+        warnings.push(`Concentrated Approver Advisory: Role '${roleTitles[roleId] || roleId}' (${roleId}) is Approver across ${count} steps.`);
+      }
+    });
+
+    const banner = document.getElementById("studioGovernanceBanner");
+    const exportBtn = document.getElementById("btnExportValidated");
+    if (banner) {
+      if (errors.length > 0) {
+        banner.className = "guardrail-banner has-errors";
+        banner.innerHTML = `
+          <div style="font-weight: 700; color: #fca5a5; margin-bottom: 6px;">❌ ${errors.length} Blocking Governance Error(s) Detected (Resolve to enable Validated Profile Export):</div>
+          <ul style="padding-left: 20px; color: #fecaca;">${errors.map(e => `<li>${e}</li>`).join("")}</ul>
+        `;
+      } else if (warnings.length > 0) {
+        banner.className = "guardrail-banner has-warnings";
+        banner.innerHTML = `
+          <div style="font-weight: 700; color: #fde68a; margin-bottom: 4px;">✅ Zero Blocking Governance Errors &bull; ⚠️ ${warnings.length} Advisory Warning(s):</div>
+          <ul style="padding-left: 20px; color: #fef08a;">${warnings.map(w => `<li>${w}</li>`).join("")}</ul>
+        `;
+      } else {
+        banner.className = "guardrail-banner";
+        banner.innerHTML = `<div style="font-weight: 700; color: #6ee7b7;">✅ All Governance Guardrails Passing (Single Approver |A|=1, SoD, Role Thresholds, &amp; Graph Integrity verified)</div>`;
+      }
+    }
+    if (exportBtn) {
+      exportBtn.disabled = errors.length > 0;
+    }
+
+    return { valid: errors.length === 0, errors, warnings };
+  }
+
+  function buildOverlayBundlePayload(validated) {
+    const activeLifecycles = Object.keys(lifecycles).sort();
+    return {
+      bundle_version: "1.0.0",
+      validated: Boolean(validated),
+      profile: {
+        profile_id: studioOverlay.profile_id || `${BASE_PROFILE_ID}_custom`,
+        name: studioOverlay.name || `${BASE_PROFILE_NAME} Custom Overlay`,
+        industry: BASE_PROFILE_ID,
+        version: "1.0.0",
+        description: `Custom operating model overlay extending ${BASE_PROFILE_ID}`,
+        extends: [BASE_PROFILE_ID],
+        lifecycles: activeLifecycles,
+        default_lifecycle: activeLifecycles[0] || "S2P"
+      },
+      taxonomy: {
+        lifecycles: [],
+        element_types: [],
+        relation_types: []
+      },
+      elements: studioOverlay.elements,
+      roles: studioOverlay.roles,
+      assets: studioOverlay.assets,
+      lifecycles: studioOverlay.lifecycles,
+      patches: studioOverlay.patches || []
+    };
+  }
+
+  function downloadJsonFile(filename, dataObj) {
+    const blob = new Blob([JSON.stringify(dataObj, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function exportValidatedOverlayBundle() {
+    const gov = validateStudioGovernance();
+    if (!gov.valid) {
+      alert("Cannot export validated bundle while blocking governance errors exist. Fix the errors or use 'Download Draft (.draft.json)'.");
+      return;
+    }
+    const payload = buildOverlayBundlePayload(true);
+    downloadJsonFile(`${payload.profile.profile_id}.vcm.json`, payload);
+  }
+
+  function exportDraftOverlayBundle() {
+    const payload = buildOverlayBundlePayload(false);
+    downloadJsonFile(`${payload.profile.profile_id}.draft.json`, payload);
+  }
+
+  function saveDraftToLocalStorage(showToast) {
+    try {
+      const payload = buildOverlayBundlePayload(false);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      if (showToast) {
+        alert(`Saved draft overlay '${payload.profile.profile_id}' to browser storage.`);
+      }
+    } catch (e) {
+      console.warn("localStorage save failed:", e);
+    }
+  }
+
+  function applyImportedBundleData(bundle) {
+    if (!bundle || typeof bundle !== "object") return;
+    if (bundle.profile) {
+      studioOverlay.profile_id = bundle.profile.profile_id || `${BASE_PROFILE_ID}_custom`;
+      studioOverlay.name = bundle.profile.name || `${BASE_PROFILE_NAME} Custom Overlay`;
+      const pidInput = document.getElementById("studioProfileId");
+      const pnameInput = document.getElementById("studioProfileName");
+      if (pidInput) pidInput.value = studioOverlay.profile_id;
+      if (pnameInput) pnameInput.value = studioOverlay.name;
+    }
+    studioOverlay.elements = bundle.elements || {};
+    studioOverlay.roles = bundle.roles || {};
+    studioOverlay.assets = bundle.assets || {};
+    studioOverlay.lifecycles = bundle.lifecycles || {};
+    studioOverlay.patches = bundle.patches || [];
+
+    Object.entries(studioOverlay.roles).forEach(([rid, rObj]) => {
+      rolesMap[rid] = rObj;
+      roleTitles[rid] = rObj.name || rid;
+    });
+    Object.entries(studioOverlay.assets).forEach(([aid, aObj]) => {
+      assets[aid] = aObj;
+    });
+    Object.entries(studioOverlay.elements).forEach(([eid, eEntry]) => {
+      const fm = eEntry.frontmatter || eEntry;
+      elements[eid] = fm;
+    });
+    Object.entries(studioOverlay.lifecycles).forEach(([lid, lObj]) => {
+      lifecycles[lid] = lObj;
+    });
+  }
+
+  function loadDraftFromLocalStorage() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const bundle = JSON.parse(raw);
+        applyImportedBundleData(bundle);
+      }
+    } catch (e) {
+      console.warn("Failed to restore draft from localStorage:", e);
+    }
+  }
+
+  function importOverlayBundleFile(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      try {
+        const bundle = JSON.parse(evt.target.result);
+        applyImportedBundleData(bundle);
+        saveDraftToLocalStorage(false);
+        refreshAllViews();
+      } catch (err) {
+        alert("Failed to parse overlay JSON file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function resetOverlayToBase() {
+    Object.keys(elements).forEach(k => delete elements[k]);
+    Object.assign(elements, JSON.parse(JSON.stringify(baseElements)));
+
+    Object.keys(assets).forEach(k => delete assets[k]);
+    Object.assign(assets, JSON.parse(JSON.stringify(baseAssets)));
+
+    Object.keys(rolesMap).forEach(k => delete rolesMap[k]);
+    Object.assign(rolesMap, JSON.parse(JSON.stringify(baseRoles)));
+
+    Object.keys(roleTitles).forEach(k => delete roleTitles[k]);
+    Object.assign(roleTitles, JSON.parse(JSON.stringify(baseRoleTitles)));
+
+    Object.keys(lifecycles).forEach(k => delete lifecycles[k]);
+    Object.assign(lifecycles, JSON.parse(JSON.stringify(baseLifecycles)));
+
+    studioOverlay = {
+      profile_id: `${BASE_PROFILE_ID}_custom`,
+      name: `${BASE_PROFILE_NAME} Custom Overlay`,
+      elements: {},
+      roles: {},
+      assets: {},
+      lifecycles: {},
+      patches: []
+    };
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    refreshAllViews();
+  }
 
   init();
 </script>

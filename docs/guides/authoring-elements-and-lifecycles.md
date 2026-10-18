@@ -237,3 +237,23 @@ uv run tools/validate_and_build.py --profile ALL
 | `Approval Threshold Exceeds Role Limit` | A step or policy's `approval_threshold_usd` exceeds the Accountable role's `approval_limit_usd`. | Increase the role limit in its frontmatter, or assign a role with sufficient authority. |
 | `SoD Conflict: Role cannot be both Responsible and Accountable` | The same role is assigned to `responsible` and `accountable` in the RACI matrix. | Declare a valid `compensating_control: "..."` string in the frontmatter. |
 | `Accidental ID collision in elements` | An overlay element reuses an ID from an inherited parent layer without declaring an override. | Add `overrides: <parent_layer>` to the element frontmatter if replacing intentionally. |
+
+---
+
+## 8. Interactive Authoring in the Browser Designer Studio
+
+In addition to authoring Markdown and JSON files directly on disk, you can design, customize, and validate operating model overlays visually inside any compiled `value_chain_visualizer.html` via the **`🎨 Designer Studio`** tab:
+
+1. **Open the Studio**: Open `index/<profile>/value_chain_visualizer.html` in your browser and select the **`🎨 Designer Studio`** tab (or click **`✏️ Customize Step`** on any process step card or detail modal).
+2. **Author & Customize**:
+   - **Lifecycle Milestone Sequencer**: Reorder milestones (`↑` / `↓`), remove steps, or insert steps into any lifecycle.
+   - **Process Step Editor**: Create new process steps or override inherited steps (operational metrics, RACI/DACI assignments, `compensating_control`, IT asset bindings, `feeds_into` links, and Tier 1/2/3 narratives). Inherited steps automatically receive `overrides: <source_layer>`.
+   - **Enterprise Roles & IT Assets Managers**: Add or override enterprise roles (`approval_limit_usd`, `department`) and IT system assets (`sla_uptime_percent`, `capacity_max_tps`).
+3. **Verify Live Governance Guardrails**: The top guardrail banner continuously checks Single Approver ($|A|=1$), Segregation of Duties (`R == A`), Role Approval Thresholds, and graph integrity, while all tabs (including **Live Mermaid Graph** and **Scenario Stress-Test**) update in real time.
+4. **Export & Materialize into Repository**:
+   - Click **`📦 Export Validated Overlay (.vcm.json)`** once zero blocking governance errors remain.
+   - Import and build the bundle into `profiles/<custom_id>/` with a single command:
+     ```bash
+     uv run tools/import_custom_profile.py path/to/<custom_id>.vcm.json
+     ```
+

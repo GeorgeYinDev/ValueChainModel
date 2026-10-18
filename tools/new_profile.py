@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import argparse
-import pathlib
 import json
+import pathlib
+
 
 def main():
     parser = argparse.ArgumentParser(description="Create a new industry profile")

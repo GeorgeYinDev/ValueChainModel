@@ -1,5 +1,3 @@
-import sys, pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.resolve()))
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.10"
@@ -20,28 +18,40 @@ Enterprise Value Chain Engine Validator & LLM Context Indexer
 7. Compiles LLM Context Prompts per Business Lifecycle (index/<profile>/llm_context_<lifecycle_id>.md).
 """
 
-import os
-import sys
+import argparse
 import json
 import pathlib
-import yaml
-import jsonschema
-import argparse
 import subprocess
-from tools.vcm_profiles import resolve_profile, parse_frontmatter, default_profile, list_profiles
-from typing import Dict, Any, List, Tuple
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.resolve()))
+
+import jsonschema
+
+from tools.vcm_profiles import default_profile, list_profiles, parse_frontmatter, resolve_profile
+
+
+def _display_path(path: pathlib.Path, root: pathlib.Path) -> pathlib.Path:
+    return path.relative_to(root) if path.is_relative_to(root) else path
+
 
 def main():
     parser = argparse.ArgumentParser(description="Enterprise Value Chain Validator")
     parser.add_argument("--profile", default=default_profile(), help="Industry profile")
     parser.add_argument("--profiles-root", default="profiles", help="Path to profiles directory")
+    parser.add_argument("--output-dir", default="index", help="Base output directory path")
     parser.add_argument("--list-profiles", action="store_true", help="List available profiles and exit")
     args = parser.parse_args()
 
     root = pathlib.Path(__file__).parent.parent.resolve()
     schema_dir = root / "schema"
-    profiles_root = root / args.profiles_root
-    
+    profiles_root = pathlib.Path(args.profiles_root)
+    if not profiles_root.is_absolute():
+        profiles_root = root / profiles_root
+    output_base = pathlib.Path(args.output_dir)
+    if not output_base.is_absolute():
+        output_base = root / output_base
+
     if args.list_profiles:
         profs = list_profiles(profiles_root)
         print("Available Enterprise Profiles:")
@@ -55,9 +65,18 @@ def main():
         for p_info in all_profs:
             p_id = p_info["profile_id"]
             print(f"\n{'='*50}\n Building Profile: {p_id}\n{'='*50}")
-            res = subprocess.run(["uv", "run", __file__, "--profile", p_id, "--profiles-root", args.profiles_root], check=False)
+            res = subprocess.run(
+                [
+                    "uv", "run", __file__,
+                    "--profile", p_id,
+                    "--profiles-root", str(profiles_root),
+                    "--output-dir", str(output_base),
+                ],
+                check=False,
+            )
             if res.returncode != 0:
                 success = False
+
         
         # generate index/index.html switcher dashboard
         html = """<!DOCTYPE html>
@@ -107,7 +126,8 @@ def main():
 </body>
 </html>
 """
-        (root / "index" / "index.html").write_text(html, encoding="utf-8")
+        output_base.mkdir(parents=True, exist_ok=True)
+        (output_base / "index.html").write_text(html, encoding="utf-8")
         if not success:
             sys.exit(1)
         return
@@ -118,7 +138,7 @@ def main():
         print(f"❌ Failed to resolve profile '{args.profile}': {e}")
         sys.exit(1)
 
-    index_dir = ep.output_dir
+    index_dir = output_base / args.profile
     index_dir.mkdir(parents=True, exist_ok=True)
 
     print("==================================================")
@@ -178,7 +198,7 @@ def main():
         elements[elem_id] = {
             "frontmatter": fm,
             "body": body,
-            "path": str(md_file.relative_to(root))
+            "path": str(_display_path(md_file, root))
         }
         print(f"  - Ingested Value Chain Element: {elem_id} ({fm.get('name', 'Unnamed')}) [{layer}]")
 
@@ -344,7 +364,7 @@ def main():
             
         out_prompt = index_dir / f"llm_context_{lf_id.lower()}.md"
         out_prompt.write_text(prompt_content, encoding="utf-8")
-        print(f"  - Generated context pack: {out_prompt.relative_to(root)} ({len(matched_elements)} elements)")
+        print(f"  - Generated context pack: {_display_path(out_prompt, root)} ({len(matched_elements)} elements)")
 
     # Profile manifest requirement check
     for req_lc in ep.manifest.get("lifecycles", []):
@@ -353,7 +373,7 @@ def main():
 
     # 6. Validate Scenarios
     print("\n[+] Validating Scenario files...")
-    for sim_id, (sim_file, layer) in ep.scenario_files.items():
+    for _sim_id, (sim_file, layer) in ep.scenario_files.items():
         sim_data = json.loads(sim_file.read_text(encoding="utf-8"))
         sim_data["source_layer"] = layer
         validate_schema(sim_data, scenario_schema, f"Scenario '{sim_file.name}'")
@@ -390,13 +410,23 @@ def main():
     
     kg_file = index_dir / "knowledge_graph.json"
     kg_file.write_text(json.dumps(graph_index, indent=2), encoding="utf-8")
-    print(f"\n[+] Compiled Knowledge Graph Index: {kg_file.relative_to(root)}")
+    print(f"\n[+] Compiled Knowledge Graph Index: {_display_path(kg_file, root)}")
 
     # 8. Auto-compile Diagrams and Visualizer
     diagram_script = root / "tools" / "export_diagram.py"
     if diagram_script.exists():
         print("\n[+] Compiling Mermaid Diagrams & Interactive Visualizer...")
-        res = subprocess.run(["uv", "run", str(diagram_script), "--profile", args.profile, "--lifecycle", "ALL", "--format", "all"], check=False)
+        res = subprocess.run(
+            [
+                "uv", "run", str(diagram_script),
+                "--profile", args.profile,
+                "--profiles-root", str(profiles_root),
+                "--lifecycle", "ALL",
+                "--format", "all",
+                "--output-dir", str(output_base),
+            ],
+            check=False,
+        )
         if res.returncode != 0:
             errors.append(f"Diagram exporter failed with return code {res.returncode}")
 

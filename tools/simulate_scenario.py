@@ -9,14 +9,13 @@ Enterprise Value Chain Scenario Simulation Engine
 5. Generates a markdown simulation report (index/simulation_report_<scenario_id>.md).
 """
 
-import os
-import sys
 import argparse
-import subprocess
 import json
 import pathlib
+import subprocess
+import sys
+
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.resolve()))
-from typing import Dict, Any, List
 
 def main():
     parser = argparse.ArgumentParser(description="Scenario Simulation Engine")
@@ -163,22 +162,22 @@ def main():
         })
 
     # Generate Markdown Simulation Report
-    report_md = f"# Scenario Simulation Executive Report\n\n"
+    report_md = "# Scenario Simulation Executive Report\n\n"
     report_md += f"**Scenario**: {scenario.get('name')} (`{scenario.get('scenario_id')}`)\n"
     report_md += f"**Target Lifecycle**: `{scenario.get('target_lifecycle')}`\n\n"
-    report_md += f"## Executive Summary & Macro Outcomes\n\n"
+    report_md += "## Executive Summary & Macro Outcomes\n\n"
     
     total_time_delta_pct = ((shocked_total_time - baseline_total_time) / baseline_total_time * 100) if baseline_total_time > 0 else 0.0
     total_cost_delta_pct = ((shocked_total_cost - baseline_total_cost) / baseline_total_cost * 100) if baseline_total_cost > 0 else 0.0
 
-    report_md += f"| Metric | Baseline | Shocked Scenario | Variance Delta |\n"
-    report_md += f"| :--- | :--- | :--- | :--- |\n"
+    report_md += "| Metric | Baseline | Shocked Scenario | Variance Delta |\n"
+    report_md += "| :--- | :--- | :--- | :--- |\n"
     report_md += f"| **Total Lifecycle Lead Time** | `{baseline_total_time:.1f} hrs` ({baseline_total_time/24.0:.1f} days) | `{shocked_total_time:.1f} hrs` ({shocked_total_time/24.0:.1f} days) | `+{total_time_delta_pct:.1f}%` |\n"
     report_md += f"| **Total Process Cost / Unit** | `${baseline_total_cost:.2f}` | `${shocked_total_cost:.2f}` | `+{total_cost_delta_pct:.1f}%` |\n\n"
 
-    report_md += f"## Element Breakdown & Bottleneck Sensitivity Analysis\n\n"
-    report_md += f"| Process Element | Baseline Time | Shocked Time | Time Delta | Baseline Cost | Shocked Cost | Cost Delta |\n"
-    report_md += f"| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n"
+    report_md += "## Element Breakdown & Bottleneck Sensitivity Analysis\n\n"
+    report_md += "| Process Element | Baseline Time | Shocked Time | Time Delta | Baseline Cost | Shocked Cost | Cost Delta |\n"
+    report_md += "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n"
 
     for r in report_rows:
         t_flag = f"🔥 +{r['time_delta_pct']:.0f}%" if r['time_delta_pct'] > 50 else f"+{r['time_delta_pct']:.0f}%"

@@ -9,7 +9,13 @@ flowchart LR
     s2p_008_payment_settlement_disbursement__R["<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_billing_specialist ["<b>Billing Specialist</b>"]
+  subgraph Sub_role_attending_physician ["<b>Attending Physician</b>"]
+    p2d_003_clinical_admission_triage__A["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    p2d_004_care_delivery_order_execution__A["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    p2d_005_discharge_planning_transition__A["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_billing_specialist ["<b>Billing &amp; Accounts Receivable Specialist</b>"]
     rcm_003_payer_adjudication_remittance__R["<b>Payer Adjudication &amp; Remittance</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     rcm_005_patient_billing_collections__R["<b>Patient Billing &amp; Collections</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     rcm_006_cash_posting_reconciliation__R["<b>Cash Posting &amp; Subledger Reconciliation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -25,7 +31,7 @@ flowchart LR
     s2p_006_goods_services_receipt__A["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_consolidation_specialist ["<b>Consolidation Specialist</b>"]
+  subgraph Sub_role_consolidation_specialist ["<b>Financial Consolidation Specialist</b>"]
     r2r_002_intercompany_reconciliation__R["<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_004_financial_close_consolidation__R["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_005_statutory_financial_reporting__R["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -56,9 +62,20 @@ flowchart LR
     h2r_005_performance_compensation_review__A["<b>Performance &amp; Compensation Review</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_hr_business_partner ["<b>Hr Business Partner</b>"]
+  subgraph Sub_role_hr_business_partner ["<b>HR Business Partner</b>"]
     h2r_006_separation_offboarding_settlement__R["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     h2r_006_separation_offboarding_settlement__A["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_medical_coder ["<b>Certified Medical Coder</b>"]
+    rcm_001_charge_capture_coding__R["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    rcm_002_claim_scrubbing_submission__R["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    rcm_004_denial_management_appeals__R["<b>Denial Management &amp; Appeals</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_patient_access_specialist ["<b>Patient Access Specialist</b>"]
+    p2d_001_patient_registration_scheduling__R["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    p2d_002_insurance_verification_prior_auth__R["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
   subgraph Sub_role_payroll_specialist ["<b>Payroll Specialist</b>"]
@@ -74,29 +91,7 @@ flowchart LR
     s2p_006_goods_services_receipt__R["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
-    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_attending_physician ["<b>Attending Physician</b>"]
-    p2d_003_clinical_admission_triage__A["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    p2d_004_care_delivery_order_execution__A["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    p2d_005_discharge_planning_transition__A["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_medical_coder ["<b>Medical Coder</b>"]
-    rcm_001_charge_capture_coding__R["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    rcm_002_claim_scrubbing_submission__R["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    rcm_004_denial_management_appeals__R["<b>Denial Management &amp; Appeals</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_patient_access_specialist ["<b>Patient Access Specialist</b>"]
-    p2d_001_patient_registration_scheduling__R["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    p2d_002_insurance_verification_prior_auth__R["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_rcm_director ["<b>Rcm Director</b>"]
+  subgraph Sub_role_rcm_director ["<b>Revenue Cycle Management Director</b>"]
     p2d_001_patient_registration_scheduling__A["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
     rcm_001_charge_capture_coding__A["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
     p2d_002_insurance_verification_prior_auth__A["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
@@ -106,7 +101,12 @@ flowchart LR
     rcm_005_patient_billing_collections__A["<b>Patient Billing &amp; Collections</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_triage_nurse ["<b>Triage Nurse</b>"]
+  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
+    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_triage_nurse ["<b>Triage &amp; Bedside Registered Nurse</b>"]
     p2d_003_clinical_admission_triage__R["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     p2d_004_care_delivery_order_execution__R["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     p2d_005_discharge_planning_transition__R["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Responsible (R)</b>"]:::rNode

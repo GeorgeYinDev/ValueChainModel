@@ -24,10 +24,18 @@ jobs:
     - name: Add uv to PATH
       run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+    - name: Run Linter (Ruff)
+      run: uv run ruff check tools/ tests/
+
     - name: Run Schema Validator & Graph Builder
       run: uv run tools/validate_and_build.py --profile ALL
+
     - name: Run Schema Validator (Core Isolation Test)
       run: uv run tools/validate_and_build.py --profile core
 
+    - name: Verify Compiled Index Artifacts Are In Sync
+      run: git diff --exit-code index/
+
     - name: Run Test Suite
-      run: uv run --with pytest pytest tests/
+      run: uv run pytest tests/
+

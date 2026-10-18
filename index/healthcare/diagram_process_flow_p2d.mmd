@@ -1,0 +1,39 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    clinical_patient_care_stream[["<b>Stream: Clinical Patient Access &amp; Inpatient Care Delivery Value Stream</b><br/><small>clinical_patient_care_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_P2D_patient_access ["<b>Patient Access & Clearance Phase</b>"]
+    p2d_001_patient_registration_scheduling["<b>Patient Registration &amp; Scheduling</b><br/><small>ID: p2d_001_patient_registration_scheduling</small><br/>⏱ 0.5h | 💰 $25.0 | ⚡ 65% auto"]:::processStep
+    p2d_002_insurance_verification_prior_auth["<b>Insurance Verification &amp; Prior Authorization</b><br/><small>ID: p2d_002_insurance_verification_prior_auth</small><br/>⏱ 4.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2D_inpatient_clinical_care ["<b>Clinical Care & Discharge Phase</b>"]
+    p2d_003_clinical_admission_triage["<b>Clinical Admission &amp; Triage</b><br/><small>ID: p2d_003_clinical_admission_triage</small><br/>⏱ 1.5h | 💰 $120.0 | ⚡ 25% auto"]:::processStep
+    p2d_004_care_delivery_order_execution["<b>Care Delivery &amp; Order Execution</b><br/><small>ID: p2d_004_care_delivery_order_execution</small><br/>⏱ 48.0h | 💰 $2800.0 | ⚡ 35% auto"]:::processStep
+    p2d_005_discharge_planning_transition["<b>Discharge Planning &amp; Care Transition</b><br/><small>ID: p2d_005_discharge_planning_transition</small><br/>⏱ 3.5h | 💰 $180.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    clinical_prior_auth_medical_necessity_policy(["<b>Policy: Medical Necessity &amp; Prior Authorization Governance Policy</b><br/><small>clinical_prior_auth_medical_necessity_policy</small>"]):::controlPolicy
+    hipaa_phi_privacy_policy(["<b>Policy: HIPAA Security, Privacy &amp; PHI Governance Policy</b><br/><small>hipaa_phi_privacy_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  data_electronic_health_record -. triggers .-> p2d_005_discharge_planning_transition
+  kpi_average_length_of_stay -. impacted_by .-> p2d_005_discharge_planning_transition
+  p2d_001_patient_registration_scheduling --> p2d_002_insurance_verification_prior_auth
+  p2d_001_patient_registration_scheduling -. governed by .-> hipaa_phi_privacy_policy
+  p2d_002_insurance_verification_prior_auth --> p2d_003_clinical_admission_triage
+  p2d_002_insurance_verification_prior_auth -. governed by .-> clinical_prior_auth_medical_necessity_policy
+  p2d_003_clinical_admission_triage --> p2d_004_care_delivery_order_execution
+  p2d_003_clinical_admission_triage -. governed by .-> hipaa_phi_privacy_policy
+  p2d_004_care_delivery_order_execution --> p2d_005_discharge_planning_transition
+  p2d_004_care_delivery_order_execution -. governed by .-> hipaa_phi_privacy_policy
+  p2d_005_discharge_planning_transition -. governed by .-> hipaa_phi_privacy_policy
+  clinical_patient_care_stream -. governed by .-> hipaa_phi_privacy_policy

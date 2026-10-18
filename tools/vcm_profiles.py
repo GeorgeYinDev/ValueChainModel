@@ -1,10 +1,11 @@
+import json
 import os
 import sys
-import json
-import yaml
-from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Any, List, Tuple, Optional
+from pathlib import Path
+from typing import Any
+
+import yaml
 
 try:
     import jsonschema
@@ -14,21 +15,21 @@ except ImportError:
 @dataclass
 class EffectiveProfile:
     profile_id: str
-    manifest: Dict[str, Any]
-    layers: List[str]
-    taxonomy: Dict[str, Any]
-    element_files: Dict[str, Tuple[Path, str]]
-    role_files: Dict[str, Tuple[Path, str]]
-    asset_files: Dict[str, Tuple[Path, str]]
-    lifecycle_files: Dict[str, Tuple[Path, str]]
-    scenario_files: Dict[str, Tuple[Path, str]]
-    patches: List[Dict[str, Any]]
+    manifest: dict[str, Any]
+    layers: list[str]
+    taxonomy: dict[str, Any]
+    element_files: dict[str, tuple[Path, str]]
+    role_files: dict[str, tuple[Path, str]]
+    asset_files: dict[str, tuple[Path, str]]
+    lifecycle_files: dict[str, tuple[Path, str]]
+    scenario_files: dict[str, tuple[Path, str]]
+    patches: list[dict[str, Any]]
     output_dir: Path
 
 def default_profile() -> str:
     return os.environ.get("VCM_PROFILE", "manufacturing")
 
-def list_profiles(profiles_root: Path) -> List[Dict[str, Any]]:
+def list_profiles(profiles_root: Path) -> list[dict[str, Any]]:
     profiles = []
     if profiles_root.exists():
         for p_dir in sorted(profiles_root.iterdir()):
@@ -40,7 +41,7 @@ def list_profiles(profiles_root: Path) -> List[Dict[str, Any]]:
                     pass
     return profiles
 
-def _resolve_layers(profiles_root: Path, profile_id: str, path: Optional[List[str]] = None) -> List[str]:
+def _resolve_layers(profiles_root: Path, profile_id: str, path: list[str] | None = None) -> list[str]:
     if path is None:
         path = []
     if profile_id in path:
@@ -66,7 +67,7 @@ def _resolve_layers(profiles_root: Path, profile_id: str, path: Optional[List[st
     unique_layers.append(profile_id)
     return unique_layers
 
-def parse_frontmatter(file_path: Path) -> Tuple[Dict[str, Any], str]:
+def parse_frontmatter(file_path: Path) -> tuple[dict[str, Any], str]:
     """Extract YAML frontmatter and body from Markdown file."""
     content = file_path.read_text(encoding="utf-8")
     frontmatter = {}
@@ -84,7 +85,7 @@ def parse_frontmatter(file_path: Path) -> Tuple[Dict[str, Any], str]:
             
     return frontmatter, body
 
-def _collect_files(directory: Path, file_dict: Dict[str, Tuple[Path, str]], layer: str, file_type: str = "element"):
+def _collect_files(directory: Path, file_dict: dict[str, tuple[Path, str]], layer: str, file_type: str = "element"):
     if not directory.exists():
         return
     for f in sorted(directory.rglob("*.*")):
@@ -140,13 +141,13 @@ def resolve_profile(profiles_root: Path, profile_id: str, repo_root: Path) -> Ef
         "lod_tiers": []
     }
     
-    element_files: Dict[str, Tuple[Path, str]] = {}
-    role_files: Dict[str, Tuple[Path, str]] = {}
-    asset_files: Dict[str, Tuple[Path, str]] = {}
-    lifecycle_files: Dict[str, Tuple[Path, str]] = {}
-    scenario_files: Dict[str, Tuple[Path, str]] = {}
-    patches: List[Dict[str, Any]] = []
-    target_manifest: Dict[str, Any] = {}
+    element_files: dict[str, tuple[Path, str]] = {}
+    role_files: dict[str, tuple[Path, str]] = {}
+    asset_files: dict[str, tuple[Path, str]] = {}
+    lifecycle_files: dict[str, tuple[Path, str]] = {}
+    scenario_files: dict[str, tuple[Path, str]] = {}
+    patches: list[dict[str, Any]] = []
+    target_manifest: dict[str, Any] = {}
     
     for layer in layers:
         layer_dir = profiles_root / layer
@@ -159,7 +160,7 @@ def resolve_profile(profiles_root: Path, profile_id: str, repo_root: Path) -> Ef
                 try:
                     jsonschema.validate(instance=manifest, schema=profile_schema)
                 except jsonschema.exceptions.ValidationError as e:
-                    raise ValueError(f"Profile schema validation error in {manifest_path}: {e.message}")
+                    raise ValueError(f"Profile schema validation error in {manifest_path}: {e.message}") from e
         
         # Merge taxonomy
         tax_path = layer_dir / "ontology" / "taxonomies.json"
@@ -203,7 +204,7 @@ def resolve_profile(profiles_root: Path, profile_id: str, repo_root: Path) -> Ef
                             try:
                                 jsonschema.validate(instance=patch_content, schema=patch_schema)
                             except jsonschema.exceptions.ValidationError as e:
-                                raise ValueError(f"Patch schema validation error in {p}: {e.message}")
+                                raise ValueError(f"Patch schema validation error in {p}: {e.message}") from e
                         patches.append(patch_content)
                     
     return EffectiveProfile(

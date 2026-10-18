@@ -20,37 +20,67 @@ flowchart TD
     strategic_sourcing_stream[["<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>"]]:::valueStream
   end
 
-  subgraph Subgraph_Other ["<b>Other Process Steps</b>"]
-    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
-    p2d_001_patient_registration_scheduling["<b>Patient Registration &amp; Scheduling</b><br/><small>ID: p2d_001_patient_registration_scheduling</small><br/>⏱ 0.5h | 💰 $25.0"]:::processStep
-    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0"]:::processStep
-    rcm_001_charge_capture_coding["<b>Charge Capture &amp; Medical Coding</b><br/><small>ID: rcm_001_charge_capture_coding</small><br/>⏱ 12.0h | 💰 $85.0"]:::processStep
-    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0"]:::processStep
-    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0"]:::processStep
-    p2d_002_insurance_verification_prior_auth["<b>Insurance Verification &amp; Prior Authorization</b><br/><small>ID: p2d_002_insurance_verification_prior_auth</small><br/>⏱ 4.0h | 💰 $45.0"]:::processStep
-    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0"]:::processStep
-    rcm_002_claim_scrubbing_submission["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/><small>ID: rcm_002_claim_scrubbing_submission</small><br/>⏱ 6.0h | 💰 $40.0"]:::processStep
-    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
-    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0"]:::processStep
-    p2d_003_clinical_admission_triage["<b>Clinical Admission &amp; Triage</b><br/><small>ID: p2d_003_clinical_admission_triage</small><br/>⏱ 1.5h | 💰 $120.0"]:::processStep
-    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0"]:::processStep
-    rcm_003_payer_adjudication_remittance["<b>Payer Adjudication &amp; Remittance</b><br/><small>ID: rcm_003_payer_adjudication_remittance</small><br/>⏱ 120.0h | 💰 $15.0"]:::processStep
-    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0"]:::processStep
-    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0"]:::processStep
-    p2d_004_care_delivery_order_execution["<b>Care Delivery &amp; Order Execution</b><br/><small>ID: p2d_004_care_delivery_order_execution</small><br/>⏱ 48.0h | 💰 $2800.0"]:::processStep
-    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0"]:::processStep
-    rcm_004_denial_management_appeals["<b>Denial Management &amp; Appeals</b><br/><small>ID: rcm_004_denial_management_appeals</small><br/>⏱ 24.0h | 💰 $110.0"]:::processStep
-    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0"]:::processStep
-    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0"]:::processStep
-    p2d_005_discharge_planning_transition["<b>Discharge Planning &amp; Care Transition</b><br/><small>ID: p2d_005_discharge_planning_transition</small><br/>⏱ 3.5h | 💰 $180.0"]:::processStep
-    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0"]:::processStep
-    rcm_005_patient_billing_collections["<b>Patient Billing &amp; Collections</b><br/><small>ID: rcm_005_patient_billing_collections</small><br/>⏱ 48.0h | 💰 $35.0"]:::processStep
-    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0"]:::processStep
-    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0"]:::processStep
-    rcm_006_cash_posting_reconciliation["<b>Cash Posting &amp; Subledger Reconciliation</b><br/><small>ID: rcm_006_cash_posting_reconciliation</small><br/>⏱ 8.0h | 💰 $50.0"]:::processStep
-    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5"]:::processStep
-    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0"]:::processStep
-    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5"]:::processStep
+  subgraph Subgraph_H2R_talent_acquisition ["<b>Talent Acquisition & Onboarding Phase</b>"]
+    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 10% auto"]:::processStep
+    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0 | ⚡ 30% auto"]:::processStep
+    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_H2R_talent_management_payroll ["<b>Payroll, Performance & Offboarding Phase</b>"]
+    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0 | ⚡ 85% auto"]:::processStep
+    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0 | ⚡ 40% auto"]:::processStep
+    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_R2R_subledger_reconciliation ["<b>Subledger Ingestion & Substantiation Phase</b>"]
+    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 82% auto"]:::processStep
+    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_R2R_close_reporting ["<b>Financial Close & Group Reporting Phase</b>"]
+    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0 | ⚡ 80% auto"]:::processStep
+    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
+  end
+
+  subgraph Subgraph_S2P_sourcing ["<b>Strategic Sourcing & Contracting Phase</b>"]
+    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 50% auto"]:::processStep
+    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0 | ⚡ 65% auto"]:::processStep
+    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0 | ⚡ 40% auto"]:::processStep
+  end
+
+  subgraph Subgraph_S2P_procure_to_pay ["<b>Procure-to-Pay (P2P) Phase</b>"]
+    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 90% auto"]:::processStep
+    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5 | ⚡ 80% auto"]:::processStep
+    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0 | ⚡ 75% auto"]:::processStep
+    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5 | ⚡ 95% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2D_patient_access ["<b>Patient Access & Clearance Phase</b>"]
+    p2d_001_patient_registration_scheduling["<b>Patient Registration &amp; Scheduling</b><br/><small>ID: p2d_001_patient_registration_scheduling</small><br/>⏱ 0.5h | 💰 $25.0 | ⚡ 65% auto"]:::processStep
+    p2d_002_insurance_verification_prior_auth["<b>Insurance Verification &amp; Prior Authorization</b><br/><small>ID: p2d_002_insurance_verification_prior_auth</small><br/>⏱ 4.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2D_inpatient_clinical_care ["<b>Clinical Care & Discharge Phase</b>"]
+    p2d_003_clinical_admission_triage["<b>Clinical Admission &amp; Triage</b><br/><small>ID: p2d_003_clinical_admission_triage</small><br/>⏱ 1.5h | 💰 $120.0 | ⚡ 25% auto"]:::processStep
+    p2d_004_care_delivery_order_execution["<b>Care Delivery &amp; Order Execution</b><br/><small>ID: p2d_004_care_delivery_order_execution</small><br/>⏱ 48.0h | 💰 $2800.0 | ⚡ 35% auto"]:::processStep
+    p2d_005_discharge_planning_transition["<b>Discharge Planning &amp; Care Transition</b><br/><small>ID: p2d_005_discharge_planning_transition</small><br/>⏱ 3.5h | 💰 $180.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_billing_submission ["<b>Billing Preparation & Submission Phase</b>"]
+    rcm_001_charge_capture_coding["<b>Charge Capture &amp; Medical Coding</b><br/><small>ID: rcm_001_charge_capture_coding</small><br/>⏱ 12.0h | 💰 $85.0 | ⚡ 60% auto"]:::processStep
+    rcm_002_claim_scrubbing_submission["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/><small>ID: rcm_002_claim_scrubbing_submission</small><br/>⏱ 6.0h | 💰 $40.0 | ⚡ 88% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_adjudication_recovery ["<b>Adjudication & Denial Recovery Phase</b>"]
+    rcm_003_payer_adjudication_remittance["<b>Payer Adjudication &amp; Remittance</b><br/><small>ID: rcm_003_payer_adjudication_remittance</small><br/>⏱ 120.0h | 💰 $15.0 | ⚡ 92% auto"]:::processStep
+    rcm_004_denial_management_appeals["<b>Denial Management &amp; Appeals</b><br/><small>ID: rcm_004_denial_management_appeals</small><br/>⏱ 24.0h | 💰 $110.0 | ⚡ 35% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_settlement_reconciliation ["<b>Settlement & Ledger Reconciliation Phase</b>"]
+    rcm_005_patient_billing_collections["<b>Patient Billing &amp; Collections</b><br/><small>ID: rcm_005_patient_billing_collections</small><br/>⏱ 48.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    rcm_006_cash_posting_reconciliation["<b>Cash Posting &amp; Subledger Reconciliation</b><br/><small>ID: rcm_006_cash_posting_reconciliation</small><br/>⏱ 8.0h | 💰 $50.0 | ⚡ 85% auto"]:::processStep
   end
 
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
@@ -148,7 +178,13 @@ flowchart LR
     s2p_008_payment_settlement_disbursement__R["<b>Payment Settlement &amp; Disbursement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_billing_specialist ["<b>Billing Specialist</b>"]
+  subgraph Sub_role_attending_physician ["<b>Attending Physician</b>"]
+    p2d_003_clinical_admission_triage__A["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    p2d_004_care_delivery_order_execution__A["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+    p2d_005_discharge_planning_transition__A["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_billing_specialist ["<b>Billing &amp; Accounts Receivable Specialist</b>"]
     rcm_003_payer_adjudication_remittance__R["<b>Payer Adjudication &amp; Remittance</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     rcm_005_patient_billing_collections__R["<b>Patient Billing &amp; Collections</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     rcm_006_cash_posting_reconciliation__R["<b>Cash Posting &amp; Subledger Reconciliation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -164,7 +200,7 @@ flowchart LR
     s2p_006_goods_services_receipt__A["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_consolidation_specialist ["<b>Consolidation Specialist</b>"]
+  subgraph Sub_role_consolidation_specialist ["<b>Financial Consolidation Specialist</b>"]
     r2r_002_intercompany_reconciliation__R["<b>Intercompany Transaction Matching &amp; Elimination</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_004_financial_close_consolidation__R["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     r2r_005_statutory_financial_reporting__R["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -195,9 +231,20 @@ flowchart LR
     h2r_005_performance_compensation_review__A["<b>Performance &amp; Compensation Review</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_hr_business_partner ["<b>Hr Business Partner</b>"]
+  subgraph Sub_role_hr_business_partner ["<b>HR Business Partner</b>"]
     h2r_006_separation_offboarding_settlement__R["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     h2r_006_separation_offboarding_settlement__A["<b>Separation, Offboarding &amp; Final Settlement</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
+  end
+
+  subgraph Sub_role_medical_coder ["<b>Certified Medical Coder</b>"]
+    rcm_001_charge_capture_coding__R["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    rcm_002_claim_scrubbing_submission__R["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    rcm_004_denial_management_appeals__R["<b>Denial Management &amp; Appeals</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_patient_access_specialist ["<b>Patient Access Specialist</b>"]
+    p2d_001_patient_registration_scheduling__R["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    p2d_002_insurance_verification_prior_auth__R["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
   subgraph Sub_role_payroll_specialist ["<b>Payroll Specialist</b>"]
@@ -213,29 +260,7 @@ flowchart LR
     s2p_006_goods_services_receipt__R["<b>Goods &amp; Services Receipt Verification</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
   end
 
-  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
-    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_attending_physician ["<b>Attending Physician</b>"]
-    p2d_003_clinical_admission_triage__A["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    p2d_004_care_delivery_order_execution__A["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-    p2d_005_discharge_planning_transition__A["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
-  end
-
-  subgraph Sub_role_medical_coder ["<b>Medical Coder</b>"]
-    rcm_001_charge_capture_coding__R["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    rcm_002_claim_scrubbing_submission__R["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    rcm_004_denial_management_appeals__R["<b>Denial Management &amp; Appeals</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_patient_access_specialist ["<b>Patient Access Specialist</b>"]
-    p2d_001_patient_registration_scheduling__R["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-    p2d_002_insurance_verification_prior_auth__R["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
-  end
-
-  subgraph Sub_role_rcm_director ["<b>Rcm Director</b>"]
+  subgraph Sub_role_rcm_director ["<b>Revenue Cycle Management Director</b>"]
     p2d_001_patient_registration_scheduling__A["<b>Patient Registration &amp; Scheduling</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
     rcm_001_charge_capture_coding__A["<b>Charge Capture &amp; Medical Coding</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
     p2d_002_insurance_verification_prior_auth__A["<b>Insurance Verification &amp; Prior Authorization</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
@@ -245,7 +270,12 @@ flowchart LR
     rcm_005_patient_billing_collections__A["<b>Patient Billing &amp; Collections</b><br/>Role: <b>Accountable (A)</b>"]:::aNode
   end
 
-  subgraph Sub_role_triage_nurse ["<b>Triage Nurse</b>"]
+  subgraph Sub_role_talent_acquisition_specialist ["<b>Talent Acquisition Specialist</b>"]
+    h2r_002_candidate_screening_interview__R["<b>Candidate Screening &amp; Interview Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+    h2r_003_offer_letter_onboarding__R["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
+  end
+
+  subgraph Sub_role_triage_nurse ["<b>Triage &amp; Bedside Registered Nurse</b>"]
     p2d_003_clinical_admission_triage__R["<b>Clinical Admission &amp; Triage</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     p2d_004_care_delivery_order_execution__R["<b>Care Delivery &amp; Order Execution</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
     p2d_005_discharge_planning_transition__R["<b>Discharge Planning &amp; Care Transition</b><br/>Role: <b>Responsible (R)</b>"]:::rNode
@@ -417,38 +447,38 @@ flowchart TD
 
 ## 1. Value Chain Process RACI Grid
 
-| Step ID | Process Step Name | Accounts Payable Clerk | Billing Specialist | Category Manager | Compensation Analyst | Consolidation Specialist | Credit Manager | Customer | Finance Controller | General Ledger Accountant | Hiring Manager | Hr Business Partner | Internal Auditor | Payroll Specialist | Procurement Specialist | Sales Ops Specialist | Supplier | Talent Acquisition Specialist | Attending Physician | Compliance Officer | Medical Coder | Patient | Patient Access Specialist | Rcm Director | Triage Nurse |
+| Step ID | Process Step Name | Accounts Payable Clerk | Attending Physician | Billing & Accounts Receivable Specialist | Category Manager | Compensation Analyst | Healthcare Compliance & Privacy Officer | Financial Consolidation Specialist | Credit & Risk Manager | Enterprise Customer | Finance Controller | General Ledger Accountant | Hiring Manager | HR Business Partner | Internal Auditor | Certified Medical Coder | Patient / Healthcare Consumer | Patient Access Specialist | Payroll Specialist | Procurement Specialist | Revenue Cycle Management Director | Sales Operations Specialist | Supplier / Vendor | Talent Acquisition Specialist | Triage & Bedside Registered Nurse |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | - | - | - | C | - | - | - | - | - | **R**, **A** | C | - | - | - | - | - | I | - | - | - | - | - | - | - |
-| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | - | - | - | - | - | - | - | - | - | **A** | C | - | - | - | - | - | **R** | - | - | - | - | - | - | - |
-| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | - | C | - | - | - | - | - | **A** | - | - | I | - | - | - | **R** | - | - | - | - | - | - | - |
-| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | - | - | - | - | - | - | - | I | - | - | C | - | **R**, **A** | - | - | - | - | - | - | - | - | - | - | - |
-| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | - | - | - | C | - | - | - | - | - | **R**, **A** | C | - | I | - | - | - | - | - | - | - | - | - | - | - |
-| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | - | - | - | - | - | - | - | - | - | C | **R**, **A** | - | I | - | - | - | - | - | - | - | - | - | - | - |
-| `p2d_001_patient_registration_scheduling` | **Patient Registration & Scheduling** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | **R** | **A** | I |
-| `p2d_002_insurance_verification_prior_auth` | **Insurance Verification & Prior Authorization** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - | - | I | **R** | **A** | - |
-| `p2d_003_clinical_admission_triage` | **Clinical Admission & Triage** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | - | I | C | - | **R** |
-| `p2d_004_care_delivery_order_execution` | **Care Delivery & Order Execution** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | C | I | - | - | **R** |
-| `p2d_005_discharge_planning_transition` | **Discharge Planning & Care Transition** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | - | C | - | I | **R** |
-| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | C | C | - | - | - | - | - | **A** | **R** | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | **R** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | C | - | - | **A** | **R** | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | **R** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | **R** | - | - | **A** | I | - | - | C | - | - | - | - | - | - | - | - | - | - | - | - |
-| `rcm_001_charge_capture_coding` | **Charge Capture & Medical Coding** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | I | **R** | - | - | **A** | - |
-| `rcm_002_claim_scrubbing_submission` | **Claim Scrubbing & Clearinghouse Submission** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | I | **R** | - | C | **A** | - |
-| `rcm_003_payer_adjudication_remittance` | **Payer Adjudication & Remittance** | - | **R** | - | - | - | - | - | I | - | - | - | - | - | - | - | - | - | - | - | C | - | - | **A** | - |
-| `rcm_004_denial_management_appeals` | **Denial Management & Appeals** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | I | **R** | - | - | **A** | - |
-| `rcm_005_patient_billing_collections` | **Patient Billing & Collections** | - | **R** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | I | - | C | - | **A** | - |
-| `rcm_006_cash_posting_reconciliation` | **Cash Posting & Subledger Reconciliation** | - | **R** | - | - | - | - | - | **A** | I | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - |
-| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **R** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **R** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **R** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | **R**, **A** | - | - | - | - | C | - | - | - | - | - | - | - | I | - | - | - | - | - | - | - | - |
-| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **R** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | C | - | **A** | - | - | - | - | - | - | - | - | - | - | **R** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | **R** | - | - | - | - | - | - | **A** | - | - | - | - | - | C | - | I | - | - | - | - | - | - | - | - |
-| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | **R** | - | C | - | - | - | - | **A** | - | - | - | - | - | - | - | I | - | - | - | - | - | - | - | - |
+| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | - | - | - | - | C | - | - | - | - | - | - | **R**, **A** | C | - | - | - | - | - | - | - | - | - | I | - |
+| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | - | - | - | - | - | - | - | - | - | - | - | **A** | C | - | - | - | - | - | - | - | - | - | **R** | - |
+| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | - | - | C | - | - | - | - | - | - | **A** | - | - | - | - | - | I | - | - | - | - | **R** | - |
+| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | - | - | - | - | - | - | - | - | - | I | - | - | C | - | - | - | - | **R**, **A** | - | - | - | - | - | - |
+| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | - | - | - | - | C | - | - | - | - | - | - | **R**, **A** | C | - | - | - | - | I | - | - | - | - | - | - |
+| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | - | - | - | - | - | - | - | - | - | - | - | C | **R**, **A** | - | - | - | - | I | - | - | - | - | - | - |
+| `p2d_001_patient_registration_scheduling` | **Patient Registration & Scheduling** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | **R** | - | - | **A** | - | - | - | I |
+| `p2d_002_insurance_verification_prior_auth` | **Insurance Verification & Prior Authorization** | - | C | - | - | - | - | - | - | - | - | - | - | - | - | - | I | **R** | - | - | **A** | - | - | - | - |
+| `p2d_003_clinical_admission_triage` | **Clinical Admission & Triage** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | I | C | - | - | - | - | - | - | **R** |
+| `p2d_004_care_delivery_order_execution` | **Care Delivery & Order Execution** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | C | I | - | - | - | - | - | - | - | **R** |
+| `p2d_005_discharge_planning_transition` | **Discharge Planning & Care Transition** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - | - | - | I | - | - | - | **R** |
+| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | C | - | C | - | - | - | - | - | - | **A** | **R** | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | - | - | **R** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | - | - | C | - | - | **A** | **R** | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | - | - | **R** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | - | - | **R** | - | - | **A** | I | - | - | C | - | - | - | - | - | - | - | - | - | - |
+| `rcm_001_charge_capture_coding` | **Charge Capture & Medical Coding** | - | C | - | - | - | I | - | - | - | - | - | - | - | - | **R** | - | - | - | - | **A** | - | - | - | - |
+| `rcm_002_claim_scrubbing_submission` | **Claim Scrubbing & Clearinghouse Submission** | - | - | - | - | - | I | - | - | - | - | - | - | - | - | **R** | - | C | - | - | **A** | - | - | - | - |
+| `rcm_003_payer_adjudication_remittance` | **Payer Adjudication & Remittance** | - | - | **R** | - | - | - | - | - | - | I | - | - | - | - | C | - | - | - | - | **A** | - | - | - | - |
+| `rcm_004_denial_management_appeals` | **Denial Management & Appeals** | - | C | - | - | - | I | - | - | - | - | - | - | - | - | **R** | - | - | - | - | **A** | - | - | - | - |
+| `rcm_005_patient_billing_collections` | **Patient Billing & Collections** | - | - | **R** | - | - | I | - | - | - | - | - | - | - | - | - | C | - | - | - | **A** | - | - | - | - |
+| `rcm_006_cash_posting_reconciliation` | **Cash Posting & Subledger Reconciliation** | - | - | **R** | - | - | - | - | - | - | **A** | I | - | - | - | - | - | - | - | - | C | - | - | - | - |
+| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **R** | - | - | I | - | - |
+| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **R** | - | - | I | - | - |
+| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **R** | - | - | I | - | - |
+| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | **R**, **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | - | - | - | I | - | - |
+| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **R** | - | - | I | - | - |
+| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | C | - | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **R** | - | - | I | - | - |
+| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | **R** | - | - | - | - | - | - | - | - | **A** | - | - | - | - | - | - | - | - | C | - | - | I | - | - |
+| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | **R** | - | - | C | - | - | - | - | - | **A** | - | - | - | - | - | - | - | - | - | - | - | I | - | - |
 
 ---
 
@@ -457,29 +487,29 @@ flowchart TD
 | Enterprise Role | Responsible (R) | Accountable (A) | Consulted (C) | Informed (I) | Total Touchpoints | Operational Load |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Accounts Payable Clerk** (`role_accounts_payable_clerk`) | 2 | 0 | 2 | 0 | **4** | 🟡 Moderate |
-| **Billing Specialist** (`role_billing_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔴 High (Key Dependency) |
+| **Attending Physician** (`role_attending_physician`) | 0 | 3 | 3 | 0 | **6** | 🔴 High (Key Dependency) |
+| **Billing & Accounts Receivable Specialist** (`role_billing_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔴 High (Key Dependency) |
 | **Category Manager** (`role_category_manager`) | 1 | 6 | 1 | 0 | **8** | 🔴 High (Key Dependency) |
 | **Compensation Analyst** (`role_compensation_analyst`) | 0 | 0 | 3 | 0 | **3** | 🟢 Low |
-| **Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔴 High (Key Dependency) |
-| **Credit Manager** (`role_credit_manager`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
-| **Customer** (`role_customer`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
+| **Healthcare Compliance & Privacy Officer** (`role_compliance_officer`) | 0 | 0 | 0 | 4 | **4** | 🟡 Moderate |
+| **Financial Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔴 High (Key Dependency) |
+| **Credit & Risk Manager** (`role_credit_manager`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
+| **Enterprise Customer** (`role_customer`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
 | **Finance Controller** (`role_finance_controller`) | 0 | 8 | 5 | 2 | **15** | 🔴 High (Key Dependency) |
 | **General Ledger Accountant** (`role_general_ledger_accountant`) | 2 | 0 | 2 | 2 | **6** | 🔴 High (Key Dependency) |
 | **Hiring Manager** (`role_hiring_manager`) | 2 | 4 | 1 | 0 | **7** | 🔴 High (Key Dependency) |
-| **Hr Business Partner** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🔴 High (Key Dependency) |
+| **HR Business Partner** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🔴 High (Key Dependency) |
 | **Internal Auditor** (`role_internal_auditor`) | 0 | 0 | 1 | 4 | **5** | 🟡 Moderate |
+| **Certified Medical Coder** (`role_medical_coder`) | 3 | 0 | 2 | 0 | **5** | 🔴 High (Key Dependency) |
+| **Patient / Healthcare Consumer** (`role_patient`) | 0 | 0 | 3 | 3 | **6** | 🔴 High (Key Dependency) |
+| **Patient Access Specialist** (`role_patient_access_specialist`) | 2 | 0 | 2 | 0 | **4** | 🟡 Moderate |
 | **Payroll Specialist** (`role_payroll_specialist`) | 1 | 1 | 0 | 3 | **5** | 🟡 Moderate |
 | **Procurement Specialist** (`role_procurement_specialist`) | 5 | 0 | 1 | 0 | **6** | 🔴 High (Key Dependency) |
-| **Sales Ops Specialist** (`role_sales_ops_specialist`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
-| **Supplier** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🔴 High (Key Dependency) |
+| **Revenue Cycle Management Director** (`role_rcm_director`) | 0 | 7 | 1 | 1 | **9** | 🔴 High (Key Dependency) |
+| **Sales Operations Specialist** (`role_sales_ops_specialist`) | 0 | 0 | 0 | 0 | **0** | 🟢 Low |
+| **Supplier / Vendor** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🔴 High (Key Dependency) |
 | **Talent Acquisition Specialist** (`role_talent_acquisition_specialist`) | 2 | 0 | 0 | 1 | **3** | 🟡 Moderate |
-| **Attending Physician** (`role_attending_physician`) | 0 | 3 | 3 | 0 | **6** | 🔴 High (Key Dependency) |
-| **Compliance Officer** (`role_compliance_officer`) | 0 | 0 | 0 | 4 | **4** | 🟡 Moderate |
-| **Medical Coder** (`role_medical_coder`) | 3 | 0 | 2 | 0 | **5** | 🔴 High (Key Dependency) |
-| **Patient** (`role_patient`) | 0 | 0 | 3 | 3 | **6** | 🔴 High (Key Dependency) |
-| **Patient Access Specialist** (`role_patient_access_specialist`) | 2 | 0 | 2 | 0 | **4** | 🟡 Moderate |
-| **Rcm Director** (`role_rcm_director`) | 0 | 7 | 1 | 1 | **9** | 🔴 High (Key Dependency) |
-| **Triage Nurse** (`role_triage_nurse`) | 3 | 0 | 0 | 1 | **4** | 🔴 High (Key Dependency) |
+| **Triage & Bedside Registered Nurse** (`role_triage_nurse`) | 3 | 0 | 0 | 1 | **4** | 🔴 High (Key Dependency) |
 
 ---
 
@@ -502,38 +532,38 @@ flowchart TD
 
 ## 1. Value Chain Process DACI Grid
 
-| Step ID | Process Step Name | Accounts Payable Clerk | Billing Specialist | Category Manager | Compensation Analyst | Consolidation Specialist | Credit Manager | Customer | Finance Controller | General Ledger Accountant | Hiring Manager | Hr Business Partner | Internal Auditor | Payroll Specialist | Procurement Specialist | Sales Ops Specialist | Supplier | Talent Acquisition Specialist | Attending Physician | Compliance Officer | Medical Coder | Patient | Patient Access Specialist | Rcm Director | Triage Nurse |
+| Step ID | Process Step Name | Accounts Payable Clerk | Attending Physician | Billing & Accounts Receivable Specialist | Category Manager | Compensation Analyst | Healthcare Compliance & Privacy Officer | Financial Consolidation Specialist | Credit & Risk Manager | Enterprise Customer | Finance Controller | General Ledger Accountant | Hiring Manager | HR Business Partner | Internal Auditor | Certified Medical Coder | Patient / Healthcare Consumer | Patient Access Specialist | Payroll Specialist | Procurement Specialist | Revenue Cycle Management Director | Sales Operations Specialist | Supplier / Vendor | Talent Acquisition Specialist | Triage & Bedside Registered Nurse |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | - | - | - | C | - | - | - | - | - | **D**, **A** | C | - | - | - | - | - | I | - | - | - | - | - | - | - |
-| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | - | - | - | - | - | - | - | - | - | **A** | C | - | - | - | - | - | **D** | - | - | - | - | - | - | - |
-| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | - | C | - | - | - | - | - | **A** | - | - | I | - | - | - | **D** | - | - | - | - | - | - | - |
-| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | - | - | - | - | - | - | - | I | - | - | C | - | **D**, **A** | - | - | - | - | - | - | - | - | - | - | - |
-| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | - | - | - | C | - | - | - | - | - | **D**, **A** | C | - | I | - | - | - | - | - | - | - | - | - | - | - |
-| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | - | - | - | - | - | - | - | - | - | C | **D**, **A** | - | I | - | - | - | - | - | - | - | - | - | - | - |
-| `p2d_001_patient_registration_scheduling` | **Patient Registration & Scheduling** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | **D** | **A** | I |
-| `p2d_002_insurance_verification_prior_auth` | **Insurance Verification & Prior Authorization** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - | - | I | **D** | **A** | - |
-| `p2d_003_clinical_admission_triage` | **Clinical Admission & Triage** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | - | I | C | - | **D** |
-| `p2d_004_care_delivery_order_execution` | **Care Delivery & Order Execution** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | C | I | - | - | **D** |
-| `p2d_005_discharge_planning_transition` | **Discharge Planning & Care Transition** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **A** | - | - | C | - | I | **D** |
-| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | C | C | - | - | - | - | - | **A** | **D** | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | **D** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | C | - | - | **A** | **D** | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | **D** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - | - | - |
-| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | **D** | - | - | **A** | I | - | - | C | - | - | - | - | - | - | - | - | - | - | - | - |
-| `rcm_001_charge_capture_coding` | **Charge Capture & Medical Coding** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | I | **D** | - | - | **A** | - |
-| `rcm_002_claim_scrubbing_submission` | **Claim Scrubbing & Clearinghouse Submission** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | I | **D** | - | C | **A** | - |
-| `rcm_003_payer_adjudication_remittance` | **Payer Adjudication & Remittance** | - | **D** | - | - | - | - | - | I | - | - | - | - | - | - | - | - | - | - | - | C | - | - | **A** | - |
-| `rcm_004_denial_management_appeals` | **Denial Management & Appeals** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | I | **D** | - | - | **A** | - |
-| `rcm_005_patient_billing_collections` | **Patient Billing & Collections** | - | **D** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | I | - | C | - | **A** | - |
-| `rcm_006_cash_posting_reconciliation` | **Cash Posting & Subledger Reconciliation** | - | **D** | - | - | - | - | - | **A** | I | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - |
-| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **D** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **D** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **D** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | **D**, **A** | - | - | - | - | C | - | - | - | - | - | - | - | I | - | - | - | - | - | - | - | - |
-| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | **A** | - | - | - | - | C | - | - | - | - | - | **D** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | C | - | **A** | - | - | - | - | - | - | - | - | - | - | **D** | - | I | - | - | - | - | - | - | - | - |
-| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | **D** | - | - | - | - | - | - | **A** | - | - | - | - | - | C | - | I | - | - | - | - | - | - | - | - |
-| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | **D** | - | C | - | - | - | - | **A** | - | - | - | - | - | - | - | I | - | - | - | - | - | - | - | - |
+| `h2r_001_job_requisition_posting` | **Job Requisition Definition & Posting** | - | - | - | - | C | - | - | - | - | - | - | **D**, **A** | C | - | - | - | - | - | - | - | - | - | I | - |
+| `h2r_002_candidate_screening_interview` | **Candidate Screening & Interview Execution** | - | - | - | - | - | - | - | - | - | - | - | **A** | C | - | - | - | - | - | - | - | - | - | **D** | - |
+| `h2r_003_offer_letter_onboarding` | **Offer Letter Generation & Employee Onboarding** | - | - | - | - | C | - | - | - | - | - | - | **A** | - | - | - | - | - | I | - | - | - | - | **D** | - |
+| `h2r_004_payroll_benefits_enrollment` | **Payroll & Benefits Enrollment Processing** | - | - | - | - | - | - | - | - | - | I | - | - | C | - | - | - | - | **D**, **A** | - | - | - | - | - | - |
+| `h2r_005_performance_compensation_review` | **Performance & Compensation Review** | - | - | - | - | C | - | - | - | - | - | - | **D**, **A** | C | - | - | - | - | I | - | - | - | - | - | - |
+| `h2r_006_separation_offboarding_settlement` | **Separation, Offboarding & Final Settlement** | - | - | - | - | - | - | - | - | - | - | - | C | **D**, **A** | - | - | - | - | I | - | - | - | - | - | - |
+| `p2d_001_patient_registration_scheduling` | **Patient Registration & Scheduling** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | C | **D** | - | - | **A** | - | - | - | I |
+| `p2d_002_insurance_verification_prior_auth` | **Insurance Verification & Prior Authorization** | - | C | - | - | - | - | - | - | - | - | - | - | - | - | - | I | **D** | - | - | **A** | - | - | - | - |
+| `p2d_003_clinical_admission_triage` | **Clinical Admission & Triage** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | I | C | - | - | - | - | - | - | **D** |
+| `p2d_004_care_delivery_order_execution` | **Care Delivery & Order Execution** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | C | I | - | - | - | - | - | - | - | **D** |
+| `p2d_005_discharge_planning_transition` | **Discharge Planning & Care Transition** | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | C | - | - | - | I | - | - | - | **D** |
+| `r2r_001_journal_entry_recording` | **General Ledger Journal Recording & Subledger Ingestion** | C | - | C | - | - | - | - | - | - | **A** | **D** | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_002_intercompany_reconciliation` | **Intercompany Transaction Matching & Elimination** | - | - | - | - | - | - | **D** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_003_balance_sheet_substantiation` | **Balance Sheet Account Substantiation & Reconciliation** | - | - | - | - | - | - | C | - | - | **A** | **D** | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_004_financial_close_consolidation` | **Financial Close Orchestration & Group Consolidation** | - | - | - | - | - | - | **D** | - | - | **A** | C | - | - | I | - | - | - | - | - | - | - | - | - | - |
+| `r2r_005_statutory_financial_reporting` | **Statutory, Tax & Management Financial Reporting** | - | - | - | - | - | - | **D** | - | - | **A** | I | - | - | C | - | - | - | - | - | - | - | - | - | - |
+| `rcm_001_charge_capture_coding` | **Charge Capture & Medical Coding** | - | C | - | - | - | I | - | - | - | - | - | - | - | - | **D** | - | - | - | - | **A** | - | - | - | - |
+| `rcm_002_claim_scrubbing_submission` | **Claim Scrubbing & Clearinghouse Submission** | - | - | - | - | - | I | - | - | - | - | - | - | - | - | **D** | - | C | - | - | **A** | - | - | - | - |
+| `rcm_003_payer_adjudication_remittance` | **Payer Adjudication & Remittance** | - | - | **D** | - | - | - | - | - | - | I | - | - | - | - | C | - | - | - | - | **A** | - | - | - | - |
+| `rcm_004_denial_management_appeals` | **Denial Management & Appeals** | - | C | - | - | - | I | - | - | - | - | - | - | - | - | **D** | - | - | - | - | **A** | - | - | - | - |
+| `rcm_005_patient_billing_collections` | **Patient Billing & Collections** | - | - | **D** | - | - | I | - | - | - | - | - | - | - | - | - | C | - | - | - | **A** | - | - | - | - |
+| `rcm_006_cash_posting_reconciliation` | **Cash Posting & Subledger Reconciliation** | - | - | **D** | - | - | - | - | - | - | **A** | I | - | - | - | - | - | - | - | - | C | - | - | - | - |
+| `s2p_001_spend_analysis_need_id` | **Spend Analysis & Need Identification** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **D** | - | - | I | - | - |
+| `s2p_002_supplier_discovery_qualification` | **Supplier Discovery & Qualification** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **D** | - | - | I | - | - |
+| `s2p_003_sourcing_rfx_auction` | **Strategic Sourcing & RFx Execution** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **D** | - | - | I | - | - |
+| `s2p_004_contracting_sla_negotiation` | **Contracting & SLA Negotiation** | - | - | - | **D**, **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | - | - | - | I | - | - |
+| `s2p_005_purchase_requisition_po` | **Purchase Requisition & PO Issuance** | - | - | - | **A** | - | - | - | - | - | C | - | - | - | - | - | - | - | - | **D** | - | - | I | - | - |
+| `s2p_006_goods_services_receipt` | **Goods & Services Receipt Verification** | C | - | - | **A** | - | - | - | - | - | - | - | - | - | - | - | - | - | - | **D** | - | - | I | - | - |
+| `s2p_007_invoice_verification_matching` | **Invoice 3-Way Matching & Exception Handling** | **D** | - | - | - | - | - | - | - | - | **A** | - | - | - | - | - | - | - | - | C | - | - | I | - | - |
+| `s2p_008_payment_settlement_disbursement` | **Payment Settlement & Disbursement** | **D** | - | - | C | - | - | - | - | - | **A** | - | - | - | - | - | - | - | - | - | - | - | I | - | - |
 
 ---
 
@@ -542,29 +572,29 @@ flowchart TD
 | Enterprise Role | Driver (D) | Approver (A) | Contributor (C) | Informed (I) | Total Decision Touchpoints | Governance Weight |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Accounts Payable Clerk** (`role_accounts_payable_clerk`) | 2 | 0 | 2 | 0 | **4** | 🟡 Operational Authority |
-| **Billing Specialist** (`role_billing_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔵 Primary Driver |
+| **Attending Physician** (`role_attending_physician`) | 0 | 3 | 3 | 0 | **6** | 🔴 Strategic Approver |
+| **Billing & Accounts Receivable Specialist** (`role_billing_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔵 Primary Driver |
 | **Category Manager** (`role_category_manager`) | 1 | 6 | 1 | 0 | **8** | 🚨 Key-Person Risk (Concentrated Approver) |
 | **Compensation Analyst** (`role_compensation_analyst`) | 0 | 0 | 3 | 0 | **3** | 🟢 Advisory |
-| **Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔵 Primary Driver |
-| **Credit Manager** (`role_credit_manager`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
-| **Customer** (`role_customer`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
+| **Healthcare Compliance & Privacy Officer** (`role_compliance_officer`) | 0 | 0 | 0 | 4 | **4** | 🟢 Advisory |
+| **Financial Consolidation Specialist** (`role_consolidation_specialist`) | 3 | 0 | 1 | 0 | **4** | 🔵 Primary Driver |
+| **Credit & Risk Manager** (`role_credit_manager`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
+| **Enterprise Customer** (`role_customer`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
 | **Finance Controller** (`role_finance_controller`) | 0 | 8 | 5 | 2 | **15** | 🚨 Key-Person Risk (Concentrated Approver) |
 | **General Ledger Accountant** (`role_general_ledger_accountant`) | 2 | 0 | 2 | 2 | **6** | 🟡 Operational Authority |
 | **Hiring Manager** (`role_hiring_manager`) | 2 | 4 | 1 | 0 | **7** | 🔴 Strategic Approver |
-| **Hr Business Partner** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🟡 Operational Authority |
+| **HR Business Partner** (`role_hr_business_partner`) | 1 | 1 | 4 | 0 | **6** | 🟡 Operational Authority |
 | **Internal Auditor** (`role_internal_auditor`) | 0 | 0 | 1 | 4 | **5** | 🟢 Advisory |
+| **Certified Medical Coder** (`role_medical_coder`) | 3 | 0 | 2 | 0 | **5** | 🔵 Primary Driver |
+| **Patient / Healthcare Consumer** (`role_patient`) | 0 | 0 | 3 | 3 | **6** | 🟢 Advisory |
+| **Patient Access Specialist** (`role_patient_access_specialist`) | 2 | 0 | 2 | 0 | **4** | 🟡 Operational Authority |
 | **Payroll Specialist** (`role_payroll_specialist`) | 1 | 1 | 0 | 3 | **5** | 🟡 Operational Authority |
 | **Procurement Specialist** (`role_procurement_specialist`) | 5 | 0 | 1 | 0 | **6** | 🔵 Primary Driver |
-| **Sales Ops Specialist** (`role_sales_ops_specialist`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
-| **Supplier** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🟢 Advisory |
+| **Revenue Cycle Management Director** (`role_rcm_director`) | 0 | 7 | 1 | 1 | **9** | 🚨 Key-Person Risk (Concentrated Approver) |
+| **Sales Operations Specialist** (`role_sales_ops_specialist`) | 0 | 0 | 0 | 0 | **0** | 🟢 Advisory |
+| **Supplier / Vendor** (`role_supplier`) | 0 | 0 | 0 | 8 | **8** | 🟢 Advisory |
 | **Talent Acquisition Specialist** (`role_talent_acquisition_specialist`) | 2 | 0 | 0 | 1 | **3** | 🟡 Operational Authority |
-| **Attending Physician** (`role_attending_physician`) | 0 | 3 | 3 | 0 | **6** | 🔴 Strategic Approver |
-| **Compliance Officer** (`role_compliance_officer`) | 0 | 0 | 0 | 4 | **4** | 🟢 Advisory |
-| **Medical Coder** (`role_medical_coder`) | 3 | 0 | 2 | 0 | **5** | 🔵 Primary Driver |
-| **Patient** (`role_patient`) | 0 | 0 | 3 | 3 | **6** | 🟢 Advisory |
-| **Patient Access Specialist** (`role_patient_access_specialist`) | 2 | 0 | 2 | 0 | **4** | 🟡 Operational Authority |
-| **Rcm Director** (`role_rcm_director`) | 0 | 7 | 1 | 1 | **9** | 🚨 Key-Person Risk (Concentrated Approver) |
-| **Triage Nurse** (`role_triage_nurse`) | 3 | 0 | 0 | 1 | **4** | 🔵 Primary Driver |
+| **Triage & Bedside Registered Nurse** (`role_triage_nurse`) | 3 | 0 | 0 | 1 | **4** | 🔵 Primary Driver |
 
 ---
 

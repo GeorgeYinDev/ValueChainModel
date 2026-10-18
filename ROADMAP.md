@@ -17,7 +17,8 @@ flowchart LR
   P8 --> P85["Phase 8.5<br/>Industry Profiles<br/>✅ v1.8.0"]
   P85 --> P86["Phase 8.6<br/>Services Enrichment<br/>✅ v1.9.0"]
   P86 --> P87["Phase 8.7<br/>Healthcare Overlay<br/>✅ v1.10.0"]
-  P87 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
+  P87 --> P88["Phase 8.8<br/>Designer Studio<br/>✅ v1.11.0"]
+  P88 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
   P9 --> P10["Phase 10<br/>Process Mining<br/>🔮 v2.1.0"]
 ```
 
@@ -166,6 +167,14 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - Operational disruption scenarios: EDI clearinghouse cyberattack outage, payer prior-authorization denial surge, and emergency department inpatient capacity surge.
 - Architecture Governance: [ADR-0009](docs/decisions/0009-healthcare-operating-model-taxonomy.md).
 - Automated test suite expanded to 26 passing tests across profile inheritance, element isolation, and discrete scenario simulations.
+
+### Phase 8.8: Interactive Lifecycle & Operating Model Designer Studio
+**Status**: ✅ **Completed** (Release: **v1.11.0**)
+- **100% Client-Side Browser Studio (`templates/visualizer_template.html`)**: Interactive `🎨 Designer Studio` tab inside `value_chain_visualizer.html` enabling process architects to customize lifecycles, author/override process steps, manage enterprise roles and approval limits, and configure IT system assets with `localStorage` draft persistence.
+- **Live Governance Guardrail Engine**: Real-time browser validation enforcing Single Approver ($|A|=1$), Segregation of Duties (`R == A` requiring `compensating_control`), Role Approval Thresholds, and graph/asset dependency integrity before allowing `.vcm.json` overlay export.
+- **Dynamic Client-Side Mermaid Rendering**: Immediate re-rendering of Process Flow, RACI Swimlanes, and IT Asset Topology diagrams in the browser upon step or sequence customization.
+- **Companion CLI Overlay Importer (`tools/import_custom_profile.py`)**: Unpacks exported `.vcm.json` bundles into `profiles/<custom_id>/` and executes `validate_and_build.py`.
+- **Automated Test Suite**: Expanded to 30 passing tests (`tests/test_custom_designer.py`).
 
 ### Phase 9: Headless REST API & Web Application
 **Status**: 🔮 **Planned** (Target Release: **v2.0.0**)

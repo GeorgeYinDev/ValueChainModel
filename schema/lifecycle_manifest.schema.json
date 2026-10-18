@@ -12,6 +12,7 @@
   ],
   "properties": {
     "lifecycle_id": { "type": "string" },
+    "overrides": { "type": "string" },
     "name": { "type": "string" },
     "version": { "type": "string" },
     "description": { "type": "string" },

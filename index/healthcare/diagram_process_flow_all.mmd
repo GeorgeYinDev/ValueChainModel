@@ -12,37 +12,67 @@ flowchart TD
     strategic_sourcing_stream[["<b>Stream: Strategic Sourcing &amp; Contracting Value Stream</b><br/><small>strategic_sourcing_stream</small>"]]:::valueStream
   end
 
-  subgraph Subgraph_Other ["<b>Other Process Steps</b>"]
-    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
-    p2d_001_patient_registration_scheduling["<b>Patient Registration &amp; Scheduling</b><br/><small>ID: p2d_001_patient_registration_scheduling</small><br/>⏱ 0.5h | 💰 $25.0"]:::processStep
-    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0"]:::processStep
-    rcm_001_charge_capture_coding["<b>Charge Capture &amp; Medical Coding</b><br/><small>ID: rcm_001_charge_capture_coding</small><br/>⏱ 12.0h | 💰 $85.0"]:::processStep
-    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0"]:::processStep
-    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0"]:::processStep
-    p2d_002_insurance_verification_prior_auth["<b>Insurance Verification &amp; Prior Authorization</b><br/><small>ID: p2d_002_insurance_verification_prior_auth</small><br/>⏱ 4.0h | 💰 $45.0"]:::processStep
-    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0"]:::processStep
-    rcm_002_claim_scrubbing_submission["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/><small>ID: rcm_002_claim_scrubbing_submission</small><br/>⏱ 6.0h | 💰 $40.0"]:::processStep
-    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0"]:::processStep
-    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0"]:::processStep
-    p2d_003_clinical_admission_triage["<b>Clinical Admission &amp; Triage</b><br/><small>ID: p2d_003_clinical_admission_triage</small><br/>⏱ 1.5h | 💰 $120.0"]:::processStep
-    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0"]:::processStep
-    rcm_003_payer_adjudication_remittance["<b>Payer Adjudication &amp; Remittance</b><br/><small>ID: rcm_003_payer_adjudication_remittance</small><br/>⏱ 120.0h | 💰 $15.0"]:::processStep
-    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0"]:::processStep
-    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0"]:::processStep
-    p2d_004_care_delivery_order_execution["<b>Care Delivery &amp; Order Execution</b><br/><small>ID: p2d_004_care_delivery_order_execution</small><br/>⏱ 48.0h | 💰 $2800.0"]:::processStep
-    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0"]:::processStep
-    rcm_004_denial_management_appeals["<b>Denial Management &amp; Appeals</b><br/><small>ID: rcm_004_denial_management_appeals</small><br/>⏱ 24.0h | 💰 $110.0"]:::processStep
-    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0"]:::processStep
-    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0"]:::processStep
-    p2d_005_discharge_planning_transition["<b>Discharge Planning &amp; Care Transition</b><br/><small>ID: p2d_005_discharge_planning_transition</small><br/>⏱ 3.5h | 💰 $180.0"]:::processStep
-    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0"]:::processStep
-    rcm_005_patient_billing_collections["<b>Patient Billing &amp; Collections</b><br/><small>ID: rcm_005_patient_billing_collections</small><br/>⏱ 48.0h | 💰 $35.0"]:::processStep
-    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0"]:::processStep
-    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0"]:::processStep
-    rcm_006_cash_posting_reconciliation["<b>Cash Posting &amp; Subledger Reconciliation</b><br/><small>ID: rcm_006_cash_posting_reconciliation</small><br/>⏱ 8.0h | 💰 $50.0"]:::processStep
-    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5"]:::processStep
-    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0"]:::processStep
-    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5"]:::processStep
+  subgraph Subgraph_H2R_talent_acquisition ["<b>Talent Acquisition & Onboarding Phase</b>"]
+    h2r_001_job_requisition_posting["<b>Job Requisition Definition &amp; Posting</b><br/><small>ID: h2r_001_job_requisition_posting</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 10% auto"]:::processStep
+    h2r_002_candidate_screening_interview["<b>Candidate Screening &amp; Interview Execution</b><br/><small>ID: h2r_002_candidate_screening_interview</small><br/>⏱ 168.0h | 💰 $800.0 | ⚡ 30% auto"]:::processStep
+    h2r_003_offer_letter_onboarding["<b>Offer Letter Generation &amp; Employee Onboarding</b><br/><small>ID: h2r_003_offer_letter_onboarding</small><br/>⏱ 48.0h | 💰 $150.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_H2R_talent_management_payroll ["<b>Payroll, Performance & Offboarding Phase</b>"]
+    h2r_004_payroll_benefits_enrollment["<b>Payroll &amp; Benefits Enrollment Processing</b><br/><small>ID: h2r_004_payroll_benefits_enrollment</small><br/>⏱ 24.0h | 💰 $45.0 | ⚡ 85% auto"]:::processStep
+    h2r_005_performance_compensation_review["<b>Performance &amp; Compensation Review</b><br/><small>ID: h2r_005_performance_compensation_review</small><br/>⏱ 120.0h | 💰 $200.0 | ⚡ 40% auto"]:::processStep
+    h2r_006_separation_offboarding_settlement["<b>Separation, Offboarding &amp; Final Settlement</b><br/><small>ID: h2r_006_separation_offboarding_settlement</small><br/>⏱ 48.0h | 💰 $300.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_R2R_subledger_reconciliation ["<b>Subledger Ingestion & Substantiation Phase</b>"]
+    r2r_001_journal_entry_recording["<b>General Ledger Journal Recording &amp; Subledger Ingestion</b><br/><small>ID: r2r_001_journal_entry_recording</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 82% auto"]:::processStep
+    r2r_002_intercompany_reconciliation["<b>Intercompany Transaction Matching &amp; Elimination</b><br/><small>ID: r2r_002_intercompany_reconciliation</small><br/>⏱ 12.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    r2r_003_balance_sheet_substantiation["<b>Balance Sheet Account Substantiation &amp; Reconciliation</b><br/><small>ID: r2r_003_balance_sheet_substantiation</small><br/>⏱ 16.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_R2R_close_reporting ["<b>Financial Close & Group Reporting Phase</b>"]
+    r2r_004_financial_close_consolidation["<b>Financial Close Orchestration &amp; Group Consolidation</b><br/><small>ID: r2r_004_financial_close_consolidation</small><br/>⏱ 20.0h | 💰 $65.0 | ⚡ 80% auto"]:::processStep
+    r2r_005_statutory_financial_reporting["<b>Statutory, Tax &amp; Management Financial Reporting</b><br/><small>ID: r2r_005_statutory_financial_reporting</small><br/>⏱ 14.0h | 💰 $50.0 | ⚡ 65% auto"]:::processStep
+  end
+
+  subgraph Subgraph_S2P_sourcing ["<b>Strategic Sourcing & Contracting Phase</b>"]
+    s2p_001_spend_analysis_need_id["<b>Spend Analysis &amp; Need Identification</b><br/><small>ID: s2p_001_spend_analysis_need_id</small><br/>⏱ 12.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+    s2p_002_supplier_discovery_qualification["<b>Supplier Discovery &amp; Qualification</b><br/><small>ID: s2p_002_supplier_discovery_qualification</small><br/>⏱ 48.0h | 💰 $120.0 | ⚡ 50% auto"]:::processStep
+    s2p_003_sourcing_rfx_auction["<b>Strategic Sourcing &amp; RFx Execution</b><br/><small>ID: s2p_003_sourcing_rfx_auction</small><br/>⏱ 96.0h | 💰 $250.0 | ⚡ 65% auto"]:::processStep
+    s2p_004_contracting_sla_negotiation["<b>Contracting &amp; SLA Negotiation</b><br/><small>ID: s2p_004_contracting_sla_negotiation</small><br/>⏱ 72.0h | 💰 $300.0 | ⚡ 40% auto"]:::processStep
+  end
+
+  subgraph Subgraph_S2P_procure_to_pay ["<b>Procure-to-Pay (P2P) Phase</b>"]
+    s2p_005_purchase_requisition_po["<b>Purchase Requisition &amp; PO Issuance</b><br/><small>ID: s2p_005_purchase_requisition_po</small><br/>⏱ 8.0h | 💰 $18.0 | ⚡ 90% auto"]:::processStep
+    s2p_006_goods_services_receipt["<b>Goods &amp; Services Receipt Verification</b><br/><small>ID: s2p_006_goods_services_receipt</small><br/>⏱ 6.0h | 💰 $12.5 | ⚡ 80% auto"]:::processStep
+    s2p_007_invoice_verification_matching["<b>Invoice 3-Way Matching &amp; Exception Handling</b><br/><small>ID: s2p_007_invoice_verification_matching</small><br/>⏱ 16.0h | 💰 $22.0 | ⚡ 75% auto"]:::processStep
+    s2p_008_payment_settlement_disbursement["<b>Payment Settlement &amp; Disbursement</b><br/><small>ID: s2p_008_payment_settlement_disbursement</small><br/>⏱ 4.0h | 💰 $8.5 | ⚡ 95% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2D_patient_access ["<b>Patient Access & Clearance Phase</b>"]
+    p2d_001_patient_registration_scheduling["<b>Patient Registration &amp; Scheduling</b><br/><small>ID: p2d_001_patient_registration_scheduling</small><br/>⏱ 0.5h | 💰 $25.0 | ⚡ 65% auto"]:::processStep
+    p2d_002_insurance_verification_prior_auth["<b>Insurance Verification &amp; Prior Authorization</b><br/><small>ID: p2d_002_insurance_verification_prior_auth</small><br/>⏱ 4.0h | 💰 $45.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_P2D_inpatient_clinical_care ["<b>Clinical Care & Discharge Phase</b>"]
+    p2d_003_clinical_admission_triage["<b>Clinical Admission &amp; Triage</b><br/><small>ID: p2d_003_clinical_admission_triage</small><br/>⏱ 1.5h | 💰 $120.0 | ⚡ 25% auto"]:::processStep
+    p2d_004_care_delivery_order_execution["<b>Care Delivery &amp; Order Execution</b><br/><small>ID: p2d_004_care_delivery_order_execution</small><br/>⏱ 48.0h | 💰 $2800.0 | ⚡ 35% auto"]:::processStep
+    p2d_005_discharge_planning_transition["<b>Discharge Planning &amp; Care Transition</b><br/><small>ID: p2d_005_discharge_planning_transition</small><br/>⏱ 3.5h | 💰 $180.0 | ⚡ 50% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_billing_submission ["<b>Billing Preparation & Submission Phase</b>"]
+    rcm_001_charge_capture_coding["<b>Charge Capture &amp; Medical Coding</b><br/><small>ID: rcm_001_charge_capture_coding</small><br/>⏱ 12.0h | 💰 $85.0 | ⚡ 60% auto"]:::processStep
+    rcm_002_claim_scrubbing_submission["<b>Claim Scrubbing &amp; Clearinghouse Submission</b><br/><small>ID: rcm_002_claim_scrubbing_submission</small><br/>⏱ 6.0h | 💰 $40.0 | ⚡ 88% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_adjudication_recovery ["<b>Adjudication & Denial Recovery Phase</b>"]
+    rcm_003_payer_adjudication_remittance["<b>Payer Adjudication &amp; Remittance</b><br/><small>ID: rcm_003_payer_adjudication_remittance</small><br/>⏱ 120.0h | 💰 $15.0 | ⚡ 92% auto"]:::processStep
+    rcm_004_denial_management_appeals["<b>Denial Management &amp; Appeals</b><br/><small>ID: rcm_004_denial_management_appeals</small><br/>⏱ 24.0h | 💰 $110.0 | ⚡ 35% auto"]:::processStep
+  end
+
+  subgraph Subgraph_RCM_settlement_reconciliation ["<b>Settlement & Ledger Reconciliation Phase</b>"]
+    rcm_005_patient_billing_collections["<b>Patient Billing &amp; Collections</b><br/><small>ID: rcm_005_patient_billing_collections</small><br/>⏱ 48.0h | 💰 $35.0 | ⚡ 75% auto"]:::processStep
+    rcm_006_cash_posting_reconciliation["<b>Cash Posting &amp; Subledger Reconciliation</b><br/><small>ID: rcm_006_cash_posting_reconciliation</small><br/>⏱ 8.0h | 💰 $50.0 | ⚡ 85% auto"]:::processStep
   end
 
   subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
