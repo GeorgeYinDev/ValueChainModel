@@ -19,7 +19,8 @@ Welcome to the **Enterprise Value Chain Modeling Engine**, a composable, schema-
 │   ├── core/               # Shared enterprise capabilities (S2P, R2R, H2R)
 │   ├── manufacturing/      # Discrete manufacturing overlays (P2M, O2C)
 │   ├── professional_services/ # Services overlays (L2C, E2C)
-│   └── healthcare/         # Healthcare provider & clinical overlays (P2D, RCM)
+│   ├── healthcare/         # Healthcare provider & clinical overlays (P2D, RCM)
+│   └── financial_services/ # Banking & lending overlays (C2A, L2S)
 ├── templates/              # Boilerplates for new elements, roles, assets, and manifests
 │   ├── element_template.md
 │   ├── role_template.md
@@ -63,6 +64,7 @@ uv run tools/validate_and_build.py --profile manufacturing
 uv run tools/validate_and_build.py --profile core
 uv run tools/validate_and_build.py --profile professional_services
 uv run tools/validate_and_build.py --profile healthcare
+uv run tools/validate_and_build.py --profile financial_services
 
 # Import a custom profile overlay bundle exported from the Browser Designer Studio:
 uv run tools/import_custom_profile.py path/to/custom_profile.vcm.json
@@ -98,10 +100,20 @@ uv run tools/simulate_scenario.py --profile healthcare scenario_payer_prior_auth
 # Run Emergency Department Surge Capacity Crunch Scenario (P2D, Healthcare)
 uv run tools/simulate_scenario.py --profile healthcare scenario_emergency_surge_capacity_crunch
 
+# Run Geopolitical Sanctions Screening Alert Surge Scenario (C2A, Financial Services)
+uv run tools/simulate_scenario.py --profile financial_services scenario_sanctions_screening_alert_surge
+
+# Run Commercial Covenant Default Wave Scenario (L2S, Financial Services)
+uv run tools/simulate_scenario.py --profile financial_services scenario_credit_default_covenant_wave
+
+# Run Core Banking & Fedwire Liquidity Freeze Scenario (L2S, Financial Services)
+uv run tools/simulate_scenario.py --profile financial_services scenario_core_banking_liquidity_freeze
+
 # Run Core ERP Outage Scenario (Shared across profiles)
 uv run tools/simulate_scenario.py --profile manufacturing scenario_erp_outage
 uv run tools/simulate_scenario.py --profile professional_services scenario_erp_outage
 uv run tools/simulate_scenario.py --profile healthcare scenario_erp_outage
+uv run tools/simulate_scenario.py --profile financial_services scenario_erp_outage
 ```
 
 ---

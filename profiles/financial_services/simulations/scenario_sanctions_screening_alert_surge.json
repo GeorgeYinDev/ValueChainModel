@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_sanctions_screening_alert_surge",
+  "name": "Geopolitical Sanctions Expansion & EDD Alert Surge",
+  "target_lifecycle": "C2A",
+  "applicable_profiles": ["financial_services"],
+  "description": "Simulates an emergency multi-jurisdictional OFAC/EU/UN sanctions package expansion, triggering a 4x spike in fuzzy-match screening alerts, elevated false-positive manual dispositions, and an Enhanced Due Diligence (EDD) compliance review backlog.",
+  "shocks": [
+    {
+      "target_element_id": "c2a_003_aml_sanctions_pep_screening",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.5,
+      "additive_delta": 14.0
+    },
+    {
+      "target_element_id": "c2a_003_aml_sanctions_pep_screening",
+      "attribute_modifier": "error_rate",
+      "multiplier": 2.0,
+      "additive_delta": 0.06
+    },
+    {
+      "target_element_id": "c2a_004_enhanced_due_diligence_compliance",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.5,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "c2a_004_enhanced_due_diligence_compliance",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 1.5,
+      "additive_delta": 275.0
+    },
+    {
+      "target_element_id": "c2a_005_account_provisioning_core_activation",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 1.8,
+      "additive_delta": 4.0
+    }
+  ]
+}

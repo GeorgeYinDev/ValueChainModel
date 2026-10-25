@@ -1,0 +1,71 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "L2S",
+  "name": "Loan to Settlement",
+  "version": "1.0.0",
+  "description": "Commercial and retail loan origination, credit risk underwriting, collateral perfection, core facility funding, ongoing covenant servicing, and subledger-to-GL reconciliation.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "l2s_001_loan_application_credit_packaging",
+      "name": "Loan Application & Credit Packaging"
+    },
+    {
+      "order": 2,
+      "step_id": "l2s_002_credit_underwriting_risk_rating",
+      "name": "Credit Underwriting & PD/LGD Risk Rating"
+    },
+    {
+      "order": 3,
+      "step_id": "l2s_003_collateral_valuation_lien_perfection",
+      "name": "Collateral Valuation & Lien Perfection"
+    },
+    {
+      "order": 4,
+      "step_id": "l2s_004_loan_booking_funding_disbursement",
+      "name": "Loan Booking & Principal Funding Disbursement"
+    },
+    {
+      "order": 5,
+      "step_id": "l2s_005_repayment_servicing_covenant_monitoring",
+      "name": "Repayment Servicing & Covenant Monitoring"
+    },
+    {
+      "order": 6,
+      "step_id": "l2s_006_delinquency_workout_ledger_settlement",
+      "name": "Delinquency Workout & Subledger Reconciliation"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "origination_underwriting",
+      "name": "Credit Origination & Underwriting Phase",
+      "milestones": [
+        "l2s_001_loan_application_credit_packaging",
+        "l2s_002_credit_underwriting_risk_rating"
+      ]
+    },
+    {
+      "phase_id": "closing_funding",
+      "name": "Collateral Closing & Facility Funding Phase",
+      "milestones": [
+        "l2s_003_collateral_valuation_lien_perfection",
+        "l2s_004_loan_booking_funding_disbursement"
+      ]
+    },
+    {
+      "phase_id": "servicing_settlement",
+      "name": "Portfolio Servicing, Workout & GL Settlement Phase",
+      "milestones": [
+        "l2s_005_repayment_servicing_covenant_monitoring",
+        "l2s_006_delinquency_workout_ledger_settlement"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "Non-Performing Loan (NPL) Ratio",
+    "Net Interest Margin (NIM)",
+    "Credit Application-to-Funding Cycle Time",
+    "Covenant Review On-Time Completion Rate"
+  ]
+}

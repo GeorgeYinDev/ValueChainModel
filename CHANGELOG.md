@@ -5,6 +5,24 @@ All notable changes to the Enterprise Value Chain Modeling Engine repository wil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2026-10-25
+
+### Added
+- **Financial Services & Banking Domain Model Overlay (`profiles/financial_services/`)**:
+  - **Operating Model Overlay**: Created commercial and retail banking industry profile inheriting shared back-office capabilities (`R2R`, `H2R`, `S2P`) from `profiles/core`.
+  - **Client to Account (C2A) Lifecycle**: Added 5-milestone client onboarding and financial crime compliance journey (`c2a_001` through `c2a_005`) covering Prospect Application & FATCA/CRS Intake, KYC/CIP Identity & FinCEN 25% UBO Verification, AML Sanctions/PEP & Adverse Media Screening, Enhanced Due Diligence (EDD) & BSA Approval, and Core Account Provisioning & Treasury Activation.
+  - **Loan to Settlement (L2S) Lifecycle**: Added 6-milestone commercial and retail credit lifecycle (`l2s_001` through `l2s_006`) covering Loan Application & Credit Packaging, Quantitative PD/LGD Credit Underwriting, Collateral Valuation & UCC-1/Mortgage Lien Perfection, Core Loan Booking & Fedwire Principal Disbursement, Repayment Servicing & Covenant Monitoring, and Delinquency Workout & Subledger Reconciliation.
+  - **Banking & Compliance Roles**: Added `role_relationship_manager.md`, `role_kyc_aml_analyst.md`, `role_bsa_compliance_officer.md`, `role_credit_underwriter.md`, `role_chief_credit_officer.md`, `role_loan_servicing_specialist.md`, and `role_treasury_operations_officer.md` with calibrated financial approval limits.
+  - **Banking IT Assets**: Added Core Banking & Subledger Platform (`asset_core_banking_platform`), AML/KYC Client Lifecycle & Sanctions Screening Engine (`asset_aml_kyc_screening_engine`), and Commercial Loan Origination & Risk Rating System (`asset_loan_origination_system`).
+  - **Enterprise Value Stream Elements**: Added `client_onboarding_kyc_stream.md` (spanning C2A) and `commercial_lending_servicing_stream.md` (spanning L2S).
+  - **Governance & Control Policies**: Added `bsa_aml_kyc_compliance_policy.md` (USA PATRIOT Act CIP, FinCEN 25% UBO, OFAC strict liability, SAR filing) and `basel_credit_risk_underwriting_policy.md` (DSCR/LTV limits, Single Obligor caps, ASC 326 CECL allowance governance).
+  - **First-Class KPI Metric Elements**: Added `kpi_kyc_onboarding_time_to_yes.md` (<= 36.0h target), `kpi_non_performing_loan_ratio.md` (<= 1.25% target), and `kpi_net_interest_margin.md` (>= 3.40% target).
+  - **First-Class Data Entity Elements**: Added `data_kyc_cdd_dossier.md` (`asset_aml_kyc_screening_engine`) and `data_credit_facility_agreement.md` (`asset_loan_origination_system`).
+  - **Operational Disruption Scenarios**: Added `scenario_sanctions_screening_alert_surge.json` (geopolitical OFAC/PEP alert spike), `scenario_credit_default_covenant_wave.json` (macroeconomic rate shock & DSCR covenant default wave), and `scenario_core_banking_liquidity_freeze.json` (intraday core banking & Fedwire settlement outage).
+  - **Cross-Lifecycle Patch & Financial Triad Integration**: Added `s2p_004_contracting_sla_negotiation.yaml` patching vendor SLA contracting to collateral valuation (`l2s_003`), connected `c2a_005` to `l2s_001`, and connected loan subledger settlement (`l2s_006`) directly into `r2r_001_journal_entry_recording`.
+  - **Architecture Governance Record**: Added [ADR-0010](docs/decisions/0010-financial-services-operating-model-taxonomy.md) establishing the Financial Services & Banking taxonomy design.
+  - **Automated Test Coverage**: Expanded `tests/test_profiles.py`, `tests/test_validator.py`, and `tests/test_simulation.py` to 37 passing tests.
+
 ## [1.11.0] - 2026-10-17
 
 ### Added

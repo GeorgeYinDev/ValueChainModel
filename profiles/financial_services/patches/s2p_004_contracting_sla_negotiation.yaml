@@ -1,0 +1,6 @@
+target: s2p_004_contracting_sla_negotiation
+append:
+  graph_relations:
+    - relation: feeds_into
+      target: l2s_003_collateral_valuation_lien_perfection
+      weight: 1.0

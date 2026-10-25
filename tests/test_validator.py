@@ -10,7 +10,7 @@ VALIDATOR_SCRIPT = ROOT_DIR / "tools" / "validate_and_build.py"
 
 @pytest.mark.parametrize(
     "profile_name",
-    ["core", "manufacturing", "professional_services", "healthcare"],
+    ["core", "manufacturing", "professional_services", "healthcare", "financial_services"],
 )
 def test_validator_success(profile_name, tmp_path):
     """Test that each profile validates and builds successfully."""

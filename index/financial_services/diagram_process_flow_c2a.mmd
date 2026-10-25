@@ -1,0 +1,41 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    client_onboarding_kyc_stream[["<b>Stream: Institutional Client Onboarding &amp; KYC/AML Compliance Value Stream</b><br/><small>client_onboarding_kyc_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_C2A_intake_verification ["<b>Client Intake & Identity Verification Phase</b>"]
+    c2a_001_prospect_application_intake["<b>Prospect Application &amp; Entity Intake</b><br/><small>ID: c2a_001_prospect_application_intake</small><br/>⏱ 2.0h | 💰 $85.0 | ⚡ 75% auto"]:::processStep
+    c2a_002_kyc_cip_identity_verification["<b>KYC/CIP Identity &amp; UBO Verification</b><br/><small>ID: c2a_002_kyc_cip_identity_verification</small><br/>⏱ 6.0h | 💰 $160.0 | ⚡ 65% auto"]:::processStep
+  end
+
+  subgraph Subgraph_C2A_fincrime_activation ["<b>Financial Crime Due Diligence & Account Activation Phase</b>"]
+    c2a_003_aml_sanctions_pep_screening["<b>AML Sanctions, PEP &amp; Adverse Media Screening</b><br/><small>ID: c2a_003_aml_sanctions_pep_screening</small><br/>⏱ 4.0h | 💰 $120.0 | ⚡ 80% auto"]:::processStep
+    c2a_004_enhanced_due_diligence_compliance["<b>Enhanced Due Diligence (EDD) &amp; BSA Approval</b><br/><small>ID: c2a_004_enhanced_due_diligence_compliance</small><br/>⏱ 16.0h | 💰 $450.0 | ⚡ 35% auto"]:::processStep
+    c2a_005_account_provisioning_core_activation["<b>Core Account Provisioning &amp; Treasury Activation</b><br/><small>ID: c2a_005_account_provisioning_core_activation</small><br/>⏱ 3.0h | 💰 $95.0 | ⚡ 85% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    bsa_aml_kyc_compliance_policy(["<b>Policy: BSA/AML, USA PATRIOT Act CIP &amp; OFAC Sanctions Governance Policy</b><br/><small>bsa_aml_kyc_compliance_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  data_kyc_cdd_dossier -. triggers .-> c2a_005_account_provisioning_core_activation
+  kpi_kyc_onboarding_time_to_yes -. impacted_by .-> c2a_004_enhanced_due_diligence_compliance
+  kpi_kyc_onboarding_time_to_yes -. impacted_by .-> c2a_005_account_provisioning_core_activation
+  c2a_001_prospect_application_intake --> c2a_002_kyc_cip_identity_verification
+  c2a_001_prospect_application_intake -. governed by .-> bsa_aml_kyc_compliance_policy
+  c2a_002_kyc_cip_identity_verification --> c2a_003_aml_sanctions_pep_screening
+  c2a_002_kyc_cip_identity_verification -. governed by .-> bsa_aml_kyc_compliance_policy
+  c2a_003_aml_sanctions_pep_screening --> c2a_004_enhanced_due_diligence_compliance
+  c2a_003_aml_sanctions_pep_screening -. governed by .-> bsa_aml_kyc_compliance_policy
+  c2a_004_enhanced_due_diligence_compliance --> c2a_005_account_provisioning_core_activation
+  c2a_004_enhanced_due_diligence_compliance -. produces_artifact .-> data_kyc_cdd_dossier
+  c2a_004_enhanced_due_diligence_compliance -. governed by .-> bsa_aml_kyc_compliance_policy
+  c2a_004_enhanced_due_diligence_compliance -. exception_to .-> c2a_002_kyc_cip_identity_verification
+  c2a_005_account_provisioning_core_activation -. governed by .-> bsa_aml_kyc_compliance_policy
+  client_onboarding_kyc_stream -. governed by .-> bsa_aml_kyc_compliance_policy

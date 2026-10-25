@@ -15,7 +15,7 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 ├── CHANGELOG.md                        # Versioned change history & release log
 ├── GEMINI.md                           # Agent instructions, LOD invariants & execution commands
 ├── docs/
-│   ├── decisions/                      # Architecture Decision Records (ADRs 0001 - 0009)
+│   ├── decisions/                      # Architecture Decision Records (ADRs 0001 - 0010)
 │   │   ├── 0001-worldbuild-architecture-adaptation.md
 │   │   ├── 0002-s2p-lifecycle-taxonomy-design.md
 │   │   ├── 0003-o2c-lifecycle-taxonomy-design.md
@@ -24,9 +24,10 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   │   ├── 0006-p2m-taxonomy.md
 │   │   ├── 0007-industry-profiles-architecture.md
 │   │   ├── 0008-professional-services-taxonomy.md
-│   │   └── 0009-healthcare-operating-model-taxonomy.md
+│   │   ├── 0009-healthcare-operating-model-taxonomy.md
+│   │   └── 0010-financial-services-operating-model-taxonomy.md
 │   ├── architecture/                   # Enterprise Architecture Deep Dives
-│   │   ├── enterprise-value-chain-architecture.md # End-to-end integration across all 9 lifecycles
+│   │   ├── enterprise-value-chain-architecture.md # End-to-end integration across all 11 lifecycles
 │   │   └── governance-raci-daci.md     # Dual RACI vs. DACI & Single Approver governance
 │   ├── guides/                         # Practitioner & Authoring Guides
 │   │   ├── authoring-elements-and-lifecycles.md # Modeling guide for EA architects
@@ -61,13 +62,20 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   │   ├── assets/                     # PSA platform (Certinia / Kantata)
 │   │   ├── lifecycles/                 # Lead-to-Cash and Engagement-to-Cash manifests
 │   │   └── simulations/                # Margin slippage, bench surge, and PSA outage scenarios
-│   └── healthcare/                     # Healthcare Provider overlay (P2D, RCM, EHR, Clearinghouse)
-│       ├── elements/                   # P2D and RCM steps, streams, policies, KPIs, data entities
-│       ├── roles/                      # Physician, triage nurse, patient access, coder, RCM director
-│       ├── assets/                     # EHR platform, EDI clearinghouse, PACS/LIS
-│       ├── lifecycles/                 # Patient-to-Discharge and Revenue Cycle manifests
-│       ├── patches/                    # Patch linking core S2P receipt to care delivery
-│       └── simulations/                # Clearinghouse cyberattack, prior auth surge, emergency surge
+│   ├── healthcare/                     # Healthcare Provider overlay (P2D, RCM, EHR, Clearinghouse)
+│   │   ├── elements/                   # P2D and RCM steps, streams, policies, KPIs, data entities
+│   │   ├── roles/                      # Physician, triage nurse, patient access, coder, RCM director
+│   │   ├── assets/                     # EHR platform, EDI clearinghouse, PACS/LIS
+│   │   ├── lifecycles/                 # Patient-to-Discharge and Revenue Cycle manifests
+│   │   ├── patches/                    # Patch linking core S2P receipt to care delivery
+│   │   └── simulations/                # Clearinghouse cyberattack, prior auth surge, emergency surge
+│   └── financial_services/             # Financial Services & Banking overlay (C2A, L2S, Core Banking, LOS)
+│       ├── elements/                   # C2A and L2S steps, streams, policies, KPIs, data entities
+│       ├── roles/                      # Relationship manager, KYC/AML analyst, BSA officer, CCO, underwriter
+│       ├── assets/                     # Core Banking Platform, AML/KYC Screening Engine, Loan Origination System
+│       ├── lifecycles/                 # Client-to-Account and Loan-to-Settlement manifests
+│       ├── patches/                    # Patch linking core S2P contracting to collateral valuation
+│       └── simulations/                # Sanctions alert surge, covenant default wave, core banking freeze
 ├── templates/                          # Boilerplate templates for new model entities
 │   ├── element_template.md             # Process step / policy / stream template
 │   ├── role_template.md                # Enterprise role definition template
@@ -80,7 +88,8 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 │   ├── core/                           # Compiled artifacts for Core Back-Office profile
 │   ├── manufacturing/                  # Compiled artifacts for Manufacturing profile
 │   ├── professional_services/          # Compiled artifacts for Professional Services profile
-│   └── healthcare/                     # Compiled artifacts for Healthcare profile
+│   ├── healthcare/                     # Compiled artifacts for Healthcare profile
+│   └── financial_services/             # Compiled artifacts for Financial Services profile
 └── tools/                              # Validation, Visualization & Simulation CLI Tooling
     ├── vcm_profiles.py                 # Profile inheritance, patch merging & collision loader
     ├── validate_and_build.py           # Model validator, graph linker & multi-profile compiler
@@ -193,6 +202,20 @@ Covers healthcare clinical-financial translation, electronic claim clearinghouse
 - **Integrations**: Cash posting (`rcm_006`) feeds directly into General Ledger journal recording (`r2r_001`).
 - **Primary Systems**: EDI Clearinghouse & Billing Platform (`asset_rcm_clearinghouse`), EHR Platform (`asset_ehr_system`), ERP GL (`asset_erp_system`).
 
+### 10. Client to Account (C2A) — Financial Services Profile
+Covers institutional and retail banking client onboarding, identity verification, financial crime screening, and core deposit account activation:
+- **Milestones**: `c2a_001` (Prospect Application & Entity Intake), `c2a_002` (KYC/CIP Identity & UBO Verification), `c2a_003` (AML Sanctions, PEP & Adverse Media Screening), `c2a_004` (Enhanced Due Diligence & BSA Approval), `c2a_005` (Core Account Provisioning & Treasury Activation).
+- **Core Governance**: BSA/AML, USA PATRIOT Act CIP & OFAC Sanctions Governance Policy.
+- **Integrations**: Core account activation (`c2a_005`) enables commercial credit packaging (`l2s_001`).
+- **Primary Systems**: AML/KYC Screening Engine (`asset_aml_kyc_screening_engine`), Core Banking Platform (`asset_core_banking_platform`), CRM (`asset_crm_system`).
+
+### 11. Loan to Settlement (L2S) — Financial Services Profile
+Covers commercial and retail loan origination, credit risk underwriting, collateral lien perfection, funding, covenant monitoring, and subledger settlement:
+- **Milestones**: `l2s_001` (Loan Application & Credit Packaging), `l2s_002` (Credit Underwriting & PD/LGD Risk Rating), `l2s_003` (Collateral Valuation & Lien Perfection), `l2s_004` (Loan Booking & Principal Funding Disbursement), `l2s_005` (Repayment Servicing & Covenant Monitoring), `l2s_006` (Delinquency Workout & Subledger Reconciliation).
+- **Core Governance**: Basel III Credit Risk Underwriting, Concentration & CECL Policy.
+- **Integrations**: Ingests vendor SLAs from `s2p_004`; loan subledger reconciliation (`l2s_006`) feeds directly into General Ledger journal recording (`r2r_001`).
+- **Primary Systems**: Commercial Loan Origination System (`asset_loan_origination_system`), Core Banking Platform (`asset_core_banking_platform`), Payment Gateway (`asset_payment_gateway`).
+
 ---
 
 ## 📊 Interactive Standalone Executive Visualizers & Designer Studio
@@ -200,6 +223,7 @@ Covers healthcare clinical-financial translation, electronic claim clearinghouse
 Each profile compiles an independent, **100% standalone Single-Page Application (SPA)** with zero server dependencies, including the **`🎨 Designer Studio`** tab for interactive lifecycle milestone sequencing, process step authoring/overriding, role/asset management, live governance guardrails (Single Approver $|A|=1$, SoD, role limits), client-side Mermaid re-rendering, and `.vcm.json` profile overlay export:
 
 - **Global Profile Switcher Dashboard**: [`index/index.html`](index/index.html)
+- **Financial Services Visualizer & Studio**: [`index/financial_services/value_chain_visualizer.html`](index/financial_services/value_chain_visualizer.html)
 - **Healthcare Visualizer & Studio**: [`index/healthcare/value_chain_visualizer.html`](index/healthcare/value_chain_visualizer.html)
 - **Professional Services Visualizer & Studio**: [`index/professional_services/value_chain_visualizer.html`](index/professional_services/value_chain_visualizer.html)
 - **Manufacturing Visualizer & Studio**: [`index/manufacturing/value_chain_visualizer.html`](index/manufacturing/value_chain_visualizer.html)
@@ -245,6 +269,11 @@ uv run tools/export_diagram.py --profile manufacturing --lifecycle P2M --format 
 ### 3. Run Quantitative Operational Simulations
 Simulate operational disruptions and quantify lead time and unit cost impacts:
 ```bash
+# Financial Services & Banking Scenarios:
+uv run tools/simulate_scenario.py --profile financial_services scenario_sanctions_screening_alert_surge
+uv run tools/simulate_scenario.py --profile financial_services scenario_credit_default_covenant_wave
+uv run tools/simulate_scenario.py --profile financial_services scenario_core_banking_liquidity_freeze
+
 # Healthcare Provider & RCM Scenarios:
 uv run tools/simulate_scenario.py --profile healthcare scenario_clearinghouse_cyberattack_outage
 uv run tools/simulate_scenario.py --profile healthcare scenario_payer_prior_auth_denial_surge
@@ -296,5 +325,6 @@ Managed under Architecture Decision Records in `docs/decisions/`:
 - **ADR-0007**: Multi-Industry Profiles & Layered Inheritance Architecture
 - **ADR-0008**: Professional Services (L2C / E2C) Operating Model & PSA Integration
 - **ADR-0009**: Healthcare Provider & Clinical Systems (P2D / RCM) Operating Model Taxonomy
+- **ADR-0010**: Financial Services & Banking (C2A / L2S) Operating Model Taxonomy
 
 All releases and historical changes are tracked in [`CHANGELOG.md`](CHANGELOG.md).

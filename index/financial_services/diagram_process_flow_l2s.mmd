@@ -1,0 +1,51 @@
+flowchart TD
+  %% Style Classes
+  classDef processStep fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+  classDef controlPolicy fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,stroke-dasharray: 4 4,color:#f3e8ff,rx:4,ry:4;
+  classDef valueStream fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:12,ry:12;
+
+  subgraph Subgraph_ValueStreams ["<b>Enterprise Value Streams</b>"]
+    commercial_lending_servicing_stream[["<b>Stream: Commercial Loan Origination, Underwriting &amp; Servicing Value Stream</b><br/><small>commercial_lending_servicing_stream</small>"]]:::valueStream
+  end
+
+  subgraph Subgraph_L2S_origination_underwriting ["<b>Credit Origination & Underwriting Phase</b>"]
+    l2s_001_loan_application_credit_packaging["<b>Loan Application &amp; Credit Packaging</b><br/><small>ID: l2s_001_loan_application_credit_packaging</small><br/>⏱ 12.0h | 💰 $380.0 | ⚡ 55% auto"]:::processStep
+    l2s_002_credit_underwriting_risk_rating["<b>Credit Underwriting &amp; PD/LGD Risk Rating</b><br/><small>ID: l2s_002_credit_underwriting_risk_rating</small><br/>⏱ 24.0h | 💰 $820.0 | ⚡ 45% auto"]:::processStep
+  end
+
+  subgraph Subgraph_L2S_closing_funding ["<b>Collateral Closing & Facility Funding Phase</b>"]
+    l2s_003_collateral_valuation_lien_perfection["<b>Collateral Valuation &amp; Lien Perfection</b><br/><small>ID: l2s_003_collateral_valuation_lien_perfection</small><br/>⏱ 18.0h | 💰 $540.0 | ⚡ 50% auto"]:::processStep
+    l2s_004_loan_booking_funding_disbursement["<b>Loan Booking &amp; Principal Funding Disbursement</b><br/><small>ID: l2s_004_loan_booking_funding_disbursement</small><br/>⏱ 4.0h | 💰 $150.0 | ⚡ 85% auto"]:::processStep
+  end
+
+  subgraph Subgraph_L2S_servicing_settlement ["<b>Portfolio Servicing, Workout & GL Settlement Phase</b>"]
+    l2s_005_repayment_servicing_covenant_monitoring["<b>Repayment Servicing &amp; Covenant Monitoring</b><br/><small>ID: l2s_005_repayment_servicing_covenant_monitoring</small><br/>⏱ 6.0h | 💰 $190.0 | ⚡ 80% auto"]:::processStep
+    l2s_006_delinquency_workout_ledger_settlement["<b>Delinquency Workout &amp; Subledger Reconciliation</b><br/><small>ID: l2s_006_delinquency_workout_ledger_settlement</small><br/>⏱ 10.0h | 💰 $310.0 | ⚡ 70% auto"]:::processStep
+  end
+
+  subgraph Subgraph_Governance ["<b>Governance & Control Policies</b>"]
+    basel_credit_risk_underwriting_policy(["<b>Policy: Basel III Credit Risk Underwriting, Concentration &amp; CECL Policy</b><br/><small>basel_credit_risk_underwriting_policy</small>"]):::controlPolicy
+    bsa_aml_kyc_compliance_policy(["<b>Policy: BSA/AML, USA PATRIOT Act CIP &amp; OFAC Sanctions Governance Policy</b><br/><small>bsa_aml_kyc_compliance_policy</small>"]):::controlPolicy
+  end
+
+  %% Process Flows & Policy Linkages
+  data_credit_facility_agreement -. triggers .-> l2s_004_loan_booking_funding_disbursement
+  kpi_net_interest_margin -. impacted_by .-> l2s_004_loan_booking_funding_disbursement
+  kpi_net_interest_margin -. impacted_by .-> l2s_005_repayment_servicing_covenant_monitoring
+  kpi_non_performing_loan_ratio -. impacted_by .-> l2s_002_credit_underwriting_risk_rating
+  kpi_non_performing_loan_ratio -. impacted_by .-> l2s_006_delinquency_workout_ledger_settlement
+  l2s_001_loan_application_credit_packaging --> l2s_002_credit_underwriting_risk_rating
+  l2s_001_loan_application_credit_packaging -. governed by .-> basel_credit_risk_underwriting_policy
+  l2s_002_credit_underwriting_risk_rating --> l2s_003_collateral_valuation_lien_perfection
+  l2s_002_credit_underwriting_risk_rating -. governed by .-> basel_credit_risk_underwriting_policy
+  l2s_002_credit_underwriting_risk_rating -. exception_to .-> l2s_001_loan_application_credit_packaging
+  l2s_003_collateral_valuation_lien_perfection --> l2s_004_loan_booking_funding_disbursement
+  l2s_003_collateral_valuation_lien_perfection -. produces_artifact .-> data_credit_facility_agreement
+  l2s_003_collateral_valuation_lien_perfection -. governed by .-> basel_credit_risk_underwriting_policy
+  l2s_004_loan_booking_funding_disbursement --> l2s_005_repayment_servicing_covenant_monitoring
+  l2s_004_loan_booking_funding_disbursement -. governed by .-> basel_credit_risk_underwriting_policy
+  l2s_004_loan_booking_funding_disbursement -. governed by .-> bsa_aml_kyc_compliance_policy
+  l2s_005_repayment_servicing_covenant_monitoring --> l2s_006_delinquency_workout_ledger_settlement
+  l2s_005_repayment_servicing_covenant_monitoring -. governed by .-> basel_credit_risk_underwriting_policy
+  l2s_006_delinquency_workout_ledger_settlement -. governed by .-> basel_credit_risk_underwriting_policy
+  commercial_lending_servicing_stream -. governed by .-> basel_credit_risk_underwriting_policy

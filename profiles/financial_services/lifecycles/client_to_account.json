@@ -1,0 +1,59 @@
+{
+  "$schema": "../../schema/lifecycle_manifest.schema.json",
+  "lifecycle_id": "C2A",
+  "name": "Client to Account",
+  "version": "1.0.0",
+  "description": "End-to-end banking client onboarding, Customer Identification Program (CIP), Beneficial Ownership (UBO), OFAC/PEP sanctions screening, Enhanced Due Diligence (EDD), and core account provisioning.",
+  "milestones": [
+    {
+      "order": 1,
+      "step_id": "c2a_001_prospect_application_intake",
+      "name": "Prospect Application & Entity Intake"
+    },
+    {
+      "order": 2,
+      "step_id": "c2a_002_kyc_cip_identity_verification",
+      "name": "KYC/CIP Identity & UBO Verification"
+    },
+    {
+      "order": 3,
+      "step_id": "c2a_003_aml_sanctions_pep_screening",
+      "name": "AML Sanctions, PEP & Adverse Media Screening"
+    },
+    {
+      "order": 4,
+      "step_id": "c2a_004_enhanced_due_diligence_compliance",
+      "name": "Enhanced Due Diligence (EDD) & BSA Approval"
+    },
+    {
+      "order": 5,
+      "step_id": "c2a_005_account_provisioning_core_activation",
+      "name": "Core Account Provisioning & Treasury Activation"
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "intake_verification",
+      "name": "Client Intake & Identity Verification Phase",
+      "milestones": [
+        "c2a_001_prospect_application_intake",
+        "c2a_002_kyc_cip_identity_verification"
+      ]
+    },
+    {
+      "phase_id": "fincrime_activation",
+      "name": "Financial Crime Due Diligence & Account Activation Phase",
+      "milestones": [
+        "c2a_003_aml_sanctions_pep_screening",
+        "c2a_004_enhanced_due_diligence_compliance",
+        "c2a_005_account_provisioning_core_activation"
+      ]
+    }
+  ],
+  "key_performance_indicators": [
+    "KYC Onboarding Time-to-Yes (Hours)",
+    "First-Time-Right KYC Documentation Rate",
+    "Sanctions Alert False-Positive Rate",
+    "EDD SLA Compliance Rate"
+  ]
+}

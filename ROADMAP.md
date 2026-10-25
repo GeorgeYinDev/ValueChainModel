@@ -18,7 +18,8 @@ flowchart LR
   P85 --> P86["Phase 8.6<br/>Services Enrichment<br/>✅ v1.9.0"]
   P86 --> P87["Phase 8.7<br/>Healthcare Overlay<br/>✅ v1.10.0"]
   P87 --> P88["Phase 8.8<br/>Designer Studio<br/>✅ v1.11.0"]
-  P88 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
+  P88 --> P89["Phase 8.9<br/>Financial Services<br/>✅ v1.12.0"]
+  P89 --> P9["Phase 9<br/>REST API & Web App<br/>🔮 v2.0.0"]
   P9 --> P10["Phase 10<br/>Process Mining<br/>🔮 v2.1.0"]
 ```
 
@@ -176,6 +177,21 @@ The governance graph and LLM context are the core value. Simulation is a seconda
 - **Companion CLI Overlay Importer (`tools/import_custom_profile.py`)**: Unpacks exported `.vcm.json` bundles into `profiles/<custom_id>/` and executes `validate_and_build.py`.
 - **Automated Test Suite**: Expanded to 30 passing tests (`tests/test_custom_designer.py`).
 
+### Phase 8.9: Financial Services & Banking Operating Model Overlay
+**Status**: ✅ **Completed** (Release: **v1.12.0**)
+- Established dedicated Financial Services & Banking industry overlay (`profiles/financial_services/`) extending `profiles/core`.
+- **Client to Account (C2A)** lifecycle: 5 milestones (`c2a_001` through `c2a_005`) covering Prospect Application & FATCA/CRS Intake, KYC/CIP Identity & FinCEN 25% UBO Verification, OFAC/UN/EU Sanctions & PEP Screening, Enhanced Due Diligence (EDD) & BSA Approval, and Core Account Provisioning & Treasury Activation.
+- **Loan to Settlement (L2S)** lifecycle: 6 milestones (`l2s_001` through `l2s_006`) covering Loan Application & Credit Packaging, Quantitative PD/LGD Credit Underwriting, Collateral Valuation & UCC/Mortgage Lien Perfection, Core Loan Booking & Fedwire Disbursement, Repayment Servicing & Covenant Monitoring, and Delinquency Workout & Subledger Reconciliation.
+- Banking & Compliance Roles: Commercial Relationship Manager, KYC/AML Compliance Analyst, BSA/AML Chief Compliance Officer, Commercial Credit Underwriter, Chief Credit Officer (CCO), Loan Closing & Servicing Specialist, and Treasury & Settlement Operations Officer.
+- Banking IT Assets: Core Banking & Subledger Platform (`asset_core_banking_platform`), AML/KYC & Sanctions Screening Engine (`asset_aml_kyc_screening_engine`), and Commercial Loan Origination System (`asset_loan_origination_system`).
+- Enterprise Value Streams: `client_onboarding_kyc_stream.md` and `commercial_lending_servicing_stream.md`.
+- Governance & Control Policies: `bsa_aml_kyc_compliance_policy.md` and `basel_credit_risk_underwriting_policy.md`.
+- First-class KPIs and Data Entities: KYC Onboarding Time-to-Yes, Non-Performing Loan (NPL) Ratio, Net Interest Margin (NIM), Verified KYC/CDD Dossier, and Executed Commercial Credit Agreement.
+- Core Financial Triad Integration: Core deposit activation (`c2a_005`) enables commercial loan packaging (`l2s_001`), loan subledger settlement (`l2s_006`) feeds directly into General Ledger journal recording (`r2r_001`), and third-party vendor contracting (`s2p_004`) patches into collateral valuation (`l2s_003`).
+- Operational disruption scenarios: Geopolitical sanctions screening alert surge (`C2A`), macroeconomic interest-rate & commercial covenant default wave (`L2S`), and core banking subledger & Fedwire settlement outage (`L2S`).
+- Architecture Governance: [ADR-0010](docs/decisions/0010-financial-services-operating-model-taxonomy.md).
+- Automated test suite expanded to 37 passing tests across profile inheritance, element isolation, and scenario simulations.
+
 ### Phase 9: Headless REST API & Web Application
 **Status**: 🔮 **Planned** (Target Release: **v2.0.0**)
 - FastAPI microservice: `GET /api/v1/profiles`, `GET /api/v1/profiles/{profile}/graph`, `GET /api/v1/profiles/{profile}/lifecycles`, `POST /api/v1/profiles/{profile}/simulations/run`, `GET /api/v1/profiles/{profile}/governance/{raci|daci}` (JSON / CSV).
@@ -231,6 +247,8 @@ These findings are tracked to the phase that resolves them.
 | **E2C** | Engagement to Cash | Professional Services / Delivery | 8.6 | ✅ v1.9.0 |
 | **P2D** | Patient to Discharge | Healthcare / Clinical Inpatient Care | 8.7 | ✅ v1.10.0 |
 | **RCM** | Revenue Cycle Management | Healthcare / Patient Accounting | 8.7 | ✅ v1.10.0 |
+| **C2A** | Client to Account | Financial Services / KYC & Onboarding | 8.9 | ✅ v1.12.0 |
+| **L2S** | Loan to Settlement | Financial Services / Lending & Servicing | 8.9 | ✅ v1.12.0 |
 
 ---
 

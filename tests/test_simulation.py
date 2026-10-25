@@ -38,7 +38,7 @@ def test_simulation_baseline_vs_shock():
     assert val < 100, f"Baseline time {val}h is too high, possible double-counting!"
 
 
-@pytest.mark.parametrize("profile_name", ["manufacturing", "professional_services", "healthcare"])
+@pytest.mark.parametrize("profile_name", ["manufacturing", "professional_services", "healthcare", "financial_services"])
 def test_simulation_cross_profile_erp_outage(profile_name):
     """Test that a shared scenario (scenario_erp_outage) runs cleanly across profiles."""
     result = subprocess.run(
@@ -85,5 +85,25 @@ def test_simulation_healthcare_scenarios(scenario_id):
     assert "Total Lead Time:" in result.stdout
     assert "Total Unit Cost:" in result.stdout
     assert "Simulation Report written to:" in result.stdout
+
+
+@pytest.mark.parametrize("scenario_id", [
+    "scenario_sanctions_screening_alert_surge",
+    "scenario_credit_default_covenant_wave",
+    "scenario_core_banking_liquidity_freeze"
+])
+def test_simulation_financial_services_scenarios(scenario_id):
+    """Test that financial services disruption scenarios execute and compute valid deltas."""
+    result = subprocess.run(
+        ["uv", "run", str(SIMULATOR_SCRIPT), "--profile", "financial_services", scenario_id],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True
+    )
+    assert result.returncode == 0, f"Simulator failed on {scenario_id}: {result.stderr}\n{result.stdout}"
+    assert "Total Lead Time:" in result.stdout
+    assert "Total Unit Cost:" in result.stdout
+    assert "Simulation Report written to:" in result.stdout
+
 
 

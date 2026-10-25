@@ -100,7 +100,7 @@ def test_profile_isolation_guarantee(tmp_path):
     kg_path = tmp_path / "index" / "core" / "knowledge_graph.json"
     kg_data = json.loads(kg_path.read_text(encoding="utf-8"))
 
-    # Ensure no manufacturing, professional services, or healthcare elements exist in core
+    # Ensure no manufacturing, professional services, healthcare, or financial services elements exist in core
     for eid in kg_data["elements"].keys():
         assert not eid.startswith("p2m_"), f"Unexpected manufacturing element '{eid}' in core graph"
         assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in core graph"
@@ -108,6 +108,8 @@ def test_profile_isolation_guarantee(tmp_path):
         assert not eid.startswith("e2c_"), f"Unexpected professional services element '{eid}' in core graph"
         assert not eid.startswith("p2d_"), f"Unexpected healthcare element '{eid}' in core graph"
         assert not eid.startswith("rcm_"), f"Unexpected healthcare element '{eid}' in core graph"
+        assert not eid.startswith("c2a_"), f"Unexpected financial services element '{eid}' in core graph"
+        assert not eid.startswith("l2s_"), f"Unexpected financial services element '{eid}' in core graph"
 
 
 def test_professional_services_isolation(tmp_path):
@@ -132,6 +134,8 @@ def test_professional_services_isolation(tmp_path):
         assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in professional services graph"
         assert not eid.startswith("p2d_"), f"Unexpected healthcare element '{eid}' in professional services graph"
         assert not eid.startswith("rcm_"), f"Unexpected healthcare element '{eid}' in professional services graph"
+        assert not eid.startswith("c2a_"), f"Unexpected financial services element '{eid}' in professional services graph"
+        assert not eid.startswith("l2s_"), f"Unexpected financial services element '{eid}' in professional services graph"
 
 
 def test_healthcare_profile_resolution():
@@ -166,5 +170,44 @@ def test_healthcare_isolation(tmp_path):
         assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in healthcare graph"
         assert not eid.startswith("l2c_"), f"Unexpected professional services element '{eid}' in healthcare graph"
         assert not eid.startswith("e2c_"), f"Unexpected professional services element '{eid}' in healthcare graph"
+        assert not eid.startswith("c2a_"), f"Unexpected financial services element '{eid}' in healthcare graph"
+        assert not eid.startswith("l2s_"), f"Unexpected financial services element '{eid}' in healthcare graph"
+
+
+def test_financial_services_profile_resolution():
+    """Verify financial_services profile resolves with expected layers and elements."""
+    ep = resolve_profile(ROOT_DIR / "profiles", "financial_services", ROOT_DIR)
+    assert ep.layers == ["core", "financial_services"]
+    assert "c2a_001_prospect_application_intake" in ep.element_files
+    assert "l2s_001_loan_application_credit_packaging" in ep.element_files
+    assert "asset_core_banking_platform" in ep.asset_files
+    assert "role_chief_credit_officer" in ep.role_files
+
+
+def test_financial_services_isolation(tmp_path):
+    """Verify financial_services contains no manufacturing, professional services, or healthcare elements."""
+    res = subprocess.run(
+        [
+            "uv", "run", str(VALIDATOR_SCRIPT),
+            "--profile", "financial_services",
+            "--output-dir", str(tmp_path / "index"),
+        ],
+        cwd=ROOT_DIR,
+        capture_output=True,
+        text=True,
+    )
+    assert res.returncode == 0, f"Financial Services build failed: {res.stderr}\n{res.stdout}"
+
+    kg_path = tmp_path / "index" / "financial_services" / "knowledge_graph.json"
+    kg_data = json.loads(kg_path.read_text(encoding="utf-8"))
+
+    for eid in kg_data["elements"].keys():
+        assert not eid.startswith("p2m_"), f"Unexpected manufacturing element '{eid}' in financial_services graph"
+        assert not eid.startswith("o2c_"), f"Unexpected manufacturing element '{eid}' in financial_services graph"
+        assert not eid.startswith("l2c_"), f"Unexpected professional services element '{eid}' in financial_services graph"
+        assert not eid.startswith("e2c_"), f"Unexpected professional services element '{eid}' in financial_services graph"
+        assert not eid.startswith("p2d_"), f"Unexpected healthcare element '{eid}' in financial_services graph"
+        assert not eid.startswith("rcm_"), f"Unexpected healthcare element '{eid}' in financial_services graph"
+
 
 

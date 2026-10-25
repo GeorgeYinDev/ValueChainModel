@@ -1,0 +1,25 @@
+{
+  "lifecycles": [
+    {
+      "id": "C2A",
+      "name": "Client to Account",
+      "domain": "Client Onboarding, KYC & Financial Crime Compliance",
+      "description": "Institutional and retail client intake, Customer Identification Program (CIP), Ultimate Beneficial Ownership (UBO) verification, OFAC/PEP screening, Enhanced Due Diligence (EDD), and core deposit account activation."
+    },
+    {
+      "id": "L2S",
+      "name": "Loan to Settlement",
+      "domain": "Commercial & Retail Lending, Credit Risk & Servicing",
+      "description": "Credit facility application, financial spreading, quantitative PD/LGD underwriting, collateral lien perfection, loan boarding and funding, covenant monitoring, and subledger-to-GL settlement."
+    }
+  ],
+  "raci_definitions": {
+    "role_relationship_manager": "Responsible for front-office client relationship coverage, onboarding intake, and credit facility structuring.",
+    "role_kyc_aml_analyst": "Responsible for CIP documentary verification, UBO graph validation, sanctions/PEP alert disposition, and EDD dossier compilation.",
+    "role_bsa_compliance_officer": "Accountable for Bank Secrecy Act (BSA), AML/KYC regulatory compliance, OFAC sanctions escalations, and Enhanced Due Diligence (EDD) approvals.",
+    "role_credit_underwriter": "Responsible for borrower financial spreading, PD/LGD credit risk modeling, DSCR/LTV analysis, and ongoing covenant testing.",
+    "role_chief_credit_officer": "Accountable for Credit Committee underwriting approvals, risk policy exceptions, and troubled debt restructuring workouts.",
+    "role_loan_servicing_specialist": "Responsible for collateral lien perfection, core banking loan booking, rate resets, and P&I payment administration.",
+    "role_treasury_operations_officer": "Accountable for funding liquidity verification, Fedwire/ACH principal disbursement release, and loan subledger reconciliation."
+  }
+}

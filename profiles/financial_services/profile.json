@@ -1,0 +1,11 @@
+{
+  "profile_id": "financial_services",
+  "name": "Financial Services & Banking",
+  "industry": "financial_services",
+  "version": "1.0.0",
+  "description": "Operating model for commercial and retail banking institutions, covering Client Onboarding & KYC/AML compliance (C2A) and Loan Origination, Underwriting & Servicing (L2S).",
+  "extends": ["core"],
+  "lifecycles": ["S2P", "R2R", "H2R", "C2A", "L2S"],
+  "default_lifecycle": "C2A",
+  "apqc_pcf_variant": "banking"
+}

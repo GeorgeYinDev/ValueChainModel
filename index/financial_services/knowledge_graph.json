@@ -1,0 +1,3961 @@
+{
+  "profile": {
+    "profile_id": "financial_services",
+    "name": "Financial Services & Banking",
+    "layers": [
+      "core",
+      "financial_services"
+    ]
+  },
+  "summary": {
+    "total_elements": 45,
+    "total_roles": 24,
+    "total_assets": 10,
+    "validated_links": 78
+  },
+  "elements": {
+    "data_journal_entry": {
+      "id": "data_journal_entry",
+      "type": "data_entity",
+      "name": "General Ledger Journal Entry",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "finance",
+        "ledger"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_erp_system",
+        "owner": "role_finance_controller"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "r2r_002_intercompany_reconciliation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "financial_close_reporting_stream": {
+      "id": "financial_close_reporting_stream",
+      "type": "value_stream",
+      "name": "Financial Close, Consolidation & Regulatory Reporting Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "record_to_report",
+        "financial_close",
+        "consolidation",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant",
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 70.0,
+        "baseline_cost_per_unit": 213.0,
+        "automation_rate": 0.76,
+        "error_rate": 0.013,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "h2r_001_job_requisition_posting": {
+      "id": "h2r_001_job_requisition_posting",
+      "type": "process_step",
+      "name": "Job Requisition Definition & Posting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "planning"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.1,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "HRBP formally approves the headcount budget prior to posting.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_talent_acquisition_specialist"
+        ]
+      }
+    },
+    "h2r_002_candidate_screening_interview": {
+      "id": "h2r_002_candidate_screening_interview",
+      "type": "process_step",
+      "name": "Candidate Screening & Interview Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "recruitment",
+        "interview"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 168.0,
+        "baseline_cost_per_unit": 800.0,
+        "automation_rate": 0.3,
+        "error_rate": 0.15,
+        "sla_hours": 240.0,
+        "volume_per_period": 250,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_003_offer_letter_onboarding",
+          "weight": 0.2
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_001_job_requisition_posting",
+          "weight": 1.0,
+          "probability": 0.1
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": []
+      }
+    },
+    "h2r_003_offer_letter_onboarding": {
+      "id": "h2r_003_offer_letter_onboarding",
+      "type": "process_step",
+      "name": "Offer Letter Generation & Employee Onboarding",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offer",
+        "onboarding"
+      ],
+      "raci": {
+        "responsible": [
+          "role_talent_acquisition_specialist"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 150.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.05,
+        "sla_hours": 72.0,
+        "volume_per_period": 50,
+        "capacity_fte": 2.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_004_payroll_benefits_enrollment",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "h2r_002_candidate_screening_interview",
+          "weight": 1.0,
+          "probability": 0.15
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_talent_acquisition_specialist"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "h2r_004_payroll_benefits_enrollment": {
+      "id": "h2r_004_payroll_benefits_enrollment",
+      "type": "process_step",
+      "name": "Payroll & Benefits Enrollment Processing",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "payroll",
+        "benefits",
+        "finance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_payroll_specialist"
+        ],
+        "accountable": [
+          "role_payroll_specialist"
+        ],
+        "consulted": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.02,
+        "sla_hours": 48.0,
+        "volume_per_period": 50,
+        "capacity_fte": 1.5
+      },
+      "asset_dependencies": [
+        "asset_payroll_engine",
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_005_performance_compensation_review",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Payroll processing outputs are formally audited by Finance Controller prior to disbursement.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_payroll_specialist"
+        ],
+        "approver": [
+          "role_payroll_specialist"
+        ],
+        "contributor": [
+          "role_hr_business_partner"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      }
+    },
+    "h2r_005_performance_compensation_review": {
+      "id": "h2r_005_performance_compensation_review",
+      "type": "process_step",
+      "name": "Performance & Compensation Review",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "performance",
+        "compensation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hiring_manager"
+        ],
+        "accountable": [
+          "role_hiring_manager"
+        ],
+        "consulted": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 120.0,
+        "baseline_cost_per_unit": 200.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.05,
+        "sla_hours": 336.0,
+        "volume_per_period": 1000,
+        "capacity_fte": 10.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "h2r_006_separation_offboarding_settlement",
+          "weight": 0.1
+        }
+      ],
+      "compensating_control": "HRBP facilitates calibration sessions to normalize ratings across managers.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hiring_manager"
+        ],
+        "approver": [
+          "role_hiring_manager"
+        ],
+        "contributor": [
+          "role_hr_business_partner",
+          "role_compensation_analyst"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "h2r_006_separation_offboarding_settlement": {
+      "id": "h2r_006_separation_offboarding_settlement",
+      "type": "process_step",
+      "name": "Separation, Offboarding & Final Settlement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "H2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "hr",
+        "offboarding",
+        "payroll"
+      ],
+      "raci": {
+        "responsible": [
+          "role_hr_business_partner"
+        ],
+        "accountable": [
+          "role_hr_business_partner"
+        ],
+        "consulted": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.1,
+        "sla_hours": 72.0,
+        "volume_per_period": 20,
+        "capacity_fte": 1.0
+      },
+      "asset_dependencies": [
+        "asset_hcm_platform",
+        "asset_payroll_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        }
+      ],
+      "compensating_control": "Final offboarding settlements are validated by Legal and Payroll prior to execution.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_hr_business_partner"
+        ],
+        "approver": [
+          "role_hr_business_partner"
+        ],
+        "contributor": [
+          "role_hiring_manager"
+        ],
+        "informed": [
+          "role_payroll_specialist"
+        ]
+      }
+    },
+    "procure_to_pay_stream": {
+      "id": "procure_to_pay_stream",
+      "type": "value_stream",
+      "name": "Procure to Pay (P2P) Operational Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "procure_to_pay",
+        "p2p"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 34.0,
+        "baseline_cost_per_unit": 60.5,
+        "automation_rate": 0.85,
+        "error_rate": 0.018,
+        "sla_hours": 56.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_eprocurement_portal",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "r2r_001_journal_entry_recording": {
+      "id": "r2r_001_journal_entry_recording",
+      "type": "process_step",
+      "name": "General Ledger Journal Recording & Subledger Ingestion",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "journal_entry",
+        "general_ledger",
+        "subledger",
+        "ingestion",
+        "accounting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk",
+          "role_billing_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.82,
+        "error_rate": 0.015,
+        "sla_hours": 16.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "apqc_pcf_id": "8.1.1.1",
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_002_intercompany_reconciliation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_journal_entry",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_002_intercompany_reconciliation": {
+      "id": "r2r_002_intercompany_reconciliation",
+      "type": "process_step",
+      "name": "Intercompany Transaction Matching & Elimination",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "intercompany",
+        "elimination",
+        "matching",
+        "netting",
+        "consolidation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 35.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.025,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_003_balance_sheet_substantiation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_003_balance_sheet_substantiation": {
+      "id": "r2r_003_balance_sheet_substantiation",
+      "type": "process_step",
+      "name": "Balance Sheet Account Substantiation & Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "reconciliation",
+        "balance_sheet",
+        "substantiation",
+        "blackline",
+        "audit"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.02,
+        "sla_hours": 36.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_004_financial_close_consolidation",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_004_financial_close_consolidation": {
+      "id": "r2r_004_financial_close_consolidation",
+      "type": "process_step",
+      "name": "Financial Close Orchestration & Group Consolidation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "financial_close",
+        "consolidation",
+        "currency_translation",
+        "trial_balance",
+        "group_reporting"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_general_ledger_accountant"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 20.0,
+        "baseline_cost_per_unit": 65.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.01,
+        "sla_hours": 48.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_005_statutory_financial_reporting",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 0.95
+        }
+      ],
+      "source_layer": "core"
+    },
+    "r2r_005_statutory_financial_reporting": {
+      "id": "r2r_005_statutory_financial_reporting",
+      "type": "process_step",
+      "name": "Statutory, Tax & Management Financial Reporting",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "statutory_reporting",
+        "sec_filing",
+        "10k",
+        "management_reporting",
+        "disclosure"
+      ],
+      "raci": {
+        "responsible": [
+          "role_consolidation_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_consolidation_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_general_ledger_accountant"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 14.0,
+        "baseline_cost_per_unit": 50.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.008,
+        "sla_hours": 32.0
+      },
+      "asset_dependencies": [
+        "asset_financial_consolidation_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "sox_financial_reporting_controls_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core"
+    },
+    "s2p_001_spend_analysis_need_id": {
+      "id": "s2p_001_spend_analysis_need_id",
+      "type": "process_step",
+      "name": "Spend Analysis & Need Identification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "procurement",
+        "analytics",
+        "requisition"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 45.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.03,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_002_supplier_discovery_qualification",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.85
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_002_supplier_discovery_qualification": {
+      "id": "s2p_002_supplier_discovery_qualification",
+      "type": "process_step",
+      "name": "Supplier Discovery & Qualification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "vendor_management",
+        "compliance",
+        "risk"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 48.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.05,
+        "sla_hours": 72.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_003_sourcing_rfx_auction",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_003_sourcing_rfx_auction": {
+      "id": "s2p_003_sourcing_rfx_auction",
+      "type": "process_step",
+      "name": "Strategic Sourcing & RFx Execution",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "sourcing",
+        "rfp",
+        "rfq",
+        "negotiation"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 96.0,
+        "baseline_cost_per_unit": 250.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.02,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_004_contracting_sla_negotiation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_004_contracting_sla_negotiation": {
+      "id": "s2p_004_contracting_sla_negotiation",
+      "type": "process_step",
+      "name": "Contracting & SLA Negotiation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "contracting",
+        "legal",
+        "slas"
+      ],
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 72.0,
+        "baseline_cost_per_unit": 300.0,
+        "automation_rate": 0.4,
+        "error_rate": 0.04,
+        "sla_hours": 96.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "compensating_control": "Legal department reviews all non-standard clauses. Standard templates locked in CLM.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_005_purchase_requisition_po",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.95
+        },
+        {
+          "relation": "feeds_into",
+          "target": "l2s_003_collateral_valuation_lien_perfection",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_005_purchase_requisition_po": {
+      "id": "s2p_005_purchase_requisition_po",
+      "type": "process_step",
+      "name": "Purchase Requisition & PO Issuance",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "purchasing",
+        "po",
+        "requisition",
+        "approval"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 8.0,
+        "baseline_cost_per_unit": 18.0,
+        "automation_rate": 0.9,
+        "error_rate": 0.01,
+        "sla_hours": 12.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_006_goods_services_receipt",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_006_goods_services_receipt": {
+      "id": "s2p_006_goods_services_receipt",
+      "type": "process_step",
+      "name": "Goods & Services Receipt Verification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "receiving",
+        "inventory",
+        "quality",
+        "grn"
+      ],
+      "raci": {
+        "responsible": [
+          "role_procurement_specialist"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 12.5,
+        "automation_rate": 0.8,
+        "error_rate": 0.02,
+        "sla_hours": 12.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_007_invoice_verification_matching",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_procurement_specialist"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_accounts_payable_clerk"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_007_invoice_verification_matching": {
+      "id": "s2p_007_invoice_verification_matching",
+      "type": "process_step",
+      "name": "Invoice 3-Way Matching & Exception Handling",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "invoicing",
+        "ap",
+        "matching",
+        "finance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 22.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.04,
+        "sla_hours": 24.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_eprocurement_portal"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "s2p_008_payment_settlement_disbursement",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "s2p_006_goods_services_receipt",
+          "weight": 1.0,
+          "probability": 0.15
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 0.9
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_procurement_specialist"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "s2p_008_payment_settlement_disbursement": {
+      "id": "s2p_008_payment_settlement_disbursement",
+      "type": "process_step",
+      "name": "Payment Settlement & Disbursement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "payment",
+        "treasury",
+        "disbursement",
+        "banking"
+      ],
+      "raci": {
+        "responsible": [
+          "role_accounts_payable_clerk"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 8.5,
+        "automation_rate": 0.95,
+        "error_rate": 0.005,
+        "sla_hours": 8.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 0.9
+        },
+        {
+          "relation": "governed_by",
+          "target": "sod_spending_limits_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_accounts_payable_clerk"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "sod_spending_limits_policy": {
+      "id": "sod_spending_limits_policy",
+      "type": "control_policy",
+      "name": "Segregation of Duties & Financial Authority Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "governance",
+        "sod",
+        "compliance"
+      ],
+      "raci": {
+        "responsible": [
+          "role_finance_controller"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system"
+      ],
+      "compensating_control": "Policy configuration changes require dual authorization in GRC tool.",
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_finance_controller"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_category_manager"
+        ],
+        "informed": [
+          "role_procurement_specialist",
+          "role_accounts_payable_clerk"
+        ]
+      }
+    },
+    "sox_financial_reporting_controls_policy": {
+      "id": "sox_financial_reporting_controls_policy",
+      "type": "control_policy",
+      "name": "SOX 404 Financial Reporting Internal Controls & Materiality Thresholds Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "R2R"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "sox",
+        "compliance",
+        "internal_controls",
+        "financial_reporting",
+        "r2r"
+      ],
+      "raci": {
+        "responsible": [
+          "role_general_ledger_accountant"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_general_ledger_accountant"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_consolidation_specialist",
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 50000.0
+      },
+      "asset_dependencies": [
+        "asset_erp_system",
+        "asset_financial_consolidation_system"
+      ],
+      "source_layer": "core"
+    },
+    "strategic_sourcing_stream": {
+      "id": "strategic_sourcing_stream",
+      "type": "value_stream",
+      "name": "Strategic Sourcing & Contracting Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "S2P"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "strategic_sourcing"
+      ],
+      "raci": {
+        "responsible": [
+          "role_category_manager"
+        ],
+        "accountable": [
+          "role_category_manager"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 228.0,
+        "baseline_cost_per_unit": 715.0,
+        "automation_rate": 0.55,
+        "error_rate": 0.035,
+        "sla_hours": 312.0
+      },
+      "asset_dependencies": [
+        "asset_eprocurement_portal",
+        "asset_erp_system"
+      ],
+      "compensating_control": "Strategic sourcing stream performance is reviewed quarterly by the Procurement Steering Committee.",
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "procure_to_pay_stream",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "core",
+      "daci": {
+        "driver": [
+          "role_category_manager"
+        ],
+        "approver": [
+          "role_category_manager"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_supplier"
+        ]
+      }
+    },
+    "basel_credit_risk_underwriting_policy": {
+      "id": "basel_credit_risk_underwriting_policy",
+      "type": "control_policy",
+      "name": "Basel III Credit Risk Underwriting, Concentration & CECL Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "basel_iii",
+        "credit_risk",
+        "cecl",
+        "dscr",
+        "ltv",
+        "lending"
+      ],
+      "raci": {
+        "responsible": [
+          "role_credit_underwriter",
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_chief_credit_officer"
+        ],
+        "consulted": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_credit_underwriter"
+        ],
+        "approver": [
+          "role_chief_credit_officer"
+        ],
+        "contributor": [
+          "role_finance_controller"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 5000000.0
+      },
+      "asset_dependencies": [
+        "asset_loan_origination_system",
+        "asset_core_banking_platform"
+      ],
+      "graph_relations": [],
+      "source_layer": "financial_services"
+    },
+    "bsa_aml_kyc_compliance_policy": {
+      "id": "bsa_aml_kyc_compliance_policy",
+      "type": "control_policy",
+      "name": "BSA/AML, USA PATRIOT Act CIP & OFAC Sanctions Governance Policy",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A",
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "policy",
+        "bsa",
+        "aml",
+        "kyc",
+        "ofac",
+        "fincen",
+        "banking"
+      ],
+      "raci": {
+        "responsible": [
+          "role_kyc_aml_analyst",
+          "role_relationship_manager"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_chief_credit_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_kyc_aml_analyst"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_chief_credit_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 0.0,
+        "baseline_cost_per_unit": 0.0,
+        "automation_rate": 1.0,
+        "error_rate": 0.0,
+        "sla_hours": 0.0,
+        "approval_threshold_usd": 250000.0
+      },
+      "asset_dependencies": [
+        "asset_aml_kyc_screening_engine",
+        "asset_core_banking_platform"
+      ],
+      "graph_relations": [],
+      "source_layer": "financial_services"
+    },
+    "data_credit_facility_agreement": {
+      "id": "data_credit_facility_agreement",
+      "type": "data_entity",
+      "name": "Executed Commercial Credit Agreement & Perfected Lien Package",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "credit_agreement",
+        "promissory_note",
+        "ucc",
+        "l2s",
+        "banking"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_loan_origination_system",
+        "owner": "role_chief_credit_officer"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "l2s_004_loan_booking_funding_disbursement",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "data_kyc_cdd_dossier": {
+      "id": "data_kyc_cdd_dossier",
+      "type": "data_entity",
+      "name": "Verified KYC/CDD & Beneficial Ownership Compliance Dossier",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "data",
+        "kyc",
+        "cdd",
+        "ubo",
+        "c2a",
+        "banking"
+      ],
+      "data_entity_details": {
+        "system_of_record": "asset_aml_kyc_screening_engine",
+        "owner": "role_bsa_compliance_officer"
+      },
+      "graph_relations": [
+        {
+          "relation": "triggers",
+          "target": "c2a_005_account_provisioning_core_activation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_kyc_onboarding_time_to_yes": {
+      "id": "kpi_kyc_onboarding_time_to_yes",
+      "type": "kpi_metric",
+      "name": "KYC Client Onboarding Time-to-Yes",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "c2a",
+        "kyc",
+        "onboarding",
+        "cycle_time",
+        "banking"
+      ],
+      "kpi_metric_details": {
+        "formula": "Sum(Timestamp_Core_Account_Activated - Timestamp_Application_Intake) / Total_Onboarded_Clients",
+        "target": "<= 36.0 Hours",
+        "owner": "role_bsa_compliance_officer",
+        "unit": "Hours"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "c2a_004_enhanced_due_diligence_compliance",
+          "weight": 1.0
+        },
+        {
+          "relation": "impacted_by",
+          "target": "c2a_005_account_provisioning_core_activation",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_net_interest_margin": {
+      "id": "kpi_net_interest_margin",
+      "type": "kpi_metric",
+      "name": "Net Interest Margin (NIM)",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "l2s",
+        "nim",
+        "profitability",
+        "treasury",
+        "banking"
+      ],
+      "kpi_metric_details": {
+        "formula": "((Interest Income on Loans & Securities - Interest Expense on Deposits & Borrowings) / Average Earning Assets) * 100",
+        "target": ">= 3.40%",
+        "owner": "role_treasury_operations_officer",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "l2s_004_loan_booking_funding_disbursement",
+          "weight": 1.0
+        },
+        {
+          "relation": "impacted_by",
+          "target": "l2s_005_repayment_servicing_covenant_monitoring",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "kpi_non_performing_loan_ratio": {
+      "id": "kpi_non_performing_loan_ratio",
+      "type": "kpi_metric",
+      "name": "Non-Performing Loan (NPL) Ratio",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2"
+      ],
+      "tags": [
+        "kpi",
+        "l2s",
+        "npl",
+        "credit_risk",
+        "delinquency",
+        "banking"
+      ],
+      "kpi_metric_details": {
+        "formula": "(Total Non-Accrual & >=90-Day Past-Due Loans / Total Gross Loan Portfolio) * 100",
+        "target": "<= 1.25%",
+        "owner": "role_chief_credit_officer",
+        "unit": "Percentage"
+      },
+      "graph_relations": [
+        {
+          "relation": "impacted_by",
+          "target": "l2s_002_credit_underwriting_risk_rating",
+          "weight": 1.0
+        },
+        {
+          "relation": "impacted_by",
+          "target": "l2s_006_delinquency_workout_ledger_settlement",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services",
+      "daci": {
+        "driver": [],
+        "approver": [],
+        "contributor": [],
+        "informed": []
+      }
+    },
+    "c2a_001_prospect_application_intake": {
+      "id": "c2a_001_prospect_application_intake",
+      "type": "process_step",
+      "name": "Prospect Application & Entity Intake",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "onboarding",
+        "intake",
+        "fatca",
+        "crs",
+        "banking",
+        "c2a"
+      ],
+      "apqc_pcf_id": "3.5.1.1",
+      "raci": {
+        "responsible": [
+          "role_relationship_manager"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_kyc_aml_analyst"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_relationship_manager"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_kyc_aml_analyst"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 2.0,
+        "baseline_cost_per_unit": 85.0,
+        "automation_rate": 0.75,
+        "error_rate": 0.03,
+        "sla_hours": 8.0,
+        "volume_per_period": 420,
+        "capacity_fte": 6.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_aml_kyc_screening_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "c2a_002_kyc_cip_identity_verification",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "c2a_002_kyc_cip_identity_verification": {
+      "id": "c2a_002_kyc_cip_identity_verification",
+      "type": "process_step",
+      "name": "KYC/CIP Identity & UBO Verification",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "kyc",
+        "cip",
+        "ubo",
+        "identity_verification",
+        "fincen",
+        "c2a"
+      ],
+      "apqc_pcf_id": "3.5.1.2",
+      "raci": {
+        "responsible": [
+          "role_kyc_aml_analyst"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_relationship_manager",
+          "role_customer"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_kyc_aml_analyst"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_relationship_manager",
+          "role_customer"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 160.0,
+        "automation_rate": 0.65,
+        "error_rate": 0.04,
+        "sla_hours": 24.0,
+        "volume_per_period": 420,
+        "capacity_fte": 8.0
+      },
+      "asset_dependencies": [
+        "asset_aml_kyc_screening_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "c2a_003_aml_sanctions_pep_screening",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "c2a_003_aml_sanctions_pep_screening": {
+      "id": "c2a_003_aml_sanctions_pep_screening",
+      "type": "process_step",
+      "name": "AML Sanctions, PEP & Adverse Media Screening",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "aml",
+        "ofac",
+        "sanctions",
+        "pep",
+        "adverse_media",
+        "c2a"
+      ],
+      "apqc_pcf_id": "3.5.1.3",
+      "raci": {
+        "responsible": [
+          "role_kyc_aml_analyst"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_relationship_manager"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_kyc_aml_analyst"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_internal_auditor"
+        ],
+        "informed": [
+          "role_relationship_manager"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 120.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.05,
+        "sla_hours": 12.0,
+        "volume_per_period": 420,
+        "capacity_fte": 7.0
+      },
+      "asset_dependencies": [
+        "asset_aml_kyc_screening_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "c2a_004_enhanced_due_diligence_compliance",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "c2a_004_enhanced_due_diligence_compliance": {
+      "id": "c2a_004_enhanced_due_diligence_compliance",
+      "type": "process_step",
+      "name": "Enhanced Due Diligence (EDD) & BSA Approval",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "edd",
+        "bsa",
+        "source_of_wealth",
+        "high_risk",
+        "compliance",
+        "c2a"
+      ],
+      "apqc_pcf_id": "3.5.1.4",
+      "raci": {
+        "responsible": [
+          "role_kyc_aml_analyst"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_relationship_manager"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_kyc_aml_analyst"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_relationship_manager"
+        ],
+        "informed": [
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 16.0,
+        "baseline_cost_per_unit": 450.0,
+        "automation_rate": 0.35,
+        "error_rate": 0.03,
+        "sla_hours": 48.0,
+        "approval_threshold_usd": 250000.0,
+        "volume_per_period": 120,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_aml_kyc_screening_engine"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "c2a_005_account_provisioning_core_activation",
+          "weight": 1.0
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_kyc_cdd_dossier",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "c2a_002_kyc_cip_identity_verification",
+          "probability": 0.08
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "c2a_005_account_provisioning_core_activation": {
+      "id": "c2a_005_account_provisioning_core_activation",
+      "type": "process_step",
+      "name": "Core Account Provisioning & Treasury Activation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "account_opening",
+        "core_banking",
+        "dda",
+        "treasury",
+        "activation",
+        "c2a"
+      ],
+      "apqc_pcf_id": "3.5.1.5",
+      "raci": {
+        "responsible": [
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_treasury_operations_officer"
+        ],
+        "consulted": [
+          "role_kyc_aml_analyst"
+        ],
+        "informed": [
+          "role_relationship_manager",
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_loan_servicing_specialist"
+        ],
+        "approver": [
+          "role_treasury_operations_officer"
+        ],
+        "contributor": [
+          "role_kyc_aml_analyst"
+        ],
+        "informed": [
+          "role_relationship_manager",
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 3.0,
+        "baseline_cost_per_unit": 95.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.02,
+        "sla_hours": 12.0,
+        "volume_per_period": 400,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_core_banking_platform",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_001_loan_application_credit_packaging",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_001_loan_application_credit_packaging": {
+      "id": "l2s_001_loan_application_credit_packaging",
+      "type": "process_step",
+      "name": "Loan Application & Credit Packaging",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "loan_origination",
+        "credit_memo",
+        "spreading",
+        "lending",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.1.1",
+      "raci": {
+        "responsible": [
+          "role_relationship_manager"
+        ],
+        "accountable": [
+          "role_credit_underwriter"
+        ],
+        "consulted": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_chief_credit_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_relationship_manager"
+        ],
+        "approver": [
+          "role_credit_underwriter"
+        ],
+        "contributor": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_chief_credit_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 12.0,
+        "baseline_cost_per_unit": 380.0,
+        "automation_rate": 0.55,
+        "error_rate": 0.04,
+        "sla_hours": 48.0,
+        "approval_threshold_usd": 250000.0,
+        "volume_per_period": 180,
+        "capacity_fte": 6.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_loan_origination_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_002_credit_underwriting_risk_rating",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_002_credit_underwriting_risk_rating": {
+      "id": "l2s_002_credit_underwriting_risk_rating",
+      "type": "process_step",
+      "name": "Credit Underwriting & PD/LGD Risk Rating",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "underwriting",
+        "pd_lgd",
+        "dscr",
+        "credit_committee",
+        "basel",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.1.2",
+      "raci": {
+        "responsible": [
+          "role_credit_underwriter"
+        ],
+        "accountable": [
+          "role_chief_credit_officer"
+        ],
+        "consulted": [
+          "role_relationship_manager",
+          "role_credit_manager"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_credit_underwriter"
+        ],
+        "approver": [
+          "role_chief_credit_officer"
+        ],
+        "contributor": [
+          "role_relationship_manager",
+          "role_credit_manager"
+        ],
+        "informed": [
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 24.0,
+        "baseline_cost_per_unit": 820.0,
+        "automation_rate": 0.45,
+        "error_rate": 0.03,
+        "sla_hours": 72.0,
+        "approval_threshold_usd": 5000000.0,
+        "volume_per_period": 180,
+        "capacity_fte": 8.0
+      },
+      "asset_dependencies": [
+        "asset_loan_origination_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_003_collateral_valuation_lien_perfection",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "exception_to",
+          "target": "l2s_001_loan_application_credit_packaging",
+          "probability": 0.1
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_003_collateral_valuation_lien_perfection": {
+      "id": "l2s_003_collateral_valuation_lien_perfection",
+      "type": "process_step",
+      "name": "Collateral Valuation & Lien Perfection",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "collateral",
+        "appraisal",
+        "ltv",
+        "ucc",
+        "closing",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.1.3",
+      "raci": {
+        "responsible": [
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_chief_credit_officer"
+        ],
+        "consulted": [
+          "role_credit_underwriter",
+          "role_customer"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_loan_servicing_specialist"
+        ],
+        "approver": [
+          "role_chief_credit_officer"
+        ],
+        "contributor": [
+          "role_credit_underwriter",
+          "role_customer"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 18.0,
+        "baseline_cost_per_unit": 540.0,
+        "automation_rate": 0.5,
+        "error_rate": 0.03,
+        "sla_hours": 48.0,
+        "volume_per_period": 165,
+        "capacity_fte": 6.0
+      },
+      "asset_dependencies": [
+        "asset_loan_origination_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_004_loan_booking_funding_disbursement",
+          "weight": 1.0
+        },
+        {
+          "relation": "produces_artifact",
+          "target": "data_credit_facility_agreement",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_004_loan_booking_funding_disbursement": {
+      "id": "l2s_004_loan_booking_funding_disbursement",
+      "type": "process_step",
+      "name": "Loan Booking & Principal Funding Disbursement",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "loan_booking",
+        "funding",
+        "fedwire",
+        "disbursement",
+        "core_banking",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.1.4",
+      "raci": {
+        "responsible": [
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_treasury_operations_officer"
+        ],
+        "consulted": [
+          "role_credit_underwriter"
+        ],
+        "informed": [
+          "role_relationship_manager",
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_loan_servicing_specialist"
+        ],
+        "approver": [
+          "role_treasury_operations_officer"
+        ],
+        "contributor": [
+          "role_credit_underwriter"
+        ],
+        "informed": [
+          "role_relationship_manager",
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 4.0,
+        "baseline_cost_per_unit": 150.0,
+        "automation_rate": 0.85,
+        "error_rate": 0.01,
+        "sla_hours": 8.0,
+        "approval_threshold_usd": 2500000.0,
+        "volume_per_period": 165,
+        "capacity_fte": 4.0
+      },
+      "asset_dependencies": [
+        "asset_core_banking_platform",
+        "asset_payment_gateway"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_005_repayment_servicing_covenant_monitoring",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_005_repayment_servicing_covenant_monitoring": {
+      "id": "l2s_005_repayment_servicing_covenant_monitoring",
+      "type": "process_step",
+      "name": "Repayment Servicing & Covenant Monitoring",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "servicing",
+        "covenants",
+        "cecl",
+        "interest_accrual",
+        "payments",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.2.1",
+      "raci": {
+        "responsible": [
+          "role_loan_servicing_specialist",
+          "role_credit_underwriter"
+        ],
+        "accountable": [
+          "role_chief_credit_officer"
+        ],
+        "consulted": [
+          "role_relationship_manager"
+        ],
+        "informed": [
+          "role_finance_controller",
+          "role_customer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_loan_servicing_specialist"
+        ],
+        "approver": [
+          "role_chief_credit_officer"
+        ],
+        "contributor": [
+          "role_credit_underwriter",
+          "role_relationship_manager"
+        ],
+        "informed": [
+          "role_finance_controller",
+          "role_customer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 6.0,
+        "baseline_cost_per_unit": 190.0,
+        "automation_rate": 0.8,
+        "error_rate": 0.02,
+        "sla_hours": 24.0,
+        "volume_per_period": 1200,
+        "capacity_fte": 7.0
+      },
+      "asset_dependencies": [
+        "asset_core_banking_platform",
+        "asset_loan_origination_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "l2s_006_delinquency_workout_ledger_settlement",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "l2s_006_delinquency_workout_ledger_settlement": {
+      "id": "l2s_006_delinquency_workout_ledger_settlement",
+      "type": "process_step",
+      "name": "Delinquency Workout & Subledger Reconciliation",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "workout",
+        "delinquency",
+        "subledger",
+        "reconciliation",
+        "r2r",
+        "l2s"
+      ],
+      "apqc_pcf_id": "5.2.2.2",
+      "raci": {
+        "responsible": [
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_finance_controller"
+        ],
+        "consulted": [
+          "role_chief_credit_officer",
+          "role_treasury_operations_officer"
+        ],
+        "informed": [
+          "role_general_ledger_accountant",
+          "role_internal_auditor"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_loan_servicing_specialist"
+        ],
+        "approver": [
+          "role_finance_controller"
+        ],
+        "contributor": [
+          "role_chief_credit_officer",
+          "role_treasury_operations_officer"
+        ],
+        "informed": [
+          "role_general_ledger_accountant",
+          "role_internal_auditor"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 10.0,
+        "baseline_cost_per_unit": 310.0,
+        "automation_rate": 0.7,
+        "error_rate": 0.02,
+        "sla_hours": 24.0,
+        "volume_per_period": 250,
+        "capacity_fte": 5.0
+      },
+      "asset_dependencies": [
+        "asset_core_banking_platform",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "feeds_into",
+          "target": "r2r_001_journal_entry_recording",
+          "weight": 1.0
+        },
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "client_onboarding_kyc_stream": {
+      "id": "client_onboarding_kyc_stream",
+      "type": "value_stream",
+      "name": "Institutional Client Onboarding & KYC/AML Compliance Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "C2A"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "onboarding",
+        "kyc",
+        "aml",
+        "banking",
+        "c2a"
+      ],
+      "raci": {
+        "responsible": [
+          "role_relationship_manager",
+          "role_kyc_aml_analyst"
+        ],
+        "accountable": [
+          "role_bsa_compliance_officer"
+        ],
+        "consulted": [
+          "role_customer"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_kyc_aml_analyst"
+        ],
+        "approver": [
+          "role_bsa_compliance_officer"
+        ],
+        "contributor": [
+          "role_relationship_manager"
+        ],
+        "informed": [
+          "role_treasury_operations_officer"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 31.0,
+        "baseline_cost_per_unit": 910.0,
+        "automation_rate": 0.68,
+        "error_rate": 0.03,
+        "sla_hours": 72.0
+      },
+      "asset_dependencies": [
+        "asset_crm_system",
+        "asset_aml_kyc_screening_engine",
+        "asset_core_banking_platform"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "bsa_aml_kyc_compliance_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "commercial_lending_servicing_stream",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    },
+    "commercial_lending_servicing_stream": {
+      "id": "commercial_lending_servicing_stream",
+      "type": "value_stream",
+      "name": "Commercial Loan Origination, Underwriting & Servicing Value Stream",
+      "version": "1.0.0",
+      "lifecycles": [
+        "L2S"
+      ],
+      "lod_support": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "value_stream",
+        "lending",
+        "underwriting",
+        "servicing",
+        "credit_risk",
+        "l2s"
+      ],
+      "raci": {
+        "responsible": [
+          "role_credit_underwriter",
+          "role_loan_servicing_specialist"
+        ],
+        "accountable": [
+          "role_chief_credit_officer"
+        ],
+        "consulted": [
+          "role_relationship_manager",
+          "role_treasury_operations_officer"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "daci": {
+        "driver": [
+          "role_credit_underwriter"
+        ],
+        "approver": [
+          "role_chief_credit_officer"
+        ],
+        "contributor": [
+          "role_loan_servicing_specialist",
+          "role_treasury_operations_officer"
+        ],
+        "informed": [
+          "role_finance_controller"
+        ]
+      },
+      "attributes": {
+        "baseline_cycle_time_hours": 74.0,
+        "baseline_cost_per_unit": 2390.0,
+        "automation_rate": 0.64,
+        "error_rate": 0.03,
+        "sla_hours": 120.0
+      },
+      "asset_dependencies": [
+        "asset_loan_origination_system",
+        "asset_core_banking_platform",
+        "asset_payment_gateway",
+        "asset_erp_system"
+      ],
+      "graph_relations": [
+        {
+          "relation": "governed_by",
+          "target": "basel_credit_risk_underwriting_policy",
+          "weight": 1.0
+        },
+        {
+          "relation": "feeds_into",
+          "target": "financial_close_reporting_stream",
+          "weight": 1.0
+        }
+      ],
+      "source_layer": "financial_services"
+    }
+  },
+  "assets": {
+    "asset_crm_system": {
+      "id": "asset_crm_system",
+      "name": "Enterprise Cloud CRM & CPQ Platform (Salesforce)",
+      "asset_type": "it_application",
+      "version": "2.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 1200,
+      "source_layer": "core"
+    },
+    "asset_eprocurement_portal": {
+      "id": "asset_eprocurement_portal",
+      "name": "Cloud e-Procurement & Supplier Network Portal",
+      "asset_type": "it_application",
+      "version": "1.8.4",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 800,
+      "source_layer": "core"
+    },
+    "asset_erp_system": {
+      "id": "asset_erp_system",
+      "name": "Enterprise Core ERP (SAP S/4HANA)",
+      "asset_type": "it_application",
+      "version": "2.1.0",
+      "parent_asset_id": null,
+      "status": "operational",
+      "sla_uptime_percent": 99.95,
+      "capacity_max_tps": 2500,
+      "source_layer": "core"
+    },
+    "asset_financial_consolidation_system": {
+      "id": "asset_financial_consolidation_system",
+      "name": "Enterprise Financial Consolidation & Reporting System (SAP Group Reporting / OneStream)",
+      "asset_type": "it_application",
+      "version": "3.4.0",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.9,
+      "capacity_max_tps": 500,
+      "source_layer": "core"
+    },
+    "asset_hcm_platform": {
+      "id": "asset_hcm_platform",
+      "asset_type": "it_application",
+      "name": "Human Capital Management (HCM) Platform",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "CloudHR",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.95,
+      "recovery_time_objective_hours": 4.0,
+      "source_layer": "core"
+    },
+    "asset_payment_gateway": {
+      "id": "asset_payment_gateway",
+      "name": "Corporate Banking Payment Gateway & ISO 20022 Router",
+      "asset_type": "api_gateway",
+      "version": "3.0.1",
+      "parent_asset_id": "asset_erp_system",
+      "status": "operational",
+      "sla_uptime_percent": 99.99,
+      "capacity_max_tps": 1500,
+      "source_layer": "core"
+    },
+    "asset_payroll_engine": {
+      "id": "asset_payroll_engine",
+      "asset_type": "it_application",
+      "name": "Enterprise Payroll & Tax Engine",
+      "version": "1.0.0",
+      "status": "operational",
+      "vendor": "GlobalPay",
+      "hosting": "SaaS",
+      "sla_uptime_percent": 99.99,
+      "recovery_time_objective_hours": 2.0,
+      "source_layer": "core"
+    },
+    "asset_aml_kyc_screening_engine": {
+      "id": "asset_aml_kyc_screening_engine",
+      "type": "asset",
+      "name": "AML/KYC Client Lifecycle & Sanctions Screening Engine",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "aml",
+        "kyc",
+        "sanctions",
+        "ofac",
+        "pep",
+        "actimize",
+        "fenergo"
+      ],
+      "attributes": {
+        "vendor": "Nice Actimize / Fenergo CLM / LexisNexis Bridger",
+        "sla_uptime_percent": 99.95,
+        "capacity_max_tps": 1200.0,
+        "integration_endpoints": [
+          "asset_crm_system",
+          "asset_core_banking_platform"
+        ]
+      },
+      "source_layer": "financial_services"
+    },
+    "asset_core_banking_platform": {
+      "id": "asset_core_banking_platform",
+      "type": "asset",
+      "name": "Core Banking & Subledger Platform",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "core_banking",
+        "deposits",
+        "loan_subledger",
+        "temenos",
+        "fis",
+        "payments"
+      ],
+      "attributes": {
+        "vendor": "Temenos Transact / FIS Modern Banking Platform",
+        "sla_uptime_percent": 99.995,
+        "capacity_max_tps": 2500.0,
+        "integration_endpoints": [
+          "asset_aml_kyc_screening_engine",
+          "asset_loan_origination_system",
+          "asset_payment_gateway",
+          "asset_erp_system"
+        ]
+      },
+      "source_layer": "financial_services"
+    },
+    "asset_loan_origination_system": {
+      "id": "asset_loan_origination_system",
+      "type": "asset",
+      "name": "Commercial Loan Origination & Risk Rating System (LOS)",
+      "version": "1.0.0",
+      "asset_type": "it_application",
+      "status": "operational",
+      "lod_support": [
+        "tier_2",
+        "tier_3"
+      ],
+      "tags": [
+        "los",
+        "underwriting",
+        "credit_risk",
+        "ncino",
+        "creditlens",
+        "lending"
+      ],
+      "attributes": {
+        "vendor": "nCino Bank Operating System / Moody's CreditLens",
+        "sla_uptime_percent": 99.9,
+        "capacity_max_tps": 450.0,
+        "integration_endpoints": [
+          "asset_crm_system",
+          "asset_core_banking_platform",
+          "asset_aml_kyc_screening_engine"
+        ]
+      },
+      "source_layer": "financial_services"
+    }
+  },
+  "roles": {
+    "role_accounts_payable_clerk": {
+      "id": "role_accounts_payable_clerk",
+      "type": "role",
+      "name": "Accounts Payable Clerk",
+      "department": "Accounts Payable / Global Business Services",
+      "approval_limit_usd": 1000.0,
+      "source_layer": "core"
+    },
+    "role_billing_specialist": {
+      "id": "role_billing_specialist",
+      "type": "role",
+      "name": "Billing & Accounts Receivable Specialist",
+      "department": "Finance & Revenue Accounting",
+      "approval_limit_usd": 5000.0,
+      "source_layer": "core"
+    },
+    "role_category_manager": {
+      "id": "role_category_manager",
+      "type": "role",
+      "name": "Category Manager",
+      "department": "Global Procurement",
+      "approval_limit_usd": 500000.0,
+      "source_layer": "core"
+    },
+    "role_compensation_analyst": {
+      "id": "role_compensation_analyst",
+      "type": "role",
+      "name": "Compensation Analyst",
+      "department": "Human Resources",
+      "approval_limit_usd": 100000.0,
+      "source_layer": "core"
+    },
+    "role_consolidation_specialist": {
+      "id": "role_consolidation_specialist",
+      "type": "role",
+      "name": "Financial Consolidation Specialist",
+      "department": "Corporate Financial Reporting & Consolidation",
+      "approval_limit_usd": 5000.0,
+      "source_layer": "core"
+    },
+    "role_credit_manager": {
+      "id": "role_credit_manager",
+      "type": "role",
+      "name": "Credit & Risk Manager",
+      "department": "Treasury & Commercial Risk",
+      "approval_limit_usd": 250000.0,
+      "source_layer": "core"
+    },
+    "role_customer": {
+      "id": "role_customer",
+      "type": "role",
+      "name": "Enterprise Customer",
+      "department": "External Client Procurement & AP",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_finance_controller": {
+      "id": "role_finance_controller",
+      "type": "role",
+      "name": "Finance Controller",
+      "department": "Corporate Finance & Treasury",
+      "approval_limit_usd": 999999999.0,
+      "source_layer": "core"
+    },
+    "role_general_ledger_accountant": {
+      "id": "role_general_ledger_accountant",
+      "type": "role",
+      "name": "General Ledger Accountant",
+      "department": "Corporate Controller & General Accounting",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_hiring_manager": {
+      "id": "role_hiring_manager",
+      "type": "role",
+      "name": "Hiring Manager",
+      "department": "Cross-functional",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_hr_business_partner": {
+      "id": "role_hr_business_partner",
+      "type": "role",
+      "name": "HR Business Partner",
+      "department": "Human Resources",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_internal_auditor": {
+      "id": "role_internal_auditor",
+      "type": "role",
+      "name": "Internal Auditor",
+      "department": "Internal Audit & Corporate Governance",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_payroll_specialist": {
+      "id": "role_payroll_specialist",
+      "type": "role",
+      "name": "Payroll Specialist",
+      "department": "Finance / Payroll",
+      "approval_limit_usd": 10000.0,
+      "source_layer": "core"
+    },
+    "role_procurement_specialist": {
+      "id": "role_procurement_specialist",
+      "type": "role",
+      "name": "Procurement Specialist",
+      "department": "Operational Procurement",
+      "approval_limit_usd": 50000.0,
+      "source_layer": "core"
+    },
+    "role_sales_ops_specialist": {
+      "id": "role_sales_ops_specialist",
+      "type": "role",
+      "name": "Sales Operations Specialist",
+      "department": "Commercial Operations & Revenue Ops",
+      "approval_limit_usd": 250000.0,
+      "source_layer": "core"
+    },
+    "role_supplier": {
+      "id": "role_supplier",
+      "type": "role",
+      "name": "Supplier / Vendor",
+      "department": "External Enterprise Partner",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_talent_acquisition_specialist": {
+      "id": "role_talent_acquisition_specialist",
+      "type": "role",
+      "name": "Talent Acquisition Specialist",
+      "department": "Human Resources",
+      "approval_limit_usd": 0.0,
+      "source_layer": "core"
+    },
+    "role_bsa_compliance_officer": {
+      "id": "role_bsa_compliance_officer",
+      "type": "role",
+      "name": "BSA / AML Chief Compliance Officer",
+      "department": "Enterprise Risk & Regulatory Compliance",
+      "reports_to": "role_finance_controller",
+      "approval_limit_usd": 1000000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "bsa",
+        "aml",
+        "ofac",
+        "edd",
+        "compliance_officer",
+        "banking"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 235000,
+        "approval_limit_usd": 1000000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_chief_credit_officer": {
+      "id": "role_chief_credit_officer",
+      "type": "role",
+      "name": "Chief Credit Officer (CCO)",
+      "department": "Enterprise Credit Risk Management",
+      "reports_to": "role_finance_controller",
+      "approval_limit_usd": 25000000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "cco",
+        "credit_committee",
+        "risk_governance",
+        "workout",
+        "executive"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 295000,
+        "approval_limit_usd": 25000000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_credit_underwriter": {
+      "id": "role_credit_underwriter",
+      "type": "role",
+      "name": "Commercial Credit Underwriter",
+      "department": "Commercial Credit Risk Underwriting",
+      "reports_to": "role_chief_credit_officer",
+      "approval_limit_usd": 500000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "underwriting",
+        "credit_risk",
+        "pd_lgd",
+        "covenants",
+        "lending"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 145000,
+        "approval_limit_usd": 500000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_kyc_aml_analyst": {
+      "id": "role_kyc_aml_analyst",
+      "type": "role",
+      "name": "KYC & AML Compliance Analyst",
+      "department": "Financial Crime Compliance Operations",
+      "reports_to": "role_bsa_compliance_officer",
+      "approval_limit_usd": 50000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "kyc",
+        "aml",
+        "cip",
+        "ubo",
+        "sanctions",
+        "compliance"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 105000,
+        "approval_limit_usd": 50000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_loan_servicing_specialist": {
+      "id": "role_loan_servicing_specialist",
+      "type": "role",
+      "name": "Loan Closing & Servicing Specialist",
+      "department": "Commercial Loan Operations & Servicing",
+      "reports_to": "role_treasury_operations_officer",
+      "approval_limit_usd": 250000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "loan_servicing",
+        "collateral",
+        "lien",
+        "boarding",
+        "operations"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 95000,
+        "approval_limit_usd": 250000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_relationship_manager": {
+      "id": "role_relationship_manager",
+      "type": "role",
+      "name": "Commercial Relationship Manager",
+      "department": "Commercial & Institutional Banking",
+      "reports_to": "role_chief_credit_officer",
+      "approval_limit_usd": 100000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "front_office",
+        "relationship_management",
+        "origination",
+        "banking"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 185000,
+        "approval_limit_usd": 100000.0
+      },
+      "source_layer": "financial_services"
+    },
+    "role_treasury_operations_officer": {
+      "id": "role_treasury_operations_officer",
+      "type": "role",
+      "name": "Treasury & Settlement Operations Officer",
+      "department": "Treasury & Banking Operations",
+      "reports_to": "role_finance_controller",
+      "approval_limit_usd": 5000000.0,
+      "version": "1.0.0",
+      "lod_support": [
+        "tier_2"
+      ],
+      "tags": [
+        "treasury",
+        "settlement",
+        "fedwire",
+        "ach",
+        "core_operations"
+      ],
+      "attributes": {
+        "fte_cost_annual_usd": 165000,
+        "approval_limit_usd": 5000000.0
+      },
+      "source_layer": "financial_services"
+    }
+  },
+  "lifecycles": {
+    "H2R": {
+      "lifecycle_id": "H2R",
+      "name": "Hire to Retire Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end human capital operations from job requisition and candidate screening through onboarding, payroll integration, performance review, and final offboarding.",
+      "milestones": [
+        {
+          "step_id": "h2r_001_job_requisition_posting",
+          "name": "Job Requisition Definition & Posting",
+          "order": 1
+        },
+        {
+          "step_id": "h2r_002_candidate_screening_interview",
+          "name": "Candidate Screening & Interview Execution",
+          "order": 2
+        },
+        {
+          "step_id": "h2r_003_offer_letter_onboarding",
+          "name": "Offer Letter Generation & Employee Onboarding",
+          "order": 3
+        },
+        {
+          "step_id": "h2r_004_payroll_benefits_enrollment",
+          "name": "Payroll & Benefits Enrollment Processing",
+          "order": 4
+        },
+        {
+          "step_id": "h2r_005_performance_compensation_review",
+          "name": "Performance & Compensation Review",
+          "order": 5
+        },
+        {
+          "step_id": "h2r_006_separation_offboarding_settlement",
+          "name": "Separation, Offboarding & Final Settlement",
+          "order": 6
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "talent_acquisition",
+          "name": "Talent Acquisition & Onboarding Phase",
+          "milestones": [
+            "h2r_001_job_requisition_posting",
+            "h2r_002_candidate_screening_interview",
+            "h2r_003_offer_letter_onboarding"
+          ]
+        },
+        {
+          "phase_id": "talent_management_payroll",
+          "name": "Payroll, Performance & Offboarding Phase",
+          "milestones": [
+            "h2r_004_payroll_benefits_enrollment",
+            "h2r_005_performance_compensation_review",
+            "h2r_006_separation_offboarding_settlement"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "time_to_fill_days",
+        "cost_per_hire",
+        "first_year_attrition_rate",
+        "payroll_accuracy_percentage"
+      ],
+      "source_layer": "core"
+    },
+    "R2R": {
+      "lifecycle_id": "R2R",
+      "name": "Record to Report Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end financial accounting and reporting lifecycle from subledger transaction ingestion and intercompany eliminations to balance sheet account reconciliation, financial close orchestration, group consolidation, and regulatory/statutory disclosures.",
+      "milestones": [
+        {
+          "step_id": "r2r_001_journal_entry_recording",
+          "name": "General Ledger Journal Recording & Subledger Ingestion",
+          "order": 1
+        },
+        {
+          "step_id": "r2r_002_intercompany_reconciliation",
+          "name": "Intercompany Transaction Matching & Elimination",
+          "order": 2
+        },
+        {
+          "step_id": "r2r_003_balance_sheet_substantiation",
+          "name": "Balance Sheet Account Substantiation & Reconciliation",
+          "order": 3
+        },
+        {
+          "step_id": "r2r_004_financial_close_consolidation",
+          "name": "Financial Close Orchestration & Group Consolidation",
+          "order": 4
+        },
+        {
+          "step_id": "r2r_005_statutory_financial_reporting",
+          "name": "Statutory, Tax & Management Financial Reporting",
+          "order": 5
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "subledger_reconciliation",
+          "name": "Subledger Ingestion & Substantiation Phase",
+          "milestones": [
+            "r2r_001_journal_entry_recording",
+            "r2r_002_intercompany_reconciliation",
+            "r2r_003_balance_sheet_substantiation"
+          ]
+        },
+        {
+          "phase_id": "close_reporting",
+          "name": "Financial Close & Group Reporting Phase",
+          "milestones": [
+            "r2r_004_financial_close_consolidation",
+            "r2r_005_statutory_financial_reporting"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "days_to_close_financial_books",
+        "manual_journal_entry_ratio",
+        "intercompany_out_of_balance_amount",
+        "first_time_right_reconciliation_rate",
+        "sox_internal_control_deficiencies"
+      ],
+      "source_layer": "core"
+    },
+    "S2P": {
+      "lifecycle_id": "S2P",
+      "name": "Source to Pay Lifecycle",
+      "version": "1.0.0",
+      "description": "End-to-end procurement lifecycle from spend identification and vendor sourcing through contract execution, PO issuance, invoice processing, and financial settlement.",
+      "milestones": [
+        {
+          "step_id": "s2p_001_spend_analysis_need_id",
+          "name": "Spend Analysis & Need Identification",
+          "order": 1
+        },
+        {
+          "step_id": "s2p_002_supplier_discovery_qualification",
+          "name": "Supplier Discovery & Qualification",
+          "order": 2
+        },
+        {
+          "step_id": "s2p_003_sourcing_rfx_auction",
+          "name": "Strategic Sourcing & RFx Execution",
+          "order": 3
+        },
+        {
+          "step_id": "s2p_004_contracting_sla_negotiation",
+          "name": "Contracting & SLA Negotiation",
+          "order": 4
+        },
+        {
+          "step_id": "s2p_005_purchase_requisition_po",
+          "name": "Purchase Requisition & PO Issuance",
+          "order": 5
+        },
+        {
+          "step_id": "s2p_006_goods_services_receipt",
+          "name": "Goods & Services Receipt Verification",
+          "order": 6
+        },
+        {
+          "step_id": "s2p_007_invoice_verification_matching",
+          "name": "Invoice 3-Way Matching & Exception Handling",
+          "order": 7
+        },
+        {
+          "step_id": "s2p_008_payment_settlement_disbursement",
+          "name": "Payment Settlement & Disbursement",
+          "order": 8
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "sourcing",
+          "name": "Strategic Sourcing & Contracting Phase",
+          "milestones": [
+            "s2p_001_spend_analysis_need_id",
+            "s2p_002_supplier_discovery_qualification",
+            "s2p_003_sourcing_rfx_auction",
+            "s2p_004_contracting_sla_negotiation"
+          ]
+        },
+        {
+          "phase_id": "procure_to_pay",
+          "name": "Procure-to-Pay (P2P) Phase",
+          "milestones": [
+            "s2p_005_purchase_requisition_po",
+            "s2p_006_goods_services_receipt",
+            "s2p_007_invoice_verification_matching",
+            "s2p_008_payment_settlement_disbursement"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "s2p_cycle_time_days",
+        "po_automation_percentage",
+        "first_pass_match_rate",
+        "early_payment_discount_capture"
+      ],
+      "source_layer": "core"
+    },
+    "C2A": {
+      "$schema": "../../schema/lifecycle_manifest.schema.json",
+      "lifecycle_id": "C2A",
+      "name": "Client to Account",
+      "version": "1.0.0",
+      "description": "End-to-end banking client onboarding, Customer Identification Program (CIP), Beneficial Ownership (UBO), OFAC/PEP sanctions screening, Enhanced Due Diligence (EDD), and core account provisioning.",
+      "milestones": [
+        {
+          "order": 1,
+          "step_id": "c2a_001_prospect_application_intake",
+          "name": "Prospect Application & Entity Intake"
+        },
+        {
+          "order": 2,
+          "step_id": "c2a_002_kyc_cip_identity_verification",
+          "name": "KYC/CIP Identity & UBO Verification"
+        },
+        {
+          "order": 3,
+          "step_id": "c2a_003_aml_sanctions_pep_screening",
+          "name": "AML Sanctions, PEP & Adverse Media Screening"
+        },
+        {
+          "order": 4,
+          "step_id": "c2a_004_enhanced_due_diligence_compliance",
+          "name": "Enhanced Due Diligence (EDD) & BSA Approval"
+        },
+        {
+          "order": 5,
+          "step_id": "c2a_005_account_provisioning_core_activation",
+          "name": "Core Account Provisioning & Treasury Activation"
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "intake_verification",
+          "name": "Client Intake & Identity Verification Phase",
+          "milestones": [
+            "c2a_001_prospect_application_intake",
+            "c2a_002_kyc_cip_identity_verification"
+          ]
+        },
+        {
+          "phase_id": "fincrime_activation",
+          "name": "Financial Crime Due Diligence & Account Activation Phase",
+          "milestones": [
+            "c2a_003_aml_sanctions_pep_screening",
+            "c2a_004_enhanced_due_diligence_compliance",
+            "c2a_005_account_provisioning_core_activation"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "KYC Onboarding Time-to-Yes (Hours)",
+        "First-Time-Right KYC Documentation Rate",
+        "Sanctions Alert False-Positive Rate",
+        "EDD SLA Compliance Rate"
+      ],
+      "source_layer": "financial_services"
+    },
+    "L2S": {
+      "$schema": "../../schema/lifecycle_manifest.schema.json",
+      "lifecycle_id": "L2S",
+      "name": "Loan to Settlement",
+      "version": "1.0.0",
+      "description": "Commercial and retail loan origination, credit risk underwriting, collateral perfection, core facility funding, ongoing covenant servicing, and subledger-to-GL reconciliation.",
+      "milestones": [
+        {
+          "order": 1,
+          "step_id": "l2s_001_loan_application_credit_packaging",
+          "name": "Loan Application & Credit Packaging"
+        },
+        {
+          "order": 2,
+          "step_id": "l2s_002_credit_underwriting_risk_rating",
+          "name": "Credit Underwriting & PD/LGD Risk Rating"
+        },
+        {
+          "order": 3,
+          "step_id": "l2s_003_collateral_valuation_lien_perfection",
+          "name": "Collateral Valuation & Lien Perfection"
+        },
+        {
+          "order": 4,
+          "step_id": "l2s_004_loan_booking_funding_disbursement",
+          "name": "Loan Booking & Principal Funding Disbursement"
+        },
+        {
+          "order": 5,
+          "step_id": "l2s_005_repayment_servicing_covenant_monitoring",
+          "name": "Repayment Servicing & Covenant Monitoring"
+        },
+        {
+          "order": 6,
+          "step_id": "l2s_006_delinquency_workout_ledger_settlement",
+          "name": "Delinquency Workout & Subledger Reconciliation"
+        }
+      ],
+      "phases": [
+        {
+          "phase_id": "origination_underwriting",
+          "name": "Credit Origination & Underwriting Phase",
+          "milestones": [
+            "l2s_001_loan_application_credit_packaging",
+            "l2s_002_credit_underwriting_risk_rating"
+          ]
+        },
+        {
+          "phase_id": "closing_funding",
+          "name": "Collateral Closing & Facility Funding Phase",
+          "milestones": [
+            "l2s_003_collateral_valuation_lien_perfection",
+            "l2s_004_loan_booking_funding_disbursement"
+          ]
+        },
+        {
+          "phase_id": "servicing_settlement",
+          "name": "Portfolio Servicing, Workout & GL Settlement Phase",
+          "milestones": [
+            "l2s_005_repayment_servicing_covenant_monitoring",
+            "l2s_006_delinquency_workout_ledger_settlement"
+          ]
+        }
+      ],
+      "key_performance_indicators": [
+        "Non-Performing Loan (NPL) Ratio",
+        "Net Interest Margin (NIM)",
+        "Credit Application-to-Funding Cycle Time",
+        "Covenant Review On-Time Completion Rate"
+      ],
+      "source_layer": "financial_services"
+    }
+  }
+}

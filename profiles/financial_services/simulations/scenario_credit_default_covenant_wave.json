@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schema/scenario_simulation.schema.json",
+  "scenario_id": "scenario_credit_default_covenant_wave",
+  "name": "Macroeconomic Rate Shock & Commercial Covenant Default Wave",
+  "target_lifecycle": "L2S",
+  "applicable_profiles": ["financial_services"],
+  "description": "Simulates a sharp macroeconomic interest-rate and commercial real estate valuation shock causing widespread Debt Service Coverage Ratio (DSCR) covenant breaches, mandatory collateral re-appraisals, CECL reserve spikes, and Special Assets workout congestion.",
+  "shocks": [
+    {
+      "target_element_id": "l2s_002_credit_underwriting_risk_rating",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.0,
+      "additive_delta": 18.0
+    },
+    {
+      "target_element_id": "l2s_003_collateral_valuation_lien_perfection",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 2.2,
+      "additive_delta": 24.0
+    },
+    {
+      "target_element_id": "l2s_005_repayment_servicing_covenant_monitoring",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.0,
+      "additive_delta": 16.0
+    },
+    {
+      "target_element_id": "l2s_006_delinquency_workout_ledger_settlement",
+      "attribute_modifier": "baseline_cycle_time_hours",
+      "multiplier": 3.5,
+      "additive_delta": 36.0
+    },
+    {
+      "target_element_id": "l2s_006_delinquency_workout_ledger_settlement",
+      "attribute_modifier": "baseline_cost_per_unit",
+      "multiplier": 2.0,
+      "additive_delta": 450.0
+    }
+  ]
+}
