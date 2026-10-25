@@ -22,7 +22,8 @@ The primary validation and build orchestrator for the repository. It resolves pr
 
 | Argument | Type | Default | Description |
 | :--- | :---: | :---: | :--- |
-| `--profile` | string | `manufacturing` | Profile ID to validate and build (`core`, `manufacturing`, `professional_services`), or `ALL` to build all discovered profiles sequentially. |
+| `--profile` | string | `manufacturing` | Profile ID to validate and build (`core`, `manufacturing`, `professional_services`, `healthcare`, `financial_services`), or `ALL` to build all discovered profiles sequentially. |
+| `--list-profiles` | flag | `false` | List all discovered enterprise profiles, their parent layers, and lifecycles, then exit. |
 
 ### Execution Sequence & Checks
 1. **Profile Resolution**: Loads `profile.json` manifests via depth-first inheritance traversal, validates schemas (`profile_manifest.schema.json`), and applies profile patches (`patches/*.yaml`).
@@ -59,7 +60,7 @@ uv run tools/export_diagram.py [--profile PROFILE_ID] [--lifecycle LIFECYCLE_ID]
 | Argument | Type | Default | Description |
 | :--- | :---: | :---: | :--- |
 | `--profile` | string | `manufacturing` | Target profile whose knowledge graph and lifecycles to render. |
-| `--lifecycle` | string | `ALL` | Target lifecycle scope to filter (`S2P`, `O2C`, `R2R`, `H2R`, `P2M`, `L2C`, `E2C`, or `ALL`). |
+| `--lifecycle` | string | `ALL` | Target lifecycle scope to filter (`S2P`, `O2C`, `R2R`, `H2R`, `P2M`, `L2C`, `E2C`, `P2D`, `RCM`, `C2A`, `L2S`, or `ALL`). |
 | `--format` | string | `all` | Output artifact format. Choices: `mermaid`, `markdown`, `html`, `all`. |
 | `--output-dir` | string | `index/<profile>` | Target output directory where generated artifacts will be saved. |
 
@@ -100,6 +101,16 @@ Calculates the operational impact of disruption shocks on process lead times, un
 
 ### Example Commands
 ```bash
+# Financial Services & Banking Scenarios:
+uv run tools/simulate_scenario.py --profile financial_services scenario_sanctions_screening_alert_surge
+uv run tools/simulate_scenario.py --profile financial_services scenario_credit_default_covenant_wave
+uv run tools/simulate_scenario.py --profile financial_services scenario_core_banking_liquidity_freeze
+
+# Healthcare Provider & RCM Scenarios:
+uv run tools/simulate_scenario.py --profile healthcare scenario_clearinghouse_cyberattack_outage
+uv run tools/simulate_scenario.py --profile healthcare scenario_payer_prior_auth_denial_surge
+uv run tools/simulate_scenario.py --profile healthcare scenario_emergency_surge_capacity_crunch
+
 # Discrete Manufacturing Scenarios:
 uv run tools/simulate_scenario.py --profile manufacturing scenario_credit_hold_surge
 uv run tools/simulate_scenario.py --profile manufacturing scenario_raw_material_stockout

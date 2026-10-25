@@ -10,7 +10,9 @@ All model entities reside within designated industry profiles under `profiles/<p
 - `profiles/core/`: Cross-industry horizontal capabilities (S2P, R2R, H2R).
 - `profiles/manufacturing/`: Discrete manufacturing overlay (P2M, O2C, MES, APS, WMS).
 - `profiles/professional_services/`: Consulting & services overlay (L2C, E2C, PSA).
-- `profiles/<custom>/`: Bespoke industry overlays created via `tools/new_profile.py`.
+- `profiles/healthcare/`: Healthcare provider & clinical systems overlay (P2D, RCM, EHR, Clearinghouse, PACS/LIS).
+- `profiles/financial_services/`: Commercial & retail banking overlay (C2A, L2S, Core Banking Platform, AML/KYC Engine, LOS).
+- `profiles/<custom>/`: Bespoke industry overlays created via `tools/new_profile.py` or imported from the Browser Designer Studio via `tools/import_custom_profile.py`.
 
 Inside each profile directory, entities are organized into standard subfolders:
 

@@ -125,6 +125,12 @@ Scenario files are stored as JSON payloads conforming to [`schema/scenario_simul
 | `scenario_project_margin_slippage` | `professional_services` | `E2C` | Scope creep and deliverable rework loops eroding project gross margins. |
 | `scenario_consultant_bench_surge` | `professional_services` | `L2C` | Elongated presales cycles causing unassigned consultant bench spikes. |
 | `scenario_psa_outage_billing_crunch` | `professional_services` | `E2C` | Cloud PSA outage at month-end billing cutoff forcing manual spreadsheets. |
+| `scenario_clearinghouse_cyberattack_outage` | `healthcare` | `RCM` | Nationwide EDI clearinghouse cyberattack paralyzing 837 claims and 835 ERAs. |
+| `scenario_payer_prior_auth_denial_surge` | `healthcare` | `RCM` | Payer prior-authorization rule tightening and initial claim denial surge. |
+| `scenario_emergency_surge_capacity_crunch` | `healthcare` | `P2D` | Mass-casualty / epidemic ED triage boarding and inpatient bed capacity crunch. |
+| `scenario_sanctions_screening_alert_surge` | `financial_services` | `C2A` | Geopolitical OFAC/EU/UN sanctions expansion triggering 4x alert and EDD backlog. |
+| `scenario_credit_default_covenant_wave` | `financial_services` | `L2S` | Macroeconomic rate shock causing commercial DSCR covenant breaches and workouts. |
+| `scenario_core_banking_liquidity_freeze` | `financial_services` | `L2S` | Intraday Core Banking & Fedwire outage halting loan funding and GL settlement. |
 
 ---
 
@@ -132,6 +138,13 @@ Scenario files are stored as JSON payloads conforming to [`schema/scenario_simul
 
 ### Running via CLI
 ```bash
+# Run against Financial Services & Banking profile
+uv run tools/simulate_scenario.py --profile financial_services scenario_sanctions_screening_alert_surge
+uv run tools/simulate_scenario.py --profile financial_services scenario_credit_default_covenant_wave
+
+# Run against Healthcare profile
+uv run tools/simulate_scenario.py --profile healthcare scenario_clearinghouse_cyberattack_outage
+
 # Run against Professional Services profile
 uv run tools/simulate_scenario.py --profile professional_services scenario_project_margin_slippage
 

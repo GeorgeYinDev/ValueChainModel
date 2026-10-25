@@ -80,6 +80,13 @@ $$\text{SoD Violation} \iff \text{Conflict}(e) \neq \emptyset$$
 | **Sourcing Collusion** | Buyer (`role_procurement_specialist`) | Buyer (`role_procurement_specialist`) | Single-bidder vendor awards without category manager sign-off. |
 | **Ledger Manipulation** | GL Accountant (`role_general_ledger_accountant`) | GL Accountant (`role_general_ledger_accountant`) | Fictitious manual journal entries posted without Controller review. |
 | **Credit Bypass** | Sales Ops (`role_sales_ops_specialist`) | Sales Ops (`role_sales_ops_specialist`) | Override of credit limits on insolvent customer accounts to meet sales quotas. |
+| **Self-Underwritten Loan** | Relationship Manager (`role_relationship_manager`) | Relationship Manager (`role_relationship_manager`) | Front-office commercial banker approving their own borrower's PD/LGD credit risk rating (`L2S`). |
+| **Uncorroborated EDD Onboarding** | Relationship Manager (`role_relationship_manager`) | Relationship Manager (`role_relationship_manager`) | Onboarding a high-risk PEP or sanctioned entity without independent BSA Officer (`role_bsa_compliance_officer`) sign-off (`C2A`). |
+
+### Threshold Reconciliation Rule
+In addition to R/A separation, every element declaring an `attributes.approval_threshold_usd` value is checked against the `approval_limit_usd` frontmatter attribute of its Accountable (`A`) role:
+$$\forall r \in \text{RACI}_{\text{accountable}}(e): \quad \text{limit}(r) \ge \text{threshold}(e)$$
+If $\text{limit}(r) < \text{threshold}(e)$, both `validate_and_build.py` and the Browser Designer Studio guardrail engine reject the model with a **Threshold Violation**.
 
 ### Compensating Control Framework
 In operational steps where departmental staffing constraints result in execution/sign-off overlaps (e.g., initial quote entry or warehouse wave release):
@@ -96,9 +103,10 @@ $$\text{Workload}(r) = \sum_{e \in E} \left( R(r, e) + A(r, e) + C(r, e) + I(r, 
 
 ### Governance Classification Tiers
 
-- **Strategic Approver ($\ge 3$ Approvals)**: E.g., `role_finance_controller`, `role_category_manager`. Critical enterprise sign-off bottleneck.
-- **Primary Driver ($\ge 3$ Driver Roles)**: E.g., `role_procurement_specialist`, `role_consolidation_specialist`. High operational execution load.
-- **Operational Authority ($1-2$ Approvals / Drivers)**: E.g., `role_credit_manager`, `role_general_ledger_accountant`.
-- **Advisory (Consulted / Informed only)**: E.g., `role_internal_auditor`, `role_supplier`.
+- **Key-Person Risk ($\ge 5$ Approvals)**: E.g., `role_finance_controller`. Concentrated approval authority flagged (`🚨 Key-Person Risk`) in `diagram_daci_matrix.md` and simulated via `scenario_controller_absence_surge`.
+- **Strategic Approver ($3\text{--}4$ Approvals)**: E.g., `role_chief_credit_officer`, `role_bsa_compliance_officer`, `role_rcm_director`, `role_category_manager`. Critical domain sign-off authority.
+- **Primary Driver ($\ge 3$ Driver Roles)**: E.g., `role_procurement_specialist`, `role_kyc_aml_analyst`, `role_loan_servicing_specialist`. High operational execution load.
+- **Operational Authority ($1\text{--}2$ Approvals / Drivers)**: E.g., `role_credit_underwriter`, `role_treasury_operations_officer`, `role_attending_physician`.
+- **Advisory (Consulted / Informed only)**: E.g., `role_internal_auditor`, `role_supplier`, `role_patient`.
 
-Detailed metrics and real-time workload heatmaps are auto-compiled into [`index/diagram_raci_matrix.md`](../../index/diagram_raci_matrix.md) and [`index/diagram_daci_matrix.md`](../../index/diagram_daci_matrix.md).
+Detailed metrics and real-time workload heatmaps are auto-compiled into `index/<profile>/diagram_raci_matrix.md` and `index/<profile>/diagram_daci_matrix.md`.
