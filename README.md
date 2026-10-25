@@ -11,6 +11,7 @@ Designed to adapt the multi-tiered detail engine from the **WorldBuild** archite
 ```
 /mnt/ssd-data/AntigravityData/AG2/ValueChainModel/
 ├── README.md                           # Repository overview & architectural guide
+├── QUICKSTART.md                       # Hands-on Quick Start guide & real-world EA examples
 ├── ROADMAP.md                          # Master implementation plan & strategic release roadmap
 ├── CHANGELOG.md                        # Versioned change history & release log
 ├── GEMINI.md                           # Agent instructions, LOD invariants & execution commands
@@ -107,7 +108,8 @@ A comprehensive enterprise documentation suite is available in the [`docs/`](doc
 
 | Domain | Guide / Specification | Primary Focus & Target Audience |
 | :--- | :--- | :--- |
-| **Enterprise Architecture** | [The Enterprise Value Chain](docs/architecture/enterprise-value-chain-architecture.md) | End-to-end structural spine unifying all 9 lifecycles, operational material flows, subledger feeds, and IT topology. |
+| **Quick Start** | [Enterprise Architect Quick Start](QUICKSTART.md) | What exists out of the box, the 6 generated artifact families, and 5 hands-on customization examples. |
+| **Enterprise Architecture** | [The Enterprise Value Chain](docs/architecture/enterprise-value-chain-architecture.md) | End-to-end structural spine unifying all 11 lifecycles, operational material flows, subledger feeds, and IT topology. |
 | **Enterprise Architecture** | [Dual RACI & DACI Governance](docs/architecture/governance-raci-daci.md) | Operational task delivery vs. decision rights; Single Approver rule ($|A|=1$); Segregation of Duties (SoD) toxic combination detection algorithm. |
 | **Practitioner Guide** | [Authoring Elements & Lifecycles](docs/guides/authoring-elements-and-lifecycles.md) | Step-by-step authoring manual (CLI & Interactive Browser Designer Studio) for process milestones, control policies, value streams, roles, IT assets, and lifecycles. |
 | **Practitioner Guide** | [Quantitative Scenario Simulation](docs/guides/quantitative-scenario-simulation.md) | Disruption shock mechanics; Kingman queueing math & bottleneck shifts; multi-shock modifier modeling; interpreting sensitivity reports. |
